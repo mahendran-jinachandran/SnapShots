@@ -9,14 +9,13 @@
 /* Begin PBXBuildFile section */
 		BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425A2918C03100BAC4B2 /* AppDelegate.swift */; };
 		BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */; };
-		BF45425F2918C03100BAC4B2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425E2918C03100BAC4B2 /* LoginViewController.swift */; };
+		BF45425F2918C03100BAC4B2 /* LoginViewController+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425E2918C03100BAC4B2 /* LoginViewController+View.swift */; };
 		BF4542622918C03100BAC4B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF4542602918C03100BAC4B2 /* Main.storyboard */; };
 		BF4542642918C03200BAC4B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4542632918C03200BAC4B2 /* Assets.xcassets */; };
 		BF4542672918C03200BAC4B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF4542652918C03200BAC4B2 /* LaunchScreen.storyboard */; };
 		BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542712918CE6E00BAC4B2 /* UITextFieldExtensions.swift */; };
 		BF4542962918DA9300BAC4B2 /* AppLogo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF45426F2918C8A500BAC4B2 /* AppLogo.ttf */; };
 		BF4542972918DA9700BAC4B2 /* Rightwood.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF4542732918D12100BAC4B2 /* Rightwood.ttf */; };
-		BF4542992918E3BF00BAC4B2 /* Ghosties.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF4542982918E3BF00BAC4B2 /* Ghosties.ttf */; };
 		BF45429F2918EC5600BAC4B2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BF45429E2918EC5600BAC4B2 /* Lottie */; };
 		BF4542A12918F0D600BAC4B2 /* SocialMediaLaunchScreen.json in Resources */ = {isa = PBXBuildFile; fileRef = BF4542A02918F0D600BAC4B2 /* SocialMediaLaunchScreen.json */; };
 		BF4542AB291A0F3C00BAC4B2 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542AA291A0F3C00BAC4B2 /* RegisterViewController.swift */; };
@@ -29,7 +28,7 @@
 		BF4542BD291A502F00BAC4B2 /* ProfileDetailsOnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542BC291A502F00BAC4B2 /* ProfileDetailsOnBoardingViewController.swift */; };
 		BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C0291A873300BAC4B2 /* HomePageViewController.swift */; };
 		BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C4291A971100BAC4B2 /* AppUtility.swift */; };
-		BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C6291AB47500BAC4B2 /* RegisterControls.swift */; };
+		BF4542C7291AB47500BAC4B2 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C6291AB47500BAC4B2 /* RegisterController.swift */; };
 		BF4542CC291B4A8A00BAC4B2 /* UserDaoImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542CB291B4A8A00BAC4B2 /* UserDaoImplementation.swift */; };
 		BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542CD291B4A9800BAC4B2 /* PostDaoImplementation.swift */; };
 		BF4542D0291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542CF291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift */; };
@@ -45,28 +44,27 @@
 		BF4542E5291B4B9500BAC4B2 /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542E4291B4B9500BAC4B2 /* SQLiteDB.swift */; };
 		BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542E6291B4BA400BAC4B2 /* DatabaseProtocol.swift */; };
 		BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542E8291B579E00BAC4B2 /* UserInstance.swift */; };
-		BF4542EB291B838500BAC4B2 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542EA291B838500BAC4B2 /* LoginInteractor.swift */; };
 		BF4542EE291B8A6000BAC4B2 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542ED291B8A6000BAC4B2 /* LaunchScreenViewController.swift */; };
-		BF454319291BBA0C00BAC4B2 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF454318291BBA0C00BAC4B2 /* LoginPresenter.swift */; };
-		BF45431B291BBA1C00BAC4B2 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45431A291BBA1C00BAC4B2 /* LoginRouter.swift */; };
 		BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */; };
-		BF57EBB2291D42FB005AC8A1 /* LoginAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF57EBB1291D42FB005AC8A1 /* LoginAssembler.swift */; };
 		BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */; };
 		BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */; };
-		BFA55FDA2922432900A948B4 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD92922432900A948B4 /* FriendsViewController.swift */; };
 		BFA55FDC2922433200A948B4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDB2922433200A948B4 /* ProfileViewController.swift */; };
 		BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */; };
 		BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */; };
 		BFA5600D292519B900A948B4 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5600C292519B900A948B4 /* NotificationViewController.swift */; };
 		BFA5600F29251A6B00A948B4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5600E29251A6B00A948B4 /* CustomTableViewCell.swift */; };
 		BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA560122925ED7600A948B4 /* SettingsViewController.swift */; };
+		BFA5601529262FEF00A948B4 /* LoginController+Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginController+Logic.swift */; };
+		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
+		BFA5601A29264A1100A948B4 /* Ghosties.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA5601929264A1100A948B4 /* Ghosties.ttf */; };
+		BFA5601D29267D1C00A948B4 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* PostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BF4542572918C03100BAC4B2 /* SnapShots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapShots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF45425A2918C03100BAC4B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BF45425E2918C03100BAC4B2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BF45425E2918C03100BAC4B2 /* LoginViewController+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+View.swift"; sourceTree = "<group>"; };
 		BF4542612918C03100BAC4B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BF4542632918C03200BAC4B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF4542662918C03200BAC4B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 		BF45426F2918C8A500BAC4B2 /* AppLogo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppLogo.ttf; sourceTree = "<group>"; };
 		BF4542712918CE6E00BAC4B2 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		BF4542732918D12100BAC4B2 /* Rightwood.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rightwood.ttf; sourceTree = "<group>"; };
-		BF4542982918E3BF00BAC4B2 /* Ghosties.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ghosties.ttf; path = ../../../../UI/Ghosties.ttf; sourceTree = "<group>"; };
 		BF4542A02918F0D600BAC4B2 /* SocialMediaLaunchScreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SocialMediaLaunchScreen.json; sourceTree = "<group>"; };
 		BF4542AA291A0F3C00BAC4B2 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		BF4542AD291A31CB00BAC4B2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -86,7 +83,7 @@
 		BF4542BC291A502F00BAC4B2 /* ProfileDetailsOnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsOnBoardingViewController.swift; sourceTree = "<group>"; };
 		BF4542C0291A873300BAC4B2 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		BF4542C4291A971100BAC4B2 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
-		BF4542C6291AB47500BAC4B2 /* RegisterControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterControls.swift; sourceTree = "<group>"; };
+		BF4542C6291AB47500BAC4B2 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		BF4542CB291B4A8A00BAC4B2 /* UserDaoImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDaoImplementation.swift; sourceTree = "<group>"; };
 		BF4542CD291B4A9800BAC4B2 /* PostDaoImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDaoImplementation.swift; sourceTree = "<group>"; };
 		BF4542CF291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestDaoImplementation.swift; sourceTree = "<group>"; };
@@ -102,21 +99,20 @@
 		BF4542E4291B4B9500BAC4B2 /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
 		BF4542E6291B4BA400BAC4B2 /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
 		BF4542E8291B579E00BAC4B2 /* UserInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInstance.swift; sourceTree = "<group>"; };
-		BF4542EA291B838500BAC4B2 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		BF4542ED291B8A6000BAC4B2 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
-		BF454318291BBA0C00BAC4B2 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
-		BF45431A291BBA1C00BAC4B2 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProtocols.swift; sourceTree = "<group>"; };
-		BF57EBB1291D42FB005AC8A1 /* LoginAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembler.swift; sourceTree = "<group>"; };
 		BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
 		BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPeopleViewController.swift; sourceTree = "<group>"; };
-		BFA55FD92922432900A948B4 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		BFA55FDB2922433200A948B4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		BFA5600C292519B900A948B4 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BFA5600E29251A6B00A948B4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		BFA560122925ED7600A948B4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BFA5601429262FEF00A948B4 /* LoginController+Logic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginController+Logic.swift"; sourceTree = "<group>"; };
+		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
+		BFA5601929264A1100A948B4 /* Ghosties.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ghosties.ttf; path = ../../../../../UI/Ghosties.ttf; sourceTree = "<group>"; };
+		BFA5601C29267D1C00A948B4 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,20 +146,15 @@
 		BF4542592918C03100BAC4B2 /* SnapShots */ = {
 			isa = PBXGroup;
 			children = (
+				BFA560162926474400A948B4 /* Utility */,
 				BFA560102925ED2D00A948B4 /* Settings */,
 				BFA5600B2925197800A948B4 /* Notification */,
 				BFA560092924EF4C00A948B4 /* Profile */,
-				BF4542EC291B8A4A00BAC4B2 /* LaunchScreen */,
 				BF4542C8291B4A4B00BAC4B2 /* Database */,
 				BF4542BE291A86EB00BAC4B2 /* SnapShots */,
-				BF4542B7291A329C00BAC4B2 /* Onboarding */,
 				BF4542AC291A31BA00BAC4B2 /* Entity */,
 				BF4542A9291A0F1700BAC4B2 /* Register */,
-				BF4542A6291A0C8700BAC4B2 /* Utils */,
-				BF45429A2918E9D900BAC4B2 /* Animation */,
 				BF4542952918D72300BAC4B2 /* Login */,
-				BF4542702918CE4F00BAC4B2 /* Extensions */,
-				BF45426E2918C88600BAC4B2 /* Fonts */,
 				BF45425A2918C03100BAC4B2 /* AppDelegate.swift */,
 				BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */,
 				BF4542602918C03100BAC4B2 /* Main.storyboard */,
@@ -173,7 +164,6 @@
 				BF4542B5291A325600BAC4B2 /* Gender.swift */,
 				BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */,
 				BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */,
-				BFA55FD92922432900A948B4 /* FriendsViewController.swift */,
 			);
 			path = SnapShots;
 			sourceTree = "<group>";
@@ -181,7 +171,7 @@
 		BF45426E2918C88600BAC4B2 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				BF4542982918E3BF00BAC4B2 /* Ghosties.ttf */,
+				BFA5601929264A1100A948B4 /* Ghosties.ttf */,
 				BF45426F2918C8A500BAC4B2 /* AppLogo.ttf */,
 				BF4542732918D12100BAC4B2 /* Rightwood.ttf */,
 			);
@@ -199,12 +189,9 @@
 		BF4542952918D72300BAC4B2 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				BF45425E2918C03100BAC4B2 /* LoginViewController.swift */,
-				BF4542EA291B838500BAC4B2 /* LoginInteractor.swift */,
-				BF454318291BBA0C00BAC4B2 /* LoginPresenter.swift */,
-				BF45431A291BBA1C00BAC4B2 /* LoginRouter.swift */,
+				BF45425E2918C03100BAC4B2 /* LoginViewController+View.swift */,
+				BFA5601429262FEF00A948B4 /* LoginController+Logic.swift */,
 				BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */,
-				BF57EBB1291D42FB005AC8A1 /* LoginAssembler.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -225,13 +212,15 @@
 				BF4542E8291B579E00BAC4B2 /* UserInstance.swift */,
 			);
 			name = Utils;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		BF4542A9291A0F1700BAC4B2 /* Register */ = {
 			isa = PBXGroup;
 			children = (
 				BF4542AA291A0F3C00BAC4B2 /* RegisterViewController.swift */,
-				BF4542C6291AB47500BAC4B2 /* RegisterControls.swift */,
+				BF4542C6291AB47500BAC4B2 /* RegisterController.swift */,
+				BFA56017292647E900A948B4 /* RegisterProtocols.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -306,24 +295,26 @@
 				BF4542ED291B8A6000BAC4B2 /* LaunchScreenViewController.swift */,
 			);
 			name = LaunchScreen;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		BFA560092924EF4C00A948B4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				BFA5600A2924EF5C00A948B4 /* ViewController */,
+				BFA5601B29267D0D00A948B4 /* Post */,
+				BFA5600A2924EF5C00A948B4 /* Profile */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		BFA5600A2924EF5C00A948B4 /* ViewController */ = {
+		BFA5600A2924EF5C00A948B4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				BFA55FDB2922433200A948B4 /* ProfileViewController.swift */,
 				BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */,
 				BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */,
 			);
-			path = ViewController;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		BFA5600B2925197800A948B4 /* Notification */ = {
@@ -349,6 +340,27 @@
 				BFA560122925ED7600A948B4 /* SettingsViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		BFA560162926474400A948B4 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				BF45426E2918C88600BAC4B2 /* Fonts */,
+				BF4542702918CE4F00BAC4B2 /* Extensions */,
+				BF4542A6291A0C8700BAC4B2 /* Utils */,
+				BF45429A2918E9D900BAC4B2 /* Animation */,
+				BF4542EC291B8A4A00BAC4B2 /* LaunchScreen */,
+				BF4542B7291A329C00BAC4B2 /* Onboarding */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		BFA5601B29267D0D00A948B4 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				BFA5601C29267D1C00A948B4 /* PostViewController.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,9 +431,9 @@
 				BF4542BB291A3C8E00BAC4B2 /* OnBoardingScreen1.json in Resources */,
 				BF4542962918DA9300BAC4B2 /* AppLogo.ttf in Resources */,
 				BF4542A12918F0D600BAC4B2 /* SocialMediaLaunchScreen.json in Resources */,
-				BF4542992918E3BF00BAC4B2 /* Ghosties.ttf in Resources */,
 				BF4542972918DA9700BAC4B2 /* Rightwood.ttf in Resources */,
 				BF4542642918C03200BAC4B2 /* Assets.xcassets in Resources */,
+				BFA5601A29264A1100A948B4 /* Ghosties.ttf in Resources */,
 				BF4542622918C03100BAC4B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,7 +445,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF454319291BBA0C00BAC4B2 /* LoginPresenter.swift in Sources */,
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
 				BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */,
 				BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */,
@@ -443,10 +454,11 @@
 				BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
-				BF45431B291BBA1C00BAC4B2 /* LoginRouter.swift in Sources */,
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
+				BFA5601D29267D1C00A948B4 /* PostViewController.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
-				BF45425F2918C03100BAC4B2 /* LoginViewController.swift in Sources */,
+				BF45425F2918C03100BAC4B2 /* LoginViewController+View.swift in Sources */,
+				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
 				BF4542EE291B8A6000BAC4B2 /* LaunchScreenViewController.swift in Sources */,
 				BF4542E1291B4B6F00BAC4B2 /* CommentDao.swift in Sources */,
 				BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */,
@@ -456,18 +468,16 @@
 				BF4542B0291A31D200BAC4B2 /* Profile.swift in Sources */,
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
-				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
+				BF4542C7291AB47500BAC4B2 /* RegisterController.swift in Sources */,
 				BF4542BD291A502F00BAC4B2 /* ProfileDetailsOnBoardingViewController.swift in Sources */,
 				BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				BF4542DA291B4B3B00BAC4B2 /* UserDao.swift in Sources */,
-				BF4542EB291B838500BAC4B2 /* LoginInteractor.swift in Sources */,
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,
 				BF4542B9291A32B400BAC4B2 /* OnboardingViewController.swift in Sources */,
-				BF57EBB2291D42FB005AC8A1 /* LoginAssembler.swift in Sources */,
-				BFA55FDA2922432900A948B4 /* FriendsViewController.swift in Sources */,
+				BFA5601529262FEF00A948B4 /* LoginController+Logic.swift in Sources */,
 				BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */,
 				BF4542AB291A0F3C00BAC4B2 /* RegisterViewController.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,

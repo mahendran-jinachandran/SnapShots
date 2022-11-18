@@ -220,8 +220,9 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         ])
     }
     
-    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        
+        
         
         if traitCollection.verticalSizeClass == .compact {
             setLandscapeConstraints()

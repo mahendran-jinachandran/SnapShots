@@ -7,7 +7,13 @@
 
 import Foundation
 
-class RegisterControls {
+class RegisterController: RegisterControllerProtocol {
+    
+    private var registerView: RegisterViewProtocol!
+    
+    public func setView(_ registerView: RegisterViewProtocol) {
+        self.registerView = registerView
+    }
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     

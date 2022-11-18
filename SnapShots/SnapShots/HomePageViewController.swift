@@ -38,8 +38,6 @@ class HomePageViewController: UITabBarController {
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.tabBarItem.title = title
         navigationController.tabBarItem.image = icon
-//        navigationController.navigationBar.prefersLargeTitles = true
-//        rootViewController.navigationItem.title = title
         return navigationController
         
     }

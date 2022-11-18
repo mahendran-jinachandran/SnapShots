@@ -7,17 +7,12 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController,UITextFieldDelegate {
+class RegisterViewController: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
-    var registerController: RegisterControls
+    private var registerController: RegisterControllerProtocol!
     
-    init(registerController: RegisterControls) {
+    public func setController(_ registerController: RegisterControllerProtocol) {
         self.registerController = registerController
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     var registerStackView: UIStackView!

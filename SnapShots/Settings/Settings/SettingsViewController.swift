@@ -62,10 +62,16 @@ class SettingsViewController: UIViewController {
         let logoutConfirmation = UIAlertController(title: "Confirm?", message: nil, preferredStyle: .alert)
         let logout = UIAlertAction(title: "Log out", style: .default) { _ in
             
-            let loginViewController = LoginAssembler.assemble()
-            self.navigationController?.pushViewController(loginViewController, animated: true)
+            UserDefaults.standard.removeObject(forKey: "CurrentLoggedUser")
+            UserDefaults.standard.synchronize()
             
-            UserDefaults.standard.removeObject(forKey: "USER")
+            let loginViewController = LoginViewController()
+            let loginController = LoginController()
+            
+            loginController.setView(loginViewController)
+            loginViewController.setController(loginController)
+           
+            self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
         }
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)

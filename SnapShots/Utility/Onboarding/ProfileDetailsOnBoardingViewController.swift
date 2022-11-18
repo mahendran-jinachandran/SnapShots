@@ -110,7 +110,7 @@ class ProfileDetailsOnBoardingViewController: UIViewController,UIImagePickerCont
 
         // Do any additional setup after loading the view.
         navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "SKIP", style: .plain, target: self, action: #selector(goToHomePage))
+    //    navigationItem.rightBarButtonItem = UIBarButtonItem(title: "SKIP", style: .plain, target: self, action: #selector(validateUserCredentials))
         view.backgroundColor = .systemBackground
         
         [profileCompletionLabel,profilePhoto,genderLabel,genderOption,mailID,emailTextField,ageLabel,ageTextField,finishButton].forEach {
@@ -125,7 +125,7 @@ class ProfileDetailsOnBoardingViewController: UIViewController,UIImagePickerCont
         profilePhoto.addGestureRecognizer(imagePicker)
         
         profilePhoto.image = profilePhoto.image?.loadImageFromDiskWith(fileName: "ProfileDP")
-        finishButton.addTarget(self, action: #selector(goToHomePage), for: .touchUpInside)
+       // finishButton.addTarget(self, action: #selector(validateUserCredentials), for: .touchUpInside)
     }
     
     @objc func goToHomePage() {

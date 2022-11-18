@@ -59,22 +59,25 @@ class ProfileViewController: UIViewController {
     func setNavigationItems() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileHeader)
         
-        let hamburgerMenu = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(showName))
+        let hamburgerMenu = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openSettings))
         hamburgerMenu.tintColor = UIColor(named: "mainPage")!
         
-        let addPost = UIBarButtonItem(image: UIImage(systemName: "plus.square"), style: .plain, target: self, action: #selector(showName))
+        let addPost = UIBarButtonItem(image: UIImage(systemName: "plus.square"), style: .plain, target: self, action: #selector(uploadNewPost))
         addPost.tintColor = UIColor(named: "mainPage")!
      
         navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
     }
     
-    @objc func showName() {
+    @objc func openSettings() {
         navigationController?.pushViewController(SettingsViewController(), animated: false)
     }
+    
+    @objc func uploadNewPost() {
+        navigationController?.pushViewController(PostViewController(), animated: false)
+    }
+    
+    
 }
-
-
-
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
 

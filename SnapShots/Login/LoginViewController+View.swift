@@ -8,21 +8,15 @@
 import UIKit
 import Lottie
 
-class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerProtocol {
+class LoginViewController: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
-    var loginInteractor: LoginInteractorProtocol?
+    private var loginController: LoginControllerProtocol!
     var isPhoneNumberEntered: Bool = false
     var isPasswordEntered: Bool = false
-    var userPhoneNumber: String?
     var loginStackView: UIStackView!
     
-    init(loginInteractor: LoginInteractorProtocol) {
-        self.loginInteractor = loginInteractor
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public func setController(_ controller: LoginControllerProtocol) {
+        loginController = controller
     }
     
     private lazy var loginScrollView: UIScrollView = {
@@ -53,7 +47,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
        return snapShots
     }()
         
-    
     private lazy var phoneNumber: UITextField = {
         let phoneNumber = UITextField()
         phoneNumber.translatesAutoresizingMaskIntoConstraints = false
@@ -100,9 +93,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
        toggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
        toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
        toggleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
-        
-        return toggleButton
+       return toggleButton
     }()
+
     
     private lazy var forgotPasswordLabel: UILabel = {
        let forgotPasswordLabel = UILabel()
@@ -125,7 +118,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
         loginButton.alpha = 0.5
         return loginButton
     }()
-    
     
     private lazy var registerLink: UILabel = {
         let registerLink = UILabel()
@@ -151,11 +143,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
         super.viewDidLoad()
         // Do any additional setup after loading the view
         
-        AppUtility.lockOrientation(.all)
-        self.setNeedsUpdateOfSupportedInterfaceOrientations()
-        navigationItem.hidesBackButton = true
-        SQLiteDatabase.shared.getDatabaseReady()
+
         
+        navigationItem.hidesBackButton = true
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
         
@@ -167,13 +157,21 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
         
         executeLoginProcess()
     }
-        
+    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
     @objc func startRegistrationProcess() {
-        navigationController?.pushViewController(RegisterViewController(registerController: RegisterControls()), animated: true)
+        
+        let registerView = RegisterViewController()
+        let registerController = RegisterController()
+        
+        registerView.setController(registerController)
+        registerController.setView(registerView)
+        
+        navigationController?.pushViewController(registerView, animated: true)
     }
     
     func executeLoginProcess() {
@@ -181,7 +179,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
         self.view.backgroundColor = .systemBackground
         self.phoneNumber.delegate = self
         self.password.delegate = self
-        self.loginButton.addTarget(self, action: #selector(self.logginIn), for: .touchUpInside)
+        self.loginButton.addTarget(self, action: #selector(validateUserCredentials), for: .touchUpInside)
     }
 
     func createLoginStackView() {
@@ -208,28 +206,26 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
             loginScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             loginScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-
             loginStackView.leadingAnchor.constraint(equalTo: loginScrollView.leadingAnchor),
             loginStackView.trailingAnchor.constraint(equalTo: loginScrollView.trailingAnchor),
             loginStackView.topAnchor.constraint(equalTo: loginScrollView.topAnchor),
             loginStackView.bottomAnchor.constraint(equalTo: loginScrollView.bottomAnchor),
             loginStackView.widthAnchor.constraint(equalTo: loginScrollView.widthAnchor)
+
         ])
     }
     
-    @objc func logginIn() {
-        print("CALLED")
-        loginInteractor?.isLoginCredentialsValid(phoneNumber: phoneNumber.text!, password: password.text!)
+    @objc func validateUserCredentials() {
+        loginController.validateUserCredentials(phoneNumber: phoneNumber.text!, password: password.text!)
     }
     
-    func validCred() {
-        print("OPENING HOME PAGE")
+    func goToHomePage() {
         self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.view.endEditing(true)
-//    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
     @objc private func didKeyboardAppear(notification:Notification){
         
@@ -258,7 +254,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate,ViewControllerPr
 }
 
 
-
 extension LoginViewController {
     
     func verifyPhoneNumber(isVerified: Bool) {
@@ -271,6 +266,16 @@ extension LoginViewController {
             phoneNumber.layer.borderColor = UIColor.red.cgColor
             phoneNumberLabel.isHidden = false
         }
+    }
+    
+    func invalidUserCredentials() {
+        
+        let invalidUserCredentials = UIAlertController(title: "Invalid credentials", message: nil, preferredStyle: .alert)
+        
+        let reTryOption = UIAlertAction(title: "OKAY", style: .cancel)
+        invalidUserCredentials.addAction(reTryOption)
+        
+        self.present(invalidUserCredentials, animated: true)
     }
     
     @objc func passwordVisibility(_ sender : UIButton) {
@@ -288,17 +293,18 @@ extension LoginViewController {
         switch textField {
 
             case phoneNumber:
-                userPhoneNumber = textField.text!
-            
+    
                 if textField.text!.count > 0 {
+                    loginController.validatePhoneNumber(phoneNumber: phoneNumber.text!)
                     isPhoneNumberEntered = true
                 } else {
+                    phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
+                    phoneNumberLabel.isHidden = true
                     isPhoneNumberEntered = false
                 }
-
-            case password:
-              //  loginInteractor?.validatePhoneNumber(phoneNumber: userPhoneNumber)
             
+            case password:
+        
                 if textField.text!.count > 0 {
                     isPasswordEntered = true
                 } else {
@@ -321,6 +327,8 @@ extension LoginViewController {
     func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
         if textField == phoneNumber {
             return self.textLimit(existingText: textField.text,newText: string,limit: 10)
+        } else if textField == password {
+            return self.textLimit(existingText: textField.text, newText: string, limit: 30)
         }
         return true
     }

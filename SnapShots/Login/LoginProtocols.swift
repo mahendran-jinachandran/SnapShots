@@ -7,16 +7,14 @@
 
 import Foundation
 
-protocol LoginInteractorProtocol {
-    func validatePhoneNumber(phoneNumber: String?)
-    func isLoginCredentialsValid(phoneNumber: String,password: String)
+protocol LoginControllerProtocol {
+    func validatePhoneNumber(phoneNumber: String)
+    func validateUserCredentials(phoneNumber: String,password: String)
+    
 }
 
-protocol LoginPresenterProtocol {
-    func phoneNumberExist(isPresent: Bool)
-}
-
-protocol ViewControllerProtocol {
+protocol LoginViewProtocol: AnyObject {
     func verifyPhoneNumber(isVerified: Bool)
-    func validCred() 
+    func invalidUserCredentials()
+    func goToHomePage()
 }

@@ -44,7 +44,7 @@ class CustomTableViewCell: UITableViewCell {
         let rejectButton = UIButton()
         rejectButton.setTitle("DELETE", for: .normal)
         rejectButton.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        rejectButton.backgroundColor =  UIColor(named: "deleteButton")
+        rejectButton.backgroundColor = UIColor(named: "deleteButton")
         rejectButton.translatesAutoresizingMaskIntoConstraints = false
         rejectButton.layer.cornerRadius = 5.0
         rejectButton.setTitleColor( UIColor(named: "mainPage") , for: .normal)
