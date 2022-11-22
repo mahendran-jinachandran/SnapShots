@@ -46,6 +46,9 @@
 		BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542E8291B579E00BAC4B2 /* UserInstance.swift */; };
 		BF4542EE291B8A6000BAC4B2 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542ED291B8A6000BAC4B2 /* LaunchScreenViewController.swift */; };
 		BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */; };
+		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
+		BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityViewController.swift */; };
+		BF816BA62929D3F30097421D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountViewController.swift */; };
 		BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */; };
 		BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */; };
 		BFA55FDC2922433200A948B4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDB2922433200A948B4 /* ProfileViewController.swift */; };
@@ -57,7 +60,11 @@
 		BFA5601529262FEF00A948B4 /* LoginController+Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginController+Logic.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
 		BFA5601A29264A1100A948B4 /* Ghosties.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA5601929264A1100A948B4 /* Ghosties.ttf */; };
-		BFA5601D29267D1C00A948B4 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* PostViewController.swift */; };
+		BFA5601D29267D1C00A948B4 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostViewController.swift */; };
+		BFDF7058292A3E13001A736F /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */; };
+		BFDF705A292B4237001A736F /* PersonalInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */; };
+		BFDF7060292B7A25001A736F /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */; };
+		BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7062292BA20A001A736F /* ProfileControls.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +108,9 @@
 		BF4542E8291B579E00BAC4B2 /* UserInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInstance.swift; sourceTree = "<group>"; };
 		BF4542ED291B8A6000BAC4B2 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProtocols.swift; sourceTree = "<group>"; };
+		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		BF816BA32929D3E90097421D /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
+		BF816BA52929D3F30097421D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
 		BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPeopleViewController.swift; sourceTree = "<group>"; };
 		BFA55FDB2922433200A948B4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -112,7 +122,11 @@
 		BFA5601429262FEF00A948B4 /* LoginController+Logic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginController+Logic.swift"; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
 		BFA5601929264A1100A948B4 /* Ghosties.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ghosties.ttf; path = ../../../../../UI/Ghosties.ttf; sourceTree = "<group>"; };
-		BFA5601C29267D1C00A948B4 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		BFA5601C29267D1C00A948B4 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationViewController.swift; sourceTree = "<group>"; };
+		BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		BFDF7062292BA20A001A736F /* ProfileControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileControls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				BF4542712918CE6E00BAC4B2 /* UITextFieldExtensions.swift */,
+				BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -298,23 +313,60 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		BF816B9D2929C8BC0097421D /* Usecase */ = {
+			isa = PBXGroup;
+			children = (
+				BF816BA22929D3D70097421D /* Account */,
+				BF816BA12929D3CE0097421D /* Security */,
+				BF816B9E2929C8C50097421D /* About */,
+			);
+			path = Usecase;
+			sourceTree = "<group>";
+		};
+		BF816B9E2929C8C50097421D /* About */ = {
+			isa = PBXGroup;
+			children = (
+				BF816B9F2929C8D10097421D /* AboutViewController.swift */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
+		BF816BA12929D3CE0097421D /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				BF816BA32929D3E90097421D /* SecurityViewController.swift */,
+				BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		BF816BA22929D3D70097421D /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				BF816BA52929D3F30097421D /* AccountViewController.swift */,
+				BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
 		BFA560092924EF4C00A948B4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				BFDF7061292BA1F7001A736F /* ProfileControls */,
 				BFA5601B29267D0D00A948B4 /* Post */,
-				BFA5600A2924EF5C00A948B4 /* Profile */,
+				BFA5600A2924EF5C00A948B4 /* ProfileView */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		BFA5600A2924EF5C00A948B4 /* Profile */ = {
+		BFA5600A2924EF5C00A948B4 /* ProfileView */ = {
 			isa = PBXGroup;
 			children = (
 				BFA55FDB2922433200A948B4 /* ProfileViewController.swift */,
 				BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */,
 				BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */,
 			);
-			path = Profile;
+			path = ProfileView;
 			sourceTree = "<group>";
 		};
 		BFA5600B2925197800A948B4 /* Notification */ = {
@@ -338,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				BFA560122925ED7600A948B4 /* SettingsViewController.swift */,
+				BF816B9D2929C8BC0097421D /* Usecase */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -358,9 +411,17 @@
 		BFA5601B29267D0D00A948B4 /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				BFA5601C29267D1C00A948B4 /* PostViewController.swift */,
+				BFA5601C29267D1C00A948B4 /* NewPostViewController.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		BFDF7061292BA1F7001A736F /* ProfileControls */ = {
+			isa = PBXGroup;
+			children = (
+				BFDF7062292BA20A001A736F /* ProfileControls.swift */,
+			);
+			path = ProfileControls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -446,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
+				BFDF705A292B4237001A736F /* PersonalInformationViewController.swift in Sources */,
 				BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */,
 				BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */,
 				BF4542D8291B4B3300BAC4B2 /* PostDao.swift in Sources */,
@@ -455,7 +517,7 @@
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
-				BFA5601D29267D1C00A948B4 /* PostViewController.swift in Sources */,
+				BFA5601D29267D1C00A948B4 /* NewPostViewController.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
 				BF45425F2918C03100BAC4B2 /* LoginViewController+View.swift in Sources */,
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
@@ -464,6 +526,7 @@
 				BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */,
 				BF4542AE291A31CB00BAC4B2 /* User.swift in Sources */,
 				BF4542B2291A31DC00BAC4B2 /* Post.swift in Sources */,
+				BFDF7060292B7A25001A736F /* UIViewControllerExtension.swift in Sources */,
 				BF4542E5291B4B9500BAC4B2 /* SQLiteDB.swift in Sources */,
 				BF4542B0291A31D200BAC4B2 /* Profile.swift in Sources */,
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
@@ -471,22 +534,27 @@
 				BF4542C7291AB47500BAC4B2 /* RegisterController.swift in Sources */,
 				BF4542BD291A502F00BAC4B2 /* ProfileDetailsOnBoardingViewController.swift in Sources */,
 				BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */,
+				BF816BA62929D3F30097421D /* AccountViewController.swift in Sources */,
+				BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */,
 				BF4542DA291B4B3B00BAC4B2 /* UserDao.swift in Sources */,
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,
 				BF4542B9291A32B400BAC4B2 /* OnboardingViewController.swift in Sources */,
+				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
 				BFA5601529262FEF00A948B4 /* LoginController+Logic.swift in Sources */,
 				BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */,
 				BF4542AB291A0F3C00BAC4B2 /* RegisterViewController.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,
 				BF4542D0291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift in Sources */,
+				BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */,
 				BFA5600D292519B900A948B4 /* NotificationViewController.swift in Sources */,
 				BFA5600F29251A6B00A948B4 /* CustomTableViewCell.swift in Sources */,
 				BFA55FDC2922433200A948B4 /* ProfileViewController.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
 				BF4542CC291B4A8A00BAC4B2 /* UserDaoImplementation.swift in Sources */,
+				BFDF7058292A3E13001A736F /* ChangePasswordViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

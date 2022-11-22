@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostViewController: UIViewController {
+class NewPostViewController: UIViewController {
     
     private lazy var postImage: UIImageView = {
        let postImage = UIImageView(frame: .zero)
@@ -35,13 +35,25 @@ class PostViewController: UIViewController {
        caption.font = UIFont.systemFont(ofSize: 16)
        caption.translatesAutoresizingMaskIntoConstraints = false
        caption.layer.borderWidth = 1.0
+       caption.layer.borderColor = UIColor.gray.cgColor
        return caption
+    }()
+    
+    private lazy var uploadLabel: UILabel = {
+       let uploadLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        uploadLabel.text = "Upload"
+        uploadLabel.textColor = .systemBlue
+        uploadLabel.isEnabled = false
+        return uploadLabel
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
         
         [postImage,captionLabel,caption].forEach {
             view.addSubview($0)
@@ -77,7 +89,7 @@ class PostViewController: UIViewController {
 
 }
 
-extension PostViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+extension NewPostViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     @objc func imagePress(_ sender : UITapGestureRecognizer) {
 

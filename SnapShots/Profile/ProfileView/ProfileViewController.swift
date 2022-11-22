@@ -73,7 +73,7 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func uploadNewPost() {
-        navigationController?.pushViewController(PostViewController(), animated: false)
+        navigationController?.pushViewController(NewPostViewController(), animated: false)
     }
     
     
