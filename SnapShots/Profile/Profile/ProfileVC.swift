@@ -7,10 +7,12 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileVC: UIViewController {
     
     private var profileView: UICollectionView!
     private var layout = UICollectionViewFlowLayout()
+    public var profileControls: ProfileControls!
+    private var posts: [UIImage] = []
     
     var profileHeader: UILabel = {
         var profileTitle = UILabel()
@@ -19,7 +21,7 @@ class ProfileViewController: UIViewController {
         ])
         return profileTitle
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -27,6 +29,7 @@ class ProfileViewController: UIViewController {
         layout.minimumInteritemSpacing = 1
         
         profileView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        profileView.showsVerticalScrollIndicator = false
         
         profileView.register(
             CustomCollectionViewCell.self,
@@ -45,6 +48,18 @@ class ProfileViewController: UIViewController {
         
         setNavigationItems()
         setProfileConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        if Int(profileControls.getNumberOfPosts(userID: userID))! > 0 {
+            posts = profileControls.getAllPosts()
+            profileView.reloadData()
+        } else {
+            print("NOT AVAI")
+        }
     }
         
     func setProfileConstraints() {
@@ -73,13 +88,18 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func uploadNewPost() {
-        navigationController?.pushViewController(NewPostViewController(), animated: false)
+        
+        let newPostVC = NewPostVC()
+        let newPostControls = NewPostControls()
+        
+        newPostVC.newPostControls = newPostControls
+        navigationController?.pushViewController(newPostVC, animated: false)
     }
     
-    
+    var headerView: ProfileHeaderCollectionReusableView!
 }
 
-extension ProfileViewController: UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
+extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -90,20 +110,40 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout,UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(
+        headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-            for: indexPath) as! ProfileHeaderCollectionReusableView
+            for: indexPath) as? ProfileHeaderCollectionReusableView
+        
+        guard let headerView else {
+            return UICollectionViewCell()
+        }
+        
         headerView.delegate = self
+        
+        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        profileHeader.text = profileControls.getUsername(userID: userID)
+        
+        headerView.setData(
+            username: profileHeader.text!,
+            friendsCount: profileControls.getNumberOfFriends(userID: userID),
+            postsCount: profileControls.getNumberOfPosts(userID: userID),
+            bio: profileControls.getProfileBio(userID: userID)
+        )
+        
         return headerView
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        return Int(profileControls.getNumberOfPosts(userID: userID))!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
+        
+        cell.myImageView.image = posts[indexPath.item]
+        
         return cell
     }
     
@@ -114,15 +154,13 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout,UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        return CGSize(width: 300 ,
-                      height: 300 )
-        
+
+        return CGSize(width: 300, height: 300)
     }
 }
 
-extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {    
-    func controller(reusableView: ProfileHeaderCollectionReusableView) -> UIViewController {
+extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
+    func controller() -> ProfileVC {
         return self
     }
 }

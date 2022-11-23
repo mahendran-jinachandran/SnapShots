@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
-    func controller(reusableView: ProfileHeaderCollectionReusableView) -> UIViewController
+    func controller() -> ProfileVC
 }
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
@@ -68,7 +68,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     private lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-       userNameLabel.text = "Mahendran"
        userNameLabel.font = UIFont.systemFont(ofSize: 30)
        return userNameLabel
     }()
@@ -76,9 +75,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     private lazy var bioLabel: UILabel = {
        var bioLabel = UILabel()
        bioLabel.translatesAutoresizingMaskIntoConstraints = false
-       bioLabel.attributedText = NSAttributedString(string: "BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO BIO",attributes: [
-        NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12)
-       ])
        bioLabel.numberOfLines = 5
        return bioLabel
     }()
@@ -98,6 +94,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        
         profileAccessButton.addTarget(self, action: #selector(showName), for: .touchUpInside)
         
         [profilePhoto,postsLabel,postsCountLabel,friendsLabel,friendsCountLabel,userNameLabel,bioLabel,profileAccessButton].forEach {
@@ -114,8 +111,25 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         } else {
             setPortraitConstraints()
         }
+        
+
     }
     
+    func setData(username: String,friendsCount: String,postsCount: String,bio: String) {
+        userNameLabel.text = username
+        friendsCountLabel.text = friendsCount
+        postsCountLabel.text = postsCount
+        
+        if bio == "-1" {
+//            bioLabel.isHidden = true
+//            bioLabel.removeFromSuperview()
+            
+        } else {
+            bioLabel.text = bio
+
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -123,6 +137,85 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     @objc func showName() {
         print("Done")
     }
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        
+        if traitCollection.verticalSizeClass == .compact {
+            setLandscapeConstraints()
+        } else {
+            setPortraitConstraints()
+        }
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let size = systemLayoutSizeFitting(layoutAttributes.size)
+        layoutAttributes.size = size
+        return super.preferredLayoutAttributesFitting(layoutAttributes)
+    }
+    
+    @objc func imagePress(_ sender : UITapGestureRecognizer) {
+
+        let imagePicker = UIAlertController(title: "CHANGE DP", message: nil, preferredStyle: .actionSheet)
+        let camera = UIAlertAction(title: "Camera", style: .default) { _ in
+            self.showImagePicker(selectedSource: .camera)
+        }
+
+        let gallery = UIAlertAction(title: "Gallery", style: .default) { _ in
+            self.showImagePicker(selectedSource: .photoLibrary)
+        }
+
+        let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
+            self.profilePhoto.image = UIImage(named: "blankPhoto")
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+
+        imagePicker.addAction(camera)
+        imagePicker.addAction(gallery)
+        imagePicker.addAction(cancel)
+        imagePicker.addAction(removeDP)
+        
+        delegate?.controller().present(imagePicker, animated: true,completion: nil)
+    }
+
+}
+
+extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    
+    func showImagePicker(selectedSource: UIImagePickerController.SourceType) {
+        guard UIImagePickerController.isSourceTypeAvailable(selectedSource) else {
+            print("Selected source not available")
+            return
+        }
+
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = selectedSource
+        imagePickerController.allowsEditing = false
+
+        delegate?.controller().present(imagePickerController, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let selectedImage = info[.originalImage] as? UIImage {
+
+            selectedImage.saveImage(imageName: "ProfileDP", image: selectedImage)
+            profilePhoto.image = selectedImage
+        } else {
+            print("Image not found")
+        }
+
+        picker.dismiss(animated: true)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+}
+
+extension ProfileHeaderCollectionReusableView {
     
     func setPortraitConstraints() {
         NSLayoutConstraint.deactivate(landscapeConstraint)
@@ -133,7 +226,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         NSLayoutConstraint.deactivate(portraitConstraint)
         NSLayoutConstraint.activate(landscapeConstraint)
     }
-
     
     private func setupConstraint() {
     
@@ -218,75 +310,5 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             profileAccessButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
             profileAccessButton.heightAnchor.constraint(equalToConstant: 30),
         ])
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        
-        
-        
-        if traitCollection.verticalSizeClass == .compact {
-            setLandscapeConstraints()
-        } else {
-            setPortraitConstraints()
-        }
-    }
-    
-    @objc func imagePress(_ sender : UITapGestureRecognizer) {
-
-        let imagePicker = UIAlertController(title: "CHANGE DP", message: nil, preferredStyle: .actionSheet)
-        let camera = UIAlertAction(title: "Camera", style: .default) { _ in
-            self.showImagePicker(selectedSource: .camera)
-        }
-
-        let gallery = UIAlertAction(title: "Gallery", style: .default) { _ in
-            self.showImagePicker(selectedSource: .photoLibrary)
-        }
-
-        let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
-            self.profilePhoto.image = UIImage(named: "blankPhoto")
-        }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-
-        imagePicker.addAction(camera)
-        imagePicker.addAction(gallery)
-        imagePicker.addAction(cancel)
-        imagePicker.addAction(removeDP)
-        delegate?.controller(reusableView: self).present(imagePicker, animated: true,completion: nil)
-    }
-
-}
-
-extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    
-    func showImagePicker(selectedSource: UIImagePickerController.SourceType) {
-        guard UIImagePickerController.isSourceTypeAvailable(selectedSource) else {
-            print("Selected source not available")
-            return
-        }
-
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = selectedSource
-        imagePickerController.allowsEditing = false
-
-        delegate?.controller(reusableView: self).present(imagePickerController, animated: true)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        if let selectedImage = info[.originalImage] as? UIImage {
-
-            selectedImage.saveImage(imageName: "ProfileDP", image: selectedImage)
-            profilePhoto.image = selectedImage
-        } else {
-            print("Image not found")
-        }
-
-        picker.dismiss(animated: true)
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
     }
 }

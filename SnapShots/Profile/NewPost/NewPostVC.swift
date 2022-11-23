@@ -7,7 +7,9 @@
 
 import UIKit
 
-class NewPostViewController: UIViewController {
+class NewPostVC: UIViewController {
+    
+    var newPostControls: NewPostControls!
     
     private lazy var postImage: UIImageView = {
        let postImage = UIImageView(frame: .zero)
@@ -43,7 +45,7 @@ class NewPostViewController: UIViewController {
        let uploadLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
         uploadLabel.text = "Upload"
         uploadLabel.textColor = .systemBlue
-        uploadLabel.isEnabled = false
+        uploadLabel.isUserInteractionEnabled = true
         return uploadLabel
     }()
 
@@ -63,6 +65,9 @@ class NewPostViewController: UIViewController {
         
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         postImage.addGestureRecognizer(imagePicker)
+        
+        let uploadTap = UITapGestureRecognizer(target: self, action: #selector(uploadPost(_:)))
+        uploadLabel.addGestureRecognizer(uploadTap)
     }
     
     func setupProfileConstraints() {
@@ -86,10 +91,15 @@ class NewPostViewController: UIViewController {
         
         ])
     }
+    
+    @objc func uploadPost(_ sender : UITapGestureRecognizer) {
+        newPostControls.addPost(caption: caption.text, image: postImage.image!)
+        self.navigationController?.popViewController(animated: true)
+    }
 
 }
 
-extension NewPostViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     @objc func imagePress(_ sender : UITapGestureRecognizer) {
 

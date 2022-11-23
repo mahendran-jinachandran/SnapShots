@@ -8,7 +8,7 @@
 import UIKit
 import Lottie
 
-class LoginViewController: UIViewController,UITextFieldDelegate,LoginViewProtocol {
+class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     private var loginController: LoginControllerProtocol!
     var isPhoneNumberEntered: Bool = false
@@ -165,8 +165,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate,LoginViewProtoco
     
     @objc func startRegistrationProcess() {
         
-        let registerView = RegisterViewController()
-        let registerController = RegisterController()
+        let registerView = RegisterVC()
+        let registerController = RegisterControls()
         
         registerView.setController(registerController)
         registerController.setView(registerView)
@@ -254,7 +254,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate,LoginViewProtoco
 }
 
 
-extension LoginViewController {
+extension LoginVC {
     
     func verifyPhoneNumber(isVerified: Bool) {
         if isVerified {

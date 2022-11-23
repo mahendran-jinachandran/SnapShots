@@ -11,10 +11,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CustomCollectionViewCell"
     
-    private let myImageView: UIImageView = {
+    var myImageView: UIImageView = {
         let myImage = UIImageView()
         myImage.image = UIImage(systemName: "house")
-        myImage.contentMode = .scaleAspectFit
+        myImage.contentMode = .scaleAspectFill
         return myImage
     }()
         
@@ -32,10 +32,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        myImageView.frame = CGRect(x: 5,
-                                   y: 20,
-                                   width: contentView.frame.size.width - 10,
-                                   height: contentView.frame.size.height - 50)
+        myImageView.frame = CGRect(x: 0,
+                                   y: 0,
+                                   width: contentView.frame.size.width,
+                                   height: contentView.frame.size.height)
     }
 }
 

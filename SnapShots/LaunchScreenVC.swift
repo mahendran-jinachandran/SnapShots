@@ -8,7 +8,7 @@
 import UIKit
 import Lottie
 
-class LaunchScreenViewController: UIViewController {
+class LaunchScreenVC: UIViewController {
 
     var launchScreenAnimation: LottieAnimationView!
     
@@ -30,6 +30,8 @@ class LaunchScreenViewController: UIViewController {
         launchScreenAnimation.play { isCompleted in
             if isCompleted {
                 self.launchScreenAnimation.isHidden = true
+                self.launchScreenAnimation.removeFromSuperview()
+                
                 AppUtility.lockOrientation(.all)
                 self.setNeedsUpdateOfSupportedInterfaceOrientations()
             
@@ -37,8 +39,8 @@ class LaunchScreenViewController: UIViewController {
                     self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
                 } else {
                     
-                    let loginViewController = LoginViewController()
-                    let loginController = LoginController()
+                    let loginViewController = LoginVC()
+                    let loginController = LoginControls()
                     
                     loginController.setView(loginViewController)
                     loginViewController.setController(loginController)

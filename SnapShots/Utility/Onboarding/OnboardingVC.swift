@@ -8,7 +8,7 @@
 import UIKit
 import Lottie
 
-class OnboardingViewController: UIViewController {
+class OnboardingVC: UIViewController {
 
     var onBoardingStackView: UIStackView!
     
@@ -85,20 +85,18 @@ class OnboardingViewController: UIViewController {
     
    @objc func goToNextOnboarding() {
        animationView.stop()
-       animationView.isHidden = true
-       navigationController?.pushViewController(ProfileDetailsOnBoardingViewController(), animated: true)
+       animationView.removeFromSuperview()
+       
+       navigationController?.pushViewController(ProfileCompletionVC(), animated: true)
     }
     
     
     func setConstraints() {
-        
         NSLayoutConstraint.activate([
-            
-            onBoardingStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            onBoardingStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            onBoardingStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            onBoardingStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-            
+            onBoardingStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
+            onBoardingStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -8),
+            onBoardingStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            onBoardingStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8)
         ])
     }
 }

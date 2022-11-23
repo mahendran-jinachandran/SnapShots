@@ -143,8 +143,8 @@ class SettingsViewController: UIViewController {
             UserDefaults.standard.removeObject(forKey: "CurrentLoggedUser")
             UserDefaults.standard.synchronize()
             
-            let loginViewController = LoginViewController()
-            let loginController = LoginController()
+            let loginViewController = LoginVC()
+            let loginController = LoginControls()
             
             loginController.setView(loginViewController)
             loginViewController.setController(loginController)

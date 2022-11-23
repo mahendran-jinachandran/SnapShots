@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RegisterController: RegisterControllerProtocol {
+class RegisterControls: RegisterControllerProtocol {
     
     private var registerView: RegisterViewProtocol!
     
@@ -20,14 +20,20 @@ class RegisterController: RegisterControllerProtocol {
     func executeRegistrationProcess(username: String,phoneNumber: String,password: String) {
         
         if userDaoImp.createNewUser(userName: username, password: password, phoneNumber: phoneNumber) {
+            
+            guard let userID = userDaoImp.getUserID(phoneNumber: phoneNumber, password: password) else {
+                return
+            }
+            
+            UserDefaults.standard.set(userID, forKey: "CurrentLoggedUser")
             print("USER CREATED SUCCESSFULLY")
         } else {
             print("COULD NOT CREATE USER")
         }
     }
     
-    func isValidUserName(username: String) -> Bool {
-        return !userDaoImp.isUsernameAlreadyExist(username: username) 
+    func isUserNameTaken(username: String) -> Bool {
+        return !userDaoImp.isUsernameAlreadyExist(username: username)
     }
     
     func isValidPhoneNumber(phoneNumber: String) -> Bool {

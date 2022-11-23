@@ -21,6 +21,7 @@ class NotificationViewController: UIViewController,UITableViewDataSource,UITable
        let friendRequests = UITableView()
        friendRequests.translatesAutoresizingMaskIntoConstraints = false
        friendRequests.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+        friendRequests.separatorStyle = .none
        return friendRequests
     }()
 

@@ -51,16 +51,6 @@ class UserDaoImplementation: UserDao {
         return Int(userData[1]!.removeFirst())
     }
     
-//    func createNewUser(userName: String, password: String, phoneNumber: String, gender: Gender, age: Int, mail: String) -> Bool {
-//        let insertUserTableQuery = """
-//        INSERT INTO User (Username,Password,Phone,Gender,Age,Mail,Photo)
-//        VALUES
-//        ('\(userName)','\(password)','\(phoneNumber)','\(gender.description)',\(age),'\(mail)',\(0));
-//        """
-//
-//        return sqliteDatabase.execute(query: insertUserTableQuery)
-//    }
-    
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool {
         let insertUserTableQuery = """
         INSERT INTO User (Username,Password,Phone)
@@ -69,6 +59,17 @@ class UserDaoImplementation: UserDao {
         """
         
         return sqliteDatabase.execute(query: insertUserTableQuery)
+    }
+    
+    func completeUserProfile(userID: Int, photo: Int,gender: Gender,mailID: String,age: Int) -> Bool {
+        let updateUserProfileQuery = """
+        UPDATE User SET Photo = \(photo),Gender = '\(gender)',Mail = '\(mailID)',Age = \(age)
+        WHERE User_id = \(userID)
+        """
+        print(updateUserProfileQuery)
+        
+        return sqliteDatabase.execute(query: updateUserProfileQuery)
+        
     }
     
     func updatePassword(password: String,userID: Int) -> Bool {
@@ -163,6 +164,15 @@ class UserDaoImplementation: UserDao {
         
         var username = sqliteDatabase.retrievingQuery(query: getMyFriendsDetailsQuery)
         return username[1]!.removeFirst()
+    }
+    
+    func getBio(userID: Int) -> String {
+        let getMyFriendsDetailsQuery = """
+        SELECT Bio FROM User WHERE User_id = \(userID);
+        """
+        
+        var bio = sqliteDatabase.retrievingQuery(query: getMyFriendsDetailsQuery)
+        return bio[1]!.removeFirst()
     }
     
     func deleteAccount(userID: Int) -> Bool {

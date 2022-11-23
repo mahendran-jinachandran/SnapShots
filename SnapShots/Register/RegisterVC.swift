@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
+class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     private var registerController: RegisterControllerProtocol!
     
@@ -167,13 +167,13 @@ class RegisterViewController: UIViewController,RegisterViewProtocol,UITextFieldD
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
-        self.createRegisterStackView()
-        self.view.backgroundColor = .systemBackground
-        self.username.delegate = self
-        self.phoneNumber.delegate = self
-        self.password.delegate = self
-        self.rePassword.delegate = self
-        self.signUpButton.addTarget(self, action: #selector(startOnboarding), for: .touchUpInside)
+        createRegisterStackView()
+        view.backgroundColor = .systemBackground
+        username.delegate = self
+        phoneNumber.delegate = self
+        password.delegate = self
+        rePassword.delegate = self
+        signUpButton.addTarget(self, action: #selector(startOnboarding), for: .touchUpInside)
     }
         
     func createRegisterStackView() {
@@ -195,8 +195,8 @@ class RegisterViewController: UIViewController,RegisterViewProtocol,UITextFieldD
     
     func addConstraintsLoginStack() {
         NSLayoutConstraint.activate([
-            registerScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            registerScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
+            registerScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
+            registerScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
             registerScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             registerScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
@@ -217,68 +217,119 @@ class RegisterViewController: UIViewController,RegisterViewProtocol,UITextFieldD
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
-
         switch textField {
             case username:
             
                 let username = textField.text!
-                if registerController.isValidUserName(username: username) {
-                    isUsernameEntered = true
-                    usernameLabel.isHidden = true
-                    textField.layer.borderColor = UIColor.lightGray.cgColor
+            
+                if username.count < 4 {
+                   usernameLabel.text = "Enter minimum of 4 characters"
+                   invalidUserName()
+                   break
+                }
+            
+                if registerController.isUserNameTaken(username: username) {
+                   validUserName()
+                    usernameLabel.text = "USER NAME IS ALREADY TAKEN"
                 } else {
-                    isUsernameEntered = false
-                    usernameLabel.isHidden = false
-                    textField.layer.borderColor = UIColor.red.cgColor
+                   invalidUserName()
                 }
                 
             case phoneNumber:
             
                 let phoneNumber = textField.text!
+            
+                if phoneNumber.count < 10 {
+                    phoneNumberLabel.text = "ENTER VALID PHONE NUMBER"
+                    invalidPhoneNumber()
+                    break
+                }
+            
                 if registerController.isValidPhoneNumber(phoneNumber: phoneNumber) {
-                    isPhoneNumberEntered = true
-                    textField.layer.borderColor = UIColor.lightGray.cgColor
-                    phoneNumberLabel.isHidden = true
+                   validPhoneNumber()
                 } else {
-                    isPhoneNumberEntered = false
-                    textField.layer.borderColor = UIColor.red.cgColor
-                    phoneNumberLabel.isHidden = false
+                   phoneNumberLabel.text = "PHONE NUMBER IS ALREADY ASSOCIATED WITH ANOTHER ACCOUNT"
+                   invalidPhoneNumber()
                 }
             
             case password:
                 userPassword = textField.text!
-                isPasswordEntered = userPassword!.count > 0 ? true : false
+                isPasswordEntered = userPassword!.count > 4 ? true : false
             case rePassword:
                 userRePassword = textField.text!
-                isRePasswordEntered = userRePassword!.count > 0 ? true : false
-                checkForPasswordMatch(password: userPassword, rePassword: userRePassword)
+                isRePasswordEntered = userRePassword!.count > 4 ? true : false
                 
             default:
                 print("NONE")
         }
         
         
-        if isUsernameEntered && isPhoneNumberEntered && isPasswordEntered && isRePasswordEntered {
-            signUpButton.isEnabled = true
-            signUpButton.alpha = 1.0
+        if isUsernameEntered && isPhoneNumberEntered && isPasswordEntered && isRePasswordEntered && checkForPasswordMatch(password: userPassword, rePassword: userRePassword)  {
+           enableRegisterButton()
         } else {
-            signUpButton.isEnabled = false
-            signUpButton.alpha = 0.5
+            disableRegisterButton()
         }
     }
     
-    func checkForPasswordMatch(password: String?,rePassword: String?) {
-        if password != rePassword {
-            passwordNotMatchLabel.isHidden = false
-        } else {
+    func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
+        
+        if password == rePassword {
             passwordNotMatchLabel.isHidden = true
+            return true
         }
+        
+        passwordNotMatchLabel.isHidden = false
+        return false
+    }
+    
+    func enableRegisterButton() {
+        signUpButton.isEnabled = true
+        signUpButton.alpha = 1.0
+    }
+    
+    func disableRegisterButton() {
+        signUpButton.isEnabled = false
+        signUpButton.alpha = 0.5
+    }
+    
+    func validUserName() {
+        isUsernameEntered = true
+        usernameLabel.isHidden = true
+        username.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func invalidUserName() {
+        isUsernameEntered = false
+        usernameLabel.isHidden = false
+        username.layer.borderColor = UIColor.red.cgColor
+    }
+        
+    func validPhoneNumber() {
+        isPhoneNumberEntered = true
+        phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
+        phoneNumberLabel.isHidden = true
+    }
+    
+    func invalidPhoneNumber() {
+        isPhoneNumberEntered = false
+        phoneNumber.layer.borderColor = UIColor.red.cgColor
+        phoneNumberLabel.isHidden = false
     }
     
     @objc func startOnboarding() {
         registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!)
-        navigationController?.pushViewController(OnboardingViewController(), animated: true)
+        navigationController?.pushViewController(OnboardingVC(), animated: true)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     @objc func dismissKeyboard() {
         view.endEditing(true)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginController: LoginControllerProtocol {
+class LoginControls: LoginControllerProtocol {
     
     private weak var loginView: LoginViewProtocol?
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)

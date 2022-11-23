@@ -18,7 +18,8 @@ protocol UserDao {
     func getUserID(phoneNumber: String,password: String) -> Int?
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool
-    
+    func completeUserProfile(userID: Int, photo: Int,gender: Gender,mailID: String,age: Int) -> Bool
+
     func updatePassword(password: String,userID: Int) -> Bool
     func updateUsername(username: String,userID: Int) -> Bool
     func updatePhoneNumber(phoneNumber: String,userID: Int) -> Bool
@@ -30,6 +31,7 @@ protocol UserDao {
     
     func getUserBasedOnSearch(userName: String) -> [(userID: Int, userName: String)]
     func getUsername(userID: Int) -> String
+    func getBio(userID: Int) -> String
     
     func deleteAccount(userID: Int) -> Bool
 }
