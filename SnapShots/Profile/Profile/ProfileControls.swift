@@ -15,7 +15,6 @@ class ProfileControls {
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     
     func getUsername(userID: Int) -> String {
-        print(userDaoImp.getUsername(userID: userID))
         return userDaoImp.getUsername(userID: userID)
     }
     
@@ -31,18 +30,19 @@ class ProfileControls {
         return userDaoImp.getBio(userID: userID)
     }
     
-    func getAllPosts() -> [UIImage] {
+    func getAllPosts() -> [(postImage: UIImage,postDetails: Post)] {
         
         let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
-        var posts: [UIImage] = []
+        var posts: [(postImage: UIImage,postDetails: Post)] = []
         let postDetails = postDaoImp.getAllPosts(userID: userID)
         
-        for (postID,_) in postDetails {
-            posts.append(
+        for (postID,postDetails) in postDetails {
+            posts.append( (
                 UIImage().loadImageFromDiskWith(
                     fileName: "\(userID)APOSTA\(postID)"
-                )!
-            )
+                )!,
+                postDetails
+            ) )
         }
         
         return posts

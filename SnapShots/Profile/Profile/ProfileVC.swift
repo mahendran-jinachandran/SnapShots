@@ -12,7 +12,7 @@ class ProfileVC: UIViewController {
     private var profileView: UICollectionView!
     private var layout = UICollectionViewFlowLayout()
     public var profileControls: ProfileControls!
-    private var posts: [UIImage] = []
+    private var posts: [(postImage: UIImage,postDetails: Post)] = []
     
     var profileHeader: UILabel = {
         var profileTitle = UILabel()
@@ -22,8 +22,19 @@ class ProfileVC: UIViewController {
         return profileTitle
     }()
     
+    init() {
+        print("INITIALISER CALLED")
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("VIEW DID CALLED")
     
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
@@ -53,12 +64,12 @@ class ProfileVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
-        if Int(profileControls.getNumberOfPosts(userID: userID))! > 0 {
-            posts = profileControls.getAllPosts()
+        posts = profileControls.getAllPosts()
+        if posts.count > 0 {
             profileView.reloadData()
         } else {
-            print("NOT AVAI")
+            posts = []
+            profileView.reloadData()
         }
     }
         
@@ -136,11 +147,11 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         
-        cell.myImageView.image = posts[indexPath.item]
+        cell.myImageView.image = posts[indexPath.item].postImage
         
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
         cell.myImageView.addGestureRecognizer(imagePicker)
-        
+        cell.tag = indexPath.item
         return cell
     }
     
@@ -156,7 +167,12 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
     
     @objc func openPost(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(PostViewController(), animated: false)
+
+        navigationController?.pushViewController(
+            PostViewController(
+                postImage: posts[sender.view!.tag].postImage,
+                postDetails: posts[sender.view!.tag].postDetails),
+            animated: false)
     }
 }
 
