@@ -15,6 +15,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         let myImage = UIImageView()
         myImage.image = UIImage(systemName: "house")
         myImage.contentMode = .scaleAspectFill
+        myImage.isUserInteractionEnabled = true
         return myImage
     }()
         

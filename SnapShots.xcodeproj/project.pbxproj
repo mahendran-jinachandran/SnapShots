@@ -71,6 +71,8 @@
 		BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF706D292D16B0001A736F /* NewPostControls.swift */; };
 		BFDF7070292DFAAC001A736F /* SearchCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */; };
 		BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */; };
+		BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7073292F28B6001A736F /* FeedsControls.swift */; };
+		BFDF7076292F33D3001A736F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7075292F33D3001A736F /* PostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +141,8 @@
 		BFDF706D292D16B0001A736F /* NewPostControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostControls.swift; sourceTree = "<group>"; };
 		BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCustomCell.swift; sourceTree = "<group>"; };
 		BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsCustomCell.swift; sourceTree = "<group>"; };
+		BFDF7073292F28B6001A736F /* FeedsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsControls.swift; sourceTree = "<group>"; };
+		BFDF7075292F33D3001A736F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,6 +382,7 @@
 				BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */,
 				BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */,
 				BFDF7062292BA20A001A736F /* ProfileControls.swift */,
+				BFDF7075292F33D3001A736F /* PostViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -454,6 +459,7 @@
 			children = (
 				BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */,
 				BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */,
+				BFDF7073292F28B6001A736F /* FeedsControls.swift */,
 			);
 			path = Feeds;
 			sourceTree = "<group>";
@@ -549,8 +555,10 @@
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */,
+				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
+				BFDF7076292F33D3001A736F /* PostViewController.swift in Sources */,
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
 				BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,

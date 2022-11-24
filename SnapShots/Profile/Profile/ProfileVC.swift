@@ -95,8 +95,6 @@ class ProfileVC: UIViewController {
         newPostVC.newPostControls = newPostControls
         navigationController?.pushViewController(newPostVC, animated: false)
     }
-    
-    var headerView: ProfileHeaderCollectionReusableView!
 }
 
 extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
@@ -110,14 +108,11 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        headerView = collectionView.dequeueReusableSupplementaryView(
+      
+        let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-            for: indexPath) as? ProfileHeaderCollectionReusableView
-        
-        guard let headerView else {
-            return UICollectionViewCell()
-        }
+            for: indexPath) as! ProfileHeaderCollectionReusableView
         
         headerView.delegate = self
         
@@ -135,14 +130,16 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
-        return Int(profileControls.getNumberOfPosts(userID: userID))!
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         
         cell.myImageView.image = posts[indexPath.item]
+        
+        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
+        cell.myImageView.addGestureRecognizer(imagePicker)
         
         return cell
     }
@@ -156,6 +153,10 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         return CGSize(width: 300, height: 300)
+    }
+    
+    @objc func openPost(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(PostViewController(), animated: false)
     }
 }
 

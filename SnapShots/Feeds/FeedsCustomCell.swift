@@ -11,14 +11,13 @@ class FeedsCustomCell: UITableViewCell {
     
     static let identifier = "FeedsCustomCell"
     
-    private var profilePhoto: UIImageView = {
+    public var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
-       profileImage.image = UIImage(named: "blankPhoto")
+       profileImage.image = UIImage(named: "Quote")
        profileImage.clipsToBounds = true
        profileImage.contentMode = .scaleAspectFill
        profileImage.translatesAutoresizingMaskIntoConstraints = false
        profileImage.isUserInteractionEnabled = true
-       profileImage.setContentHuggingPriority(.init(249), for: .horizontal)
        return profileImage
     }()
     
@@ -27,7 +26,6 @@ class FeedsCustomCell: UITableViewCell {
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
        userNameLabel.text = "Mahendran"
        userNameLabel.font = UIFont.systemFont(ofSize:15)
-       userNameLabel.setContentHuggingPriority(.init(249), for: .horizontal)
        return userNameLabel
     }()
     
@@ -35,35 +33,37 @@ class FeedsCustomCell: UITableViewCell {
         var moreInfo = UIButton(type: .custom)
         moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreInfo.translatesAutoresizingMaskIntoConstraints = false
-        moreInfo.setContentHuggingPriority(.init(249), for: .horizontal)
-        moreInfo.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
         return moreInfo
     }()
     
-    private var post: UIImageView = {
+    var post: UIImageView = {
        let post = UIImageView(frame: .zero)
-       post.image = UIImage(named: "blankPhoto")
+       post.image = UIImage(named: "Quote")
        post.clipsToBounds = true
-       post.contentMode = .scaleAspectFill
+       post.contentMode = .scaleAspectFit
        post.translatesAutoresizingMaskIntoConstraints = false
        post.isUserInteractionEnabled = true
-       post.setContentHuggingPriority(.init(249), for: .horizontal)
        return post
     }()
     
     public lazy var like: UIButton = {
         var like = UIButton(type: .custom)
-        
         let image = UIImage(systemName: "heart")?.resizedImage(Size: CGSize(width: 40, height: 30))
-        
-        
         like.setImage(image?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
         like.translatesAutoresizingMaskIntoConstraints = false
-        
-        
         like.imageView?.contentMode = .scaleAspectFit
         return like
     }()
+    
+    public lazy var comment: UIButton = {
+        var comment = UIButton(type: .custom)
+        let image = UIImage(systemName: "ellipsis.message")?.resizedImage(Size: CGSize(width: 40, height: 30))
+        comment.setImage(image?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+        comment.translatesAutoresizingMaskIntoConstraints = false
+        comment.imageView?.contentMode = .scaleAspectFit
+        return comment
+    }()
+    
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,6 +74,7 @@ class FeedsCustomCell: UITableViewCell {
         contentView.addSubview(moreInfo)
         contentView.addSubview(post)
         contentView.addSubview(like)
+        contentView.addSubview(comment)
         
         setupConstraint()
         profilePhoto.layer.cornerRadius = 50/2
@@ -93,7 +94,7 @@ class FeedsCustomCell: UITableViewCell {
             
             moreInfo.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             moreInfo.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor),
-            moreInfo.heightAnchor.constraint(equalToConstant: 20),
+            moreInfo.heightAnchor.constraint(equalToConstant: 30),
             moreInfo.widthAnchor.constraint(equalToConstant: 20),
             
             userNameLabel.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor),
@@ -106,15 +107,14 @@ class FeedsCustomCell: UITableViewCell {
             post.heightAnchor.constraint(equalToConstant: 350),
             
             like.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            like.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 8),
-            like.heightAnchor.constraint(equalToConstant: 50),
-            like.widthAnchor.constraint(equalToConstant: 50)
+            like.topAnchor.constraint(equalTo: post.bottomAnchor),
+            like.heightAnchor.constraint(equalToConstant: 45),
+            like.widthAnchor.constraint(equalToConstant: 45),
+            
+            comment.leadingAnchor.constraint(equalTo: like.trailingAnchor),
+            comment.topAnchor.constraint(equalTo: post.bottomAnchor),
+            comment.heightAnchor.constraint(equalToConstant: 45),
+            comment.widthAnchor.constraint(equalToConstant: 45)
         ])
     }
-    
-}
-
-extension UIImage
-{
-   
 }

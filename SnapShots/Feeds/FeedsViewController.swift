@@ -9,7 +9,7 @@ import UIKit
 
 class FeedsViewController: UIViewController {
     
-    var copyRecents = ["Balaji","Balaji","Balaji","Balaji","Balaji"]
+    var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
     
     private let feedsTable: UITableView = {
         let feedsTable = UITableView(frame: .zero)
@@ -31,6 +31,8 @@ class FeedsViewController: UIViewController {
         feedsTable.dataSource = self
         view.addSubview(feedsTable)
         setConstraints()
+        
+        feedPosts = FeedsControls().getAllPosts()
     }
     
     func setConstraints() {
@@ -50,15 +52,17 @@ extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return copyRecents.count
+        return feedPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let particularCell = tableView.dequeueReusableCell(withIdentifier: FeedsCustomCell.identifier, for: indexPath) as! FeedsCustomCell
         
-        particularCell.userNameLabel.text = "\(copyRecents[indexPath.row])"
+        particularCell.userNameLabel.text = "\(feedPosts[indexPath.row].userName)"
+        particularCell.post.image = feedPosts[indexPath.row].postPhoto
+        particularCell.profilePhoto.image = feedPosts[indexPath.row].userDP
+        
         return particularCell
         
     }
-
 }
