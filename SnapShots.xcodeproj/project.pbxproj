@@ -53,6 +53,8 @@
 		BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityViewController.swift */; };
 		BF816BA62929D3F30097421D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountViewController.swift */; };
 		BFA0627B2930A9F40016739A /* Carnevalee.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA0627A2930A9F40016739A /* Carnevalee.ttf */; };
+		BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */; };
+		BFA386702930CDBC00815E31 /* SuggestionCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */; };
 		BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */; };
 		BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */; };
 		BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDB2922433200A948B4 /* ProfileVC.swift */; };
@@ -127,6 +129,8 @@
 		BF816BA32929D3E90097421D /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		BFA0627A2930A9F40016739A /* Carnevalee.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carnevalee.ttf; sourceTree = "<group>"; };
+		BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
+		BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCVCell.swift; sourceTree = "<group>"; };
 		BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
 		BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPeopleViewController.swift; sourceTree = "<group>"; };
 		BFA55FDB2922433200A948B4 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -485,6 +489,8 @@
 			children = (
 				BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */,
 				BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */,
+				BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */,
+				BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -598,6 +604,7 @@
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */,
+				BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
@@ -638,6 +645,7 @@
 				BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */,
 				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
 				BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */,
+				BFA386702930CDBC00815E31 /* SuggestionCVCell.swift in Sources */,
 				BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */,
 				BF4542AB291A0F3C00BAC4B2 /* RegisterVC.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,

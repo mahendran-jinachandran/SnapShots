@@ -31,7 +31,7 @@ class HomePageViewController: UITabBarController {
         
         viewControllers = [
             createNavigationController(rootViewController: FeedsViewController(), title: "Feeds", icon: UIImage(systemName: "newspaper")!),
-            createNavigationController(rootViewController: SearchPeopleViewController(), title: "Search", icon: UIImage(systemName: "magnifyingglass")!),
+            createNavigationController(rootViewController: DiscoverViewController(), title: "Search", icon: UIImage(systemName: "magnifyingglass")!),
             createNavigationController(rootViewController: NotificationViewController(), title: "Friends", icon: UIImage(systemName: "globe")!),
             
             

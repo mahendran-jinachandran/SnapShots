@@ -16,6 +16,17 @@ class FeedsCustomCell: UITableViewCell {
     static let identifier = "FeedsCustomCell"
     weak var delegate: FeedsCustomCellDelegate?
     
+    private lazy var postContainer: UIView = {
+       var postContainer = UIView()
+       postContainer.translatesAutoresizingMaskIntoConstraints = false
+        postContainer.clipsToBounds = true
+        postContainer.layer.cornerRadius = 10
+        postContainer.layer.borderWidth = 0.5
+        postContainer.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
+        postContainer.backgroundColor = UIColor(named: "post_bg_color")
+       return postContainer
+    }()
+    
     public var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
        profileImage.image = UIImage(named: "Quote")
@@ -39,6 +50,7 @@ class FeedsCustomCell: UITableViewCell {
         moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreInfo.translatesAutoresizingMaskIntoConstraints = false
         moreInfo.tintColor = UIColor(named: "mainPage")
+        moreInfo.backgroundColor = UIColor(named: "moreInfo_bg_color")
         return moreInfo
     }()
     
@@ -49,6 +61,7 @@ class FeedsCustomCell: UITableViewCell {
        post.contentMode = .scaleAspectFill
        post.translatesAutoresizingMaskIntoConstraints = false
        post.isUserInteractionEnabled = true
+       post.layer.cornerRadius = 15
        return post
     }()
     
@@ -84,16 +97,21 @@ class FeedsCustomCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.systemBackground
+        
+        contentView.addSubview(postContainer)
+        
         [profilePhoto,userNameLabel,moreInfo,post,like,comment,caption].forEach {
-            contentView.addSubview($0)
+            postContainer.addSubview($0)
         }
         
         setupConstraint()
         profilePhoto.layer.cornerRadius = 40/2
+        moreInfo.layer.cornerRadius = 15
         
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         
         comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
+        
     }
     
     @objc func goToLikes() {
@@ -154,27 +172,32 @@ class FeedsCustomCell: UITableViewCell {
     private func setupConstraint() {
         NSLayoutConstraint.activate([
             
-            profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor),
-            profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
+            postContainer.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 6),
+            postContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
+            postContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -8),
+            postContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            
+            profilePhoto.topAnchor.constraint(equalTo: postContainer.topAnchor,constant: 4),
+            profilePhoto.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
             profilePhoto.heightAnchor.constraint(equalToConstant: 40),
             profilePhoto.widthAnchor.constraint(equalToConstant: 40),
             
-            moreInfo.topAnchor.constraint(equalTo: contentView.topAnchor),
-            moreInfo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            moreInfo.heightAnchor.constraint(equalToConstant: 50),
-            moreInfo.widthAnchor.constraint(equalToConstant: 50),
+            moreInfo.topAnchor.constraint(equalTo: postContainer.topAnchor,constant: 10),
+            moreInfo.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -12),
+            moreInfo.heightAnchor.constraint(equalToConstant: 30),
+            moreInfo.widthAnchor.constraint(equalToConstant: 30),
             
-            userNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            userNameLabel.topAnchor.constraint(equalTo: postContainer.topAnchor,constant: 4),
             userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 8),
             userNameLabel.trailingAnchor.constraint(equalTo: moreInfo.leadingAnchor),
             userNameLabel.heightAnchor.constraint(equalToConstant: 40),
             
             post.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 8),
-            post.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            post.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            post.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            post.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -12),
             post.heightAnchor.constraint(equalToConstant: 350),
             
-            like.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
+            like.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 8),
             like.topAnchor.constraint(equalTo: post.bottomAnchor),
             like.heightAnchor.constraint(equalToConstant: 45),
             like.widthAnchor.constraint(equalToConstant: 45),
@@ -185,9 +208,9 @@ class FeedsCustomCell: UITableViewCell {
             comment.widthAnchor.constraint(equalToConstant: 45),
             
             caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 2),
-            caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
-            caption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            caption.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -20)
+            caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 8),
+            caption.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
+            caption.bottomAnchor.constraint(equalTo: postContainer.bottomAnchor,constant: -20)
         ])
     }
 }

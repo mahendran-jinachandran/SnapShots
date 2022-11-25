@@ -27,7 +27,7 @@ class FeedsViewController: UIViewController {
         feedsTable.separatorStyle = .none
        return feedsTable
     }()
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +78,6 @@ class FeedsViewController: UIViewController {
     }
     
 
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -116,7 +115,8 @@ extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
         particularCell.userNameLabel.text = "\(feedPosts[indexPath.row].userName)"
         particularCell.post.image = feedPosts[indexPath.row].postPhoto
         particularCell.profilePhoto.image = feedPosts[indexPath.row].userDP
-        particularCell.caption.text = feedPosts[indexPath.row].postDetails.caption
+     //   particularCell.caption.text = feedPosts[indexPath.row].postDetails.caption
+        particularCell.backgroundColor = .red
         return particularCell
     }
 }
