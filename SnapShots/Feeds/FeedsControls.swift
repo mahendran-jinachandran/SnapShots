@@ -25,9 +25,10 @@ class FeedsControls {
             feedPosts.append((
                 userID,
                 username,
-                UIImage().loadImageFromDiskWith(
-                    fileName: "ProfileDP"
-                )!,
+//                UIImage().loadImageFromDiskWith(
+//                    fileName: "ProfileDP"
+//                )!,
+                UIImage(named: "Quote")!,
                 postDetails,
                 UIImage().loadImageFromDiskWith(
                     fileName: "\(userID)APOSTA\(postDetails.postID)"

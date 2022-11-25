@@ -19,7 +19,6 @@
 		BF4542672918C03200BAC4B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF4542652918C03200BAC4B2 /* LaunchScreen.storyboard */; };
 		BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542712918CE6E00BAC4B2 /* UITextFieldExtensions.swift */; };
 		BF4542962918DA9300BAC4B2 /* AppLogo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF45426F2918C8A500BAC4B2 /* AppLogo.ttf */; };
-		BF4542972918DA9700BAC4B2 /* Rightwood.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF4542732918D12100BAC4B2 /* Rightwood.ttf */; };
 		BF45429F2918EC5600BAC4B2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BF45429E2918EC5600BAC4B2 /* Lottie */; };
 		BF4542A12918F0D600BAC4B2 /* SocialMediaLaunchScreen.json in Resources */ = {isa = PBXBuildFile; fileRef = BF4542A02918F0D600BAC4B2 /* SocialMediaLaunchScreen.json */; };
 		BF4542AB291A0F3C00BAC4B2 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542AA291A0F3C00BAC4B2 /* RegisterVC.swift */; };
@@ -53,6 +52,7 @@
 		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
 		BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityViewController.swift */; };
 		BF816BA62929D3F30097421D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountViewController.swift */; };
+		BFA0627B2930A9F40016739A /* Carnevalee.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA0627A2930A9F40016739A /* Carnevalee.ttf */; };
 		BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */; };
 		BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */; };
 		BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDB2922433200A948B4 /* ProfileVC.swift */; };
@@ -63,7 +63,6 @@
 		BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA560122925ED7600A948B4 /* SettingsViewController.swift */; };
 		BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginControls.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
-		BFA5601A29264A1100A948B4 /* Ghosties.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA5601929264A1100A948B4 /* Ghosties.ttf */; };
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
 		BFDF7058292A3E13001A736F /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */; };
 		BFDF705A292B4237001A736F /* PersonalInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */; };
@@ -95,7 +94,6 @@
 		BF4542682918C03200BAC4B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF45426F2918C8A500BAC4B2 /* AppLogo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppLogo.ttf; sourceTree = "<group>"; };
 		BF4542712918CE6E00BAC4B2 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
-		BF4542732918D12100BAC4B2 /* Rightwood.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rightwood.ttf; sourceTree = "<group>"; };
 		BF4542A02918F0D600BAC4B2 /* SocialMediaLaunchScreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SocialMediaLaunchScreen.json; sourceTree = "<group>"; };
 		BF4542AA291A0F3C00BAC4B2 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		BF4542AD291A31CB00BAC4B2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -128,6 +126,7 @@
 		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		BF816BA32929D3E90097421D /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		BFA0627A2930A9F40016739A /* Carnevalee.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carnevalee.ttf; sourceTree = "<group>"; };
 		BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
 		BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPeopleViewController.swift; sourceTree = "<group>"; };
 		BFA55FDB2922433200A948B4 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -138,7 +137,6 @@
 		BFA560122925ED7600A948B4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BFA5601429262FEF00A948B4 /* LoginControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControls.swift; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
-		BFA5601929264A1100A948B4 /* Ghosties.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ghosties.ttf; path = ../../../../../UI/Ghosties.ttf; sourceTree = "<group>"; };
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
 		BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationViewController.swift; sourceTree = "<group>"; };
@@ -240,9 +238,8 @@
 		BF45426E2918C88600BAC4B2 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				BFA5601929264A1100A948B4 /* Ghosties.ttf */,
+				BFA0627A2930A9F40016739A /* Carnevalee.ttf */,
 				BF45426F2918C8A500BAC4B2 /* AppLogo.ttf */,
-				BF4542732918D12100BAC4B2 /* Rightwood.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -579,9 +576,8 @@
 				BF4542BB291A3C8E00BAC4B2 /* OnBoardingScreen1.json in Resources */,
 				BF4542962918DA9300BAC4B2 /* AppLogo.ttf in Resources */,
 				BF4542A12918F0D600BAC4B2 /* SocialMediaLaunchScreen.json in Resources */,
-				BF4542972918DA9700BAC4B2 /* Rightwood.ttf in Resources */,
+				BFA0627B2930A9F40016739A /* Carnevalee.ttf in Resources */,
 				BF4542642918C03200BAC4B2 /* Assets.xcassets in Resources */,
-				BFA5601A29264A1100A948B4 /* Ghosties.ttf in Resources */,
 				BF4542622918C03100BAC4B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

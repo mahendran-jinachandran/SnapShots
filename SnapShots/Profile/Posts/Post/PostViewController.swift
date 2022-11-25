@@ -27,6 +27,18 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        title = "Posts"
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "arrow.left"),
+            style: .plain,
+            target: self,
+            action: #selector(goBack))
+        
+        
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "mainPage")
+        
         particularPost = FeedsCustomCell()
         particularPost.translatesAutoresizingMaskIntoConstraints = false
         
@@ -36,17 +48,21 @@ class PostViewController: UIViewController {
         view.addSubview(particularPost)
         
         NSLayoutConstraint.activate([
-            particularPost.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            particularPost.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            particularPost.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
+            particularPost.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
+            particularPost.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            particularPost.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             particularPost.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         
         particularPost.moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
-        
+
         particularPost.comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
       
+    }
+    
+    @objc func goBack() {
+        self.navigationController?.popViewController(animated: false)
     }
     
     @objc func goToLikes() {
