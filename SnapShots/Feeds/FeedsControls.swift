@@ -26,7 +26,7 @@ class FeedsControls {
                 userID,
                 username,
                 UIImage().loadImageFromDiskWith(
-                    fileName: "ProfileDP"
+                    fileName: Constants.noDPSavingFormat
                 )!,
                 postDetails,
                 UIImage().loadImageFromDiskWith(

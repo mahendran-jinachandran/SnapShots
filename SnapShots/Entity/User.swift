@@ -13,7 +13,7 @@ class User {
     var password: String
     var phoneNumber: String
     var gender: Gender?
-    var age: Int?
+    var age: String?
     var mail: String?
     var profile: Profile
     
@@ -26,7 +26,7 @@ class User {
         profile = Profile()
     }
     
-    init(userId: Int,userName: String, password: String, phoneNumber: String, gender: Gender, age: Int, mail: String,photo: Bool,bio: String) {
+    init(userId: Int,userName: String, password: String, phoneNumber: String, gender: Gender, age: String, mail: String,photo: Bool,bio: String) {
         
         self.userID = userId
         self.userName = userName

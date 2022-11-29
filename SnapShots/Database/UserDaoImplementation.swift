@@ -66,17 +66,17 @@ class UserDaoImplementation: UserDao {
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool {
         let insertUserTableQuery = """
-        INSERT INTO User (Username,Password,Phone)
+        INSERT INTO User (Username,Password,Phone,Photo)
         VALUES
-        ('\(userName)','\(password)','\(phoneNumber)');
+        ('\(userName)','\(password)','\(phoneNumber)','Default');
         """
         
         return sqliteDatabase.execute(query: insertUserTableQuery)
     }
     
-    func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: Int) -> Bool {
+    func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: String) -> Bool {
         let updateUserProfileQuery = """
-        UPDATE User SET Photo = \(photo),Gender = '\(gender)',Mail = '\(mailID)',Age = \(age)
+        UPDATE User SET Photo = \(photo),Gender = '\(gender)',Mail = '\(mailID)',Age = '\(age)'
         WHERE User_id = \(userID)
         """
         print(updateUserProfileQuery)
@@ -125,9 +125,9 @@ class UserDaoImplementation: UserDao {
         return sqliteDatabase.execute(query: updateGenderQuery)
     }
     
-    func updateAge(age: Int,userID: Int) -> Bool {
+    func updateAge(age: String,userID: Int) -> Bool {
         let updateAgeQuery = """
-        UPDATE User SET Age = \(age) WHERE User_id = \(userID);
+        UPDATE User SET Age = '\(age)' WHERE User_id = \(userID);
         """
         
         return sqliteDatabase.execute(query: updateAgeQuery)

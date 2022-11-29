@@ -77,9 +77,9 @@ class SQLiteDatabase: DatabaseProtocol {
             Password CHAR(255) NOT NULL,
             Phone CHAR(255) NOT NULL,
             Gender CHAR(255),
-            Age INT,
+            Age CHAR(255),
             Mail CHAR(255),
-            Photo CHAR(255),
+            Photo CHAR(255) NOT NULL,
             Bio CHAR(255)
             );
         """

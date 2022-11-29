@@ -16,6 +16,7 @@ class LaunchScreenVC: UIViewController {
         super.viewDidLoad()
 
         SQLiteDatabase.shared.getDatabaseReady()
+        UIImage().saveImage(imageName: Constants.noDPSavingFormat, image: UIImage(named: "blankPhoto")!)
         AppUtility.lockOrientation(.portrait)
         // Do any additional setup after loading the view.
         
@@ -25,7 +26,6 @@ class LaunchScreenVC: UIViewController {
         launchScreenAnimation.loopMode = .playOnce
         launchScreenAnimation.animationSpeed = 2
         view.addSubview(launchScreenAnimation)
-        
         
         launchScreenAnimation.play { isCompleted in
             if isCompleted {
@@ -38,13 +38,13 @@ class LaunchScreenVC: UIViewController {
                 if UserDefaults.standard.integer(forKey: Constants.loggedUserFormat) != 0 {
                     self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
                 } else {
-                    
+
                     let loginViewController = LoginVC()
                     let loginController = LoginControls()
-                    
+
                     loginController.setView(loginViewController)
                     loginViewController.setController(loginController)
-                    
+
                     self.navigationController?.pushViewController(loginViewController, animated: true)
                 }
             }

@@ -19,14 +19,14 @@ protocol UserDao {
     func getUserID(phoneNumber: String,password: String) -> Int?
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool
-    func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: Int) -> Bool
+    func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: String) -> Bool
 
     func updatePassword(password: String,userID: Int) -> Bool
     func updateUsername(username: String,userID: Int) -> Bool
     func updatePhoneNumber(phoneNumber: String,userID: Int) -> Bool
     func updateMail(mailID: String,userID: Int) -> Bool
     func updateGender(gender: String,userID: Int) -> Bool
-    func updateAge(age: Int,userID: Int) -> Bool
+    func updateAge(age: String,userID: Int) -> Bool
     func updatePhoto(photo: String,userID: Int) -> Bool
     func updateBio(profileBio: String,userID: Int) -> Bool
     

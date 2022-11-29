@@ -35,7 +35,7 @@ class FriendRequestDaoImplementation: FriendRequestDao {
             var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)_\(friendRequestID)")
             
             if userDP == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: "ProfileDP")
+                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
             }
             
             requestedFriendDetails.append(

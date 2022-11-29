@@ -11,4 +11,5 @@ struct Constants {
    static let postSavingFormat = "_POST_"
    static let dpSavingFormat = "DP_"
    static let loggedUserFormat = "CurrentLoggedUser"
+   static let noDPSavingFormat = "Default"
 }

@@ -20,7 +20,7 @@ class SearchControls {
             var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)\(user.userID)")
             
             if userDP == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: "ProfileDP")
+                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
             }
             
             users.append((

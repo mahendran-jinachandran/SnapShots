@@ -24,7 +24,7 @@ struct UserInstance {
                 password: data[2],
                 phoneNumber: data[3],
                 gender: data[4] == "MALE" ? .male : .female,
-                age: Int(data[5])!,
+                age: data[5],
                 mail: data[6],
                 photo: data[7] == "0" ? false : true,
                 bio: data[8] == "-1" ? "" : data[8]

@@ -33,7 +33,6 @@
 		BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542B5291A325600BAC4B2 /* Gender.swift */; };
 		BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542B8291A32B400BAC4B2 /* OnboardingVC.swift */; };
 		BF4542BB291A3C8E00BAC4B2 /* OnBoardingScreen1.json in Resources */ = {isa = PBXBuildFile; fileRef = BF4542BA291A3C8E00BAC4B2 /* OnBoardingScreen1.json */; };
-		BF4542BD291A502F00BAC4B2 /* ProfileCompletionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542BC291A502F00BAC4B2 /* ProfileCompletionVC.swift */; };
 		BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C0291A873300BAC4B2 /* HomePageViewController.swift */; };
 		BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C4291A971100BAC4B2 /* AppUtility.swift */; };
 		BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542C6291AB47500BAC4B2 /* RegisterControls.swift */; };
@@ -54,6 +53,12 @@
 		BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542E8291B579E00BAC4B2 /* UserInstance.swift */; };
 		BF4542EE291B8A6000BAC4B2 /* LaunchScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542ED291B8A6000BAC4B2 /* LaunchScreenVC.swift */; };
 		BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */; };
+		BF5A13C72935CC290051FC8D /* ProfilePhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13C62935CC290051FC8D /* ProfilePhotoVC.swift */; };
+		BF5A13F12935FA080051FC8D /* MailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F02935FA080051FC8D /* MailVC.swift */; };
+		BF5A13F32935FA2C0051FC8D /* GenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F22935FA2C0051FC8D /* GenderVC.swift */; };
+		BF5A13F52935FA4C0051FC8D /* BirthdayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F42935FA4C0051FC8D /* BirthdayVC.swift */; };
+		BF5A13F72935FA7C0051FC8D /* BioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F62935FA7C0051FC8D /* BioVC.swift */; };
+		BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */; };
 		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
 		BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityViewController.swift */; };
 		BF816BA62929D3F30097421D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountViewController.swift */; };
@@ -77,8 +82,6 @@
 		BFDF705A292B4237001A736F /* PersonalInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */; };
 		BFDF7060292B7A25001A736F /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */; };
 		BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7062292BA20A001A736F /* ProfileControls.swift */; };
-		BFDF7066292C9AB3001A736F /* ProfileCompletionControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7065292C9AB3001A736F /* ProfileCompletionControls.swift */; };
-		BFDF7068292CB0D7001A736F /* ProfileCompletionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7067292CB0D7001A736F /* ProfileCompletionProtocols.swift */; };
 		BFDF706C292D1651001A736F /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF706B292D1651001A736F /* UIImageExtension.swift */; };
 		BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF706D292D16B0001A736F /* NewPostControls.swift */; };
 		BFDF7070292DFAAC001A736F /* SearchCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */; };
@@ -116,7 +119,6 @@
 		BF4542B5291A325600BAC4B2 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		BF4542B8291A32B400BAC4B2 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
 		BF4542BA291A3C8E00BAC4B2 /* OnBoardingScreen1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OnBoardingScreen1.json; sourceTree = "<group>"; };
-		BF4542BC291A502F00BAC4B2 /* ProfileCompletionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionVC.swift; sourceTree = "<group>"; };
 		BF4542C0291A873300BAC4B2 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		BF4542C4291A971100BAC4B2 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		BF4542C6291AB47500BAC4B2 /* RegisterControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterControls.swift; sourceTree = "<group>"; };
@@ -137,6 +139,12 @@
 		BF4542E8291B579E00BAC4B2 /* UserInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInstance.swift; sourceTree = "<group>"; };
 		BF4542ED291B8A6000BAC4B2 /* LaunchScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenVC.swift; sourceTree = "<group>"; };
 		BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProtocols.swift; sourceTree = "<group>"; };
+		BF5A13C62935CC290051FC8D /* ProfilePhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoVC.swift; sourceTree = "<group>"; };
+		BF5A13F02935FA080051FC8D /* MailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailVC.swift; sourceTree = "<group>"; };
+		BF5A13F22935FA2C0051FC8D /* GenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderVC.swift; sourceTree = "<group>"; };
+		BF5A13F42935FA4C0051FC8D /* BirthdayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayVC.swift; sourceTree = "<group>"; };
+		BF5A13F62935FA7C0051FC8D /* BioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioVC.swift; sourceTree = "<group>"; };
+		BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingControls.swift; sourceTree = "<group>"; };
 		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		BF816BA32929D3E90097421D /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -160,8 +168,6 @@
 		BFDF7059292B4237001A736F /* PersonalInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationViewController.swift; sourceTree = "<group>"; };
 		BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		BFDF7062292BA20A001A736F /* ProfileControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileControls.swift; sourceTree = "<group>"; };
-		BFDF7065292C9AB3001A736F /* ProfileCompletionControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionControls.swift; sourceTree = "<group>"; };
-		BFDF7067292CB0D7001A736F /* ProfileCompletionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCompletionProtocols.swift; sourceTree = "<group>"; };
 		BFDF706B292D1651001A736F /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		BFDF706D292D16B0001A736F /* NewPostControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostControls.swift; sourceTree = "<group>"; };
 		BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCustomCell.swift; sourceTree = "<group>"; };
@@ -347,7 +353,12 @@
 			isa = PBXGroup;
 			children = (
 				BF4542B8291A32B400BAC4B2 /* OnboardingVC.swift */,
-				BFDF7064292C9989001A736F /* ProfileCompletion */,
+				BF5A13C62935CC290051FC8D /* ProfilePhotoVC.swift */,
+				BF5A13F02935FA080051FC8D /* MailVC.swift */,
+				BF5A13F22935FA2C0051FC8D /* GenderVC.swift */,
+				BF5A13F42935FA4C0051FC8D /* BirthdayVC.swift */,
+				BF5A13F62935FA7C0051FC8D /* BioVC.swift */,
+				BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -510,16 +521,6 @@
 			path = NewPost;
 			sourceTree = "<group>";
 		};
-		BFDF7064292C9989001A736F /* ProfileCompletion */ = {
-			isa = PBXGroup;
-			children = (
-				BF4542BC291A502F00BAC4B2 /* ProfileCompletionVC.swift */,
-				BFDF7065292C9AB3001A736F /* ProfileCompletionControls.swift */,
-				BFDF7067292CB0D7001A736F /* ProfileCompletionProtocols.swift */,
-			);
-			path = ProfileCompletion;
-			sourceTree = "<group>";
-		};
 		BFDF7069292CE4D9001A736F /* Discover */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,7 +633,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFDF7068292CB0D7001A736F /* ProfileCompletionProtocols.swift in Sources */,
 				BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */,
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
 				BFDF705A292B4237001A736F /* PersonalInformationViewController.swift in Sources */,
@@ -641,8 +641,10 @@
 				BF4542D8291B4B3300BAC4B2 /* PostDao.swift in Sources */,
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
+				BF5A13F52935FA4C0051FC8D /* BirthdayVC.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,
+				BF5A13F32935FA2C0051FC8D /* GenderVC.swift in Sources */,
 				BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
@@ -653,12 +655,13 @@
 				BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */,
 				BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
-				BFDF7066292C9AB3001A736F /* ProfileCompletionControls.swift in Sources */,
+				BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */,
 				BFDF7079292F375D001A736F /* PostControls.swift in Sources */,
 				BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */,
 				BF45425F2918C03100BAC4B2 /* LoginVC.swift in Sources */,
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
 				BF4542EE291B8A6000BAC4B2 /* LaunchScreenVC.swift in Sources */,
+				BF5A13C72935CC290051FC8D /* ProfilePhotoVC.swift in Sources */,
 				BF4542E1291B4B6F00BAC4B2 /* CommentDao.swift in Sources */,
 				BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */,
 				BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */,
@@ -673,7 +676,6 @@
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
-				BF4542BD291A502F00BAC4B2 /* ProfileCompletionVC.swift in Sources */,
 				BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				BF816BA62929D3F30097421D /* AccountViewController.swift in Sources */,
 				BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */,
@@ -695,8 +697,10 @@
 				BF4542D0291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift in Sources */,
 				BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */,
 				BFA5600D292519B900A948B4 /* FriendsListVC.swift in Sources */,
+				BF5A13F12935FA080051FC8D /* MailVC.swift in Sources */,
 				BFA5600F29251A6B00A948B4 /* FriendsListCustomTVCell.swift in Sources */,
 				BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */,
+				BF5A13F72935FA7C0051FC8D /* BioVC.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
 				BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */,
 				BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */,

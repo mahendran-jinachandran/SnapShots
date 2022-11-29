@@ -43,7 +43,7 @@ class ProfileControls {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
 
         guard let postImage = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)\(userID)") else {
-            return UIImage().loadImageFromDiskWith(fileName: "ProfileDP")!
+            return UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)!
         }
         
         return postImage

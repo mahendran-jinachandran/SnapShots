@@ -49,7 +49,7 @@ class FriendsDaoImplementation: FriendsDao {
             var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)_\(friendID)")
             
             if userDP == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: "ProfileDP")
+                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
             }
             
             myFriends.append(

@@ -87,7 +87,7 @@ class OnboardingVC: UIViewController {
        animationView.stop()
        animationView.removeFromSuperview()
        
-       navigationController?.pushViewController(ProfileCompletionVC(), animated: true)
+       navigationController?.pushViewController(ProfilePhotoVC(), animated: true)
     }
     
     
