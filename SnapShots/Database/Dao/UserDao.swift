@@ -12,13 +12,14 @@ protocol UserDao {
     func isUsernameAlreadyExist(username: String) -> Bool
     func isPhotoPresent(userID: Int) -> Bool
     
+    func getAllUsers() -> [User]
     func getUserDetails(phoneNumber: String,password: String) -> User?
     func getUserDetails(phoneNumber: String) -> User?
     func getUserDetails(userID: Int) -> User?
     func getUserID(phoneNumber: String,password: String) -> Int?
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool
-    func completeUserProfile(userID: Int, photo: Int,gender: Gender,mailID: String,age: Int) -> Bool
+    func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: Int) -> Bool
 
     func updatePassword(password: String,userID: Int) -> Bool
     func updateUsername(username: String,userID: Int) -> Bool
@@ -26,7 +27,7 @@ protocol UserDao {
     func updateMail(mailID: String,userID: Int) -> Bool
     func updateGender(gender: String,userID: Int) -> Bool
     func updateAge(age: Int,userID: Int) -> Bool
-    func updatePhoto(photo: Int,userID: Int) -> Bool
+    func updatePhoto(photo: String,userID: Int) -> Bool
     func updateBio(profileBio: String,userID: Int) -> Bool
     
     func getUserBasedOnSearch(userName: String) -> [(userID: Int, userName: String)]

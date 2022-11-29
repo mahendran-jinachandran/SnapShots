@@ -16,12 +16,12 @@ class PostDaoImplementation: PostDao {
         self.friendsDaoImplementation = friendsDaoImplementation
     }
     
-    func uploadPost(postID: Int,caption: String,userID: Int) -> Bool {
+    func uploadPost(postID: Int,photo: String,caption: String,userID: Int) -> Bool {
         let uploadPostQuery = """
         INSERT INTO Post
         VALUES (
             \(postID),
-            \(1),
+            '\(photo)',
             '\(caption)',
             \(userID)
         )
@@ -59,7 +59,7 @@ class PostDaoImplementation: PostDao {
         for (_,post) in sqliteDatabase.retrievingQuery(query: getAllPostQuery) {
             allPosts.append(( Int(post[0])!,
                                   Post(postID: Int(post[0])!,
-                                       photo: post[1] == "1" ? true: false,
+                                       photo: post[1],
                                        caption: post[2]))   )
         }
         
@@ -91,7 +91,7 @@ class PostDaoImplementation: PostDao {
             
             
             for (_,friend) in sqliteDatabase.retrievingQuery(query: getAllFriendsPostQuery){
-                feedPosts.append((Int(friend[0])!,friend[1], Post(postID: Int(friend[2])!, photo: friend[3] == "1" ? true: false, caption: friend[4])))
+                feedPosts.append((Int(friend[0])!,friend[1], Post(postID: Int(friend[2])!, photo: friend[3], caption: friend[4])))
             }
         }
         

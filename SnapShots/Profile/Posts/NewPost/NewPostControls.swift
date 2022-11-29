@@ -17,12 +17,18 @@ class NewPostControls {
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     
     func addPost(caption: String,image: UIImage) {
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         let postID = postDaoImp.createNewPostID(userID: userID)
         
-        image.saveImage(imageName: "\(userID)APOSTA\(postID)", image: image)
+        let imageName = "\(userID)\(Constants.postSavingFormat)\(postID)"
+        image.saveImage(imageName: imageName, image: image)
         
-        postDaoImp.uploadPost(postID: postID, caption: caption, userID: userID)
+        let isPostUploaded = postDaoImp.uploadPost(postID: postID,photo: imageName,caption: caption, userID: userID)
         
+        if isPostUploaded {
+            // MARK: SHOW A INFO THAT POST IS UPLOADED
+        } else {
+            // MARK: SHOW THAT THERE IS SOME ERROR
+        }
     }
 }

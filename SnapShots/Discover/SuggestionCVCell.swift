@@ -71,8 +71,6 @@ class SuggestionCVCell: UICollectionViewCell {
             
             userNameLabel.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor),
             userNameLabel.centerXAnchor.constraint(equalTo: profilePhoto.centerXAnchor),
-//            userNameLabel.leadingAnchor.constraint(equalTo: profileContainer.leadingAnchor,constant: 8),
-//            userNameLabel.trailingAnchor.constraint(equalTo: profileContainer.trailingAnchor,constant: -4),
             userNameLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
     }

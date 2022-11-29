@@ -16,7 +16,7 @@ class ProfileCompletionControls: ProfileCompletionControlsProtocol {
     
     func finishProfileCompletion(photo: Int?,gender: Gender?,mailID: String?,age: Int?,bio: String?) {
         
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         
         if let gender = gender {
             _ = userDaoImp.updateGender(gender: gender.description, userID: userID)

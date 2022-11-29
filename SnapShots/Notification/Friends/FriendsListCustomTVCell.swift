@@ -7,9 +7,10 @@
 
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+class FriendsListCustomTVCell: UITableViewCell {
 
     static let identifier = "CustomTableViewCell"
+    
     
     private var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
@@ -25,26 +26,26 @@ class CustomTableViewCell: UITableViewCell {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
        userNameLabel.text = "Mahendran"
-       userNameLabel.font = UIFont.systemFont(ofSize:15)
+       userNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
        return userNameLabel
     }()
     
-    private lazy var acceptButton: UIButton = {
+    private lazy var followUser: UIButton = {
         let acceptButton = UIButton()
-        acceptButton.setTitle("CONFIRM", for: .normal)
+        acceptButton.setTitle("Follow", for: .normal)
         acceptButton.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        acceptButton.backgroundColor = .systemBlue
+        acceptButton.backgroundColor = UIColor(named: "post_bg_color")
         acceptButton.translatesAutoresizingMaskIntoConstraints = false
         acceptButton.layer.cornerRadius = 5.0
-        acceptButton.setTitleColor( .systemBackground, for: .normal)
+        acceptButton.setTitleColor( UIColor(named: "mainPage"), for: .normal)
         return acceptButton
     }()
     
-    private lazy var rejectButton: UIButton = {
+    private lazy var unfollowUser: UIButton = {
         let rejectButton = UIButton()
-        rejectButton.setTitle("DELETE", for: .normal)
+        rejectButton.setTitle("Following", for: .normal)
         rejectButton.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        rejectButton.backgroundColor = UIColor(named: "deleteButton")
+        rejectButton.backgroundColor = UIColor(named: "post_bg_color")
         rejectButton.translatesAutoresizingMaskIntoConstraints = false
         rejectButton.layer.cornerRadius = 5.0
         rejectButton.setTitleColor( UIColor(named: "mainPage") , for: .normal)
@@ -52,24 +53,40 @@ class CustomTableViewCell: UITableViewCell {
     }()
     
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = .systemBackground
-        contentView.addSubview(profilePhoto)
-        contentView.addSubview(userNameLabel)
-        contentView.addSubview(acceptButton)
-        contentView.addSubview(rejectButton)
+        
+        [profilePhoto,userNameLabel,followUser,unfollowUser].forEach {
+            contentView.addSubview($0)
+        }
         
         setupConstraint()
         profilePhoto.layer.cornerRadius = 50 / 2
+        followUser.addTarget(self, action: #selector(addToFriends), for: .touchUpInside)
+        unfollowUser.addTarget(self, action: #selector(removeFromFriends), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(userDP: UIImage,username: String) {
+        profilePhoto.image = userDP
+        userNameLabel.text = username
+    }
+    
+    @objc func addToFriends() {
+        unfollowUser.isHidden = false
+        followUser.isHidden = true
+    }
         
+    @objc func removeFromFriends() {
+        unfollowUser.isHidden = true
+        followUser.isHidden = false
+    }
+    
     private func setupConstraint() {
 
         NSLayoutConstraint.activate([
@@ -80,17 +97,17 @@ class CustomTableViewCell: UITableViewCell {
             profilePhoto.widthAnchor.constraint(equalToConstant: 50),
             
             userNameLabel.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor),
-            userNameLabel.centerXAnchor.constraint(equalTo: profilePhoto.centerXAnchor,constant: 77),
+            userNameLabel.centerXAnchor.constraint(equalTo: profilePhoto.centerXAnchor,constant: 57),
             
-            rejectButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
-            rejectButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 15),
-            rejectButton.heightAnchor.constraint(equalToConstant: 30),
-            rejectButton.widthAnchor.constraint(equalToConstant: 60),
+            followUser.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
+            followUser.topAnchor.constraint(equalTo: self.topAnchor,constant: 15),
+            followUser.heightAnchor.constraint(equalToConstant: 30),
+            followUser.widthAnchor.constraint(equalToConstant: 70),
             
-            acceptButton.trailingAnchor.constraint(equalTo: rejectButton.trailingAnchor,constant: -75),
-            acceptButton.topAnchor.constraint(equalTo: self.topAnchor,constant: 15),
-            acceptButton.heightAnchor.constraint(equalToConstant: 30),
-            acceptButton.widthAnchor.constraint(equalToConstant: 70)
+            unfollowUser.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
+            unfollowUser.topAnchor.constraint(equalTo: self.topAnchor,constant: 15),
+            unfollowUser.heightAnchor.constraint(equalToConstant: 30),
+            unfollowUser.widthAnchor.constraint(equalToConstant: 70)
         ])
     }
 }

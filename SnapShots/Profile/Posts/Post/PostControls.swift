@@ -14,7 +14,7 @@ class PostControls {
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImplementation)
     
     func deletePost(postID: Int) {
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         if postDaoImp.deletePost(userID: userID, postID: postID) {
             // MARK: SHOW THAT POST IS DELETED
         } else {

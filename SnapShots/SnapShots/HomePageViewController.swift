@@ -24,19 +24,16 @@ class HomePageViewController: UITabBarController {
     
     private func setupViewControllers() {
         
-        let profileVC = ProfileVC()
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        let profileVC = ProfileVC(userID: userID)
         let profileControls = ProfileControls()
         
         profileVC.profileControls = profileControls
         
         viewControllers = [
             createNavigationController(rootViewController: FeedsViewController(), title: "Feeds", icon: UIImage(systemName: "newspaper")!),
-            createNavigationController(rootViewController: DiscoverViewController(), title: "Search", icon: UIImage(systemName: "magnifyingglass")!),
-            createNavigationController(rootViewController: NotificationViewController(), title: "Friends", icon: UIImage(systemName: "globe")!),
-            
-            
-
-            
+            createNavigationController(rootViewController: SearchPeopleViewController(), title: "Search", icon: UIImage(systemName: "magnifyingglass")!),
+            createNavigationController(rootViewController: NotificationGridVC(), title: "Friends", icon: UIImage(systemName: "globe")!),
             
             createNavigationController(rootViewController: profileVC, title: "Profile", icon: UIImage(systemName: "person")!),
         

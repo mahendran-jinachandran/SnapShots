@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class FriendsDaoImplementation: FriendsDao {
     
@@ -40,15 +41,25 @@ class FriendsDaoImplementation: FriendsDao {
         return myFriendIDs
     }
     
-    func getUserFriends(userID: Int) -> [String]  {
+    func getUserFriends(userID: Int) -> [(userDP: UIImage,username: String)] {
         
-        var myFriendsNames: [String] = []
-        
+        var myFriends: [(userDP: UIImage,username: String)] = []
         for friendID in getIDsOfFriends(userID: userID) {
-            myFriendsNames.append(userDaoImplementation.getUsername(userID: friendID) )
+            
+            var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)_\(friendID)")
+            
+            if userDP == nil {
+                userDP = UIImage().loadImageFromDiskWith(fileName: "ProfileDP")
+            }
+            
+            myFriends.append(
+                (userDP!,
+                 userDaoImplementation.getUsername(userID: friendID)
+                )
+            )
         }
     
-        return myFriendsNames
+        return myFriends
     }
     
 }

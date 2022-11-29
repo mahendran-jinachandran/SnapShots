@@ -24,7 +24,6 @@ extension UIImage {
             } catch let removeError {
                 print("couldn't remove file at path", removeError)
             }
-
         }
 
         do {
@@ -37,24 +36,19 @@ extension UIImage {
     
     func loadImageFromDiskWith(fileName: String) -> UIImage? {
 
-      let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
-
+        let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
         let userDomainMask = FileManager.SearchPathDomainMask.userDomainMask
         let paths = NSSearchPathForDirectoriesInDomains(documentDirectory, userDomainMask, true)
-
+        
         if let dirPath = paths.first {
             let imageUrl = URL(fileURLWithPath: dirPath).appendingPathComponent(fileName)
-
-            let image = UIImage(contentsOfFile: imageUrl.path)
-            return image
-
+            return UIImage(contentsOfFile: imageUrl.path)
         }
-
+        
         return nil
     }
     
-    func resizedImage(Size sizeImage: CGSize) -> UIImage?
-    {
+    func resizedImage(Size sizeImage: CGSize) -> UIImage? {
         let frame = CGRect(origin: CGPoint.zero, size: CGSize(width: sizeImage.width, height: sizeImage.height))
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
         self.draw(in: frame)

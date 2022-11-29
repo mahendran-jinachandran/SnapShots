@@ -35,7 +35,7 @@ class LaunchScreenVC: UIViewController {
                 AppUtility.lockOrientation(.all)
                 self.setNeedsUpdateOfSupportedInterfaceOrientations()
             
-                if UserDefaults.standard.integer(forKey: "CurrentLoggedUser") != 0 {
+                if UserDefaults.standard.integer(forKey: Constants.loggedUserFormat) != 0 {
                     self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
                 } else {
                     

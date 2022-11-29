@@ -25,7 +25,7 @@ class RegisterControls: RegisterControllerProtocol {
                 return
             }
             
-            UserDefaults.standard.set(userID, forKey: "CurrentLoggedUser")
+            UserDefaults.standard.set(userID, forKey: Constants.loggedUserFormat)
             print("USER CREATED SUCCESSFULLY")
         } else {
             print("COULD NOT CREATE USER")

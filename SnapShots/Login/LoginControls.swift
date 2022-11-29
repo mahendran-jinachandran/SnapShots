@@ -28,7 +28,7 @@ class LoginControls: LoginControllerProtocol {
             return
         }
         
-        UserDefaults.standard.set(userID, forKey: "CurrentLoggedUser")
+        UserDefaults.standard.set(userID, forKey: Constants.loggedUserFormat)
         loginView?.goToHomePage()
     }
 }

@@ -18,20 +18,19 @@ class FeedsControls {
         
         var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
         
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         let posts = postDaoImp.getAllFriendPosts(userID: userID)
         
         for (userID,username,postDetails) in posts {
             feedPosts.append((
                 userID,
                 username,
-//                UIImage().loadImageFromDiskWith(
-//                    fileName: "ProfileDP"
-//                )!,
-                UIImage(named: "Quote")!,
+                UIImage().loadImageFromDiskWith(
+                    fileName: "ProfileDP"
+                )!,
                 postDetails,
                 UIImage().loadImageFromDiskWith(
-                    fileName: "\(userID)APOSTA\(postDetails.postID)"
+                    fileName: "\(userID)\(Constants.postSavingFormat)\(postDetails.postID)"
                 )!
             ))
         }

@@ -8,7 +8,7 @@
 import Foundation
 
 class UserDaoImplementation: UserDao {
-    
+
     private let sqliteDatabase: DatabaseProtocol
     init(sqliteDatabase: DatabaseProtocol) {
         self.sqliteDatabase = sqliteDatabase
@@ -37,6 +37,19 @@ class UserDaoImplementation: UserDao {
         return UserInstance.getUserInstance(dbQuery: checkPhoneNumberExistQuery)
     }
     
+    func getAllUsers() -> [User] {
+        let getAllUsers = "SELECT * FROM User"
+        let users = sqliteDatabase.retrievingQuery(query: getAllUsers)
+        var allUsers: [User] = []
+        
+        for user in users {
+            allUsers.append(
+                getUserDetails(userID: Int(user.value[0])!)!
+            )
+        }
+        return allUsers
+    }
+    
     func getUserDetails(userID: Int) -> User? {
         let getParticularUserQuery = "SELECT * FROM User WHERE User_id = \(userID)"
         return UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
@@ -61,7 +74,7 @@ class UserDaoImplementation: UserDao {
         return sqliteDatabase.execute(query: insertUserTableQuery)
     }
     
-    func completeUserProfile(userID: Int, photo: Int,gender: Gender,mailID: String,age: Int) -> Bool {
+    func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: Int) -> Bool {
         let updateUserProfileQuery = """
         UPDATE User SET Photo = \(photo),Gender = '\(gender)',Mail = '\(mailID)',Age = \(age)
         WHERE User_id = \(userID)
@@ -120,7 +133,7 @@ class UserDaoImplementation: UserDao {
         return sqliteDatabase.execute(query: updateAgeQuery)
     }
     
-    func updatePhoto(photo: Int,userID: Int) -> Bool {
+    func updatePhoto(photo: String,userID: Int) -> Bool {
         let updatePhotoQuery = """
         UPDATE User SET Photo = '\(photo)' WHERE User_id = \(userID);
         """

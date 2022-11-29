@@ -140,7 +140,7 @@ class SettingsViewController: UIViewController {
         let logoutConfirmation = UIAlertController(title: "Confirm?", message: nil, preferredStyle: .alert)
         let logout = UIAlertAction(title: "Log out", style: .default) { _ in
             
-            UserDefaults.standard.removeObject(forKey: "CurrentLoggedUser")
+            UserDefaults.standard.removeObject(forKey: Constants.loggedUserFormat)
             UserDefaults.standard.synchronize()
             
             let loginViewController = LoginVC()

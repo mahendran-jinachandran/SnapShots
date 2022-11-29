@@ -6,7 +6,7 @@
 //
 
 protocol PostDao{
-    func uploadPost(postID: Int,caption: String,userID: Int) -> Bool
+    func uploadPost(postID: Int,photo: String,caption: String,userID: Int) -> Bool
     func createNewPostID(userID: Int) -> Int
     func getAllPosts(userID: Int) -> [(postID: Int, postDetails: Post)]
     func getAllFriendPosts(userID: Int) -> [(userId: Int,userName: String,post: Post)]

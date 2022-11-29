@@ -79,7 +79,7 @@ class SQLiteDatabase: DatabaseProtocol {
             Gender CHAR(255),
             Age INT,
             Mail CHAR(255),
-            Photo INT,
+            Photo CHAR(255),
             Bio CHAR(255)
             );
         """
@@ -87,7 +87,7 @@ class SQLiteDatabase: DatabaseProtocol {
         let createPostTable = """
         CREATE TABLE IF NOT EXISTS Post(
             Post_id Int NOT NULL,
-            Photo Int NOT NULL,
+            Photo CHAR(255) NOT NULL,
             Caption CHAR(255),
             User_id INT NOT NULL,
             PRIMARY KEY(Post_id,User_id),

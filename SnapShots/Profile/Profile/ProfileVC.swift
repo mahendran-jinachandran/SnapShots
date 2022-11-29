@@ -13,17 +13,17 @@ class ProfileVC: UIViewController {
     private var layout = UICollectionViewFlowLayout()
     public var profileControls: ProfileControls!
     private var posts: [(postImage: UIImage,postDetails: Post)] = []
+    private var user: User!
+    private var userID: Int
+    private var profileAccessibility: ProfileAccess!
     
     var profileHeader: UILabel = {
-        var profileTitle = UILabel()
-        profileTitle.attributedText = NSAttributedString(string: "Mahendran",attributes: [
-            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
-        ])
-        return profileTitle
+        return UILabel()
     }()
     
-    init() {
-        print("INITIALISER CALLED")
+    // MARK: FIND SOME OTHER WAY (REDUNDANCY B/W userID and loggedUser)
+    init(userID: Int) {
+        self.userID = userID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,9 +34,32 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("VIEW DID CALLED")
+        profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
+        self.user = profileControls.getUserDetails(userID: userID)
+        setupSearchTable()
+        
+        setNavigationItems()
+
+        setProfileConstraints()
+        profileHeader.attributedText = NSAttributedString(string: user.userName,attributes: [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
+        ])
+    }
     
-        layout.minimumLineSpacing = 1
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        posts = profileControls.getAllPosts()
+        if posts.count > 0 {
+            profileView.reloadData()
+        } else {
+            posts = []
+            profileView.reloadData()
+        }
+    }
+    
+    func setupSearchTable() {
+        layout.minimumLineSpacing = 15
         layout.minimumInteritemSpacing = 1
         
         profileView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -56,21 +79,42 @@ class ProfileVC: UIViewController {
         profileView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(profileView)
-        
-        setNavigationItems()
-        setProfileConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func setNavigationItems() {
         
-        posts = profileControls.getAllPosts()
-        if posts.count > 0 {
-            profileView.reloadData()
-        } else {
-            posts = []
-            profileView.reloadData()
+        let profileAccess = profileAccessibility!
+        switch profileAccess {
+            case .owner:
+                setupOwnerNavigationItems()
+            case .friend:
+                setupFriendsNavigationItems()
+                fallthrough
+            case .acquaintance:
+                setupFriendsNavigationItems()
         }
+        
+        navigationController?.navigationBar.tintColor = UIColor(named: "mainPage")
+    }
+    
+    func setupOwnerNavigationItems() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileHeader)
+        let hamburgerMenu = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openSettings))
+        hamburgerMenu.tintColor = UIColor(named: "mainPage")!
+        
+        let addPost = UIBarButtonItem(image: UIImage(systemName: "plus.square"), style: .plain, target: self, action: #selector(uploadNewPost))
+        addPost.tintColor = UIColor(named: "mainPage")!
+     
+        navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
+    }
+    
+    func setupFriendsNavigationItems() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(goBack))
+        title = user.userName
+    }
+    
+    @objc func goBack() {
+        navigationController?.popViewController(animated: false)
     }
         
     func setProfileConstraints() {
@@ -80,18 +124,6 @@ class ProfileVC: UIViewController {
             profileView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
             profileView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    func setNavigationItems() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileHeader)
-        
-        let hamburgerMenu = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openSettings))
-        hamburgerMenu.tintColor = UIColor(named: "mainPage")!
-        
-        let addPost = UIBarButtonItem(image: UIImage(systemName: "plus.square"), style: .plain, target: self, action: #selector(uploadNewPost))
-        addPost.tintColor = UIColor(named: "mainPage")!
-     
-        navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
     }
     
     @objc func openSettings() {
@@ -127,14 +159,13 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         
         headerView.delegate = self
         
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
-        profileHeader.text = profileControls.getUsername(userID: userID)
-        
         headerView.setData(
-            username: profileHeader.text!,
-            friendsCount: profileControls.getNumberOfFriends(userID: userID),
-            postsCount: profileControls.getNumberOfPosts(userID: userID),
-            bio: profileControls.getProfileBio(userID: userID)
+            username: user.userName,
+            friendsCount: user.profile.friendsList.count,
+            postsCount: user.profile.posts.count,
+            bio: user.profile.bio,
+            profileDP: profileControls.getProfileDP(),
+            profileAccessibility: profileAccessibility
         )
         
         return headerView
@@ -147,37 +178,55 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         
-        cell.myImageView.image = posts[indexPath.item].postImage
+        cell.postImage.image = posts[indexPath.item].postImage
         
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
-        cell.myImageView.addGestureRecognizer(imagePicker)
+        cell.postImage.addGestureRecognizer(imagePicker)
+        
         cell.tag = indexPath.item
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     
-        return CGSize(width: (collectionView.frame.width / 3) - 1,
+        return CGSize(width: (collectionView.frame.width / 3) - 10,
                       height: ( collectionView.frame.width / 3) - 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        return CGSize(width: 300, height: 300)
+        return CGSize(width: 500, height: 320)
     }
     
     @objc func openPost(_ sender: UITapGestureRecognizer) {
 
         navigationController?.pushViewController(
-            PostViewController(
+            PostVC(
                 postImage: posts[sender.view!.tag].postImage,
                 postDetails: posts[sender.view!.tag].postDetails),
             animated: false)
     }
+
 }
 
 extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     func controller() -> ProfileVC {
         return self
+    }
+    
+    @objc func getFriendsList() {
+        self.navigationController?.pushViewController(FriendsListVC(), animated: false)
+    }
+    
+    @objc func sendFriendRequest() {
+        if profileControls.sendFriendRequest(requestingUser: userID) {
+            print("FRIEND REQUEST SENT")
+        } else {
+            print("Couldn't send friend request")
+        }
+    }
+    
+    @objc func cancelFriendRequest() {
     }
 }

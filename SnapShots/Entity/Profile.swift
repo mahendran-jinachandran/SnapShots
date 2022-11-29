@@ -8,7 +8,7 @@
 import Foundation
 
 class Profile {
-    var photo: Bool = false
+    var photo: String = ""
     var bio: String = ""
     var friendRequest = Set<Int>()
     var friendsList = Set<Int>()

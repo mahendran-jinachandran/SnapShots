@@ -39,7 +39,7 @@ struct UserInstance {
         var allPosts: [Int:Post] = [:]
         for (_,post) in DBInstance.retrievingQuery(query: getAllPostQuery) {
             allPosts[Int(post[0])!] = Post(postID: Int(post[0])!,
-                                           photo: post[1] == "1" ? true: false,
+                                           photo: post[1],
                                         caption: post[2])
             
         }

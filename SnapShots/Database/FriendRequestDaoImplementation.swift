@@ -7,6 +7,7 @@
 
 
 import Foundation
+import UIKit
 
 class FriendRequestDaoImplementation: FriendRequestDao {
     
@@ -17,7 +18,7 @@ class FriendRequestDaoImplementation: FriendRequestDao {
         self.userDaoImplementation = userDaoImplementation
     }
     
-    func getRequestedFriendsList(userID: Int) -> [(userId: Int, userName: String)] {
+    func getRequestedFriendsList(userID: Int) -> [(userId: Int, userName: String,userDP: UIImage)] {
         let getFriendRequestsQuery = """
         SELECT Requested_id FROM FriendRequest WHERE User_id = \(userID)
         """
@@ -27,10 +28,22 @@ class FriendRequestDaoImplementation: FriendRequestDao {
             requestFriendIDs.insert(Int(userID[0])!)
         }
         
-        var requestedFriendDetails: [(userId: Int, userName: String)] = []
+        var requestedFriendDetails: [(userId: Int, userName: String,userDP: UIImage)] = []
         
         for friendRequestID in requestFriendIDs {
-            requestedFriendDetails.append((friendRequestID,userDaoImplementation.getUsername(userID: friendRequestID) ))
+            
+            var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)_\(friendRequestID)")
+            
+            if userDP == nil {
+                userDP = UIImage().loadImageFromDiskWith(fileName: "ProfileDP")
+            }
+            
+            requestedFriendDetails.append(
+                (friendRequestID,
+                 userDaoImplementation.getUsername(userID: friendRequestID),
+                 userDP!
+                )
+            )
         }
         
         return requestedFriendDetails

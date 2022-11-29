@@ -13,38 +13,67 @@ class ProfileControls {
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
+    private lazy var friendRequestDapImp: FriendRequestDao = FriendRequestDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     
-    func getUsername(userID: Int) -> String {
-        return userDaoImp.getUsername(userID: userID)
+    
+    func getProfileAccessibility(userID: Int) -> ProfileAccess {
+        
+        let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
+        if loggedUser == userID {
+            return .owner
+        }
+        
+        let profileAccessibility = friendsDaoImp.isUserFriends(loggedUserID: loggedUser, visitingUserID: userID)
+        
+        if profileAccessibility {
+            return .friend
+        } else {
+            return .acquaintance
+        }
     }
     
-    func getNumberOfFriends(userID: Int) -> String {
-        return String(friendsDaoImp.getUserFriends(userID: userID).count)
+    
+    func getUserDetails(userID: Int) -> User {
+        return userDaoImp.getUserDetails(userID: userID)!
     }
     
-    func getNumberOfPosts(userID: Int) -> String {
-        return String(postDaoImp.getAllPosts(userID: userID).count)
-    }
-    
-    func getProfileBio(userID: Int) -> String {
-        return userDaoImp.getBio(userID: userID)
+    func getProfileDP() -> UIImage {
+        
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+
+        guard let postImage = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)\(userID)") else {
+            return UIImage().loadImageFromDiskWith(fileName: "ProfileDP")!
+        }
+        
+        return postImage
     }
     
     func getAllPosts() -> [(postImage: UIImage,postDetails: Post)] {
         
-        let userID = UserDefaults.standard.integer(forKey: "CurrentLoggedUser")
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         var posts: [(postImage: UIImage,postDetails: Post)] = []
         let postDetails = postDaoImp.getAllPosts(userID: userID)
         
-        for (postID,postDetails) in postDetails {
-            posts.append( (
-                UIImage().loadImageFromDiskWith(
-                    fileName: "\(userID)APOSTA\(postID)"
-                )!,
-                postDetails
-            ) )
+        for (_,postDetails) in postDetails {
+            guard let postImage =  UIImage().loadImageFromDiskWith(fileName: postDetails.photo) else {
+                return posts
+            }
+            posts.append((postImage,postDetails))
         }
-        
         return posts
+    }
+    
+    func sendFriendRequest(requestingUser: Int) -> Bool {
+        
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return friendRequestDapImp.sendFriendRequest(loggedUserID: userID, visitingUserID: requestingUser)
+    }
+    
+    func cancelFriendRequest(requestingUser: Int) -> Bool {
+        
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+      //  return friendRequestDapImp.cancelFriendRequest(loggedUserID: <#T##Int#>)
+        return false
     }
 }

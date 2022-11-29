@@ -11,6 +11,11 @@
 		BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */; };
 		BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */; };
 		BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF31169A292FA306008BAA08 /* CommentsVC.swift */; };
+		BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF34662A29347FA9006FF9FE /* SearchControls.swift */; };
+		BF34662D29348D98006FF9FE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF34662C29348D98006FF9FE /* Constants.swift */; };
+		BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */; };
+		BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3466302934B8D8006FF9FE /* NotificationControls.swift */; };
+		BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3466342934D29D006FF9FE /* FriendsControls.swift */; };
 		BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425A2918C03100BAC4B2 /* AppDelegate.swift */; };
 		BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */; };
 		BF45425F2918C03100BAC4B2 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425E2918C03100BAC4B2 /* LoginVC.swift */; };
@@ -55,13 +60,15 @@
 		BFA0627B2930A9F40016739A /* Carnevalee.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA0627A2930A9F40016739A /* Carnevalee.ttf */; };
 		BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */; };
 		BFA386702930CDBC00815E31 /* SuggestionCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */; };
-		BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */; };
-		BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */; };
+		BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3867129311AFE00815E31 /* NotificationGridVC.swift */; };
+		BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */; };
+		BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsVC.swift */; };
+		BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD72922430800A948B4 /* SearchPeopleVC.swift */; };
 		BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDB2922433200A948B4 /* ProfileVC.swift */; };
 		BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */; };
 		BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */; };
-		BFA5600D292519B900A948B4 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5600C292519B900A948B4 /* NotificationViewController.swift */; };
-		BFA5600F29251A6B00A948B4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5600E29251A6B00A948B4 /* CustomTableViewCell.swift */; };
+		BFA5600D292519B900A948B4 /* FriendsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5600C292519B900A948B4 /* FriendsListVC.swift */; };
+		BFA5600F29251A6B00A948B4 /* FriendsListCustomTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5600E29251A6B00A948B4 /* FriendsListCustomTVCell.swift */; };
 		BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA560122925ED7600A948B4 /* SettingsViewController.swift */; };
 		BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginControls.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
@@ -77,7 +84,7 @@
 		BFDF7070292DFAAC001A736F /* SearchCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */; };
 		BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */; };
 		BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7073292F28B6001A736F /* FeedsControls.swift */; };
-		BFDF7076292F33D3001A736F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7075292F33D3001A736F /* PostViewController.swift */; };
+		BFDF7076292F33D3001A736F /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7075292F33D3001A736F /* PostVC.swift */; };
 		BFDF7079292F375D001A736F /* PostControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7078292F375D001A736F /* PostControls.swift */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +93,11 @@
 		BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesCustomCell.swift; sourceTree = "<group>"; };
 		BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCustomCell.swift; sourceTree = "<group>"; };
 		BF31169A292FA306008BAA08 /* CommentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsVC.swift; sourceTree = "<group>"; };
+		BF34662A29347FA9006FF9FE /* SearchControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControls.swift; sourceTree = "<group>"; };
+		BF34662C29348D98006FF9FE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAccess.swift; sourceTree = "<group>"; };
+		BF3466302934B8D8006FF9FE /* NotificationControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationControls.swift; sourceTree = "<group>"; };
+		BF3466342934D29D006FF9FE /* FriendsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsControls.swift; sourceTree = "<group>"; };
 		BF4542572918C03100BAC4B2 /* SnapShots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapShots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF45425A2918C03100BAC4B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,13 +143,15 @@
 		BFA0627A2930A9F40016739A /* Carnevalee.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carnevalee.ttf; sourceTree = "<group>"; };
 		BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCVCell.swift; sourceTree = "<group>"; };
-		BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
-		BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPeopleViewController.swift; sourceTree = "<group>"; };
+		BFA3867129311AFE00815E31 /* NotificationGridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationGridVC.swift; sourceTree = "<group>"; };
+		BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificiationGridCVCell.swift; sourceTree = "<group>"; };
+		BFA55FD5292242EB00A948B4 /* FeedsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsVC.swift; sourceTree = "<group>"; };
+		BFA55FD72922430800A948B4 /* SearchPeopleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPeopleVC.swift; sourceTree = "<group>"; };
 		BFA55FDB2922433200A948B4 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
-		BFA5600C292519B900A948B4 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		BFA5600E29251A6B00A948B4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		BFA5600C292519B900A948B4 /* FriendsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListVC.swift; sourceTree = "<group>"; };
+		BFA5600E29251A6B00A948B4 /* FriendsListCustomTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCustomTVCell.swift; sourceTree = "<group>"; };
 		BFA560122925ED7600A948B4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BFA5601429262FEF00A948B4 /* LoginControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControls.swift; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
@@ -153,7 +167,7 @@
 		BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCustomCell.swift; sourceTree = "<group>"; };
 		BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsCustomCell.swift; sourceTree = "<group>"; };
 		BFDF7073292F28B6001A736F /* FeedsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsControls.swift; sourceTree = "<group>"; };
-		BFDF7075292F33D3001A736F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		BFDF7075292F33D3001A736F /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		BFDF7078292F375D001A736F /* PostControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostControls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +212,26 @@
 			path = Comments;
 			sourceTree = "<group>";
 		};
+		BF3466322934B8DC006FF9FE /* FriendRequests */ = {
+			isa = PBXGroup;
+			children = (
+				BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */,
+				BF3466302934B8D8006FF9FE /* NotificationControls.swift */,
+				BFA3867129311AFE00815E31 /* NotificationGridVC.swift */,
+			);
+			path = FriendRequests;
+			sourceTree = "<group>";
+		};
+		BF3466332934BCFA006FF9FE /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				BFA5600C292519B900A948B4 /* FriendsListVC.swift */,
+				BFA5600E29251A6B00A948B4 /* FriendsListCustomTVCell.swift */,
+				BF3466342934D29D006FF9FE /* FriendsControls.swift */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
 		BF45424E2918C03100BAC4B2 = {
 			isa = PBXGroup;
 			children = (
@@ -217,13 +251,13 @@
 		BF4542592918C03100BAC4B2 /* SnapShots */ = {
 			isa = PBXGroup;
 			children = (
+				BFA560162926474400A948B4 /* Utility */,
+				BF4542C8291B4A4B00BAC4B2 /* Database */,
 				BFDF706A292CE4EB001A736F /* Feeds */,
 				BFDF7069292CE4D9001A736F /* Discover */,
-				BFA560162926474400A948B4 /* Utility */,
 				BFA560102925ED2D00A948B4 /* Settings */,
 				BFA5600B2925197800A948B4 /* Notification */,
 				BFA560092924EF4C00A948B4 /* Profile */,
-				BF4542C8291B4A4B00BAC4B2 /* Database */,
 				BF4542BE291A86EB00BAC4B2 /* SnapShots */,
 				BF4542AC291A31BA00BAC4B2 /* Entity */,
 				BF4542A9291A0F1700BAC4B2 /* Register */,
@@ -235,6 +269,7 @@
 				BF4542652918C03200BAC4B2 /* LaunchScreen.storyboard */,
 				BF4542682918C03200BAC4B2 /* Info.plist */,
 				BF4542B5291A325600BAC4B2 /* Gender.swift */,
+				BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */,
 			);
 			path = SnapShots;
 			sourceTree = "<group>";
@@ -280,6 +315,7 @@
 		BF4542A6291A0C8700BAC4B2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				BF34662C29348D98006FF9FE /* Constants.swift */,
 				BF4542C4291A971100BAC4B2 /* AppUtility.swift */,
 				BF4542E8291B579E00BAC4B2 /* UserInstance.swift */,
 			);
@@ -429,8 +465,8 @@
 		BFA5600B2925197800A948B4 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				BFA5600C292519B900A948B4 /* NotificationViewController.swift */,
-				BFA5600E29251A6B00A948B4 /* CustomTableViewCell.swift */,
+				BF3466332934BCFA006FF9FE /* Friends */,
+				BF3466322934B8DC006FF9FE /* FriendRequests */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -487,7 +523,8 @@
 		BFDF7069292CE4D9001A736F /* Discover */ = {
 			isa = PBXGroup;
 			children = (
-				BFA55FD72922430800A948B4 /* SearchPeopleViewController.swift */,
+				BF34662A29347FA9006FF9FE /* SearchControls.swift */,
+				BFA55FD72922430800A948B4 /* SearchPeopleVC.swift */,
 				BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */,
 				BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */,
 				BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */,
@@ -498,7 +535,7 @@
 		BFDF706A292CE4EB001A736F /* Feeds */ = {
 			isa = PBXGroup;
 			children = (
-				BFA55FD5292242EB00A948B4 /* FeedsViewController.swift */,
+				BFA55FD5292242EB00A948B4 /* FeedsVC.swift */,
 				BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */,
 				BFDF7073292F28B6001A736F /* FeedsControls.swift */,
 			);
@@ -508,7 +545,7 @@
 		BFDF7077292F3742001A736F /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				BFDF7075292F33D3001A736F /* PostViewController.swift */,
+				BFDF7075292F33D3001A736F /* PostVC.swift */,
 				BFDF7078292F375D001A736F /* PostControls.swift */,
 			);
 			path = Post;
@@ -596,6 +633,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFDF7068292CB0D7001A736F /* ProfileCompletionProtocols.swift in Sources */,
+				BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */,
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
 				BFDF705A292B4237001A736F /* PersonalInformationViewController.swift in Sources */,
 				BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */,
@@ -603,23 +641,26 @@
 				BF4542D8291B4B3300BAC4B2 /* PostDao.swift in Sources */,
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
-				BFA55FD82922430800A948B4 /* SearchPeopleViewController.swift in Sources */,
+				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
+				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,
 				BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */,
-				BFA55FD6292242EB00A948B4 /* FeedsViewController.swift in Sources */,
+				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
-				BFDF7076292F33D3001A736F /* PostViewController.swift in Sources */,
+				BFDF7076292F33D3001A736F /* PostVC.swift in Sources */,
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
 				BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */,
 				BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
 				BFDF7066292C9AB3001A736F /* ProfileCompletionControls.swift in Sources */,
 				BFDF7079292F375D001A736F /* PostControls.swift in Sources */,
+				BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */,
 				BF45425F2918C03100BAC4B2 /* LoginVC.swift in Sources */,
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
 				BF4542EE291B8A6000BAC4B2 /* LaunchScreenVC.swift in Sources */,
 				BF4542E1291B4B6F00BAC4B2 /* CommentDao.swift in Sources */,
+				BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */,
 				BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */,
 				BF4542AE291A31CB00BAC4B2 /* User.swift in Sources */,
 				BF4542B2291A31DC00BAC4B2 /* Post.swift in Sources */,
@@ -628,6 +669,7 @@
 				BFDF7070292DFAAC001A736F /* SearchCustomCell.swift in Sources */,
 				BF4542B0291A31D200BAC4B2 /* Profile.swift in Sources */,
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
+				BF34662D29348D98006FF9FE /* Constants.swift in Sources */,
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
@@ -648,13 +690,15 @@
 				BFA386702930CDBC00815E31 /* SuggestionCVCell.swift in Sources */,
 				BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */,
 				BF4542AB291A0F3C00BAC4B2 /* RegisterVC.swift in Sources */,
+				BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,
 				BF4542D0291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift in Sources */,
 				BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */,
-				BFA5600D292519B900A948B4 /* NotificationViewController.swift in Sources */,
-				BFA5600F29251A6B00A948B4 /* CustomTableViewCell.swift in Sources */,
+				BFA5600D292519B900A948B4 /* FriendsListVC.swift in Sources */,
+				BFA5600F29251A6B00A948B4 /* FriendsListCustomTVCell.swift in Sources */,
 				BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
+				BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */,
 				BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */,
 				BF4542CC291B4A8A00BAC4B2 /* UserDaoImplementation.swift in Sources */,
 				BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */,

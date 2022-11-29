@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostViewController: UIViewController {
+class PostVC: UIViewController {
     
     var particularPost: FeedsCustomCell!
     var postImage: UIImage!
