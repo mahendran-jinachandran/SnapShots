@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BirthdayVC: UIViewController {
+class OnboardingBirthdayVC: UIViewController {
     
     private var birthdayLogo: UIImageView = {
         let birthdayLogo = UIImageView(frame: .zero)
@@ -16,7 +16,7 @@ class BirthdayVC: UIViewController {
         birthdayLogo.contentMode = .scaleAspectFit
         birthdayLogo.translatesAutoresizingMaskIntoConstraints = false
         birthdayLogo.isUserInteractionEnabled = false
-        birthdayLogo.tintColor = UIColor(named: "mainPage")
+        birthdayLogo.tintColor = UIColor(named: "appTheme")
         return birthdayLogo
     }()
 
@@ -31,43 +31,62 @@ class BirthdayVC: UIViewController {
         return dateOfBirth
     }()
     
-    lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
-        nextButton.setTitle("Skip", for: .normal)
-        nextButton.setTitleColor(.black, for: .normal)
-        nextButton.backgroundColor = .systemBlue
-        nextButton.layer.cornerRadius = 10
-        nextButton.layer.borderWidth = 2
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.isEnabled = true
-        nextButton.alpha = 1.0
-        return nextButton
+    lazy var skipButton: UIButton = {
+        let skipButton = UIButton()
+        skipButton.setTitle("Skip", for: .normal)
+        skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        skipButton.layer.cornerRadius = 10
+        skipButton.translatesAutoresizingMaskIntoConstraints = false
+        skipButton.isEnabled = true
+        skipButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
+        skipButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        skipButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        skipButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        return skipButton
     }()
     
     let datePicker = UIDatePicker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
+        
         navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateBirthday))
         
         view.backgroundColor = .systemBackground
-        [birthdayLogo,dateOfBirth,nextButton].forEach {
+        [birthdayLogo,dateOfBirth,skipButton].forEach {
             view.addSubview($0)
         }
         
         setConstraints()
         setupDatePicker()
-        nextButton.addTarget(self, action: #selector(goNext), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
+        skipButton.tintColor = UIColor(named: "appTheme")
     }
     
-    @objc func goNext() {
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc func updateBirthday() {
         
         if let birthday = dateOfBirth.text {
-             OnboardingControls().updateBirthday(birthday: birthday) 
+            if birthday.count == 0 {
+                dateOfBirth.layer.borderColor = UIColor.red.cgColor
+                return
+            }
+            
+            OnboardingControls().updateBirthday(birthday: birthday)
         }
         
-        navigationController?.pushViewController(BioVC(), animated: false)
+       navigateToNext()
+    }
+    @objc func navigateToNext() {
+        navigationController?.pushViewController(OnboardingBioVC(), animated: false)
     }
     
     func setupDatePicker() {
@@ -111,10 +130,10 @@ class BirthdayVC: UIViewController {
             dateOfBirth.widthAnchor.constraint(equalToConstant: 350),
             dateOfBirth.heightAnchor.constraint(equalToConstant: 40),
             
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -100),
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -30),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
+            skipButton.topAnchor.constraint(equalTo: dateOfBirth.bottomAnchor,constant: 20),
+            skipButton.widthAnchor.constraint(equalToConstant: 100),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -15),
+            skipButton.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
 }

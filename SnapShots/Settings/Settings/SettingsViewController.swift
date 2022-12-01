@@ -13,7 +13,7 @@ class SettingsViewController: UIViewController {
         let accountsLabel = UILabel()
         accountsLabel.text = "Account"
         accountsLabel.font = UIFont.systemFont(ofSize: 18)
-        accountsLabel.textColor = UIColor(named: "mainPage")
+        accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
         accountsLabel.setContentHuggingPriority(.init(249), for: .horizontal)
@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController {
         let accountsLabel = UILabel()
         accountsLabel.text = "Security"
         accountsLabel.font = UIFont.systemFont(ofSize: 18)
-        accountsLabel.textColor = UIColor(named: "mainPage")
+        accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
         accountsLabel.setContentHuggingPriority(.init(249), for: .horizontal)
@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController {
         let accountsLabel = UILabel()
         accountsLabel.text = "About"
         accountsLabel.font = UIFont.systemFont(ofSize: 18)
-        accountsLabel.textColor = UIColor(named: "mainPage")
+        accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
         accountsLabel.setContentHuggingPriority(.init(249), for: .horizontal)
@@ -64,7 +64,7 @@ class SettingsViewController: UIViewController {
     private lazy var logoutButton: UIButton = {
        let logoutButton = UIButton()
         logoutButton.setTitle("LOG OUT", for: .normal)
-        logoutButton.backgroundColor = UIColor(named: "mainPage")
+        logoutButton.backgroundColor = UIColor(named: "appTheme")
         logoutButton.setTitleColor(.systemBackground, for: .normal)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         logoutButton.layer.cornerRadius = 5.0
@@ -171,7 +171,7 @@ class SettingsViewController: UIViewController {
     
 
     @objc func openAccount(sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(AccountViewController(), animated: false)
+        navigationController?.pushViewController(AccountVC(), animated: false)
         if(sender.view == accountsView) {
             print("Account View Selected")
         } else if(sender.view == securityView) {

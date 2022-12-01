@@ -27,8 +27,8 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     let registerLabel: UILabel = {
        let registerLabel = UILabel()
         registerLabel.text = "REGISTER"
-        registerLabel.font =  UIFont(name: "Rightwood", size: 60)
-        registerLabel.textColor = UIColor(named: "mainPage")
+       registerLabel.font =  UIFont(name: "Copperplate", size: 50)
+        registerLabel.textColor = UIColor(named: "appTheme")
         registerLabel.textAlignment = .center
         registerLabel.translatesAutoresizingMaskIntoConstraints = false
         registerLabel.heightAnchor.constraint(equalToConstant: 180).isActive = true
@@ -116,7 +116,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     lazy var passwordVisibilityToggleButton: UIButton = {
        let toggleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-       toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+       toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
        toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
        toggleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
         
@@ -126,10 +126,10 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     @objc func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }else{
             password.isSecureTextEntry = true
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }
     }
     
@@ -320,17 +320,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!)
         navigationController?.pushViewController(OnboardingVC(), animated: true)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }

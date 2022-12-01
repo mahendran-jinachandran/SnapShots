@@ -28,7 +28,7 @@ extension UITextField {
     }
     
     func setImageInTextFieldOnLeft(imageName: String) {
-        let imageView = UIImageView(image: UIImage(named: imageName)?.withTintColor(UIColor(named: "mainPage")!))
+        let imageView = UIImageView(image: UIImage(named: imageName)?.withTintColor(UIColor(named: "appTheme")!))
         imageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         self.leftViewMode = .always
         self.setLeftView(imageView, padding: 10)

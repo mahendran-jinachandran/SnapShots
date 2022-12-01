@@ -9,6 +9,7 @@ import UIKit
 
 class NewPostVC: UIViewController {
     
+    var isPhotoUploaded: Bool = false
     var newPostControls: NewPostControls!
     
     private lazy var postImage: UIImageView = {
@@ -32,8 +33,7 @@ class NewPostVC: UIViewController {
     
     private lazy var caption: UITextView = {
        let caption = UITextView()
-       caption.text = "Write a caption..."
-       caption.textColor = .gray
+       caption.textColor = UIColor(named: "appTheme")
        caption.font = UIFont.systemFont(ofSize: 16)
        caption.translatesAutoresizingMaskIntoConstraints = false
        caption.layer.borderWidth = 1.0
@@ -45,7 +45,8 @@ class NewPostVC: UIViewController {
        let uploadLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
         uploadLabel.text = "Upload"
         uploadLabel.textColor = .systemBlue
-        uploadLabel.isUserInteractionEnabled = true
+        uploadLabel.isUserInteractionEnabled = false
+        uploadLabel.alpha = 0.5
         return uploadLabel
     }()
 
@@ -56,6 +57,7 @@ class NewPostVC: UIViewController {
         
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         
         [postImage,captionLabel,caption].forEach {
             view.addSubview($0)
@@ -74,19 +76,19 @@ class NewPostVC: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            postImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
-            postImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            postImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            postImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 30),
+            postImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
+            postImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
             postImage.heightAnchor.constraint(equalToConstant: 300),
             
             captionLabel.topAnchor.constraint(equalTo: postImage.bottomAnchor,constant: 20),
-            captionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            captionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            captionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
+            captionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
             captionLabel.heightAnchor.constraint(equalToConstant: 30),
             
             caption.topAnchor.constraint(equalTo: captionLabel.bottomAnchor),
-            caption.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            caption.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            caption.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
+            caption.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
             caption.heightAnchor.constraint(equalToConstant: 100)
         
         ])
@@ -94,10 +96,8 @@ class NewPostVC: UIViewController {
     
     @objc func uploadPost(_ sender : UITapGestureRecognizer) {
         newPostControls.addPost(caption: caption.text, image: postImage.image!)
-        
         self.navigationController?.popViewController(animated: true)
     }
-
 }
 
 extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
@@ -115,6 +115,8 @@ extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDeleg
 
         let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
             self.postImage.image = UIImage(named: "blankPhoto")
+            self.uploadLabel.isUserInteractionEnabled = false
+            self.uploadLabel.alpha = 0.5
         }
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
@@ -144,6 +146,9 @@ extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDeleg
 
         if let selectedImage = info[.originalImage] as? UIImage {
             postImage.image = selectedImage
+            isPhotoUploaded = true
+            uploadLabel.alpha = 1.0
+            uploadLabel.isUserInteractionEnabled = true
         } else {
             print("Image not found")
         }

@@ -49,7 +49,7 @@ class FeedsCustomCell: UITableViewCell {
         var moreInfo = UIButton(type: .custom)
         moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreInfo.translatesAutoresizingMaskIntoConstraints = false
-        moreInfo.tintColor = UIColor(named: "mainPage")
+        moreInfo.tintColor = UIColor(named: "appTheme")
         moreInfo.backgroundColor = UIColor(named: "moreInfo_bg_color")
         return moreInfo
     }()
@@ -65,21 +65,21 @@ class FeedsCustomCell: UITableViewCell {
        return post
     }()
     
-    public lazy var like: UIButton = {
-        var like = UIButton(type: .custom)
-        let image = UIImage(systemName: "heart")?.resizedImage(Size: CGSize(width: 40, height: 30))
-        like.setImage(image?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+    public lazy var like: UIImageView = {
+        var like = UIImageView()
+        like.image = UIImage(systemName: "heart")
         like.translatesAutoresizingMaskIntoConstraints = false
-        like.imageView?.contentMode = .scaleAspectFit
+        like.contentMode = .scaleAspectFill
+        like.isUserInteractionEnabled = true
+        like.tintColor = .red
         return like
     }()
     
-    public lazy var comment: UIButton = {
-        var comment = UIButton(type: .custom)
-        let image = UIImage(systemName: "ellipsis.message")?.resizedImage(Size: CGSize(width: 40, height: 30))
-        comment.setImage(image?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+    public lazy var comment: UIImageView = {
+        var comment = UIImageView()
+        comment.image = UIImage(systemName: "ellipsis.message")?.withTintColor(UIColor(named: "appTheme")!)
         comment.translatesAutoresizingMaskIntoConstraints = false
-        comment.imageView?.contentMode = .scaleAspectFit
+        comment.contentMode = .scaleAspectFill
         comment.isUserInteractionEnabled = true
         return comment
     }()
@@ -110,12 +110,25 @@ class FeedsCustomCell: UITableViewCell {
         
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         
-        comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
+        let likeTap = UITapGestureRecognizer(target: self, action: #selector(likeThePost(_:)))
+        like.addGestureRecognizer(likeTap)
         
+        let commentTap = UITapGestureRecognizer(target: self, action: #selector(gotToComments))
+        comment.addGestureRecognizer(commentTap)
+    }
+    
+    var likeFlag: Bool = false
+    @objc func likeThePost(_ sender : UITapGestureRecognizer) {
+        likeFlag = !likeFlag
+        
+        if likeFlag {
+            like.image = UIImage(systemName: "heart.fill")
+        } else {
+            like.image = UIImage(systemName: "heart")
+        }
     }
     
     @objc func goToLikes() {
-        
         delegate?.controller().navigationController?.pushViewController(LikesVC(), animated: true)
     }
     
@@ -131,7 +144,6 @@ class FeedsCustomCell: UITableViewCell {
         }
 
         let edit = UIAlertAction(title: "Edit", style: .default) { _ in
-            print("EDIT")
         }
 
         let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
@@ -197,18 +209,18 @@ class FeedsCustomCell: UITableViewCell {
             post.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -12),
             post.heightAnchor.constraint(equalToConstant: 350),
             
-            like.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 8),
-            like.topAnchor.constraint(equalTo: post.bottomAnchor),
-            like.heightAnchor.constraint(equalToConstant: 45),
-            like.widthAnchor.constraint(equalToConstant: 45),
+            like.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            like.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
+            like.heightAnchor.constraint(equalToConstant: 30),
+            like.widthAnchor.constraint(equalToConstant: 30),
             
-            comment.leadingAnchor.constraint(equalTo: like.trailingAnchor),
-            comment.topAnchor.constraint(equalTo: post.bottomAnchor),
-            comment.heightAnchor.constraint(equalToConstant: 45),
-            comment.widthAnchor.constraint(equalToConstant: 45),
+            comment.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 8),
+            comment.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
+            comment.heightAnchor.constraint(equalToConstant: 30),
+            comment.widthAnchor.constraint(equalToConstant: 30),
             
-            caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 2),
-            caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 8),
+            caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
+            caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
             caption.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
             caption.bottomAnchor.constraint(equalTo: postContainer.bottomAnchor,constant: -20)
         ])

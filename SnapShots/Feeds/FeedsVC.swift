@@ -46,25 +46,23 @@ class FeedsViewController: UIViewController {
         let friendsAction = UIAction(
           title: "Friends",
           image: UIImage(systemName: "person.3.fill")) { _ in
-           print("VIEW MAP")
         }
 
         let postsAction = UIAction(
           title: "Favourites",
           image: UIImage(systemName: "star.circle")) { _ in
-           print("VIEW MAP")
         }
         
         let button  = UIButton(type: .custom)
         button.showsMenuAsPrimaryAction = true
         button.titleLabel?.font = UIFont(name: "Billabong", size: 30)
         button.setTitle("Snapshots ", for: .normal)
-        button.setTitleColor(UIColor(named: "mainPage"), for: .normal)
+        button.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         button.setImage(UIImage(systemName: "chevron.down")!, for: .normal)
         button.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         button.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         button.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.tintColor = UIColor(named: "mainPage")!
+        button.tintColor = UIColor(named: "appTheme")!
        
         button.menu = UIMenu(title: "", image: nil, children: [friendsAction,postsAction])
         
@@ -72,11 +70,6 @@ class FeedsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = barButton
     }
-    
-    @objc func test() {
-        print(#function)
-    }
-    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

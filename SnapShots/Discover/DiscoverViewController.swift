@@ -15,7 +15,7 @@ class DiscoverViewController: UIViewController {
         let suggestionLabel = UILabel()
         suggestionLabel.translatesAutoresizingMaskIntoConstraints = false
         suggestionLabel.text = "People you might know"
-        suggestionLabel.textColor = UIColor(named: "mainPage")
+        suggestionLabel.textColor = UIColor(named: "appTheme")
         return suggestionLabel
     }()
     

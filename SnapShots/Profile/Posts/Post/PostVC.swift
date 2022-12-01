@@ -37,7 +37,7 @@ class PostVC: UIViewController {
             action: #selector(goBack))
         
         
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "mainPage")
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
         
         particularPost = FeedsCustomCell()
         particularPost.translatesAutoresizingMaskIntoConstraints = false
@@ -57,8 +57,8 @@ class PostVC: UIViewController {
         
         particularPost.moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
 
-        particularPost.comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
-      
+        let commentTap = UITapGestureRecognizer(target: self, action: #selector(gotToComments))
+        particularPost.comment.addGestureRecognizer(commentTap)
     }
     
     @objc func goBack() {
@@ -81,7 +81,6 @@ class PostVC: UIViewController {
         }
 
         let edit = UIAlertAction(title: "Edit", style: .default) { _ in
-            print("EDIT")
         }
 
         let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in

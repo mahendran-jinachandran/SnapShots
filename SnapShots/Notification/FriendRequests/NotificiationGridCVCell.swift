@@ -53,7 +53,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
         acceptRequest.clipsToBounds = true
         acceptRequest.backgroundColor = .systemBlue
         acceptRequest.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        acceptRequest.setTitleColor(UIColor(named: "mainPage"), for: .normal)
+        acceptRequest.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         return acceptRequest
     }()
     
@@ -64,7 +64,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
         rejectRequest.backgroundColor = UIColor(named: "moreInfo_bg_color")
         rejectRequest.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         rejectRequest.setTitle("Reject", for: .normal)
-        rejectRequest.setTitleColor(UIColor(named: "mainPage"), for: .normal)
+        rejectRequest.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         return rejectRequest
     }()
     

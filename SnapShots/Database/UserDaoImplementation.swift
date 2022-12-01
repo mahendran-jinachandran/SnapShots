@@ -79,7 +79,6 @@ class UserDaoImplementation: UserDao {
         UPDATE User SET Photo = \(photo),Gender = '\(gender)',Mail = '\(mailID)',Age = '\(age)'
         WHERE User_id = \(userID)
         """
-        print(updateUserProfileQuery)
         
         return sqliteDatabase.execute(query: updateUserProfileQuery)
         

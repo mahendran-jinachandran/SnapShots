@@ -22,7 +22,7 @@ class NotificationGridVC: UIViewController {
         
         friendRequests = NotificationControls().getAllFriendRequests()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Notification", style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "mainPage")
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
         
         friendRequestsCVLayout = UICollectionViewFlowLayout()
         friendRequestsCVLayout.scrollDirection = .vertical
@@ -56,7 +56,6 @@ class NotificationGridVC: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
             friendRequestsCVLayout.invalidateLayout()
-            print("traitCollectionDidChange")
         }
     }
 }

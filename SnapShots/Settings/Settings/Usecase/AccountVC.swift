@@ -7,13 +7,13 @@
 
 import UIKit
 
-class AccountViewController: UIViewController {
+class AccountVC: UIViewController {
     
     private lazy var personalInformationView: UIView = {
         let accountsLabel = UILabel()
         accountsLabel.text = "Personal Information"
         accountsLabel.font = UIFont.systemFont(ofSize: 18)
-        accountsLabel.textColor = UIColor(named: "mainPage")
+        accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
         accountsLabel.setContentHuggingPriority(.init(249), for: .horizontal)
@@ -52,7 +52,7 @@ class AccountViewController: UIViewController {
     }
     
     @objc func showPersonalInformation() {
-        navigationController?.pushViewController(PersonalInformationViewController(), animated: false)
+        navigationController?.pushViewController(PersonalInformationVC(), animated: false)
     }
     
     

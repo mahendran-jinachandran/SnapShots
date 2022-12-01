@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ProfilePhotoVC: UIViewController {
+class OnboardingProfilePhotoVC: UIViewController {
         
+    private var isPhotoUploaded: Bool = false
     private var profilePhoto: UIImageView = {
         let profileImage = UIImageView(frame: .zero)
         profileImage.image = UIImage(named: "blankPhoto")
@@ -38,45 +39,70 @@ class ProfilePhotoVC: UIViewController {
         return secondaryLabel
     }()
     
-    lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
-        nextButton.setTitle("Skip", for: .normal)
-        nextButton.setTitleColor(.black, for: .normal)
-        nextButton.backgroundColor = .systemBlue
-        nextButton.layer.cornerRadius = 10
-        nextButton.layer.borderWidth = 2
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.isEnabled = true
-        nextButton.alpha = 1.0
-        return nextButton
+    private var warningLabel: UILabel = {
+        let warningLabel = UILabel()
+        warningLabel.translatesAutoresizingMaskIntoConstraints = false
+        warningLabel.text = "Please upload a photo or click skip on the \n\t\ttop right to skip this step"
+        warningLabel.textColor = .systemRed
+        warningLabel.font = UIFont.systemFont(ofSize: 12)
+        warningLabel.numberOfLines = 2
+        warningLabel.isHidden = true
+        return warningLabel
+    }()
+    
+    lazy var skipButton: UIButton = {
+        let skipButton = UIButton()
+        skipButton.setTitle("Skip", for: .normal)
+        skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        skipButton.layer.cornerRadius = 10
+        skipButton.translatesAutoresizingMaskIntoConstraints = false
+        skipButton.isEnabled = true
+        skipButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
+        skipButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        skipButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        skipButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        return skipButton
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(uploadPhoto))
         
         view.backgroundColor = .systemBackground
-        view.addSubview(profilePhoto)
-        view.addSubview(primaryLabel)
-        view.addSubview(secondaryLabel)
-        view.addSubview(nextButton)
+        
+        [profilePhoto,primaryLabel,secondaryLabel,warningLabel,skipButton].forEach {
+            view.addSubview($0)
+        }
         
         setupConstraints()
         profilePhoto.layer.cornerRadius = 100
-        nextButton.addTarget(self, action: #selector(goToNext), for: .touchUpInside)
+        
+        skipButton.tintColor = UIColor(named: "appTheme")
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
+        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         profilePhoto.addGestureRecognizer(imagePicker)
+        
     }
     
-    @objc func goToNext() {
-        navigationController?.pushViewController(MailVC(), animated: false)
+    @objc func uploadPhoto() {
+        if isPhotoUploaded {
+            navigateToNext()
+        } else {
+            warningLabel.isHidden = false
+        }
+    }
+    
+    @objc func navigateToNext() {
+        navigationController?.pushViewController(OnboardingMailVC(), animated: false)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            profilePhoto.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 120),
+            profilePhoto.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 50),
             profilePhoto.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profilePhoto.widthAnchor.constraint(equalToConstant: 200),
             profilePhoto.heightAnchor.constraint(equalToConstant: 200),
@@ -89,16 +115,19 @@ class ProfilePhotoVC: UIViewController {
             secondaryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             secondaryLabel.heightAnchor.constraint(equalToConstant: 40),
             
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -100),
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -30),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
-        
+            warningLabel.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor),
+            warningLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            warningLabel.heightAnchor.constraint(equalToConstant: 40),
+            
+            skipButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor,constant: 20),
+            skipButton.widthAnchor.constraint(equalToConstant: 100),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -25),
+            skipButton.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
 }
 
-extension ProfilePhotoVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     @objc func imagePress(_ sender : UITapGestureRecognizer) {
 
@@ -113,6 +142,7 @@ extension ProfilePhotoVC: UIImagePickerControllerDelegate,UINavigationController
 
         let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
             self.profilePhoto.image = UIImage(named: "blankPhoto")
+            self.isPhotoUploaded = false
         }
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
@@ -142,6 +172,7 @@ extension ProfilePhotoVC: UIImagePickerControllerDelegate,UINavigationController
 
         if let selectedImage = info[.originalImage] as? UIImage {
             profilePhoto.image = selectedImage
+            isPhotoUploaded = true
             OnboardingControls().updateProfilePhoto(profilePhoto: selectedImage)
         } else {
             print("Image not found")

@@ -14,7 +14,7 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
         let privacyLabel = UILabel()
         privacyLabel.text = "Privacy Policy"
         privacyLabel.font = UIFont.systemFont(ofSize: 18)
-        privacyLabel.textColor = UIColor(named: "mainPage")
+        privacyLabel.textColor = UIColor(named: "appTheme")
         privacyLabel.translatesAutoresizingMaskIntoConstraints = false
         privacyLabel.isUserInteractionEnabled = true
         privacyLabel.setContentHuggingPriority(.init(249), for: .horizontal)
@@ -31,7 +31,7 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
         let privacyLabel = UILabel()
         privacyLabel.text = "Terms of Use"
         privacyLabel.font = UIFont.systemFont(ofSize: 18)
-        privacyLabel.textColor = UIColor(named: "mainPage")
+        privacyLabel.textColor = UIColor(named: "appTheme")
         privacyLabel.translatesAutoresizingMaskIntoConstraints = false
         privacyLabel.isUserInteractionEnabled = true
         privacyLabel.setContentHuggingPriority(.init(249), for: .horizontal)

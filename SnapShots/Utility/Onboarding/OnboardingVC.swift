@@ -15,8 +15,8 @@ class OnboardingVC: UIViewController {
     let welcomeLabel: UILabel = {
        let welcomeLabel = UILabel()
         welcomeLabel.text = "WELCOME"
-        welcomeLabel.font =  UIFont(name: "Rightwood", size: 45)
-        welcomeLabel.textColor = UIColor(named: "mainPage")
+        welcomeLabel.font =  UIFont(name: "Papyrus", size: 45)
+        welcomeLabel.textColor = UIColor(named: "appTheme")
         welcomeLabel.textAlignment = .center
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         welcomeLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -26,8 +26,8 @@ class OnboardingVC: UIViewController {
     let welcomeSubLabel: UILabel = {
        let welcomeSubLabel = UILabel()
         welcomeSubLabel.text = "A  place  to  connect."
-        welcomeSubLabel.font =  UIFont(name: "Rightwood", size: 45)
-        welcomeSubLabel.textColor = UIColor(named: "mainPage")
+        welcomeSubLabel.font =  UIFont(name: "Papyrus", size: 30)
+        welcomeSubLabel.textColor = UIColor(named: "appTheme")
         welcomeSubLabel.textAlignment = .center
         welcomeSubLabel.translatesAutoresizingMaskIntoConstraints = false
         welcomeSubLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -48,8 +48,8 @@ class OnboardingVC: UIViewController {
     
     lazy var nextButton: UIButton = {
         let nextButton = UIButton()
-        nextButton.setTitle("NEXT", for: .normal)
-        nextButton.setTitleColor(UIColor(named: "mainPage"), for: .normal)
+        nextButton.setTitle("Next", for: .normal)
+        nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         nextButton.backgroundColor = .systemBlue
         nextButton.layer.cornerRadius = 10
         nextButton.layer.borderWidth = 2
@@ -87,7 +87,7 @@ class OnboardingVC: UIViewController {
        animationView.stop()
        animationView.removeFromSuperview()
        
-       navigationController?.pushViewController(ProfilePhotoVC(), animated: true)
+       navigationController?.pushViewController(OnboardingProfilePhotoVC(), animated: true)
     }
     
     

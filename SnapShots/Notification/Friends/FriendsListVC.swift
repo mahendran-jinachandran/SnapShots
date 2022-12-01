@@ -39,7 +39,7 @@ class FriendsListVC: UIViewController,UITableViewDataSource,UITableViewDelegate 
             action: #selector(goBack))
         
         
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "mainPage")
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
         title = "Friends"
         
         friendsList.bounces = false

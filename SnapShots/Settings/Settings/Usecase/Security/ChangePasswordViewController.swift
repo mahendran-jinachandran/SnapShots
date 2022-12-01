@@ -89,7 +89,6 @@ class ChangePasswordViewController: UIViewController {
     }
     
     @objc func saveDetails() {
-        print("SAVING")
     }
     
     func setConstraints() {

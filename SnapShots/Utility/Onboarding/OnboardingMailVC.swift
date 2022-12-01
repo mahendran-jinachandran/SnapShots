@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MailVC: UIViewController {
+class OnboardingMailVC: UIViewController {
     
     private var mailLogo: UIImageView = {
         let mailLogo = UIImageView(frame: .zero)
@@ -16,7 +16,7 @@ class MailVC: UIViewController {
         mailLogo.contentMode = .scaleAspectFill
         mailLogo.translatesAutoresizingMaskIntoConstraints = false
         mailLogo.isUserInteractionEnabled = false
-        mailLogo.tintColor = UIColor(named: "mainPage")
+        mailLogo.tintColor = UIColor(named: "appTheme")
         return mailLogo
     }()
     
@@ -43,44 +43,58 @@ class MailVC: UIViewController {
         return email
     }()
     
-    lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
-        nextButton.setTitle("Skip", for: .normal)
-        nextButton.setTitleColor(.black, for: .normal)
-        nextButton.backgroundColor = .systemBlue
-        nextButton.layer.cornerRadius = 10
-        nextButton.layer.borderWidth = 2
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.isEnabled = true
-        nextButton.alpha = 1.0
-        return nextButton
+    lazy var skipButton: UIButton = {
+        let skipButton = UIButton()
+        skipButton.setTitle("Skip", for: .normal)
+        skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        skipButton.layer.cornerRadius = 10
+        skipButton.translatesAutoresizingMaskIntoConstraints = false
+        skipButton.isEnabled = true
+        skipButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
+        skipButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        skipButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        skipButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        return skipButton
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
+        
         navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(validateMail))
+        
         view.backgroundColor = .systemBackground
-        [mailLogo,primaryLabel,emailTextField,nextButton].forEach {
+        [mailLogo,primaryLabel,emailTextField,skipButton].forEach {
             view.addSubview($0)
         }
         
         setupConstraints()
-        nextButton.addTarget(self, action: #selector(goNext), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
+        skipButton.tintColor = UIColor(named: "appTheme")
     }
     
-    @objc func goNext() {
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc func validateMail() {
         
         if let usermail = emailTextField.text {
-            if usermail.count == 0 {
-                // MARK: CHANGE THIS LOGIC - NOTHING WILL COME HERE
-            } else if !OnboardingControls().updateEmail(email: usermail) {
+            if usermail.count == 0 || !OnboardingControls().updateEmail(email: usermail) {
                 emailTextField.layer.borderColor = UIColor.red.cgColor
                 return
             }
         }
         
-        navigationController?.pushViewController(GenderVC(), animated: false)
+        navigateToNext()
+    }
+    
+    @objc func navigateToNext() {
+        navigationController?.pushViewController(OnboardingGenderVC(), animated: false)
     }
     
     @objc func goToHomePage() {
@@ -98,15 +112,15 @@ class MailVC: UIViewController {
             primaryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             primaryLabel.heightAnchor.constraint(equalToConstant: 50),
             
-            emailTextField.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor,constant: 50),
+            emailTextField.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor,constant: 10),
             emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emailTextField.widthAnchor.constraint(equalToConstant: 350),
             emailTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -100),
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -30),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
+            skipButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor,constant: 20),
+            skipButton.widthAnchor.constraint(equalToConstant: 100),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -15),
+            skipButton.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
 }

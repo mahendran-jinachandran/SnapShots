@@ -26,9 +26,10 @@ class RegisterControls: RegisterControllerProtocol {
             }
             
             UserDefaults.standard.set(userID, forKey: Constants.loggedUserFormat)
-            print("USER CREATED SUCCESSFULLY")
+            // MARK: TOAST CREATED USER
+            
         } else {
-            print("COULD NOT CREATE USER")
+            // MARK: TOAST COULD NOT CREATE USER
         }
     }
     

@@ -37,7 +37,7 @@ class FriendsListCustomTVCell: UITableViewCell {
         acceptButton.backgroundColor = UIColor(named: "post_bg_color")
         acceptButton.translatesAutoresizingMaskIntoConstraints = false
         acceptButton.layer.cornerRadius = 5.0
-        acceptButton.setTitleColor( UIColor(named: "mainPage"), for: .normal)
+        acceptButton.setTitleColor( UIColor(named: "appTheme"), for: .normal)
         return acceptButton
     }()
     
@@ -48,7 +48,7 @@ class FriendsListCustomTVCell: UITableViewCell {
         rejectButton.backgroundColor = UIColor(named: "post_bg_color")
         rejectButton.translatesAutoresizingMaskIntoConstraints = false
         rejectButton.layer.cornerRadius = 5.0
-        rejectButton.setTitleColor( UIColor(named: "mainPage") , for: .normal)
+        rejectButton.setTitleColor( UIColor(named: "appTheme") , for: .normal)
         return rejectButton
     }()
     

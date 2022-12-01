@@ -13,7 +13,7 @@ class SecurityViewController: UIViewController {
         let accountsLabel = UILabel()
         accountsLabel.text = "Password"
         accountsLabel.font = UIFont.systemFont(ofSize: 18)
-        accountsLabel.textColor = UIColor(named: "mainPage")
+        accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
         accountsLabel.setContentHuggingPriority(.init(249), for: .horizontal)

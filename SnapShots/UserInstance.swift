@@ -23,7 +23,7 @@ struct UserInstance {
                 userName: data[1],
                 password: data[2],
                 phoneNumber: data[3],
-                gender: data[4] == "MALE" ? .male : .female,
+                gender: data[4] == "Male" ? .male : .female,
                 age: data[5],
                 mail: data[6],
                 photo: data[7] == "0" ? false : true,

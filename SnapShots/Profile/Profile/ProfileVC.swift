@@ -94,16 +94,16 @@ class ProfileVC: UIViewController {
                 setupFriendsNavigationItems()
         }
         
-        navigationController?.navigationBar.tintColor = UIColor(named: "mainPage")
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
     func setupOwnerNavigationItems() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileHeader)
         let hamburgerMenu = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openSettings))
-        hamburgerMenu.tintColor = UIColor(named: "mainPage")!
+        hamburgerMenu.tintColor = UIColor(named: "appTheme")!
         
         let addPost = UIBarButtonItem(image: UIImage(systemName: "plus.square"), style: .plain, target: self, action: #selector(uploadNewPost))
-        addPost.tintColor = UIColor(named: "mainPage")!
+        addPost.tintColor = UIColor(named: "appTheme")!
      
         navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
     }
@@ -221,9 +221,9 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     
     @objc func sendFriendRequest() {
         if profileControls.sendFriendRequest(requestingUser: userID) {
-            print("FRIEND REQUEST SENT")
+            // MARK: TOAST SEND FRIEND REQUEST
         } else {
-            print("Couldn't send friend request")
+            // MARK: TOAST COULDN'T SEND REQUEST
         }
     }
     

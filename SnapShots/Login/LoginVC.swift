@@ -40,7 +40,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
        let snapShots = UILabel()
        snapShots.text = "SNAPSHOTS"
        snapShots.font =  UIFont(name: "Billabong", size: 45)
-       snapShots.textColor = UIColor(named: "mainPage")
+       snapShots.textColor = UIColor(named: "appTheme")
        snapShots.textAlignment = .center
        snapShots.translatesAutoresizingMaskIntoConstraints = false
        snapShots.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -90,7 +90,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     private lazy var passwordVisibilityToggleButton: UIButton = {
        let toggleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-       toggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+       toggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
        toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
        toggleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
        return toggleButton
@@ -103,6 +103,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
        forgotPasswordLabel.textAlignment = .right
        forgotPasswordLabel.font = forgotPasswordLabel.font.withSize(15)
        forgotPasswordLabel.heightAnchor.constraint(equalToConstant: 16).isActive  = true
+        forgotPasswordLabel.isUserInteractionEnabled = true
        return forgotPasswordLabel
     }()
     
@@ -133,7 +134,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     private lazy var condition: UILabel = {
        let snapShots = UILabel()
        snapShots.text = "TERMS & CONDITIONS APPLY"
-       snapShots.textColor = UIColor(named: "mainPage")
+       snapShots.textColor = UIColor(named: "appTheme")
        snapShots.textAlignment = .center
        snapShots.font = .italicSystemFont(ofSize: 15)
        return snapShots
@@ -154,6 +155,9 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         
         let registerPage = UITapGestureRecognizer(target: self, action: #selector(startRegistrationProcess))
         registerLink.addGestureRecognizer(registerPage)
+        
+        let forgotPassword = UITapGestureRecognizer(target: self, action: #selector(executeForgotPasswordProcess))
+        forgotPasswordLabel.addGestureRecognizer(forgotPassword)
         
         executeLoginProcess()
     }
@@ -180,6 +184,10 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         self.phoneNumber.delegate = self
         self.password.delegate = self
         self.loginButton.addTarget(self, action: #selector(validateUserCredentials), for: .touchUpInside)
+    }
+    
+    @objc func executeForgotPasswordProcess() {
+        navigationController?.pushViewController(PhoneNumberVC(), animated: true)
     }
 
     func createLoginStackView() {
@@ -281,10 +289,10 @@ extension LoginVC {
     @objc func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }else{
             password.isSecureTextEntry = true
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "mainPage")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }
     }
     

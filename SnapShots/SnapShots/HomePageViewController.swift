@@ -17,7 +17,7 @@ class HomePageViewController: UITabBarController {
         view.backgroundColor = .systemBackground
     
         tabBar.backgroundColor = .systemBackground
-        tabBar.tintColor = UIColor(named: "mainPage")
+        tabBar.tintColor = UIColor(named: "appTheme")
         tabBar.isTranslucent = false
         setupViewControllers()
     }

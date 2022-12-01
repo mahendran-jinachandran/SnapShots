@@ -103,7 +103,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileAccessButton.layer.borderWidth = 0.5
         profileAccessButton.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
         profileAccessButton.titleLabel?.numberOfLines = 2
-        profileAccessButton.setTitleColor( UIColor(named: "mainPage")! , for: .normal)
+        profileAccessButton.setTitleColor( UIColor(named: "appTheme")! , for: .normal)
         return profileAccessButton
     }()
     
