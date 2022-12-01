@@ -26,4 +26,30 @@ struct AppUtility {
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
+    
+    static func isValidUsername(username: String) -> Result<Bool,UsernameError> {
+        if username.isEmpty {
+            return .failure(.cannotBeEmpty)
+        } else if username.count < Constants.miniumUsernameLength || username.count > Constants.maximumUsernameLength {
+            return .failure(.invalidNumberOfCharacters)
+        }
+        
+        return .success(true)
+    }
+    
+    
+    static func isValidPhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
+        
+        if phoneNumber.isEmpty {
+            return .failure(.cannotBeEmpty)
+        } else if phoneNumber.count < Constants.minimumPhoneNumberLength || phoneNumber.count > Constants.maximumPhoneNumberLength {
+            return .failure(.invalidFormat)
+        }
+        return .success(true)
+    }
+    
+    static func textLimit(existingText: String?,newText: String,limit: Int) -> Bool {
+        let text = existingText ?? ""
+        return text.count + newText.count <= limit
+    }
 }

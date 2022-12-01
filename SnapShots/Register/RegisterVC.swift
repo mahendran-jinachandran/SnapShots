@@ -119,8 +119,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
        toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
        toggleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
-        
-        return toggleButton
+       return toggleButton
     }()
     
     @objc func passwordVisibility(_ sender : UIButton) {
@@ -150,16 +149,17 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         signUpButton.setTitle("Register", for: .normal)
         signUpButton.backgroundColor = .systemBlue
         signUpButton.layer.cornerRadius = 10
-        signUpButton.layer.borderWidth = 2
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        signUpButton.isEnabled = false
-        signUpButton.alpha = 0.5
+        signUpButton.isEnabled = true
+        signUpButton.alpha = 1.0
         return signUpButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerScrollView.showsVerticalScrollIndicator = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
@@ -207,73 +207,70 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
             registerStackView.widthAnchor.constraint(equalTo: registerScrollView.widthAnchor)
         ])
     }
-    
-    var isUsernameEntered: Bool = false
-    var isPhoneNumberEntered: Bool = false
-    var isPasswordEntered: Bool = false
-    var isRePasswordEntered: Bool = false
     var userPassword: String?
     var userRePassword: String?
-    
+        
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
-        switch textField {
-            case username:
-            
-                let username = textField.text!
-            
-                if username.count < 4 {
-                   usernameLabel.text = "Enter minimum of 4 characters"
-                   invalidUserName()
-                   break
-                }
-            
-                if registerController.isUserNameTaken(username: username) {
-                   validUserName()
-                    usernameLabel.text = "USER NAME IS ALREADY TAKEN"
-                } else {
-                   invalidUserName()
-                }
-                
-            case phoneNumber:
-            
-                let phoneNumber = textField.text!
-            
-                if phoneNumber.count < 10 {
-                    phoneNumberLabel.text = "ENTER VALID PHONE NUMBER"
-                    invalidPhoneNumber()
-                    break
-                }
-            
-                if registerController.isValidPhoneNumber(phoneNumber: phoneNumber) {
-                   validPhoneNumber()
-                } else {
-                   phoneNumberLabel.text = "PHONE NUMBER IS ALREADY ASSOCIATED WITH ANOTHER ACCOUNT"
-                   invalidPhoneNumber()
-                }
-            
-            case password:
-                userPassword = textField.text!
-                isPasswordEntered = userPassword!.count > 4 ? true : false
-            case rePassword:
-                userRePassword = textField.text!
-                isRePasswordEntered = userRePassword!.count > 4 ? true : false
-                
-            default:
-                print("NONE")
+        if textField == phoneNumber {
+            _ = checkPhoneNumberValidation(phoneNumber: textField.text!)
+        } else if textField == username {
+            _ =  checkUsernameValidation(username: textField.text!)
+        } else if textField == password {
+            userPassword = textField.text!
+        } else if textField == rePassword {
+            userRePassword = textField.text!
         }
         
-        
-        if isUsernameEntered && isPhoneNumberEntered && isPasswordEntered && isRePasswordEntered && checkForPasswordMatch(password: userPassword, rePassword: userRePassword)  {
-           enableRegisterButton()
-        } else {
-            disableRegisterButton()
+        if password.text!.count > Constants.minimumPasswordLength && rePassword.text!.count > Constants.minimumPasswordLength {
+            _ = checkForPasswordMatch(password: password.text!, rePassword: rePassword.text!)
         }
+        
+    }
+
+    func checkUsernameValidation(username: String) -> Bool {
+        let usernameDetails = registerController.validateUsername(username: username)
+        
+        if username.count >= Constants.miniumUsernameLength {
+            if usernameDetails == .success(true) {
+                validUserName()
+                return true
+            }
+            else if usernameDetails == .success(false) {
+                invalidUserName(warningLabel: UsernameError.alreadyTaken.description)
+            }
+            else if usernameDetails == .failure(.cannotBeEmpty) {
+                invalidUserName(warningLabel: UsernameError.cannotBeEmpty.description)
+            }
+            else if usernameDetails  == .failure(.invalidNumberOfCharacters) {
+                invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
+            }
+        }
+        
+        return false
+    }
+    
+    func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
+        let phoneNumberDetails = registerController.validatePhoneNumber(phoneNumber: phoneNumber)
+
+        if phoneNumber.count >= Constants.minimumPhoneNumberLength {
+            if phoneNumberDetails == .success(true) {
+                validPhoneNumber()
+                return true
+            } else if phoneNumberDetails == .failure(.cannotBeEmpty) {
+                invalidPhoneNumber(warningLabel: PhoneNumberError.cannotBeEmpty.description)
+            } else if phoneNumberDetails == .failure(.invalidFormat) {
+                invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
+            } else if phoneNumberDetails == .success(false) {
+                invalidPhoneNumber(warningLabel: PhoneNumberError.alreadyTaken.description)
+            }
+        }
+        
+        return false
     }
     
     func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
-        
-        if password == rePassword {
+        if !password!.isEmpty,password == rePassword {
             passwordNotMatchLabel.isHidden = true
             return true
         }
@@ -281,42 +278,22 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         passwordNotMatchLabel.isHidden = false
         return false
     }
-    
-    func enableRegisterButton() {
-        signUpButton.isEnabled = true
-        signUpButton.alpha = 1.0
-    }
-    
-    func disableRegisterButton() {
-        signUpButton.isEnabled = false
-        signUpButton.alpha = 0.5
-    }
-    
-    func validUserName() {
-        isUsernameEntered = true
-        usernameLabel.isHidden = true
-        username.layer.borderColor = UIColor.lightGray.cgColor
-    }
-    
-    func invalidUserName() {
-        isUsernameEntered = false
-        usernameLabel.isHidden = false
-        username.layer.borderColor = UIColor.red.cgColor
-    }
-        
-    func validPhoneNumber() {
-        isPhoneNumberEntered = true
-        phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
-        phoneNumberLabel.isHidden = true
-    }
-    
-    func invalidPhoneNumber() {
-        isPhoneNumberEntered = false
-        phoneNumber.layer.borderColor = UIColor.red.cgColor
-        phoneNumberLabel.isHidden = false
-    }
-    
+
     @objc func startOnboarding() {
+        if !checkUsernameValidation(username: username.text!) {
+            invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
+            return
+        }
+        
+        if !checkPhoneNumberValidation(phoneNumber: phoneNumber.text!) {
+            invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
+            return
+        }
+        
+        if !checkForPasswordMatch(password: password.text!, rePassword: rePassword.text!) {
+            return
+        }
+        
         registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!)
         navigationController?.pushViewController(OnboardingVC(), animated: true)
     }
@@ -327,14 +304,9 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
         if textField == phoneNumber {
-            return self.textLimit(existingText: textField.text,newText: string,limit: 10)
+            return AppUtility.textLimit(existingText: textField.text,newText: string,limit: 15)
         }
         return true
-    }
-
-    private func textLimit(existingText: String?,newText: String,limit: Int) -> Bool {
-        let text = existingText ?? ""
-        return text.count + newText.count <= limit
     }
     
     var contentInsetBackstore: UIEdgeInsets = .zero
@@ -363,5 +335,40 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     @objc private func didKeyboardDisappear(notification:Notification){
         registerScrollView.contentInset = contentInsetBackstore
         contentInsetBackstore = .zero
+    }
+}
+
+extension RegisterVC {
+    
+    func enableRegisterButton() {
+        signUpButton.isEnabled = true
+        signUpButton.alpha = 1.0
+    }
+    
+    func disableRegisterButton() {
+        signUpButton.isEnabled = false
+        signUpButton.alpha = 0.5
+    }
+    
+    func validUserName() {
+        usernameLabel.isHidden = true
+        username.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func invalidUserName(warningLabel: String) {
+        username.layer.borderColor = UIColor.red.cgColor
+        usernameLabel.isHidden = false
+        usernameLabel.text = warningLabel
+    }
+        
+    func validPhoneNumber() {
+        phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
+        phoneNumberLabel.isHidden = true
+    }
+    
+    func invalidPhoneNumber(warningLabel: String) {
+        phoneNumber.layer.borderColor = UIColor.red.cgColor
+        phoneNumberLabel.text = warningLabel
+        phoneNumberLabel.isHidden = false
     }
 }

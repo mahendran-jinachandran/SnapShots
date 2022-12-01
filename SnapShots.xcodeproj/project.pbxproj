@@ -78,6 +78,8 @@
 		BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginControls.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
+		BFC9BAB429384C0F00EE1D42 /* UITapGestureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */; };
+		BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */; };
 		BFDD55962937227F00DC8D68 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFDD55952937227F00DC8D68 /* GoogleService-Info.plist */; };
 		BFDD55CF2937295E00DC8D68 /* PhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55CE2937295E00DC8D68 /* PhoneNumberVC.swift */; };
 		BFDD55D229372CF600DC8D68 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BFDD55D129372CF600DC8D68 /* FirebaseAuth */; };
@@ -174,6 +176,8 @@
 		BFA5601429262FEF00A948B4 /* LoginControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControls.swift; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
+		BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureExtensions.swift; sourceTree = "<group>"; };
+		BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapShotsError.swift; sourceTree = "<group>"; };
 		BFDD55952937227F00DC8D68 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		BFDD55CE2937295E00DC8D68 /* PhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberVC.swift; sourceTree = "<group>"; };
 		BFDD55D32937379D00DC8D68 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 		BF4542592918C03100BAC4B2 /* SnapShots */ = {
 			isa = PBXGroup;
 			children = (
+				BFC9BAB52938602600EE1D42 /* Enums */,
 				BFDD55942937205C00DC8D68 /* ForgotPassword */,
 				BFA560162926474400A948B4 /* Utility */,
 				BF4542C8291B4A4B00BAC4B2 /* Database */,
@@ -295,7 +300,6 @@
 				BF4542632918C03200BAC4B2 /* Assets.xcassets */,
 				BF4542652918C03200BAC4B2 /* LaunchScreen.storyboard */,
 				BF4542682918C03200BAC4B2 /* Info.plist */,
-				BF4542B5291A325600BAC4B2 /* Gender.swift */,
 				BFDD55952937227F00DC8D68 /* GoogleService-Info.plist */,
 				BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */,
 			);
@@ -317,6 +321,7 @@
 				BF4542712918CE6E00BAC4B2 /* UITextFieldExtensions.swift */,
 				BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */,
 				BFDF706B292D1651001A736F /* UIImageExtension.swift */,
+				BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -544,6 +549,15 @@
 			path = NewPost;
 			sourceTree = "<group>";
 		};
+		BFC9BAB52938602600EE1D42 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				BF4542B5291A325600BAC4B2 /* Gender.swift */,
+				BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		BFDD55942937205C00DC8D68 /* ForgotPassword */ = {
 			isa = PBXGroup;
 			children = (
@@ -723,6 +737,7 @@
 				BFDF7060292B7A25001A736F /* UIViewControllerExtension.swift in Sources */,
 				BF4542E5291B4B9500BAC4B2 /* SQLiteDB.swift in Sources */,
 				BFDF7070292DFAAC001A736F /* SearchCustomCell.swift in Sources */,
+				BFC9BAB429384C0F00EE1D42 /* UITapGestureExtensions.swift in Sources */,
 				BF4542B0291A31D200BAC4B2 /* Profile.swift in Sources */,
 				BFDD55FD2937769B00DC8D68 /* MailVC.swift in Sources */,
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
@@ -756,6 +771,7 @@
 				BFA5600F29251A6B00A948B4 /* FriendsListCustomTVCell.swift in Sources */,
 				BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */,
 				BF5A13F72935FA7C0051FC8D /* OnboardingBioVC.swift in Sources */,
+				BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
 				BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */,
 				BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */,

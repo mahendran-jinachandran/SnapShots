@@ -10,11 +10,10 @@ import Foundation
 protocol LoginControllerProtocol {
     func validatePhoneNumber(phoneNumber: String)
     func validateUserCredentials(phoneNumber: String,password: String)
-    
 }
 
 protocol LoginViewProtocol: AnyObject {
-    func verifyPhoneNumber(isVerified: Bool)
-    func invalidUserCredentials()
+    func displayPhoneNumberVerificationState(isVerified: Bool)
+    func displayWrongCredentials()
     func goToHomePage()
 }

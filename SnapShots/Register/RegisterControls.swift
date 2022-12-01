@@ -9,6 +9,7 @@ import Foundation
 
 class RegisterControls: RegisterControllerProtocol {
     
+    
     private var registerView: RegisterViewProtocol!
     
     public func setView(_ registerView: RegisterViewProtocol) {
@@ -33,12 +34,28 @@ class RegisterControls: RegisterControllerProtocol {
         }
     }
     
-    func isUserNameTaken(username: String) -> Bool {
-        return !userDaoImp.isUsernameAlreadyExist(username: username)
+    func validateUsername(username: String) -> Result<Bool,UsernameError> {
+        
+        let isValidUsername = AppUtility.isValidUsername(username: username)
+        
+        guard let _ = try? isValidUsername.get() else {
+            return isValidUsername
+        }
+        
+
+        let isUsernameTaken = userDaoImp.isUsernameAlreadyExist(username: username)
+        return .success(!isUsernameTaken)
     }
     
-    func isValidPhoneNumber(phoneNumber: String) -> Bool {
-        return !(userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber))
-                 
+    func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
+        
+        let isValidPhoneNumber = AppUtility.isValidPhoneNumber(phoneNumber: phoneNumber)
+        
+        guard let _ = try? isValidPhoneNumber.get() else {
+            return isValidPhoneNumber
+        }
+        
+        let isPhoneNumberTaken = userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber)
+        return .success(!isPhoneNumberTaken)
     }
 }

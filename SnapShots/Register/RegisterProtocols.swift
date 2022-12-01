@@ -13,6 +13,6 @@ protocol RegisterViewProtocol {
 
 protocol RegisterControllerProtocol {
     func executeRegistrationProcess(username: String,phoneNumber: String,password: String)
-    func isUserNameTaken(username: String) -> Bool
-    func isValidPhoneNumber(phoneNumber: String) -> Bool
+    func validateUsername(username: String) -> Result<Bool,UsernameError>
+    func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError>
 }

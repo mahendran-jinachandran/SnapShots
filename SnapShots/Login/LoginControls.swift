@@ -18,13 +18,13 @@ class LoginControls: LoginControllerProtocol {
     
     func validatePhoneNumber(phoneNumber: String) {
         let isPhoneNumberPresent = userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber)
-        loginView?.verifyPhoneNumber(isVerified: isPhoneNumberPresent)
+        loginView?.displayPhoneNumberVerificationState(isVerified: isPhoneNumberPresent)
     }
     
     func validateUserCredentials(phoneNumber: String,password: String) {
         
         guard let userID = userDaoImp.getUserID(phoneNumber: phoneNumber, password: password) else {
-            loginView?.invalidUserCredentials()
+            loginView?.displayWrongCredentials()
             return
         }
         
