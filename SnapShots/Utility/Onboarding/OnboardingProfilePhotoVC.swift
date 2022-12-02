@@ -58,7 +58,7 @@ class OnboardingProfilePhotoVC: UIViewController {
     private var warningLabel: UILabel = {
         let warningLabel = UILabel()
         warningLabel.translatesAutoresizingMaskIntoConstraints = false
-        warningLabel.text = "Please upload a photo or click skip on the \n\t\ttop right to skip this step"
+        warningLabel.text = "Please upload a photo or click skip"
         warningLabel.textColor = .systemRed
         warningLabel.font = UIFont.systemFont(ofSize: 12)
         warningLabel.numberOfLines = 2
@@ -83,27 +83,21 @@ class OnboardingProfilePhotoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView.showsVerticalScrollIndicator = false
+        
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(uploadPhoto))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         
         view.backgroundColor = .systemBackground
         
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollContainer)
-        [profilePhoto,primaryLabel,secondaryLabel,warningLabel,skipButton].forEach {
-            scrollContainer.addSubview($0)
-        }
-        
         setupConstraints()
         profilePhoto.layer.cornerRadius = 100
-        
         skipButton.tintColor = UIColor(named: "appTheme")
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         profilePhoto.addGestureRecognizer(imagePicker)
-        
     }
     
     @objc func uploadPhoto() {
@@ -119,6 +113,13 @@ class OnboardingProfilePhotoVC: UIViewController {
     }
     
     func setupConstraints() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        [profilePhoto,primaryLabel,secondaryLabel,warningLabel,skipButton].forEach {
+            scrollContainer.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -149,11 +150,11 @@ class OnboardingProfilePhotoVC: UIViewController {
             warningLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             warningLabel.heightAnchor.constraint(equalToConstant: 40),
             
-            skipButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor,constant: 20),
+            skipButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
             skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -25),
             skipButton.heightAnchor.constraint(equalToConstant: 35),
-            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -30)
         ])
     }
 }
@@ -205,6 +206,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
             profilePhoto.image = selectedImage
             isPhotoUploaded = true
             OnboardingControls().updateProfilePhoto(profilePhoto: selectedImage)
+            warningLabel.isHidden = true
         } else {
             print("Image not found")
         }

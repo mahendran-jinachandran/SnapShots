@@ -71,25 +71,20 @@ class OnboardingBioVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNotficationCenter()
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
+
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Finish", style: .plain, target: self, action: #selector(finishOnboarding))
         
-        
-        view.backgroundColor = .systemBackground
-        
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollContainer)
-        [bioLogo,bioLabel,bioProfileTextView,skipButton].forEach {
-            scrollContainer.addSubview($0)
-        }
-        
+        setupNotficationCenter()
         setupConstraints()
+        
         skipButton.addTarget(self, action: #selector(goToHomePage), for: .touchUpInside)
         skipButton.tintColor = UIColor(named: "appTheme")
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
     }
     
     func setupNotficationCenter() {
@@ -122,6 +117,13 @@ class OnboardingBioVC: UIViewController {
     }
     
     func setupConstraints() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        [bioLogo,bioLabel,bioProfileTextView,skipButton].forEach {
+            scrollContainer.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

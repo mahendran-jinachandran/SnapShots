@@ -66,29 +66,24 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupNotficationCenter()
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
         
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateGender))
         
-        view.backgroundColor = .systemBackground
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollContainer)
-        [genderImage,genderTextField,skipButton].forEach {
-            scrollContainer.addSubview($0)
-        }
-        
         pickerView.delegate = self
         pickerView.dataSource = self
-        
         genderTextField.inputView = pickerView
         
+        setupNotficationCenter()
         setupConstraints()
+        
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         skipButton.tintColor = UIColor(named: "appTheme")
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
     }
     
     func setupNotficationCenter() {
@@ -119,6 +114,13 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     
     func setupConstraints() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        [genderImage,genderTextField,skipButton].forEach {
+            scrollContainer.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

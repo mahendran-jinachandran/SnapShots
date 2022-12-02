@@ -75,25 +75,20 @@ class OnboardingMailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNotficationCenter()
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
         
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(validateMail))
         
-        view.backgroundColor = .systemBackground
-        
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollContainer)
-        [mailLogo,primaryLabel,emailTextField,skipButton].forEach {
-            scrollContainer.addSubview($0)
-        }
-        
+        setupNotficationCenter()
         setupConstraints()
+        
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         skipButton.tintColor = UIColor(named: "appTheme")
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
     }
     
     func setupNotficationCenter() {
@@ -127,6 +122,13 @@ class OnboardingMailVC: UIViewController {
     }
     
     func setupConstraints() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        [mailLogo,primaryLabel,emailTextField,skipButton].forEach {
+            scrollContainer.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

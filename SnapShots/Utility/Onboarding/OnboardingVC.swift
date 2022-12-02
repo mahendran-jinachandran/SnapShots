@@ -24,7 +24,7 @@ class OnboardingVC: UIViewController {
     
     let welcomeLabel: UILabel = {
        let welcomeLabel = UILabel()
-        welcomeLabel.text = "WELCOME"
+        welcomeLabel.text = "SNAPSHOTS"
         welcomeLabel.font =  UIFont(name: "Papyrus", size: 45)
         welcomeLabel.textColor = UIColor(named: "appTheme")
         welcomeLabel.textAlignment = .center
@@ -35,8 +35,8 @@ class OnboardingVC: UIViewController {
     
     let welcomeSubLabel: UILabel = {
        let welcomeSubLabel = UILabel()
-        welcomeSubLabel.text = "A  place  to  connect."
-        welcomeSubLabel.font =  UIFont(name: "Papyrus", size: 30)
+        welcomeSubLabel.text = "A new world is rising. Discover it."
+        welcomeSubLabel.font =  UIFont(name: "Papyrus", size: 20)
         welcomeSubLabel.textColor = UIColor(named: "appTheme")
         welcomeSubLabel.textAlignment = .center
         welcomeSubLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,6 @@ class OnboardingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
         navigationItem.hidesBackButton = true
         createOnboardingStackView()
@@ -129,8 +128,8 @@ class OnboardingVC: UIViewController {
         NSLayoutConstraint.activate([
             
             onBoardingscrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            onBoardingscrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            onBoardingscrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            onBoardingscrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            onBoardingscrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
             onBoardingscrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             onBoardingStackView.topAnchor.constraint(equalTo: onBoardingscrollView.topAnchor),
@@ -140,7 +139,7 @@ class OnboardingVC: UIViewController {
             onBoardingStackView.widthAnchor.constraint(equalTo: onBoardingscrollView.widthAnchor),
         ])
         
-        heightAnchor = onBoardingStackView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: 0)
+        heightAnchor = onBoardingStackView.heightAnchor.constraint(equalTo: view.heightAnchor)
         heightAnchor?.isActive = true
     }
 }
