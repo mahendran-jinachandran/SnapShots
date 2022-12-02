@@ -9,6 +9,16 @@ import UIKit
 import Lottie
 
 class OnboardingVC: UIViewController {
+    
+    var heightAnchor: NSLayoutConstraint?
+    
+    let onBoardingscrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
 
     var onBoardingStackView: UIStackView!
     
@@ -41,7 +51,6 @@ class OnboardingVC: UIViewController {
         animationView.loopMode = .loop
         animationView.animationSpeed = 1
         animationView.translatesAutoresizingMaskIntoConstraints = false
-        animationView.heightAnchor.constraint(equalToConstant: 90).isActive = true
         animationView.play()
         return animationView
     }()
@@ -68,7 +77,29 @@ class OnboardingVC: UIViewController {
         navigationItem.hidesBackButton = true
         createOnboardingStackView()
         setConstraints()
-
+        updateScrollViewHeightConstraintActiveState()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        heightAnchor?.constant = -(view.safeAreaInsets.top + view.safeAreaInsets.bottom)
+    }
+    
+    private func updateScrollViewHeightConstraintActiveState() {
+        if traitCollection.verticalSizeClass == .regular {
+            heightAnchor?.isActive = true
+        } else {
+            heightAnchor?.isActive = false
+        }
+        
+        view.layoutIfNeeded()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        updateScrollViewHeightConstraintActiveState()
     }
     
     func createOnboardingStackView() {
@@ -79,7 +110,9 @@ class OnboardingVC: UIViewController {
         onBoardingStackView.axis = .vertical
         onBoardingStackView.distribution = .fill
         
-        view.addSubview(onBoardingStackView)
+        
+        view.addSubview(onBoardingscrollView)
+        onBoardingscrollView.addSubview(onBoardingStackView)
         nextButton.addTarget(self, action: #selector(goToNextOnboarding), for: .touchUpInside)
     }
     
@@ -92,11 +125,22 @@ class OnboardingVC: UIViewController {
     
     
     func setConstraints() {
+        
         NSLayoutConstraint.activate([
-            onBoardingStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
-            onBoardingStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -8),
-            onBoardingStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            onBoardingStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8)
+            
+            onBoardingscrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            onBoardingscrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            onBoardingscrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            onBoardingscrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            onBoardingStackView.topAnchor.constraint(equalTo: onBoardingscrollView.topAnchor),
+            onBoardingStackView.bottomAnchor.constraint(equalTo: onBoardingscrollView.bottomAnchor),
+            onBoardingStackView.leadingAnchor.constraint(equalTo: onBoardingscrollView.leadingAnchor),
+            onBoardingStackView.trailingAnchor.constraint(equalTo: onBoardingscrollView.trailingAnchor),
+            onBoardingStackView.widthAnchor.constraint(equalTo: onBoardingscrollView.widthAnchor),
         ])
+        
+        heightAnchor = onBoardingStackView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: 0)
+        heightAnchor?.isActive = true
     }
 }

@@ -9,6 +9,21 @@ import UIKit
 
 class OnboardingMailVC: UIViewController {
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
+    
     private var mailLogo: UIImageView = {
         let mailLogo = UIImageView(frame: .zero)
         mailLogo.image = UIImage(systemName: "envelope")
@@ -60,6 +75,7 @@ class OnboardingMailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNotficationCenter()
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
@@ -68,13 +84,22 @@ class OnboardingMailVC: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(validateMail))
         
         view.backgroundColor = .systemBackground
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
         [mailLogo,primaryLabel,emailTextField,skipButton].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
         
         setupConstraints()
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupNotficationCenter() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     @objc func dismissKeyboard() {
@@ -103,24 +128,66 @@ class OnboardingMailVC: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            mailLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 70),
-            mailLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            mailLogo.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 70),
+            mailLogo.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             mailLogo.widthAnchor.constraint(equalToConstant: 200),
             mailLogo.heightAnchor.constraint(equalToConstant: 150),
             
             primaryLabel.topAnchor.constraint(equalTo: mailLogo.bottomAnchor,constant: 10),
-            primaryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            primaryLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             primaryLabel.heightAnchor.constraint(equalToConstant: 50),
             
             emailTextField.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor,constant: 10),
-            emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emailTextField.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             emailTextField.widthAnchor.constraint(equalToConstant: 350),
             emailTextField.heightAnchor.constraint(equalToConstant: 40),
             
             skipButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor,constant: 20),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
-            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -15),
-            skipButton.heightAnchor.constraint(equalToConstant: 35)
+            skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
+            skipButton.heightAnchor.constraint(equalToConstant: 35),
+            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
+    }
+    
+    // MARK: KEYBOARD NOTIFICATION CENTER
+    var contentInsetBackstore: UIEdgeInsets = .zero
+    @objc private func didKeyboardAppear(notification:Notification){
+
+        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+        }
+
+        if contentInsetBackstore != .zero {
+            return
+        }
+
+        if contentInsetBackstore == .zero {
+            contentInsetBackstore = scrollView.contentInset
+        }
+
+        scrollView.contentInset = UIEdgeInsets(
+            top: contentInsetBackstore.top,
+            left: contentInsetBackstore.left,
+            bottom: keyboardFrame.height,
+            right: contentInsetBackstore.right
+        )
+    }
+
+    @objc private func didKeyboardDisappear(notification:Notification){
+        scrollView.contentInset = contentInsetBackstore
+        contentInsetBackstore = .zero
     }
 }

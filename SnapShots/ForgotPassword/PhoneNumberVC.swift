@@ -59,7 +59,6 @@ class PhoneNumberVC: UIViewController,UITextFieldDelegate {
     }
     
     @objc func sendOTP() {
-     //   ForgotPasswordControls().sendOTPVerification()
         
         if let phoneNumber = phoneNumber.text,!phoneNumber.isEmpty {
             print(phoneNumber)

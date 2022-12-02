@@ -10,6 +10,22 @@ import UIKit
 class OnboardingProfilePhotoVC: UIViewController {
         
     private var isPhotoUploaded: Bool = false
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
+    
     private var profilePhoto: UIImageView = {
         let profileImage = UIImageView(frame: .zero)
         profileImage.image = UIImage(named: "blankPhoto")
@@ -72,8 +88,10 @@ class OnboardingProfilePhotoVC: UIViewController {
         
         view.backgroundColor = .systemBackground
         
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
         [profilePhoto,primaryLabel,secondaryLabel,warningLabel,skipButton].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
         
         setupConstraints()
@@ -102,27 +120,40 @@ class OnboardingProfilePhotoVC: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            profilePhoto.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 50),
-            profilePhoto.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            profilePhoto.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 50),
+            profilePhoto.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             profilePhoto.widthAnchor.constraint(equalToConstant: 200),
             profilePhoto.heightAnchor.constraint(equalToConstant: 200),
             
             primaryLabel.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 30),
-            primaryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            primaryLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             primaryLabel.heightAnchor.constraint(equalToConstant: 50),
             
             secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
-            secondaryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            secondaryLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             secondaryLabel.heightAnchor.constraint(equalToConstant: 40),
             
             warningLabel.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor),
-            warningLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            warningLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             warningLabel.heightAnchor.constraint(equalToConstant: 40),
             
             skipButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor,constant: 20),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
-            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -25),
-            skipButton.heightAnchor.constraint(equalToConstant: 35)
+            skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -25),
+            skipButton.heightAnchor.constraint(equalToConstant: 35),
+            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
     }
 }

@@ -9,6 +9,21 @@ import UIKit
 
 class OnboardingBioVC: UIViewController {
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
+    
     private var bioLogo: UIImageView = {
         let bioLogo = UIImageView(frame: .zero)
         bioLogo.image = UIImage(systemName: "person.text.rectangle.fill")
@@ -56,6 +71,7 @@ class OnboardingBioVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNotficationCenter()
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
@@ -64,13 +80,22 @@ class OnboardingBioVC: UIViewController {
         
         
         view.backgroundColor = .systemBackground
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
         [bioLogo,bioLabel,bioProfileTextView,skipButton].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
         
         setupConstraints()
         skipButton.addTarget(self, action: #selector(goToHomePage), for: .touchUpInside)
         skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupNotficationCenter() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     @objc func dismissKeyboard() {
@@ -99,25 +124,66 @@ class OnboardingBioVC: UIViewController {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            bioLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
-            bioLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bioLogo.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 50),
-            bioLogo.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -50),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            bioLogo.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 20),
+            bioLogo.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
+            bioLogo.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 50),
+            bioLogo.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -50),
             bioLogo.heightAnchor.constraint(equalToConstant: 160),
             
             bioLabel.topAnchor.constraint(equalTo: bioLogo.bottomAnchor,constant: 20),
-            bioLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            bioLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             bioLabel.heightAnchor.constraint(equalToConstant: 30),
         
             bioProfileTextView.topAnchor.constraint(equalTo: bioLabel.bottomAnchor,constant: 20),
-            bioProfileTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            bioProfileTextView.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             bioProfileTextView.widthAnchor.constraint(equalToConstant: 350),
             bioProfileTextView.heightAnchor.constraint(equalToConstant: 100),
             
             skipButton.topAnchor.constraint(equalTo: bioProfileTextView.bottomAnchor,constant: 20),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
-            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -15),
-            skipButton.heightAnchor.constraint(equalToConstant: 35)
+            skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
+            skipButton.heightAnchor.constraint(equalToConstant: 35),
+            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
+    }
+    
+    // MARK: KEYBOARD NOTIFICATION CENTER
+    var contentInsetBackstore: UIEdgeInsets = .zero
+    @objc private func didKeyboardAppear(notification:Notification){
+
+        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+        }
+
+        if contentInsetBackstore != .zero {
+            return
+        }
+
+        if contentInsetBackstore == .zero {
+            contentInsetBackstore = scrollView.contentInset
+        }
+
+        scrollView.contentInset = UIEdgeInsets(
+            top: contentInsetBackstore.top,
+            left: contentInsetBackstore.left,
+            bottom: keyboardFrame.height,
+            right: contentInsetBackstore.right
+        )
+    }
+
+    @objc private func didKeyboardDisappear(notification:Notification){
+        scrollView.contentInset = contentInsetBackstore
+        contentInsetBackstore = .zero
     }
 }

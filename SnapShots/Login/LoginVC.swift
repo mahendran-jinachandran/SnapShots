@@ -54,7 +54,6 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         phoneNumber.layer.cornerRadius = 10
         phoneNumber.layer.borderWidth = 2
         phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
-        phoneNumber.translatesAutoresizingMaskIntoConstraints = false
         phoneNumber.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         phoneNumber.clearButtonMode = .whileEditing
         phoneNumber.keyboardType = .numberPad
@@ -62,7 +61,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         return phoneNumber
     }()
     
-    private lazy var phoneNumberLabel: UILabel = {
+    private lazy var phoneNumberWarningLabel: UILabel = {
         let phoneNumberLabel = UILabel()
         phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         phoneNumberLabel.text = Constants.unregisteredPhoneNumberWarning
@@ -129,7 +128,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         return registerLink
     }()
     
-    private lazy var condition: UILabel = {
+    private lazy var appConditions: UILabel = {
        let snapShots = UILabel()
        snapShots.text = "Terms & conditions apply"
        snapShots.textColor = UIColor(named: "appTheme")
@@ -142,18 +141,12 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemBackground
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-                
-        loginScrollView.showsVerticalScrollIndicator = false
+        navigationController?.isNavigationBarHidden = true
         navigationItem.hidesBackButton = true
+                
         setupNotficationCenter()
         setupTapGestures()
-        executeLoginProcess()
+        setupLoginPage()
     }
     
     func setupNotficationCenter() {
@@ -165,51 +158,30 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
-        let registerPage = UITapGestureRecognizer(target: self, action: #selector(startRegistrationProcess))
+        let registerPage = UITapGestureRecognizer(target: self, action: #selector(executeRegistrationProcess))
         registerLink.addGestureRecognizer(registerPage)
         
         let forgotPassword = UITapGestureRecognizer(target: self, action: #selector(executeForgotPasswordProcess))
         forgotPasswordLabel.addGestureRecognizer(forgotPassword)
+        
+        loginButton.addTarget(self, action: #selector(validateUserCredentials), for: .touchUpInside)
     }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    func executeLoginProcess() {
-        self.createLoginStackView()
-        self.view.backgroundColor = .systemBackground
-        self.phoneNumber.delegate = self
-        self.password.delegate = self
-        self.loginButton.addTarget(self, action: #selector(validateUserCredentials), for: .touchUpInside)
-    }
-        
-   @objc func startRegistrationProcess(gesture: UITapGestureRecognizer) {
-       let text = registerLink.text!
-       let termsRange = (text as NSString).range(of: "Register")
-       
-       if gesture.didTapAttributedTextInLabel(label: registerLink, inRange: termsRange) {
-           
-           let registerView = RegisterVC()
-           let registerController = RegisterControls()
-
-           registerView.setController(registerController)
-           registerController.setView(registerView)
-
-           navigationController?.pushViewController(registerView, animated: true)
-       }
-       
-       
-   }
-    
-    @objc func executeForgotPasswordProcess() {
-        navigationController?.pushViewController(PhoneNumberVC(), animated: true)
+    func setupLoginPage() {
+        loginScrollView.showsVerticalScrollIndicator = false
+        setupLoginStackView()
+        phoneNumber.delegate = self
+        password.delegate = self
     }
 
-    func createLoginStackView() {
+    func setupLoginStackView() {
         
        let arrangedSubViews = [
-            snapShotsLogo,snapShots,phoneNumber,phoneNumberLabel,password,forgotPasswordLabel,loginButton,registerLink,condition]
+            snapShotsLogo,snapShots,phoneNumber,phoneNumberWarningLabel,password,forgotPasswordLabel,loginButton,registerLink,appConditions]
 
         loginStackView = UIStackView(arrangedSubviews: arrangedSubViews)
         loginStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -228,7 +200,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         NSLayoutConstraint.activate([
             loginScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
             loginScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
-            loginScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            loginScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
             loginScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
             loginStackView.leadingAnchor.constraint(equalTo: loginScrollView.leadingAnchor),
@@ -242,10 +214,6 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     @objc func validateUserCredentials() {
         loginController.validateUserCredentials(phoneNumber: phoneNumber.text!, password: password.text!)
-    }
-    
-    func goToHomePage() {
-        self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -280,7 +248,6 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
 }
 
 extension LoginVC {
-    
     @objc func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
@@ -332,6 +299,30 @@ extension LoginVC {
         return true
     }
     
+    func goToHomePage() {
+        self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
+    }
+    
+    @objc func executeRegistrationProcess(gesture: UITapGestureRecognizer) {
+        let text = registerLink.text!
+        let termsRange = (text as NSString).range(of: "Register")
+        
+        if gesture.didTapAttributedTextInLabel(label: registerLink, inRange: termsRange) {
+            
+            let registerView = RegisterVC()
+            let registerController = RegisterControls()
+
+            registerView.setController(registerController)
+            registerController.setView(registerView)
+
+            navigationController?.pushViewController(registerView, animated: true)
+        }
+    }
+     
+     @objc func executeForgotPasswordProcess() {
+         navigationController?.pushViewController(PhoneNumberVC(), animated: true)
+     }
+    
     // MARK: DISPLAYING TO THE USER
     func displayPhoneNumberVerificationState(isVerified: Bool) {
         if isVerified {
@@ -354,15 +345,15 @@ extension LoginVC {
     
     func displayValidPhoneNumber() {
         phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
-        phoneNumberLabel.isHidden = true
+        phoneNumberWarningLabel.isHidden = true
         isPhoneNumberEntered = true
     }
     
     func displayInvalidPhoneNumber(warningText: String) {
         isPhoneNumberEntered = false
         phoneNumber.layer.borderColor = UIColor.red.cgColor
-        phoneNumberLabel.isHidden = false
-        phoneNumberLabel.text = warningText
+        phoneNumberWarningLabel.isHidden = false
+        phoneNumberWarningLabel.text = warningText
     }
     
     func enableLoginButton() {

@@ -10,8 +10,23 @@ import Firebase
 
 class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 
-    let genders = ["Male","Female","Rather not say","LGBT"]
+    let genders = ["Male","Female"]
     var pickerView = UIPickerView()
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
     
     private var genderImage: UIImageView = {
         let genderImage = UIImageView(frame: .zero)
@@ -51,6 +66,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNotficationCenter()
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
@@ -59,8 +75,10 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateGender))
         
         view.backgroundColor = .systemBackground
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
         [genderImage,genderTextField,skipButton].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
         
         pickerView.delegate = self
@@ -71,6 +89,12 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         setupConstraints()
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupNotficationCenter() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     @objc func dismissKeyboard() {
@@ -97,19 +121,31 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            genderImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
-            genderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            genderImage.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 20),
+            genderImage.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             genderImage.heightAnchor.constraint(equalToConstant: 160),
             
             genderTextField.topAnchor.constraint(equalTo: genderImage.bottomAnchor,constant: 20),
-            genderTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            genderTextField.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             genderTextField.widthAnchor.constraint(equalToConstant: 350),
             genderTextField.heightAnchor.constraint(equalToConstant: 40),
             
             skipButton.topAnchor.constraint(equalTo: genderTextField.bottomAnchor,constant: 20),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
-            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -15),
-            skipButton.heightAnchor.constraint(equalToConstant: 35)
+            skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
+            skipButton.heightAnchor.constraint(equalToConstant: 35),
+            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
     }
     
@@ -128,5 +164,34 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         genderTextField.text = genders[row]
         genderTextField.resignFirstResponder()
+    }
+    
+    // MARK: KEYBOARD NOTIFICATION CENTER
+    var contentInsetBackstore: UIEdgeInsets = .zero
+    @objc private func didKeyboardAppear(notification:Notification){
+
+        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+        }
+
+        if contentInsetBackstore != .zero {
+            return
+        }
+
+        if contentInsetBackstore == .zero {
+            contentInsetBackstore = scrollView.contentInset
+        }
+
+        scrollView.contentInset = UIEdgeInsets(
+            top: contentInsetBackstore.top,
+            left: contentInsetBackstore.left,
+            bottom: keyboardFrame.height,
+            right: contentInsetBackstore.right
+        )
+    }
+
+    @objc private func didKeyboardDisappear(notification:Notification){
+        scrollView.contentInset = contentInsetBackstore
+        contentInsetBackstore = .zero
     }
 }

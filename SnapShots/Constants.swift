@@ -32,7 +32,4 @@ struct Constants {
     
     // MARK: PASSWORD CONSTANTS
     static let minimumPasswordLength = 3
-    
-        
-    
 }
