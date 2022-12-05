@@ -96,6 +96,7 @@ class NewPostVC: UIViewController {
     
     @objc func uploadPost(_ sender : UITapGestureRecognizer) {
         newPostControls.addPost(caption: caption.text, image: postImage.image!)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         self.navigationController?.popViewController(animated: true)
     }
 }

@@ -33,7 +33,6 @@ class ProfileControls {
         }
     }
     
-    
     func getUserDetails(userID: Int) -> User {
         return userDaoImp.getUserDetails(userID: userID)!
     }
@@ -49,9 +48,8 @@ class ProfileControls {
         return postImage
     }
     
-    func getAllPosts() -> [(postImage: UIImage,postDetails: Post)] {
+    func getAllPosts(userID: Int) -> [(postImage: UIImage,postDetails: Post)] {
         
-        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         var posts: [(postImage: UIImage,postDetails: Post)] = []
         let postDetails = postDaoImp.getAllPosts(userID: userID)
         

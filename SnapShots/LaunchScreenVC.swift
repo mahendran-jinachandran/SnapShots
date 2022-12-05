@@ -18,7 +18,6 @@ class LaunchScreenVC: UIViewController {
         SQLiteDatabase.shared.getDatabaseReady()
         UIImage().saveImage(imageName: Constants.noDPSavingFormat, image: UIImage(named: "blankPhoto")!)
         AppUtility.lockOrientation(.portrait)
-        // Do any additional setup after loading the view.
         
         launchScreenAnimation = .init(name: "SocialMediaLaunchScreen")
         launchScreenAnimation.frame = view.bounds

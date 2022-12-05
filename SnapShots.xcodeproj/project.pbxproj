@@ -63,8 +63,6 @@
 		BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityViewController.swift */; };
 		BF816BA62929D3F30097421D /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountVC.swift */; };
 		BFA0627B2930A9F40016739A /* Carnevalee.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA0627A2930A9F40016739A /* Carnevalee.ttf */; };
-		BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */; };
-		BFA386702930CDBC00815E31 /* SuggestionCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */; };
 		BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3867129311AFE00815E31 /* NotificationGridVC.swift */; };
 		BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */; };
 		BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA55FD5292242EB00A948B4 /* FeedsVC.swift */; };
@@ -80,8 +78,11 @@
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
 		BFC9BAB429384C0F00EE1D42 /* UITapGestureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */; };
 		BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */; };
+		BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */; };
+		BFC9BABB293A213B00EE1D42 /* PhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BABA293A213B00EE1D42 /* PhoneNumberVC.swift */; };
+		BFC9BABD293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BABC293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift */; };
 		BFDD55962937227F00DC8D68 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFDD55952937227F00DC8D68 /* GoogleService-Info.plist */; };
-		BFDD55CF2937295E00DC8D68 /* PhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55CE2937295E00DC8D68 /* PhoneNumberVC.swift */; };
+		BFDD55CF2937295E00DC8D68 /* OTPPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */; };
 		BFDD55D229372CF600DC8D68 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BFDD55D129372CF600DC8D68 /* FirebaseAuth */; };
 		BFDD55D42937379D00DC8D68 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55D32937379D00DC8D68 /* AuthManager.swift */; };
 		BFDD55D629373A6400DC8D68 /* ForgotPasswordControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */; };
@@ -161,8 +162,6 @@
 		BF816BA32929D3E90097421D /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
 		BFA0627A2930A9F40016739A /* Carnevalee.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carnevalee.ttf; sourceTree = "<group>"; };
-		BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
-		BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCVCell.swift; sourceTree = "<group>"; };
 		BFA3867129311AFE00815E31 /* NotificationGridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationGridVC.swift; sourceTree = "<group>"; };
 		BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificiationGridCVCell.swift; sourceTree = "<group>"; };
 		BFA55FD5292242EB00A948B4 /* FeedsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsVC.swift; sourceTree = "<group>"; };
@@ -178,8 +177,11 @@
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
 		BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureExtensions.swift; sourceTree = "<group>"; };
 		BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapShotsError.swift; sourceTree = "<group>"; };
+		BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityController.swift; sourceTree = "<group>"; };
+		BFC9BABA293A213B00EE1D42 /* PhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberVC.swift; sourceTree = "<group>"; };
+		BFC9BABC293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFooterCollectionResuableView.swift; sourceTree = "<group>"; };
 		BFDD55952937227F00DC8D68 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		BFDD55CE2937295E00DC8D68 /* PhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberVC.swift; sourceTree = "<group>"; };
+		BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPPhoneNumberVC.swift; sourceTree = "<group>"; };
 		BFDD55D32937379D00DC8D68 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordControls.swift; sourceTree = "<group>"; };
 		BFDD55D729373FDE00DC8D68 /* OTPScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPScreenVC.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 			children = (
 				BF816BA32929D3E90097421D /* SecurityViewController.swift */,
 				BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */,
+				BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 			children = (
 				BFA55FDB2922433200A948B4 /* ProfileVC.swift */,
 				BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */,
+				BFC9BABC293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift */,
 				BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */,
 				BFDF7062292BA20A001A736F /* ProfileControls.swift */,
 			);
@@ -561,7 +565,7 @@
 		BFDD55942937205C00DC8D68 /* ForgotPassword */ = {
 			isa = PBXGroup;
 			children = (
-				BFDD55CE2937295E00DC8D68 /* PhoneNumberVC.swift */,
+				BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */,
 				BFDD55D32937379D00DC8D68 /* AuthManager.swift */,
 				BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */,
 				BFDD55D729373FDE00DC8D68 /* OTPScreenVC.swift */,
@@ -576,6 +580,7 @@
 				BFDD55FC2937769B00DC8D68 /* MailVC.swift */,
 				BFDD55FE293795CA00DC8D68 /* GenderVC.swift */,
 				BFDD560029379D2700DC8D68 /* DataOfBirthVC.swift */,
+				BFC9BABA293A213B00EE1D42 /* PhoneNumberVC.swift */,
 			);
 			name = PersonalInformation;
 			sourceTree = "<group>";
@@ -586,8 +591,6 @@
 				BF34662A29347FA9006FF9FE /* SearchControls.swift */,
 				BFA55FD72922430800A948B4 /* SearchPeopleVC.swift */,
 				BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */,
-				BFA3866D2930CA9600815E31 /* DiscoverViewController.swift */,
-				BFA3866F2930CDBC00815E31 /* SuggestionCVCell.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
 				BFDD55D829373FDE00DC8D68 /* OTPScreenVC.swift in Sources */,
 				BFDF705A292B4237001A736F /* PersonalInformationVC.swift in Sources */,
+				BFC9BABD293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift in Sources */,
 				BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */,
 				BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */,
 				BF4542D8291B4B3300BAC4B2 /* PostDao.swift in Sources */,
@@ -708,7 +712,6 @@
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,
 				BF5A13F32935FA2C0051FC8D /* OnboardingGenderVC.swift in Sources */,
-				BFA3866E2930CA9600815E31 /* DiscoverViewController.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
@@ -727,6 +730,7 @@
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
 				BF4542EE291B8A6000BAC4B2 /* LaunchScreenVC.swift in Sources */,
 				BF5A13C72935CC290051FC8D /* OnboardingProfilePhotoVC.swift in Sources */,
+				BFC9BABB293A213B00EE1D42 /* PhoneNumberVC.swift in Sources */,
 				BF4542E1291B4B6F00BAC4B2 /* CommentDao.swift in Sources */,
 				BFDD560129379D2700DC8D68 /* DataOfBirthVC.swift in Sources */,
 				BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */,
@@ -743,6 +747,7 @@
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
 				BF34662D29348D98006FF9FE /* Constants.swift in Sources */,
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
+				BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
 				BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */,
@@ -758,9 +763,8 @@
 				BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */,
 				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
 				BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */,
-				BFA386702930CDBC00815E31 /* SuggestionCVCell.swift in Sources */,
 				BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */,
-				BFDD55CF2937295E00DC8D68 /* PhoneNumberVC.swift in Sources */,
+				BFDD55CF2937295E00DC8D68 /* OTPPhoneNumberVC.swift in Sources */,
 				BF4542AB291A0F3C00BAC4B2 /* RegisterVC.swift in Sources */,
 				BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,

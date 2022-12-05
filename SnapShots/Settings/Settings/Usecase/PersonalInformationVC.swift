@@ -78,6 +78,7 @@ class PersonalInformationVC: UIViewController {
         phone.text = "9884133730"
         phone.textColor = UIColor(named: "appTheme")
         phone.font = UIFont.systemFont(ofSize: 18)
+        phone.isUserInteractionEnabled = true
         return phone
     }()
     
@@ -112,9 +113,9 @@ class PersonalInformationVC: UIViewController {
     private lazy var dateOfBirth: UILabel = {
       let dateOfBirth = UILabel()
         dateOfBirth.translatesAutoresizingMaskIntoConstraints = false
-        dateOfBirth.text = "29-Aug-2000"
         dateOfBirth.textColor = UIColor(named: "appTheme")
         dateOfBirth.font = UIFont.systemFont(ofSize: 18)
+        dateOfBirth.isUserInteractionEnabled = true
         return dateOfBirth
     }()
     
@@ -122,6 +123,55 @@ class PersonalInformationVC: UIViewController {
         super.viewDidLoad()
 
         title = "Personal Information"
+        view.backgroundColor = .systemBackground
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        setConstraints()
+        setupTapGestures()
+    }
+
+    
+    func setupTapGestures() {
+        let emailTap = UITapGestureRecognizer(target: self, action: #selector(editMail(_:)))
+        email.addGestureRecognizer(emailTap)
+        
+        let genderTap = UITapGestureRecognizer(target: self, action: #selector(editGender(_:)))
+        gender.addGestureRecognizer(genderTap)
+        
+        let dateOfBirthTap = UITapGestureRecognizer(target: self, action: #selector(editDateOfBirth(_:)))
+        dateOfBirth.addGestureRecognizer(dateOfBirthTap)
+        
+        let phoneNumberTap = UITapGestureRecognizer(target: self, action: #selector(editPhoneNumber(_:)))
+        phone.addGestureRecognizer(phoneNumberTap)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let user = AccountControls().getuserDetails()
+        email.text = user.mail == "-1" ? "Yet to fill" : user.mail
+        phone.text = user.phoneNumber
+        gender.text = user.gender == .male ? "Male" : "Female"
+        dateOfBirth.text = user.age == "-1" ? "Yet to fill" : user.age
+    }
+    
+    @objc func editMail(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(MailVC(mail: email.text!), animated: true)
+    }
+    
+    @objc func editGender(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(GenderVC(gender: gender.text!), animated: true)
+    }
+    
+    @objc func editDateOfBirth(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(DataOfBirthVC(dateOfBirth: dateOfBirth.text!), animated: true)
+    }
+    
+    @objc func editPhoneNumber(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(PhoneNumberVC(phoneNumber: phone.text!) ,animated: false)
+    }
+        
+    func setConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -130,38 +180,6 @@ class PersonalInformationVC: UIViewController {
             scrollContainer.addSubview($0)
         }
         
-
-
-        setConstraints()
-        
-        let emailTap = UITapGestureRecognizer(target: self, action: #selector(editMail(_:)))
-        email.addGestureRecognizer(emailTap)
-        
-        let genderTap = UITapGestureRecognizer(target: self, action: #selector(editGender(_:)))
-        gender.addGestureRecognizer(genderTap)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let user = AccountControls().getuserDetails()
-        email.text = user.mail
-        phone.text = user.phoneNumber
-        gender.text = user.gender == .male ? "Male" : "Female"
-        dateOfBirth.text = user.age
-    }
-    
-    @objc func editMail(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(MailVC(mail: email.text!), animated: true)
-    }
-    
-    @objc func editGender(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(GenderVC(), animated: true)
-    }
-    
-    
-        
-    func setConstraints() {
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

@@ -19,8 +19,14 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "ProfileHeaderCollectionReusableView"
     private var portraitConstraint = [NSLayoutConstraint]()
     
-    // MARK: SETUP LANDSCAPE CONSTRAINTS
-    private var landscapeConstraint = [NSLayoutConstraint]()
+    private lazy var profileStack : UIStackView = {
+        let profileStack = UIStackView()
+        profileStack.distribution = .fill
+        profileStack.axis = .horizontal
+        profileStack.translatesAutoresizingMaskIntoConstraints = false
+        profileStack.spacing = 10
+        return profileStack
+    }()
     
     weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
     
@@ -42,6 +48,19 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         postContainer.layer.borderWidth = 0.5
         postContainer.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
         postContainer.backgroundColor = UIColor(named: "post_bg_color")
+        postContainer.addSubview(postsLabel)
+        postContainer.addSubview(postsCountLabel)
+        NSLayoutConstraint.activate([
+            postsCountLabel.topAnchor.constraint(equalTo: postContainer.topAnchor,constant: 10),
+            postsCountLabel.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor),
+            postsCountLabel.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
+
+            postsLabel.topAnchor.constraint(equalTo: postsCountLabel.bottomAnchor,constant: 4),
+            postsLabel.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor),
+            postsLabel.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
+            
+        ])
+        
        return postContainer
     }()
     
@@ -51,6 +70,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        postsLabel.attributedText = NSAttributedString(string: "Post",attributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16)
         ])
+        postsLabel.textAlignment = .center
        return postsLabel
     }()
     
@@ -61,6 +81,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        postsCountLabel.attributedText = NSAttributedString(string: "10",attributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16)
         ])
+        postsCountLabel.textAlignment = .center
        return postsCountLabel
     }()
     
@@ -72,6 +93,18 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         friendsContainer.layer.borderWidth = 0.5
         friendsContainer.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
         friendsContainer.backgroundColor = UIColor(named: "post_bg_color")
+        friendsContainer.addSubview(friendsLabel)
+        friendsContainer.addSubview(friendsCountLabel)
+        
+        NSLayoutConstraint.activate([
+            friendsCountLabel.topAnchor.constraint(equalTo: friendsContainer.topAnchor,constant: 10),
+            friendsCountLabel.leadingAnchor.constraint(equalTo: friendsContainer.leadingAnchor),
+            friendsCountLabel.trailingAnchor.constraint(equalTo:friendsContainer.trailingAnchor),
+            
+            friendsLabel.topAnchor.constraint(equalTo: friendsCountLabel.bottomAnchor,constant: 4),
+            friendsLabel.leadingAnchor.constraint(equalTo: friendsContainer.leadingAnchor),
+            friendsLabel.trailingAnchor.constraint(equalTo: friendsContainer.trailingAnchor),
+        ])
        return friendsContainer
     }()
     
@@ -81,6 +114,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        friendsLabel.attributedText = NSAttributedString(string: "Friends",attributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16)
         ])
+        friendsLabel.textAlignment = .center
        return friendsLabel
     }()
     
@@ -90,12 +124,13 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        friendsCountLabel.attributedText = NSAttributedString(string: "10",attributes: [
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16)
         ])
-        friendsCountLabel.textAlignment = .right
+        friendsCountLabel.textAlignment = .center
        return friendsCountLabel
     }()
     
     private lazy var profileAccessButton: UIButton = {
         let profileAccessButton = UIButton()
+        profileAccessButton.titleLabel?.text = " Edit \n Profile"
         profileAccessButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         profileAccessButton.backgroundColor = UIColor(named: "post_bg_color")
         profileAccessButton.translatesAutoresizingMaskIntoConstraints = false
@@ -126,32 +161,37 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         super.init(frame: frame)
         
         profileAccessButton.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
-        [profilePhoto,postContainer,friendsContainer,userNameLabel,bioLabel,profileAccessButton].forEach {
+        
+        [profilePhoto,profileStack,userNameLabel,bioLabel].forEach {
             self.addSubview($0)
         }
-        
-        [postsLabel,postsCountLabel].forEach {
-            postContainer.addSubview($0)
-        }
-        
-        [friendsLabel,friendsCountLabel].forEach {
-            friendsContainer.addSubview($0)
-        }
-        
+    
+        setupStackView()
         setupConstraint()
+        setupTapGestures()
         profilePhoto.layer.cornerRadius = 60
-        
+    }
+    
+    func setupTapGestures() {
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         profilePhoto.addGestureRecognizer(imagePicker)
         
         let openFriendsTap = UITapGestureRecognizer(target: self, action: #selector(showFriends(_:)))
         friendsContainer.addGestureRecognizer(openFriendsTap)
-        
-        if traitCollection.verticalSizeClass == .compact {
-            setPortraitConstraints()
-        } else {
-            setPortraitConstraints()
-        }
+    }
+    
+    func setupStackView() {
+       
+        profileStack.addArrangedSubview(postContainer)
+        profileStack.addArrangedSubview(friendsContainer)
+        profileStack.addArrangedSubview(profileAccessButton)
+
+        NSLayoutConstraint.activate([
+            
+            postContainer.widthAnchor.constraint(equalTo: profileAccessButton.widthAnchor),
+            friendsContainer.widthAnchor.constraint(equalTo: postContainer.widthAnchor)
+            
+        ])
     }
     
     required init?(coder: NSCoder) {
@@ -178,18 +218,17 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileAccessButton.setTitle(" Edit\nProfile", for: .normal)
         profileAccessButton.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
     }
-    
+
     func setupFriendProfile() {
         profileAccessButton.setTitle("Unfriend", for: .normal)
         profileAccessButton.addTarget(self, action: #selector(unFollowUser), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
     }
-    
+
     func setupAcquaintanceProfile() {
         profileAccessButton.setTitle("Follow", for: .normal)
         profileAccessButton.addTarget(self, action: #selector(sendFriendRequest), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
-       
     }
 
     @objc func editProfile() {
@@ -211,54 +250,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
 }
 
-// MARK: IMAGE PICKER
-extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    
-    func showImagePicker(selectedSource: UIImagePickerController.SourceType) {
-        guard UIImagePickerController.isSourceTypeAvailable(selectedSource) else {
-            print("Selected source not available")
-            return
-        }
-
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = selectedSource
-        imagePickerController.allowsEditing = false
-
-        delegate?.controller().present(imagePickerController, animated: true)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        if let selectedImage = info[.originalImage] as? UIImage {
-            let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-            selectedImage.saveImage(imageName: "\(Constants.dpSavingFormat)\(userID)", image: selectedImage)
-            profilePhoto.image = selectedImage
-            print("Image changed")
-        } else {
-            print("Image not found")
-        }
-
-        picker.dismiss(animated: true)
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
-    }
-}
-
-
 // MARK: TRAIT COLLECTION AND IMAGE PICKING
 extension ProfileHeaderCollectionReusableView {
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        
-        if traitCollection.verticalSizeClass == .compact {
-            setLandscapeConstraints()
-        } else {
-            setPortraitConstraints()
-        }
-    }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         let size = systemLayoutSizeFitting(layoutAttributes.size)
@@ -292,115 +285,66 @@ extension ProfileHeaderCollectionReusableView {
     }
 }
 
-
-// MARK: CONSTRAINTS
 extension ProfileHeaderCollectionReusableView {
-    func setPortraitConstraints() {
-        NSLayoutConstraint.deactivate(landscapeConstraint)
-        NSLayoutConstraint.activate(portraitConstraint)
-    }
-    
-    func setLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(portraitConstraint)
-        NSLayoutConstraint.activate(landscapeConstraint)
-    }
     
     private func setupConstraint() {
     
-        portraitConstraint.append(contentsOf: [
-            
+        NSLayoutConstraint.activate([
             profilePhoto.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,constant: 10),
-            profilePhoto.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 125),
+            profilePhoto.leadingAnchor.constraint(greaterThanOrEqualTo: self.safeAreaLayoutGuide.leadingAnchor),
+            profilePhoto.trailingAnchor.constraint(lessThanOrEqualTo: self.safeAreaLayoutGuide.trailingAnchor),
+            profilePhoto.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             profilePhoto.heightAnchor.constraint(equalToConstant: 120),
             profilePhoto.widthAnchor.constraint(equalTo: profilePhoto.heightAnchor),
             
-            postContainer.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 30),
-            postContainer.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 10),
-            postContainer.widthAnchor.constraint(equalToConstant: 110),
-            postContainer.heightAnchor.constraint(equalToConstant: 55),
+            profileStack.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            profileStack.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            profileStack.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 10),
+            profileStack.heightAnchor.constraint(equalToConstant: 60),
             
-            postsLabel.topAnchor.constraint(equalTo: postContainer.topAnchor),
-            postsLabel.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 8),
-            postsLabel.trailingAnchor.constraint(equalTo:postContainer.trailingAnchor),
-            postsLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            postsCountLabel.topAnchor.constraint(equalTo: postsLabel.bottomAnchor,constant: 4),
-            postsCountLabel.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor),
-            postsCountLabel.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -8),
-            postsCountLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            friendsContainer.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 30),
-            friendsContainer.leadingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: 10),
-            friendsContainer.widthAnchor.constraint(equalToConstant: 110),
-            friendsContainer.heightAnchor.constraint(equalToConstant: 55),
-            
-            friendsLabel.topAnchor.constraint(equalTo: friendsContainer.topAnchor),
-            friendsLabel.leadingAnchor.constraint(equalTo: friendsContainer.leadingAnchor,constant: 8),
-            friendsLabel.trailingAnchor.constraint(equalTo:friendsContainer.trailingAnchor),
-            friendsLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            friendsCountLabel.topAnchor.constraint(equalTo: friendsLabel.bottomAnchor,constant: 4),
-            friendsCountLabel.leadingAnchor.constraint(equalTo: friendsContainer.leadingAnchor),
-            friendsCountLabel.trailingAnchor.constraint(equalTo: friendsContainer.trailingAnchor,constant: -8),
-            friendsCountLabel.heightAnchor.constraint(equalToConstant: 25),
-            
-            profileAccessButton.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 30),
-            profileAccessButton.leadingAnchor.constraint(equalTo: friendsContainer.trailingAnchor,constant: 10),
-            profileAccessButton.widthAnchor.constraint(equalToConstant: 115),
-            profileAccessButton.heightAnchor.constraint(equalToConstant: 55),
-            
-            userNameLabel.topAnchor.constraint(equalTo: postContainer.bottomAnchor,constant: 20),
+
+            userNameLabel.topAnchor.constraint(equalTo: profileStack.bottomAnchor,constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             userNameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            userNameLabel.heightAnchor.constraint(equalToConstant: 25),
             
             bioLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 4),
             bioLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             bioLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            bioLabel.heightAnchor.constraint(equalToConstant: 30),
         ])
-        
-       landscapeConstraint.append(contentsOf: [
+    }
+}
 
-            profilePhoto.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,constant: 10),
-            profilePhoto.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            profilePhoto.heightAnchor.constraint(equalToConstant: 200),
-            profilePhoto.widthAnchor.constraint(equalTo: profilePhoto.heightAnchor),
+extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    
+    func showImagePicker(selectedSource: UIImagePickerController.SourceType) {
+        guard UIImagePickerController.isSourceTypeAvailable(selectedSource) else {
+            print("Selected source not available")
+            return
+        }
 
-            userNameLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,constant:15),
-            userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 40),
-            userNameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            userNameLabel.heightAnchor.constraint(equalToConstant: 50),
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = selectedSource
+        imagePickerController.allowsEditing = false
 
-            bioLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor),
-            bioLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 40),
-            bioLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            bioLabel.heightAnchor.constraint(equalToConstant: 50),
+        delegate?.controller().present(imagePickerController, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
-            postsLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 20),
-            postsLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor, constant: 40),
-            postsLabel.heightAnchor.constraint(equalToConstant: 20),
-            postsLabel.widthAnchor.constraint(equalToConstant: 75),
+        if let selectedImage = info[.originalImage] as? UIImage {
+            let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+            selectedImage.saveImage(imageName: "\(Constants.dpSavingFormat)\(userID)", image: selectedImage)
+            profilePhoto.image = selectedImage
+            print("Image changed")
+        } else {
+            print("Image not found")
+        }
 
-            postsCountLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor,constant: 20),
-            postsCountLabel.leadingAnchor.constraint(equalTo: postsLabel.trailingAnchor),
-            postsCountLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            postsCountLabel.heightAnchor.constraint(equalToConstant: 20),
+        picker.dismiss(animated: true)
+    }
 
-            friendsLabel.topAnchor.constraint(equalTo: postsLabel.bottomAnchor,constant: 10),
-            friendsLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor, constant: 40),
-            friendsLabel.heightAnchor.constraint(equalToConstant: 20),
-            friendsLabel.widthAnchor.constraint(equalToConstant: 75),
-
-            friendsCountLabel.topAnchor.constraint(equalTo: postsLabel.bottomAnchor,constant: 20),
-            friendsCountLabel.leadingAnchor.constraint(equalTo: friendsLabel.trailingAnchor),
-            friendsCountLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            friendsCountLabel.heightAnchor.constraint(equalToConstant: 20),
-
-            profileAccessButton.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 20),
-            profileAccessButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            profileAccessButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            profileAccessButton.heightAnchor.constraint(equalToConstant: 30),
-        ])
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
     }
 }

@@ -46,21 +46,37 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        title = "About"
+        view.backgroundColor = .systemBackground
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        setupTintColors()
+        setupTapGestures()
+        setAboutConstraints()
+     }
+    
+    
+    func setupTintColors() {
+        privacyView.tintColor = UIColor(named: "appTheme")
+        termsView.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupTapGestures() {
+        let privacyPolicyTap = UITapGestureRecognizer(target: self, action: #selector(showPrivacyPolicies))
+        privacyView.addGestureRecognizer(privacyPolicyTap)
+    }
+    
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func setAboutConstraints() {
         
         [privacyView,termsView].forEach {
             view.addSubview($0)
         }
         
-        let privacyPolicyTap = UITapGestureRecognizer(target: self, action: #selector(showPrivacyPolicies))
-        privacyView.addGestureRecognizer(privacyPolicyTap)
-        
-
-        setAboutConstraints()
-     }
-    
-    func setAboutConstraints() {
         NSLayoutConstraint.activate([
             privacyView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             privacyView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

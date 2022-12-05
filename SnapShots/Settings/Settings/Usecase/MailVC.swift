@@ -70,7 +70,7 @@ class MailVC: UIViewController {
     private lazy var uploadLabel: UILabel = {
        let uploadLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
         uploadLabel.text = "Upload"
-        uploadLabel.textColor = .systemBlue
+        uploadLabel.textColor = UIColor(named: "appTheme")
         uploadLabel.isUserInteractionEnabled = true
         return uploadLabel
     }()
@@ -78,27 +78,25 @@ class MailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        title = "Mail"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
+
+        setupConstraints()
+        setupNotificationCenter()
+        setupTapGestures()
+    }
+    
+    func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
-
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-        
+    }
+    
+    func setupTapGestures() {
         let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(validateMail(_:)))
         uploadLabel.addGestureRecognizer(uploadLabelTap)
         
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
-        
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollContainer)
-        
-        [mailLogo,primaryLabel,emailTextField].forEach {
-            scrollContainer.addSubview($0)
-        }
-        
-        setupConstraints()
     }
     
     @objc func dismissKeyboard() {
@@ -117,6 +115,14 @@ class MailVC: UIViewController {
     }
     
     func setupConstraints() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        
+        [mailLogo,primaryLabel,emailTextField].forEach {
+            scrollContainer.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

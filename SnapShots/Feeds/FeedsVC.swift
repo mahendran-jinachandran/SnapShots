@@ -11,14 +11,6 @@ class FeedsViewController: UIViewController {
     
     var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private let feedsTable: UITableView = {
         let feedsTable = UITableView(frame: .zero)
         feedsTable.translatesAutoresizingMaskIntoConstraints = false
@@ -27,30 +19,42 @@ class FeedsViewController: UIViewController {
         feedsTable.separatorStyle = .none
        return feedsTable
     }()
-
+    
+    private var noPostsNotify: UILabel = {
+        let noRequestsNotify = UILabel()
+        noRequestsNotify.text = "No Feeds"
+        noRequestsNotify.textColor = .gray
+        noRequestsNotify.translatesAutoresizingMaskIntoConstraints = false
+        return noRequestsNotify
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavigationItems()
-        
+        setupFeedsTable()
+        setupNotificationSubscription()
+    }
+    
+    func setupFeedsTable() {
         feedsTable.delegate = self
         feedsTable.dataSource = self
-        view.addSubview(feedsTable)
         feedsTable.estimatedRowHeight = 300
         feedsTable.rowHeight = UITableView.automaticDimension
-        setConstraints()
+        
+        feedPosts = FeedsControls().getAllPosts()
+        if feedPosts.count > 0 {
+            setConstraints()
+        } else {
+            setNoFeedsConstraints()
+        }
     }
+    
     
     func setNavigationItems() {
         let friendsAction = UIAction(
           title: "Friends",
           image: UIImage(systemName: "person.3.fill")) { _ in
-        }
-
-        let postsAction = UIAction(
-          title: "Favourites",
-          image: UIImage(systemName: "star.circle")) { _ in
         }
         
         let button  = UIButton(type: .custom)
@@ -63,32 +67,41 @@ class FeedsViewController: UIViewController {
         button.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         button.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         button.tintColor = UIColor(named: "appTheme")!
-       
-        button.menu = UIMenu(title: "", image: nil, children: [friendsAction,postsAction])
+        button.menu = UIMenu(title: "", image: nil, children: [friendsAction])
         
         let barButton =  UIBarButtonItem(customView: button)
-        
         navigationItem.leftBarButtonItem = barButton
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        feedPosts = FeedsControls().getAllPosts()
-        if feedPosts.count > 0 {
-            feedsTable.reloadData()
-        } else {
-            feedPosts = []
-            feedsTable.reloadData()
-        }
+    
+    func setupNotificationSubscription() {
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
     }
     
+    @objc func refreshPostSection() {
+        feedPosts = FeedsControls().getAllPosts()
+        if feedPosts.count > 0 {
+            setConstraints()
+        } else {
+            setNoFeedsConstraints()
+        }
+        feedsTable.reloadData()
+    }
+
     func setConstraints() {
+        view.addSubview(feedsTable)
         NSLayoutConstraint.activate([
             feedsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
             feedsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             feedsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             feedsTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    func setNoFeedsConstraints() {
+        view.addSubview(noPostsNotify)
+        NSLayoutConstraint.activate([
+            noPostsNotify.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            noPostsNotify.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }
@@ -109,7 +122,6 @@ extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
         particularCell.post.image = feedPosts[indexPath.row].postPhoto
         particularCell.profilePhoto.image = feedPosts[indexPath.row].userDP
      //   particularCell.caption.text = feedPosts[indexPath.row].postDetails.caption
-        particularCell.backgroundColor = .red
         return particularCell
     }
 }
@@ -117,5 +129,13 @@ extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
 extension FeedsViewController: FeedsCustomCellDelegate {
     func controller() -> FeedsViewController {
         return self
+    }
+    
+    func likeThePost() {
+        
+    }
+    
+    func unLikeThePost() {
+        // MARK: UNLIKE THE POST
     }
 }

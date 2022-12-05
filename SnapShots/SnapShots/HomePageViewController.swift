@@ -25,7 +25,7 @@ class HomePageViewController: UITabBarController {
     private func setupViewControllers() {
         
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        let profileVC = ProfileVC(userID: userID)
+        let profileVC = ProfileVC(userID: userID,isVisiting: false)
         let profileControls = ProfileControls()
         
         profileVC.profileControls = profileControls

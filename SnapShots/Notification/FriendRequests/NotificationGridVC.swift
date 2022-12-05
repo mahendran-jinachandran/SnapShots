@@ -9,7 +9,13 @@ import UIKit
 
 class NotificationGridVC: UIViewController {
     
-    
+    private var noRequestsNotify: UILabel = {
+        let noRequestsNotify = UILabel()
+        noRequestsNotify.text = "No Requests"
+        noRequestsNotify.textColor = .gray
+        noRequestsNotify.translatesAutoresizingMaskIntoConstraints = false
+        return noRequestsNotify
+    }()
     private var friendRequestsCV: UICollectionView!
     private var friendRequestsCVLayout: UICollectionViewFlowLayout!
     private var friendRequests: [(userId: Int, userName: String,userDP: UIImage)] = []
@@ -21,6 +27,8 @@ class NotificationGridVC: UIViewController {
         
         
         friendRequests = NotificationControls().getAllFriendRequests()
+        
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Notification", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
         
@@ -36,19 +44,39 @@ class NotificationGridVC: UIViewController {
         friendRequestsCV.showsVerticalScrollIndicator = false
         friendRequestsCV.register(NotificiationGridCVCell.self, forCellWithReuseIdentifier: NotificiationGridCVCell.identifier)
         
+
+
+        setConstraints()
+        
+        if friendRequests.isEmpty {
+            setupNoRequestsConstraints()
+            return
+        }
+    }
+    
+    func setConstraints() {
+        
         [friendRequestsCV].forEach {
             view.addSubview($0)
         }
         
-        setConstraints()
-    }
-    
-    func setConstraints() {
         NSLayoutConstraint.activate([
             friendRequestsCV.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             friendRequestsCV.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             friendRequestsCV.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             friendRequestsCV.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    func setupNoRequestsConstraints() {
+        
+        [noRequestsNotify].forEach {
+            view.addSubview($0)
+        }
+        
+        NSLayoutConstraint.activate([
+            noRequestsNotify.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noRequestsNotify.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     

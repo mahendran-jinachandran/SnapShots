@@ -12,14 +12,14 @@ class SettingsViewController: UIViewController {
     private lazy var accountsView: UIView = {
         let accountsLabel = UILabel()
         accountsLabel.text = "Account"
-        accountsLabel.font = UIFont.systemFont(ofSize: 18)
+        accountsLabel.font = UIFont.systemFont(ofSize: 20)
         accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
         accountsLabel.setContentHuggingPriority(.init(249), for: .horizontal)
         
         let accountsCell = generateCell(
-            leftImage: UIImageView(image: UIImage(systemName: "gear")),
+            leftImage: UIImageView(image: UIImage(systemName: "person.circle")),
             label: accountsLabel,
             rightImage: UIImageView(image: UIImage(systemName: "chevron.right")))
         
@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController {
     private lazy var securityView: UIView = {
         let accountsLabel = UILabel()
         accountsLabel.text = "Security"
-        accountsLabel.font = UIFont.systemFont(ofSize: 18)
+        accountsLabel.font = UIFont.systemFont(ofSize: 20)
         accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
@@ -46,7 +46,7 @@ class SettingsViewController: UIViewController {
     private lazy var aboutView: UIView = {
         let accountsLabel = UILabel()
         accountsLabel.text = "About"
-        accountsLabel.font = UIFont.systemFont(ofSize: 18)
+        accountsLabel.font = UIFont.systemFont(ofSize: 20)
         accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.isUserInteractionEnabled = true
@@ -71,7 +71,6 @@ class SettingsViewController: UIViewController {
         return logoutButton
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,19 +78,24 @@ class SettingsViewController: UIViewController {
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor.systemBackground
-    
         navigationItem.scrollEdgeAppearance = appearance
-
-        title = "Settings"
         
-        [accountsView,securityView,aboutView,logoutButton].forEach {
-            view.addSubview($0)
-        }
+        navigationItem.title = "Settings"
+        view.backgroundColor = .systemBackground
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        setSettingsContratints()
-        
-        logoutButton.addTarget(self, action: #selector(startLogoutProcess), for: .touchUpInside)
-        
+        setupTintColors()
+        setupTapGestures()
+        setSettingsContraints()
+    }
+    
+    func setupTintColors() {
+        accountsView.tintColor = UIColor(named: "appTheme")
+        securityView.tintColor = UIColor(named: "appTheme")
+        aboutView.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupTapGestures() {
         let accountsViewTap = UITapGestureRecognizer(target: self, action: #selector(openAccount))
         accountsView.addGestureRecognizer(accountsViewTap)
         
@@ -101,31 +105,36 @@ class SettingsViewController: UIViewController {
         let aboutLabelTap = UITapGestureRecognizer(target: self, action: #selector(showAboutApp))
         aboutView.addGestureRecognizer(aboutLabelTap)
         
+        logoutButton.addTarget(self, action: #selector(startLogoutProcess), for: .touchUpInside)
     }
     
-    // MARK: DISABLING ANIMATIONS WHEN POPING OUT
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIView.setAnimationsEnabled(false)
+    @objc func goBack() {
+        navigationController?.popToRootViewController(animated: true)
+    
     }
     
-    func setSettingsContratints() {
+    func setSettingsContraints() {
+        
+        [accountsView,securityView,aboutView,logoutButton].forEach {
+            view.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
-            accountsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            accountsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 5),
             accountsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             accountsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            accountsView.heightAnchor.constraint(equalToConstant: 40),
+            accountsView.heightAnchor.constraint(equalToConstant: 35),
             
-            securityView.topAnchor.constraint(equalTo: accountsView.bottomAnchor),
+            securityView.topAnchor.constraint(equalTo: accountsView.bottomAnchor,constant: 5),
             securityView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             securityView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            securityView.heightAnchor.constraint(equalToConstant: 40),
+            securityView.heightAnchor.constraint(equalToConstant: 35),
             
-            aboutView.topAnchor.constraint(equalTo: securityView.bottomAnchor),
+            aboutView.topAnchor.constraint(equalTo: securityView.bottomAnchor,constant: 5),
             aboutView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             aboutView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            aboutView.heightAnchor.constraint(equalToConstant: 40),
+            aboutView.heightAnchor.constraint(equalToConstant: 35),
             
             logoutButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
@@ -161,17 +170,17 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func showAboutApp() {
-        navigationController?.pushViewController(AboutViewController(), animated: false)
+        presentDetail(AboutViewController())
     }
     
     @objc func openSecurity() {
-        navigationController?.pushViewController(SecurityViewController(), animated: false)
+        navigationController?.pushViewController(SecurityViewController(), animated: true)
     }
     
     
 
     @objc func openAccount(sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(AccountVC(), animated: false)
+        navigationController?.pushViewController(AccountVC(), animated: true)
         if(sender.view == accountsView) {
             print("Account View Selected")
         } else if(sender.view == securityView) {

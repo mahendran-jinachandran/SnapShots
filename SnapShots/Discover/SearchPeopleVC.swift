@@ -27,6 +27,9 @@ class SearchPeopleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        people = SearchControls().getAllUsers()
+        dupPeople = people
+        
         title = "Search"
         searchBar = UISearchController(searchResultsController: nil)
         searchBar.searchBar.placeholder = "Search people 🌎"
@@ -39,13 +42,6 @@ class SearchPeopleViewController: UIViewController {
         view.addSubview(recentSearchTable)
         
         setSearchTableConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        people = SearchControls().getAllUsers()
-        dupPeople = people
     }
     
     func setSearchTableConstraints() {
@@ -68,8 +64,7 @@ extension SearchPeopleViewController: UITableViewDelegate,UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let profileVC = ProfileVC(userID: dupPeople[indexPath.row].user.userID)
+        let profileVC = ProfileVC(userID: dupPeople[indexPath.row].user.userID,isVisiting: true)
         let profileControls = ProfileControls()
         
         profileVC.profileControls = profileControls
@@ -79,10 +74,8 @@ extension SearchPeopleViewController: UITableViewDelegate,UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let particularCell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
-        
-        
+
         particularCell.tag = indexPath.row
-        particularCell.searchPeopleVCDelegate = self
         particularCell.configure(
             userName: dupPeople[indexPath.row].user.userName,
             userDP: dupPeople[indexPath.row].userDP)
@@ -95,6 +88,7 @@ extension SearchPeopleViewController: UISearchTextFieldDelegate, UISearchBarDele
         
         if searchText.isEmpty {
             dupPeople = people
+            recentSearchTable.reloadData()
             return
         }
 
@@ -115,18 +109,6 @@ extension SearchPeopleViewController: UISearchTextFieldDelegate, UISearchBarDele
         searchBar.text = ""
         dupPeople = people
         recentSearchTable.reloadData()
-    }
-}
-
-extension SearchPeopleViewController: SearchPeopleVCDelegate {
-    
-    @objc func removeFromRecentSearches(_ sender: UIButton) {
-        if let cell = sender.superview?.superview as? UITableViewCell,
-           let indexPath = recentSearchTable.indexPath(for: cell) {
-            
-            dupPeople.remove(at: sender.tag)
-            recentSearchTable.deleteRows(at: [indexPath], with: .fade)
-        }
     }
 }
 

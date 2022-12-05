@@ -32,18 +32,33 @@ class SecurityViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         title = "Security"
-        
-        [passwordView].forEach {
-            view.addSubview($0)
-        }
+        view.backgroundColor = .systemBackground
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         setConstraints()
-        
+        setupTapGestures()
+        setupTintColors()
+    }
+    
+    func setupTintColors() {
+        passwordView.tintColor = UIColor(named: "appTheme")
+    }
+    
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func setupTapGestures() {
         let passwordLabelTap = UITapGestureRecognizer(target: self, action: #selector(startChangePasswordProcess))
         passwordView.addGestureRecognizer(passwordLabelTap)
     }
     
     func setConstraints() {
+        
+        [passwordView].forEach {
+            view.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             passwordView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
@@ -55,6 +70,6 @@ class SecurityViewController: UIViewController {
     }
     
    @objc func startChangePasswordProcess() {
-       navigationController?.pushViewController(ChangePasswordViewController(), animated: false)
+       presentDetail(ChangePasswordViewController())
     }
 }

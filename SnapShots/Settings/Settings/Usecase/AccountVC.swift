@@ -31,17 +31,29 @@ class AccountVC: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        [personalInformationView].forEach {
-            view.addSubview($0)
-        }
-        
+        title = "Account"
+        view.backgroundColor = .systemBackground
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         setConstraints()
-        
+        setupTapGestures()
+        setupTintColours()
+    }
+    
+    func setupTintColours() {
+        personalInformationView.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupTapGestures() {
         let personalInformationTap = UITapGestureRecognizer(target: self, action: #selector(showPersonalInformation))
         personalInformationView.addGestureRecognizer(personalInformationTap)
     }
     
     func setConstraints() {
+        
+        [personalInformationView].forEach {
+            view.addSubview($0)
+        }
         
         NSLayoutConstraint.activate([
             personalInformationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
@@ -54,8 +66,4 @@ class AccountVC: UIViewController {
     @objc func showPersonalInformation() {
         navigationController?.pushViewController(PersonalInformationVC(), animated: false)
     }
-    
-    
-    
-
 }

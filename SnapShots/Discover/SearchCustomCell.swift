@@ -33,37 +33,23 @@ class SearchTableViewCell: UITableViewCell {
        userNameLabel.isUserInteractionEnabled = true
        return userNameLabel
     }()
-    
-    private lazy var deletebutton: UIButton = {
-        var deleteButton = UIButton(type: .custom)
-        deleteButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        return deleteButton
-    }()
-    
-    weak var searchPeopleVCDelegate: SearchPeopleVCDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.systemBackground
         
-        [profilePhoto,userNameLabel,deletebutton].forEach {
+        [profilePhoto,userNameLabel].forEach {
             contentView.addSubview($0)
         }
                 
         setupConstraint()
         profilePhoto.layer.cornerRadius = 50/2
-        deletebutton.addTarget(self, action: #selector(removeFromRecentSearch(_:)), for: .touchUpInside)
     }
     
     func configure(userName: String,userDP: UIImage) {
         userNameLabel.text = userName
         profilePhoto.image = userDP
-    }
-    
-    @objc func removeFromRecentSearch(_ sender : UIButton) {
-       searchPeopleVCDelegate?.removeFromRecentSearches(sender)
     }
     
     required init?(coder: NSCoder) {
@@ -78,15 +64,8 @@ class SearchTableViewCell: UITableViewCell {
             profilePhoto.heightAnchor.constraint(equalToConstant: 50),
             profilePhoto.widthAnchor.constraint(equalToConstant: 50),
             
-            deletebutton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
-            deletebutton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            deletebutton.heightAnchor.constraint(equalToConstant: 13),
-            deletebutton.widthAnchor.constraint(equalToConstant: 13),
-            
             userNameLabel.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor),
             userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 8),
-            userNameLabel.trailingAnchor.constraint(equalTo: deletebutton.leadingAnchor)
-        
         ])
     }
 }

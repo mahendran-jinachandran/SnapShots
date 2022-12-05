@@ -57,4 +57,29 @@ class AccountControls {
             return false
         }
     }
+    
+    func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
+        
+        let isValidPhoneNumber = AppUtility.isValidPhoneNumber(phoneNumber: phoneNumber)
+        
+        guard let _ = try? isValidPhoneNumber.get() else {
+            return isValidPhoneNumber
+        }
+        
+        let isPhoneNumberTaken = userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber)
+        return .success(!isPhoneNumberTaken)
+    }
+    
+    func updatePhoneNumber(phoneNumber: String) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
+        if userDaoImp.updatePhoneNumber(phoneNumber: phoneNumber, userID: loggedUserID) {
+            // MARK: AGE IS UPDATED
+            return true
+        } else {
+            // MARK: COULDN'T UPDATE
+            return false
+        }
+        
+    }
 }

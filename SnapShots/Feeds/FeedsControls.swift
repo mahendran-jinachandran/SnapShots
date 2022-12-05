@@ -36,4 +36,8 @@ class FeedsControls {
         }
         return feedPosts
     }
+    
+    func likeThePost() {
+        
+    }
 }

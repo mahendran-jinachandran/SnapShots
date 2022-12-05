@@ -9,6 +9,7 @@ import UIKit
 
 protocol FeedsCustomCellDelegate: AnyObject {
     func controller() -> FeedsViewController
+    func likeThePost()
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -65,9 +66,9 @@ class FeedsCustomCell: UITableViewCell {
        return post
     }()
     
-    public lazy var like: UIImageView = {
-        var like = UIImageView()
-        like.image = UIImage(systemName: "heart")
+    public lazy var like: UIButton = {
+        var like = UIButton()
+        like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
         like.translatesAutoresizingMaskIntoConstraints = false
         like.contentMode = .scaleAspectFill
         like.isUserInteractionEnabled = true
@@ -97,7 +98,6 @@ class FeedsCustomCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.systemBackground
-        
         contentView.addSubview(postContainer)
         
         [profilePhoto,userNameLabel,moreInfo,post,like,comment,caption].forEach {
@@ -105,13 +105,15 @@ class FeedsCustomCell: UITableViewCell {
         }
         
         setupConstraint()
+        setupTapGestures()
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
         
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
-        
-        let likeTap = UITapGestureRecognizer(target: self, action: #selector(likeThePost(_:)))
-        like.addGestureRecognizer(likeTap)
+    }
+    
+    func setupTapGestures() {
+        like.addTarget(self, action: #selector(likeThePost(_:)), for: .touchUpInside)
         
         let commentTap = UITapGestureRecognizer(target: self, action: #selector(gotToComments))
         comment.addGestureRecognizer(commentTap)
@@ -122,9 +124,9 @@ class FeedsCustomCell: UITableViewCell {
         likeFlag = !likeFlag
         
         if likeFlag {
-            like.image = UIImage(systemName: "heart.fill")
+            like.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            like.image = UIImage(systemName: "heart")
+            like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
         }
     }
     
@@ -133,6 +135,7 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     @objc func gotToComments() {
+        
         delegate?.controller().navigationController?.pushViewController(CommentsVC(), animated: true)
     }
     
@@ -212,7 +215,7 @@ class FeedsCustomCell: UITableViewCell {
             like.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
             like.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
             like.heightAnchor.constraint(equalToConstant: 30),
-            like.widthAnchor.constraint(equalToConstant: 30),
+            like.widthAnchor.constraint(equalToConstant: 35),
             
             comment.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 8),
             comment.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),

@@ -13,17 +13,18 @@ class ProfileVC: UIViewController {
     private var layout = UICollectionViewFlowLayout()
     public var profileControls: ProfileControls!
     private var posts: [(postImage: UIImage,postDetails: Post)] = []
-    private var user: User!
-    private var userID: Int
+    private var profileUser: User!
+    private var userID: Int!
     private var profileAccessibility: ProfileAccess!
+    private var isVisiting: Bool!
     
     var profileHeader: UILabel = {
         return UILabel()
     }()
-    
-    // MARK: FIND SOME OTHER WAY (REDUNDANCY B/W userID and loggedUser)
-    init(userID: Int) {
+
+    init(userID: Int,isVisiting: Bool) {
         self.userID = userID
+        self.isVisiting = isVisiting
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,31 +35,19 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = ""
         profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
-        self.user = profileControls.getUserDetails(userID: userID)
-        setupSearchTable()
+        self.profileUser = profileControls.getUserDetails(userID: userID)
         
+        setupProfileView()
         setNavigationItems()
-
         setProfileConstraints()
-        profileHeader.attributedText = NSAttributedString(string: user.userName,attributes: [
-            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
-        ])
+        setupNotificationSubscription()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func setupProfileView() {
         
-        posts = profileControls.getAllPosts()
-        if posts.count > 0 {
-            profileView.reloadData()
-        } else {
-            posts = []
-            profileView.reloadData()
-        }
-    }
-    
-    func setupSearchTable() {
+        posts = profileControls.getAllPosts(userID: userID)
         layout.minimumLineSpacing = 15
         layout.minimumInteritemSpacing = 1
         
@@ -73,32 +62,37 @@ class ProfileVC: UIViewController {
             ProfileHeaderCollectionReusableView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
+        
+        if posts.isEmpty || profileAccessibility == .acquaintance {
+            profileView.register(
+                ProfileFooterCollectionResuableView.self,
+                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                withReuseIdentifier: ProfileFooterCollectionResuableView.identifier)
+        }
       
         profileView.dataSource = self
         profileView.delegate = self
         profileView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(profileView)
     }
     
     func setNavigationItems() {
-        
-        let profileAccess = profileAccessibility!
-        switch profileAccess {
-            case .owner:
-                setupOwnerNavigationItems()
-            case .friend:
-                setupFriendsNavigationItems()
-                fallthrough
-            case .acquaintance:
-                setupFriendsNavigationItems()
+        if isVisiting {
+            title = profileUser.userName
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(goBack))
+        } else {
+            setupOwnerNavigationItems()
         }
         
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
     func setupOwnerNavigationItems() {
+        
+        profileHeader.attributedText = NSAttributedString(string: profileUser.userName,attributes: [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
+        ])
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileHeader)
+        
         let hamburgerMenu = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(openSettings))
         hamburgerMenu.tintColor = UIColor(named: "appTheme")!
         
@@ -108,16 +102,14 @@ class ProfileVC: UIViewController {
         navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
     }
     
-    func setupFriendsNavigationItems() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(goBack))
-        title = user.userName
-    }
-    
     @objc func goBack() {
         navigationController?.popViewController(animated: false)
     }
         
     func setProfileConstraints() {
+        
+        view.addSubview(profileView)
+        
         NSLayoutConstraint.activate([
             profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             profileView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
@@ -127,7 +119,7 @@ class ProfileVC: UIViewController {
     }
     
     @objc func openSettings() {
-        navigationController?.pushViewController(SettingsViewController(), animated: false)
+        navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
     @objc func uploadNewPost() {
@@ -151,6 +143,13 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionView.elementKindSectionFooter {
+    
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileFooterCollectionResuableView.identifier, for: indexPath) as! ProfileFooterCollectionResuableView
+            
+            return footerView
+        }
       
         let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
@@ -158,19 +157,18 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             for: indexPath) as! ProfileHeaderCollectionReusableView
         
         headerView.delegate = self
-        
         headerView.setData(
-            username: user.userName,
-            friendsCount: user.profile.friendsList.count,
-            postsCount: user.profile.posts.count,
-            bio: user.profile.bio,
+            username: profileUser.userName,
+            friendsCount: profileUser.profile.friendsList.count,
+            postsCount: posts.count,
+            bio: profileUser.profile.bio,
             profileDP: profileControls.getProfileDP(),
             profileAccessibility: profileAccessibility
         )
         
         return headerView
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
@@ -179,10 +177,8 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         
         cell.postImage.image = posts[indexPath.item].postImage
-        
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
         cell.postImage.addGestureRecognizer(imagePicker)
-        
         cell.tag = indexPath.item
         
         return cell
@@ -190,13 +186,27 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     
+        if profileAccessibility == .acquaintance {
+            return CGSize(width: 0,height: 0)
+        }
+        
         return CGSize(width: (collectionView.frame.width / 3) - 10,
                       height: ( collectionView.frame.width / 3) - 1)
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        return CGSize(width: 500, height: 320)
+        return CGSize(width: 500, height: 300)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        
+        if posts.isEmpty || profileAccessibility == .acquaintance  {
+            return CGSize(width: 500, height: 320)
+        }
+        
+        return  CGSize(width: 0, height: 0)
     }
     
     @objc func openPost(_ sender: UITapGestureRecognizer) {
@@ -207,7 +217,15 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                 postDetails: posts[sender.view!.tag].postDetails),
             animated: false)
     }
-
+    
+    func setupNotificationSubscription() {
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+    }
+    
+    @objc func refreshPostSection() {
+        posts = profileControls.getAllPosts(userID: userID)
+        profileView.reloadData()
+    }
 }
 
 extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
@@ -222,9 +240,13 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     @objc func sendFriendRequest() {
         if profileControls.sendFriendRequest(requestingUser: userID) {
             // MARK: TOAST SEND FRIEND REQUEST
+            print("REQUEST SENT")
         } else {
             // MARK: TOAST COULDN'T SEND REQUEST
+            print("COULDN'T SEND REQUEST")
         }
+        
+        profileView.reloadData()
     }
     
     @objc func cancelFriendRequest() {

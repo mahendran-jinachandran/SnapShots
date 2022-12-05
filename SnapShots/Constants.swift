@@ -32,4 +32,7 @@ struct Constants {
     
     // MARK: PASSWORD CONSTANTS
     static let minimumPasswordLength = 3
+    
+    // MARK: PUBLISHING A POST EVENT
+    static let publishPostEvent = Notification.Name("Publish_Post")
 }

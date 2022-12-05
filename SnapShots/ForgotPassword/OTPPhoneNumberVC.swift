@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhoneNumberVC: UIViewController,UITextFieldDelegate {
+class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     
     private lazy var phoneNumberLabel: UILabel = {
         var phoneNumber = UILabel()

@@ -320,7 +320,7 @@ extension LoginVC {
     }
      
      @objc func executeForgotPasswordProcess() {
-         navigationController?.pushViewController(PhoneNumberVC(), animated: true)
+         navigationController?.pushViewController(OTPPhoneNumberVC(), animated: true)
      }
     
     // MARK: DISPLAYING TO THE USER
