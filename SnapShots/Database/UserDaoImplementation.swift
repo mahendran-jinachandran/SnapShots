@@ -37,6 +37,11 @@ class UserDaoImplementation: UserDao {
         return UserInstance.getUserInstance(dbQuery: checkPhoneNumberExistQuery)
     }
     
+    func getUserDetails(userID: Int) -> User? {
+        let getParticularUserQuery = "SELECT * FROM User WHERE User_id = \(userID)"
+        return UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
+    }
+    
     func getAllUsers() -> [User] {
         let getAllUsers = "SELECT * FROM User"
         let users = sqliteDatabase.retrievingQuery(query: getAllUsers)
@@ -48,11 +53,6 @@ class UserDaoImplementation: UserDao {
             )
         }
         return allUsers
-    }
-    
-    func getUserDetails(userID: Int) -> User? {
-        let getParticularUserQuery = "SELECT * FROM User WHERE User_id = \(userID)"
-        return UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
     }
     
     func getUserID(phoneNumber: String,password: String) -> Int? {

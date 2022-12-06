@@ -13,7 +13,7 @@ class LikesCustomCell: UITableViewCell {
     
     public var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
-       profileImage.image = UIImage(named: "Quote")
+//       profileImage.image = UIImage(named: "Quote")
        profileImage.clipsToBounds = true
        profileImage.contentMode = .scaleAspectFill
        profileImage.translatesAutoresizingMaskIntoConstraints = false
@@ -24,32 +24,24 @@ class LikesCustomCell: UITableViewCell {
     public lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-       userNameLabel.text = "MahendranMahendranqw"
+     //  userNameLabel.text = "MahendranMahendranqw"
        userNameLabel.font = UIFont.systemFont(ofSize:16)
        return userNameLabel
     }()
     
-    public lazy var followButton: UIButton = {
-        var followButton = UIButton()
-        followButton.setTitle("Follow", for: .normal)
-        followButton.translatesAutoresizingMaskIntoConstraints = false
-        followButton.backgroundColor = .systemBlue
-        followButton.layer.cornerRadius = 5
-        followButton.setTitleColor(.black, for: .normal)
-        return followButton
-    }()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.systemBackground
-        
-        [profilePhoto,userNameLabel,followButton].forEach {
-            contentView.addSubview($0)
-        }
+        contentView.backgroundColor = .systemBackground
         
         setupConstraint()
         profilePhoto.layer.cornerRadius = 30
+    }
+    
+    
+    func configure(profilePhoto: UIImage,userNameLabel: String) {
+        self.profilePhoto.image = profilePhoto
+        self.userNameLabel.text = userNameLabel
     }
     
     required init?(coder: NSCoder) {
@@ -57,6 +49,11 @@ class LikesCustomCell: UITableViewCell {
     }
     
     private func setupConstraint() {
+        
+        [profilePhoto,userNameLabel].forEach {
+            contentView.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -68,11 +65,6 @@ class LikesCustomCell: UITableViewCell {
             userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 12),
             userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             userNameLabel.heightAnchor.constraint(equalToConstant: 40),
-            
-            followButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -8),
-            followButton.widthAnchor.constraint(equalToConstant: 100),
-            followButton.heightAnchor.constraint(equalToConstant: 30),
-            followButton.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor)
             
         ])
     }

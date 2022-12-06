@@ -74,4 +74,19 @@ class ProfileControls {
       //  return friendRequestDapImp.cancelFriendRequest(loggedUserID: <#T##Int#>)
         return false
     }
+    
+    func updateProfilePhoto(profilePhoto: UIImage) {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        let photoName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
+        profilePhoto.saveImage(imageName: photoName,image: profilePhoto)
+        
+        if userDaoImp.updatePhoto(photo: photoName, userID: loggedUserID) {
+            // MARK: PROFILE PHOTO IS UPDATED
+            print("Photo updated")
+        } else {
+            // MARK: COULDN'T UPLOAD PHOTO
+            print("Could not update")
+        }
+    }
+    
 }

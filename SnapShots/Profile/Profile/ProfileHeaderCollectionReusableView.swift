@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
     func controller() -> ProfileVC
+    func uploadPhoto(image: UIImage)
     func getFriendsList()
     func sendFriendRequest()
     func cancelFriendRequest()
@@ -336,6 +337,7 @@ extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,U
             let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
             selectedImage.saveImage(imageName: "\(Constants.dpSavingFormat)\(userID)", image: selectedImage)
             profilePhoto.image = selectedImage
+            delegate?.uploadPhoto(image: selectedImage)
             print("Image changed")
         } else {
             print("Image not found")

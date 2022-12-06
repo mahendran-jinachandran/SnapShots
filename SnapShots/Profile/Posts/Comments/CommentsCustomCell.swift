@@ -32,7 +32,7 @@ class CommentsCustomCell: UITableViewCell {
     public lazy var comment: UILabel = {
         var comment = UILabel()
         comment.translatesAutoresizingMaskIntoConstraints = false
-        comment.text = "Amazing"
+        comment.text = "AmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazing"
         comment.font = UIFont.systemFont(ofSize: 14)
         comment.numberOfLines = 0
         return comment

@@ -8,7 +8,6 @@
 import Foundation
 
 class LikesDaoImplementation: LikesDao {
-    
     private let sqliteDatabase: DatabaseProtocol
     private var userDaoImp: UserDao
     init(sqliteDatabase: DatabaseProtocol,userDaoImp: UserDao) {
@@ -27,6 +26,7 @@ class LikesDaoImplementation: LikesDao {
     }
     
     func addLikeToThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {
+        
         let insertIntoDB = """
         INSERT INTO Likes
         VALUES (\(visitingUserID),\(postID),\(loggedUserID));
@@ -35,15 +35,24 @@ class LikesDaoImplementation: LikesDao {
         return sqliteDatabase.execute(query: insertIntoDB)
     }
     
-    func getAllLikesOfPost(userID: Int,postID: Int) -> [String] {
+    func removeLikeFromThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {
+        let removeFromDB = """
+        DELETE FROM Likes
+        WHERE User_id = \(visitingUserID) AND Post_id = \(postID) AND LikedUser_id = \(loggedUserID)
+        """
+        
+        return sqliteDatabase.execute(query: removeFromDB)
+    }
+    
+    func getAllLikesOfPost(userID: Int,postID: Int) -> [User] {
         let getLikesOfPostQuery = """
         SELECT LikedUser_id FROM Likes
         WHERE User_id = \(userID) AND Post_id = \(postID);
         """
         
-        var likedUsers: [String] = []
-        for (_,postLikedUserID) in sqliteDatabase.retrievingQuery(query: getLikesOfPostQuery){
-            likedUsers.append(userDaoImp.getUsername(userID: Int(postLikedUserID[0])!))
+        var likedUsers: [User] = []
+        for (_,postLikedUserID) in sqliteDatabase.retrievingQuery(query: getLikesOfPostQuery){            
+            likedUsers.append(userDaoImp.getUserDetails(userID: Int(postLikedUserID[0])!)!)
         }
         
         return likedUsers

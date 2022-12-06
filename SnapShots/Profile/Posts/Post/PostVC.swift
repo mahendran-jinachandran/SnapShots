@@ -66,7 +66,7 @@ class PostVC: UIViewController {
     }
     
     @objc func goToLikes() {
-        self.navigationController?.pushViewController(LikesVC(), animated: true)
+       // self.navigationController?.pushViewController(LikesVC(), animated: true)
     }
     
     @objc func gotToComments() {

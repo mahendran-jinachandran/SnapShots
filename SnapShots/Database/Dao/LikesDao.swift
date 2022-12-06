@@ -10,5 +10,6 @@ import Foundation
 protocol LikesDao {
     func isPostAlreadyLiked(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool
     func addLikeToThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool
-    func getAllLikesOfPost(userID: Int,postID: Int) -> [String]
+    func removeLikeFromThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool
+    func getAllLikesOfPost(userID: Int,postID: Int) -> [User]
 }

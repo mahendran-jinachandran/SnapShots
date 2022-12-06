@@ -251,4 +251,8 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     
     @objc func cancelFriendRequest() {
     }
+    
+    func uploadPhoto(image: UIImage) {
+        profileControls.updateProfilePhoto(profilePhoto: image)
+    }
 }

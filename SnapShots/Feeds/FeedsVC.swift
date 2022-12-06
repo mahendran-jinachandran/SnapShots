@@ -31,6 +31,7 @@ class FeedsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = ""
         setNavigationItems()
         setupFeedsTable()
         setupNotificationSubscription()
@@ -49,7 +50,6 @@ class FeedsViewController: UIViewController {
             setNoFeedsConstraints()
         }
     }
-    
     
     func setNavigationItems() {
         let friendsAction = UIAction(
@@ -117,11 +117,15 @@ extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
         
         particularCell.delegate = self
         
-        // MARK: CHANGE IT INTO CONFIGURE
-        particularCell.userNameLabel.text = "\(feedPosts[indexPath.row].userName)"
-        particularCell.post.image = feedPosts[indexPath.row].postPhoto
-        particularCell.profilePhoto.image = feedPosts[indexPath.row].userDP
-     //   particularCell.caption.text = feedPosts[indexPath.row].postDetails.caption
+        print(FeedsControls().isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]))
+        particularCell.configure(
+            profilePhoto: feedPosts[indexPath.row].userDP,
+            username: "\(feedPosts[indexPath.row].userName)",
+            postPhoto: feedPosts[indexPath.row].postPhoto,
+            postCaption: feedPosts[indexPath.row].postDetails.caption,
+            isAlreadyLiked: FeedsControls().isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row])
+        )
+        
         return particularCell
     }
 }
@@ -131,11 +135,37 @@ extension FeedsViewController: FeedsCustomCellDelegate {
         return self
     }
     
-    func likeThePost() {
+    func likeThePost(sender: FeedsCustomCell) {
         
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let postUserID = feedPosts[indexPath.row].userID
+        let postID = feedPosts[indexPath.row].postDetails.postID
+        
+        if FeedsControls().addLikeToThePost(postUserID: postUserID, postID: postID) {
+            print("Liked")
+        } else {
+            print("Could not like")
+        }
     }
     
-    func unLikeThePost() {
-        // MARK: UNLIKE THE POST
+    func unLikeThePost(sender: FeedsCustomCell) {
+        
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let postUserID = feedPosts[indexPath.row].userID
+        let postID = feedPosts[indexPath.row].postDetails.postID
+        
+        if FeedsControls().removeLikeFromThePost(postUserID: postUserID, postID: postID) {
+            print("Unliked")
+        } else {
+            print("Could not unlike")
+        }
+    }
+    
+    func showLikes(sender: FeedsCustomCell) {
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let postUserID = feedPosts[indexPath.row].userID
+        let postID = feedPosts[indexPath.row].postDetails.postID
+        
+        navigationController?.present(LikesVC(postUserID: postUserID, postID: postID), animated: true)
     }
 }

@@ -335,6 +335,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
             contentInsetBackstore = registerScrollView.contentInset
         }
 
+        
         registerScrollView.contentInset = UIEdgeInsets(
             top: contentInsetBackstore.top,
             left: contentInsetBackstore.left,

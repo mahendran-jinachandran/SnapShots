@@ -76,6 +76,8 @@
 		BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginControls.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
+		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
+		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
 		BFC9BAB429384C0F00EE1D42 /* UITapGestureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */; };
 		BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */; };
 		BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */; };
@@ -175,6 +177,8 @@
 		BFA5601429262FEF00A948B4 /* LoginControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControls.swift; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
+		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
+		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
 		BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureExtensions.swift; sourceTree = "<group>"; };
 		BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapShotsError.swift; sourceTree = "<group>"; };
 		BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityController.swift; sourceTree = "<group>"; };
@@ -231,6 +235,7 @@
 			children = (
 				BF311691292F8CDF008BAA08 /* LikesVC.swift */,
 				BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */,
+				BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */,
 			);
 			path = Likes;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 			children = (
 				BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */,
 				BF31169A292FA306008BAA08 /* CommentsVC.swift */,
+				BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -711,6 +717,7 @@
 				BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,
+				BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */,
 				BF5A13F32935FA2C0051FC8D /* OnboardingGenderVC.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
@@ -725,6 +732,7 @@
 				BFDF7079292F375D001A736F /* PostControls.swift in Sources */,
 				BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */,
 				BFDD55FF293795CA00DC8D68 /* GenderVC.swift in Sources */,
+				BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */,
 				BF45425F2918C03100BAC4B2 /* LoginVC.swift in Sources */,
 				BFDD55D629373A6400DC8D68 /* ForgotPasswordControls.swift in Sources */,
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,

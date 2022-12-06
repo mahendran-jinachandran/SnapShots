@@ -13,21 +13,28 @@ class FeedsControls {
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
+    private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
     func getAllPosts() -> [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] {
         
         var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
         
-        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        let posts = postDaoImp.getAllFriendPosts(userID: userID)
+        let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        let posts = postDaoImp.getAllFriendPosts(userID: loggedUser)
         
         for (userID,username,postDetails) in posts {
+            
+            var userDP: UIImage!
+            if UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: userID)) == nil {
+                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
+            } else {
+                userDP = UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: userID))
+            }
+        
             feedPosts.append((
                 userID,
                 username,
-                UIImage().loadImageFromDiskWith(
-                    fileName: Constants.noDPSavingFormat
-                )!,
+                userDP,
                 postDetails,
                 UIImage().loadImageFromDiskWith(
                     fileName: "\(userID)\(Constants.postSavingFormat)\(postDetails.postID)"
@@ -37,7 +44,21 @@ class FeedsControls {
         return feedPosts
     }
     
-    func likeThePost() {
+    func isAlreadyLikedThePost(postDetails: (userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)) -> Bool {
         
+        let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return likesDaoImp.isPostAlreadyLiked(loggedUserID: loggedUser, visitingUserID: postDetails.userID, postID: postDetails.postDetails.postID)
+    }
+    
+    func addLikeToThePost(postUserID: Int,postID: Int) -> Bool {
+        
+        let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return likesDaoImp.addLikeToThePost(loggedUserID: loggedUser, visitingUserID: postUserID, postID: postID)
+    }
+    
+    func removeLikeFromThePost(postUserID: Int,postID: Int) -> Bool {
+        let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
+        return likesDaoImp.removeLikeFromThePost(loggedUserID: loggedUser, visitingUserID: postUserID, postID: postID)
     }
 }
