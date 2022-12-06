@@ -55,8 +55,10 @@ class CommentsCustomCell: UITableViewCell {
     
     private var bottomConstraint: NSLayoutConstraint!
     
-    func configure(comment: String?) {
-        
+    func configure(userDP: UIImage,username: String,comment: String) {
+        self.profilePhoto.image = userDP
+        self.userNameLabel.text = username
+        self.comment.text = comment
     }
     
     func setupContraints() {

@@ -14,20 +14,21 @@ class CommentDaoImplementation: CommentDao {
         self.sqliteDatabase = sqliteDatabase
     }
     
-    func getAllCommmentsOfPost(loggedUserID: Int) -> [(username: String,comment: String)] {
+    func getAllCommmentsOfPost(postUserID: Int,postID: Int) -> [(comment: String,commentUserID: Int)] {
         let getCommentsQuery = """
                 SELECT
-                    Username,
-                    Comment
+                    Comment,
+                    CommentUser_id
                 FROM
                     User
-                    INNER JOIN Comments ON Comments.User_id = \(loggedUserID) AND
+                    INNER JOIN Comments ON Comments.User_id = \(postUserID) AND
+                    Comments.Post_id = \(postID) AND
                     Comments.CommentUser_id = User.User_id
         """
         
-        var comments: [(username: String,comment: String)] = []
+        var comments: [(comment: String,commentUserID: Int)] = []
         for (_,commentDetails) in sqliteDatabase.retrievingQuery(query: getCommentsQuery) {
-            comments.append((commentDetails[0],commentDetails[1]))
+            comments.append((commentDetails[0],Int(commentDetails[1])!))
         }
         
         return comments

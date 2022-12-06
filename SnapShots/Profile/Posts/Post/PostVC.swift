@@ -70,7 +70,7 @@ class PostVC: UIViewController {
     }
     
     @objc func gotToComments() {
-        self.navigationController?.pushViewController(CommentsVC(), animated: true)
+      //  self.navigationController?.pushViewController(CommentsVC(), animated: true)
     }
     
     @objc func showOwnerMenu(_ sender: UIButton) {

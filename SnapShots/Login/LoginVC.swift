@@ -11,9 +11,9 @@ import Lottie
 class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     private var loginController: LoginControllerProtocol!
-    var isPhoneNumberEntered: Bool = false
-    var isPasswordEntered: Bool = false
-    var loginStackView: UIStackView!
+    private var isPhoneNumberEntered: Bool = false
+    private var isPasswordEntered: Bool = false
+    private var loginStackView: UIStackView!
     
     public func setController(_ controller: LoginControllerProtocol) {
         loginController = controller
@@ -173,9 +173,9 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     func setupLoginPage() {
         loginScrollView.showsVerticalScrollIndicator = false
-        setupLoginStackView()
         phoneNumber.delegate = self
         password.delegate = self
+        setupLoginStackView()
     }
 
     func setupLoginStackView() {
@@ -189,14 +189,15 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         loginStackView.distribution = .fill
         loginStackView.spacing = 15
         loginStackView.setCustomSpacing(30, after: registerLink)
-
-        view.addSubview(loginScrollView)
-        loginScrollView.addSubview(loginStackView)
         
         setupLoginStackConstraints()
     }
     
     func setupLoginStackConstraints() {
+        
+        view.addSubview(loginScrollView)
+        loginScrollView.addSubview(loginStackView)
+        
         NSLayoutConstraint.activate([
             loginScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
             loginScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
@@ -208,7 +209,6 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
             loginStackView.topAnchor.constraint(equalTo: loginScrollView.topAnchor),
             loginStackView.bottomAnchor.constraint(equalTo: loginScrollView.bottomAnchor),
             loginStackView.widthAnchor.constraint(equalTo: loginScrollView.widthAnchor)
-
         ])
     }
     
@@ -219,8 +219,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-    // MARK: NOTIFICATION CENTER
+
     @objc private func didKeyboardAppear(notification:Notification){
         
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
@@ -323,7 +322,6 @@ extension LoginVC {
          navigationController?.pushViewController(OTPPhoneNumberVC(), animated: true)
      }
     
-    // MARK: DISPLAYING TO THE USER
     func displayPhoneNumberVerificationState(isVerified: Bool) {
         if isVerified {
             displayValidPhoneNumber()

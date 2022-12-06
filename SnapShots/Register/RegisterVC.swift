@@ -16,7 +16,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
     
     var registerStackView: UIStackView!
-    let registerScrollView: UIScrollView = {
+    private lazy var registerScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -24,7 +24,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return scrollView
     }()
     
-    let registerLabel: UILabel = {
+    private lazy var registerLabel: UILabel = {
         let registerLabel = UILabel()
         registerLabel.text = "REGISTER"
         registerLabel.font =  UIFont(name: "Copperplate", size: 50)
@@ -35,7 +35,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return registerLabel
     }()
     
-    lazy var username: UITextField = {
+    private lazy var username: UITextField = {
         let username = UITextField()
         username.translatesAutoresizingMaskIntoConstraints = false
         username.placeholder = "Username"
@@ -49,7 +49,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return username
     }()
     
-    lazy var usernameWarningLabel: UILabel = {
+    private lazy var usernameWarningLabel: UILabel = {
         let usernameLabel = UILabel()
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.textColor = .red
@@ -59,7 +59,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return usernameLabel
     }()
     
-    lazy var phoneNumber: UITextField = {
+    private lazy var phoneNumber: UITextField = {
         let phoneNumber = UITextField()
         phoneNumber.translatesAutoresizingMaskIntoConstraints = false
         phoneNumber.placeholder = "Phone number"
@@ -74,7 +74,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return phoneNumber
     }()
     
-    lazy var phoneNumberWarningLabel: UILabel = {
+    private lazy var phoneNumberWarningLabel: UILabel = {
         let phoneNumberLabel = UILabel()
         phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         phoneNumberLabel.textColor = .red
@@ -84,7 +84,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return phoneNumberLabel
     }()
     
-    lazy var password: UITextField = {
+    private lazy var password: UITextField = {
         let password = UITextField()
         password.placeholder = "Password"
         password.layer.cornerRadius = 10
@@ -100,7 +100,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }()
     
     
-    lazy var rePassword: UITextField = {
+    private lazy var rePassword: UITextField = {
         let rePassword = UITextField()
         rePassword.placeholder = "Re-enter password"
         rePassword.layer.cornerRadius = 10
@@ -112,24 +112,14 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return rePassword
     }()
     
-    lazy var passwordVisibilityToggleButton: UIButton = {
+    private lazy var passwordVisibilityToggleButton: UIButton = {
        let toggleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
        toggleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
        return toggleButton
     }()
     
-    @objc func passwordVisibility(_ sender : UIButton) {
-        if(password.isSecureTextEntry){
-            password.isSecureTextEntry = false
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
-        }else{
-            password.isSecureTextEntry = true
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
-        }
-    }
-    
-    lazy var passwordNotMatchWarningLabel: UILabel = {
+    private lazy var passwordNotMatchWarningLabel: UILabel = {
         let passwordNotMatchLabel = UILabel()
         passwordNotMatchLabel.textColor = .red
         passwordNotMatchLabel.text = "Passwords do not match"
@@ -140,7 +130,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return passwordNotMatchLabel
     }()
     
-    lazy var registerButton: UIButton = {
+    private lazy var registerButton: UIButton = {
         let registerButton = UIButton()
         registerButton.setTitle("Register", for: .normal)
         registerButton.backgroundColor = .systemBlue
@@ -165,7 +155,6 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
     
     func setupNotficationCenter() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
@@ -194,13 +183,14 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         registerStackView.distribution = .fill
         registerStackView.spacing = 15
 
-        view.addSubview(registerScrollView)
-        registerScrollView.addSubview(registerStackView)
         addConstraintsLoginStack()
     }
     
-    
     func addConstraintsLoginStack() {
+        
+        view.addSubview(registerScrollView)
+        registerScrollView.addSubview(registerStackView)
+        
         NSLayoutConstraint.activate([
             registerScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             registerScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
@@ -216,7 +206,6 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
         
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        
         if textField == phoneNumber {
             _ = checkPhoneNumberValidation(phoneNumber: textField.text!)
         } else if textField == username {
@@ -242,7 +231,6 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
                 invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
             }
         }
-        
         return false
     }
     
@@ -276,7 +264,6 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         invalidPasswordStatus(warningLabel: PasswordActionError.mismatch.description)
         return false
     }
-    
     
     @objc func registerValidation() {
         if !checkUsernameValidation(username: username.text!) {
@@ -387,5 +374,15 @@ extension RegisterVC {
     func invalidPasswordStatus(warningLabel: String) {
         passwordNotMatchWarningLabel.isHidden = false
         passwordNotMatchWarningLabel.text = warningLabel
+    }
+    
+    @objc func passwordVisibility(_ sender : UIButton) {
+        if(password.isSecureTextEntry){
+            password.isSecureTextEntry = false
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }else{
+            password.isSecureTextEntry = true
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }
     }
 }

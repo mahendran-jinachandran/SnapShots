@@ -30,8 +30,7 @@ class FeedsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = ""
+
         setNavigationItems()
         setupFeedsTable()
         setupNotificationSubscription()
@@ -167,5 +166,13 @@ extension FeedsViewController: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         navigationController?.present(LikesVC(postUserID: postUserID, postID: postID), animated: true)
+    }
+    
+    func showComments(sender: FeedsCustomCell) {
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let postUserID = feedPosts[indexPath.row].userID
+        let postID = feedPosts[indexPath.row].postDetails.postID
+        
+        navigationController?.pushViewController(CommentsVC(postUserID: postUserID, postID: postID), animated: true)
     }
 }

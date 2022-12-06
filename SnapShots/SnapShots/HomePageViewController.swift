@@ -25,9 +25,9 @@ class HomePageViewController: UITabBarController {
     private func setupViewControllers() {
         
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
         let profileVC = ProfileVC(userID: userID,isVisiting: false)
         let profileControls = ProfileControls()
-        
         profileVC.profileControls = profileControls
         
         viewControllers = [
@@ -42,7 +42,7 @@ class HomePageViewController: UITabBarController {
     
     fileprivate func createNavigationController(rootViewController: UIViewController,title: String,
                                                 icon: UIImage) -> UIViewController {
-        
+         
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.tabBarItem.title = title
         navigationController.tabBarItem.image = icon

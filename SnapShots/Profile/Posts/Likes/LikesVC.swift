@@ -50,15 +50,14 @@ class LikesVC: UIViewController {
         // Do any additional setup after loading the view.
         title = "Likes"
         view.backgroundColor = .systemBackground
-        setupLikes()
-      
-        likesTable.delegate = self
-        likesTable.dataSource = self
-        
+        setupLikesTable()
         setNavigationItems()
     }
     
-    func setupLikes() {
+    func setupLikesTable() {
+        likesTable.delegate = self
+        likesTable.dataSource = self
+        
         likedUsers = LikesControls().getAllLikedUsers(postUserID: postUserID, postID: postID)
         
         if likedUsers.isEmpty {

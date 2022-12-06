@@ -12,6 +12,7 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func likeThePost(sender: FeedsCustomCell)
     func unLikeThePost(sender: FeedsCustomCell)
     func showLikes(sender: FeedsCustomCell)
+    func showComments(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -150,7 +151,7 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     @objc func gotToComments() {
-        delegate?.controller().navigationController?.pushViewController(CommentsVC(), animated: true)
+        delegate?.showComments(sender: self)
     }
     
     @objc func showOwnerMenu(_ sender: UIButton) {
