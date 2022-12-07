@@ -35,4 +35,7 @@ struct Constants {
     
     // MARK: PUBLISHING A POST EVENT
     static let publishPostEvent = Notification.Name("Publish_Post")
+    
+    // MARK: NO BIO CONSTANT
+    static let noUserBioDefault = "Nothing to share!"
 }

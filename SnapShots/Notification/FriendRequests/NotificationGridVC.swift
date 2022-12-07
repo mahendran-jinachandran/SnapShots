@@ -9,25 +9,29 @@ import UIKit
 
 class NotificationGridVC: UIViewController {
     
-    private var noRequestsNotify: UILabel = {
+    private var friendRequestsCV: UICollectionView!
+    private var friendRequestsCVLayout: UICollectionViewFlowLayout!
+    private var friendRequests: [(userId: Int, userName: String,userDP: UIImage)] = []
+    private var notificationControls: NotificationControlsProtocols!
+    
+    func setNotificationControls(_ notificationControls: NotificationControlsProtocols) {
+        self.notificationControls = notificationControls
+    }
+    
+    private lazy var noRequestsNotify: UILabel = {
         let noRequestsNotify = UILabel()
         noRequestsNotify.text = "No Requests"
         noRequestsNotify.textColor = .gray
         noRequestsNotify.translatesAutoresizingMaskIntoConstraints = false
         return noRequestsNotify
     }()
-    private var friendRequestsCV: UICollectionView!
-    private var friendRequestsCVLayout: UICollectionViewFlowLayout!
-    private var friendRequests: [(userId: Int, userName: String,userDP: UIImage)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         
-        
-        friendRequests = NotificationControls().getAllFriendRequests()
-        
+        friendRequests = notificationControls.getAllFriendRequests()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Notification", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
@@ -43,9 +47,7 @@ class NotificationGridVC: UIViewController {
         friendRequestsCV.delegate = self
         friendRequestsCV.showsVerticalScrollIndicator = false
         friendRequestsCV.register(NotificiationGridCVCell.self, forCellWithReuseIdentifier: NotificiationGridCVCell.identifier)
-        
-
-
+    
         setConstraints()
         
         if friendRequests.isEmpty {
@@ -115,7 +117,7 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
     func acceptFriendRequest(sender: NotificiationGridCVCell) {
         let indexPath = friendRequestsCV.indexPath(for: sender)!
         
-        if NotificationControls().acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userId) {
+        if notificationControls.acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userId) {
             friendRequestsCV.deleteItems(at: [indexPath])
             friendRequests.remove(at: indexPath.row)
             friendRequestsCV.reloadData()
@@ -123,6 +125,8 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
     }
     
     func rejectFriendRequest(sender: NotificiationGridCVCell) {
+        
+        // MARK: REJECT FRIEND REQUEST
         print(sender)
     }
 }

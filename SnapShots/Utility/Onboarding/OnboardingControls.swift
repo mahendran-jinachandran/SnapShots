@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OnboardingControls {
+class OnboardingControls: OnboardingProtocol {
     
     private lazy var userDao: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NewPostControls {
+class NewPostControls: NewPostControlProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     

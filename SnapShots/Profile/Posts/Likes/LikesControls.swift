@@ -7,11 +7,10 @@
 
 import UIKit
 
-class LikesControls {
+class LikesControls: LikesControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var likeDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
-    
     
     func getAllLikedUsers(postUserID: Int,postID: Int) -> [(user: User,profilePhoto: UIImage)] {
         

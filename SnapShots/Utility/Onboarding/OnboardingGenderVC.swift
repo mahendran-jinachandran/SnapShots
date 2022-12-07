@@ -13,6 +13,16 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     let genders = ["Male","Female"]
     var pickerView = UIPickerView()
     
+    private var onboardingControls: OnboardingProtocol
+    init(onboardingControls: OnboardingProtocol) {
+        self.onboardingControls = onboardingControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -103,14 +113,14 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
                 genderTextField.layer.borderColor = UIColor.red.cgColor
                 return
             }
-            OnboardingControls().updateGender(gender: gender)
+            onboardingControls.updateGender(gender: gender)
         }
         
         navigateToNext()
     }
     
     @objc func navigateToNext() {
-        navigationController?.pushViewController(OnboardingBirthdayVC(), animated: false)
+        navigationController?.pushViewController(OnboardingBirthdayVC(onboardingControls: onboardingControls), animated: false)
     }
     
     func setupConstraints() {

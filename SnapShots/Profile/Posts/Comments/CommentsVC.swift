@@ -12,8 +12,10 @@ class CommentsVC: UIViewController {
     private lazy var commentDetails: [(userDP: UIImage,username: String,comment:String)] = []
     private var postUserID: Int
     private var postID: Int
+    private var commentsControls: CommentsControlsProtocol
     
-    init(postUserID: Int,postID: Int) {
+    init(commentsControls: CommentsControlsProtocol,postUserID: Int,postID: Int) {
+        self.commentsControls = commentsControls
         self.postUserID = postUserID
         self.postID = postID
         super.init(nibName: nil, bundle: nil)
@@ -75,7 +77,7 @@ class CommentsVC: UIViewController {
         commentsTable.delegate = self
         commentsTable.dataSource = self
         
-        commentDetails = CommentsControls().getAllComments(postUserID: postUserID, postID: postID)
+        commentDetails = commentsControls.getAllComments(postUserID: postUserID, postID: postID)
         if commentDetails.isEmpty {
             setupNoCommentsConstraints()
             return
@@ -164,9 +166,9 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource,UITextFieldDeleg
     }
     
     @objc func addComment() {
-        CommentsControls().addComment(postUserID: postUserID, postID: postID, comment: addCommentTextField.text!)
+        commentsControls.addComment(postUserID: postUserID, postID: postID, comment: addCommentTextField.text!)
         
-        commentDetails = CommentsControls().getAllComments(postUserID: postUserID, postID: postID)
+        commentDetails = commentsControls.getAllComments(postUserID: postUserID, postID: postID)
         addCommentTextField.text = nil
         setupConstraints()
         commentsTable.reloadData()

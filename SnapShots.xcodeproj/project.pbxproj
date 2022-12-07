@@ -78,6 +78,14 @@
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
 		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
 		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
+		BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */; };
+		BFB3E4CF29403D0200A266D9 /* NotificationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CE29403D0200A266D9 /* NotificationProtocols.swift */; };
+		BFB3E4D12940493500A266D9 /* SearchProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D02940493500A266D9 /* SearchProtocols.swift */; };
+		BFB3E4D3294049FE00A266D9 /* FeedsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D2294049FE00A266D9 /* FeedsProtocols.swift */; };
+		BFB3E4D529404E2100A266D9 /* LikesProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D429404E2100A266D9 /* LikesProtocols.swift */; };
+		BFB3E4D729404F3B00A266D9 /* CommentsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D629404F3B00A266D9 /* CommentsProtocols.swift */; };
+		BFB3E4D92940507E00A266D9 /* OnboardingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D82940507E00A266D9 /* OnboardingProtocols.swift */; };
+		BFB3E4DB2940593000A266D9 /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4DA2940593000A266D9 /* NewPostProtocols.swift */; };
 		BFC9BAB429384C0F00EE1D42 /* UITapGestureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */; };
 		BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */; };
 		BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */; };
@@ -179,6 +187,14 @@
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
 		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
 		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
+		BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4CE29403D0200A266D9 /* NotificationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4D02940493500A266D9 /* SearchProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4D2294049FE00A266D9 /* FeedsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4D429404E2100A266D9 /* LikesProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4D629404F3B00A266D9 /* CommentsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4D82940507E00A266D9 /* OnboardingProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4DA2940593000A266D9 /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
 		BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureExtensions.swift; sourceTree = "<group>"; };
 		BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapShotsError.swift; sourceTree = "<group>"; };
 		BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityController.swift; sourceTree = "<group>"; };
@@ -236,6 +252,7 @@
 				BF311691292F8CDF008BAA08 /* LikesVC.swift */,
 				BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */,
 				BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */,
+				BFB3E4D429404E2100A266D9 /* LikesProtocols.swift */,
 			);
 			path = Likes;
 			sourceTree = "<group>";
@@ -246,6 +263,7 @@
 				BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */,
 				BF31169A292FA306008BAA08 /* CommentsVC.swift */,
 				BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */,
+				BFB3E4D629404F3B00A266D9 /* CommentsProtocols.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -256,6 +274,7 @@
 				BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */,
 				BF3466302934B8D8006FF9FE /* NotificationControls.swift */,
 				BFA3867129311AFE00815E31 /* NotificationGridVC.swift */,
+				BFB3E4CE29403D0200A266D9 /* NotificationProtocols.swift */,
 			);
 			path = FriendRequests;
 			sourceTree = "<group>";
@@ -309,7 +328,6 @@
 				BF4542652918C03200BAC4B2 /* LaunchScreen.storyboard */,
 				BF4542682918C03200BAC4B2 /* Info.plist */,
 				BFDD55952937227F00DC8D68 /* GoogleService-Info.plist */,
-				BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */,
 			);
 			path = SnapShots;
 			sourceTree = "<group>";
@@ -394,6 +412,7 @@
 				BF5A13F42935FA4C0051FC8D /* OnboardingBirthdayVC.swift */,
 				BF5A13F62935FA7C0051FC8D /* OnboardingBioVC.swift */,
 				BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */,
+				BFB3E4D82940507E00A266D9 /* OnboardingProtocols.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -507,6 +526,7 @@
 				BFC9BABC293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift */,
 				BFA55FDE29236C8000A948B4 /* CustomCollectionViewCell.swift */,
 				BFDF7062292BA20A001A736F /* ProfileControls.swift */,
+				BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -555,6 +575,7 @@
 			children = (
 				BFA5601C29267D1C00A948B4 /* NewPostVC.swift */,
 				BFDF706D292D16B0001A736F /* NewPostControls.swift */,
+				BFB3E4DA2940593000A266D9 /* NewPostProtocols.swift */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -564,6 +585,7 @@
 			children = (
 				BF4542B5291A325600BAC4B2 /* Gender.swift */,
 				BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */,
+				BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -597,6 +619,7 @@
 				BF34662A29347FA9006FF9FE /* SearchControls.swift */,
 				BFA55FD72922430800A948B4 /* SearchPeopleVC.swift */,
 				BFDF706F292DFAAC001A736F /* SearchCustomCell.swift */,
+				BFB3E4D02940493500A266D9 /* SearchProtocols.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -607,6 +630,7 @@
 				BFA55FD5292242EB00A948B4 /* FeedsVC.swift */,
 				BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */,
 				BFDF7073292F28B6001A736F /* FeedsControls.swift */,
+				BFB3E4D2294049FE00A266D9 /* FeedsProtocols.swift */,
 			);
 			path = Feeds;
 			sourceTree = "<group>";
@@ -719,10 +743,14 @@
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,
 				BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */,
 				BF5A13F32935FA2C0051FC8D /* OnboardingGenderVC.swift in Sources */,
+				BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
+				BFB3E4D3294049FE00A266D9 /* FeedsProtocols.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
+				BFB3E4CF29403D0200A266D9 /* NotificationProtocols.swift in Sources */,
+				BFB3E4D12940493500A266D9 /* SearchProtocols.swift in Sources */,
 				BFDF7076292F33D3001A736F /* PostVC.swift in Sources */,
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
 				BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */,
@@ -733,6 +761,7 @@
 				BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */,
 				BFDD55FF293795CA00DC8D68 /* GenderVC.swift in Sources */,
 				BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */,
+				BFB3E4D729404F3B00A266D9 /* CommentsProtocols.swift in Sources */,
 				BF45425F2918C03100BAC4B2 /* LoginVC.swift in Sources */,
 				BFDD55D629373A6400DC8D68 /* ForgotPasswordControls.swift in Sources */,
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
@@ -755,6 +784,7 @@
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
 				BF34662D29348D98006FF9FE /* Constants.swift in Sources */,
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
+				BFB3E4D92940507E00A266D9 /* OnboardingProtocols.swift in Sources */,
 				BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
@@ -762,12 +792,14 @@
 				BF816BA62929D3F30097421D /* AccountVC.swift in Sources */,
 				BF816BA42929D3E90097421D /* SecurityViewController.swift in Sources */,
 				BF4542DA291B4B3B00BAC4B2 /* UserDao.swift in Sources */,
+				BFB3E4DB2940593000A266D9 /* NewPostProtocols.swift in Sources */,
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,
 				BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
 				BFDF706C292D1651001A736F /* UIImageExtension.swift in Sources */,
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,
+				BFB3E4D529404E2100A266D9 /* LikesProtocols.swift in Sources */,
 				BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */,
 				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
 				BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */,

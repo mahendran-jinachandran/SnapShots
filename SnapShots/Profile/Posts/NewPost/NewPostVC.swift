@@ -10,7 +10,16 @@ import UIKit
 class NewPostVC: UIViewController {
     
     var isPhotoUploaded: Bool = false
-    var newPostControls: NewPostControls!
+    private var newPostControls: NewPostControlProtocol
+    
+    init(newPostControls: NewPostControlProtocol) {
+        self.newPostControls = newPostControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var postImage: UIImageView = {
        let postImage = UIImageView(frame: .zero)

@@ -8,14 +8,18 @@
 import UIKit
 import Lottie
 
-class SearchPeopleViewController: UIViewController {
+class SearchPeopleVC: UIViewController {
 
-    var people: [(user: User,userDP: UIImage)] = []
-    var dupPeople: [(user: User,userDP: UIImage)] = []
-        
+    private var people: [(user: User,userDP: UIImage)] = []
+    private var dupPeople: [(user: User,userDP: UIImage)] = []
     private var searchBar: UISearchController!
+    private var searchControls: SearchControlsProtocol!
+    
+    func setController(_ searchControls: SearchControlsProtocol) {
+        self.searchControls = searchControls
+    }
 
-    private let recentSearchTable: UITableView = {
+    private lazy var recentSearchTable: UITableView = {
         let recentSearchTable = UITableView(frame: .zero)
         recentSearchTable.translatesAutoresizingMaskIntoConstraints = false
         recentSearchTable.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
@@ -27,7 +31,7 @@ class SearchPeopleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        people = SearchControls().getAllUsers()
+        people = searchControls.getAllUsers()
         dupPeople = people
         
         title = "Search"
@@ -35,10 +39,11 @@ class SearchPeopleViewController: UIViewController {
         searchBar.searchBar.placeholder = "Search people 🌎"
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchBar
-        searchBar.searchBar.delegate = self
         
+        searchBar.searchBar.delegate = self
         recentSearchTable.delegate = self
         recentSearchTable.dataSource = self
+        
         view.addSubview(recentSearchTable)
         
         setSearchTableConstraints()
@@ -54,7 +59,7 @@ class SearchPeopleViewController: UIViewController {
     }
 }
 
-extension SearchPeopleViewController: UITableViewDelegate,UITableViewDataSource {
+extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dupPeople.count
     }
@@ -63,11 +68,10 @@ extension SearchPeopleViewController: UITableViewDelegate,UITableViewDataSource 
         return 60
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
         let profileVC = ProfileVC(userID: dupPeople[indexPath.row].user.userID,isVisiting: true)
         let profileControls = ProfileControls()
-        
-        profileVC.profileControls = profileControls
+        profileVC.setController(profileControls)
         
         navigationController?.pushViewController(profileVC, animated: false)
     }
@@ -83,7 +87,7 @@ extension SearchPeopleViewController: UITableViewDelegate,UITableViewDataSource 
     }
 }
 
-extension SearchPeopleViewController: UISearchTextFieldDelegate, UISearchBarDelegate {
+extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if searchText.isEmpty {

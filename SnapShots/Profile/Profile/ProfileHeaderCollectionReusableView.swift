@@ -182,10 +182,10 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func setupStackView() {
-       
-        profileStack.addArrangedSubview(postContainer)
-        profileStack.addArrangedSubview(friendsContainer)
-        profileStack.addArrangedSubview(profileAccessButton)
+        
+        [postContainer,friendsContainer,profileAccessButton].forEach {
+            profileStack.addArrangedSubview($0)
+        }
 
         NSLayoutConstraint.activate([
             
@@ -200,18 +200,21 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func setData(username: String,friendsCount: Int,postsCount: Int,bio: String,profileDP: UIImage,profileAccessibility: ProfileAccess) {
+        
         userNameLabel.text = username
         friendsCountLabel.text = String(friendsCount)
         postsCountLabel.text = String(postsCount)
-        bioLabel.text = bio.isEmpty ? "Nothing to share!" : bio
+        bioLabel.text = bio.isEmpty ? Constants.noUserBioDefault : bio
         profilePhoto.image = profileDP
         
-        if profileAccessibility == .friend {
-            setupFriendProfile()
-        } else if profileAccessibility == .owner {
+        if profileAccessibility == .owner {
             setupOwnerProfile()
+        } else if profileAccessibility == .friend {
+            setupFriendProfile()
+        } else if profileAccessibility == .requested {
+            setupRequestedUserProfile()
         } else {
-            setupAcquaintanceProfile()
+            setupUnknownUserProfile()
         }
     }
     
@@ -225,11 +228,19 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileAccessButton.addTarget(self, action: #selector(unFollowUser), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
     }
+    
+    func setupRequestedUserProfile() {
+        profileAccessButton.setTitle(" Cancel\nRequest", for: .normal)
+        profileAccessButton.addTarget(self, action: #selector(sendFriendRequest), for: .touchUpInside)
+        profileAccessButton.backgroundColor = .systemBlue
+        setupUnknownUserProfile()
+    }
 
-    func setupAcquaintanceProfile() {
+    func setupUnknownUserProfile() {
         profileAccessButton.setTitle("Follow", for: .normal)
         profileAccessButton.addTarget(self, action: #selector(sendFriendRequest), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
+        setupRequestedUserProfile()
     }
 
     @objc func editProfile() {
@@ -239,6 +250,10 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     @objc func sendFriendRequest() {
         delegate?.sendFriendRequest()
+    }
+    
+    @objc func cancelFriendRequest() {
+        // MARK: CANCEL A REQUEST
     }
     
     @objc func unFollowUser() {

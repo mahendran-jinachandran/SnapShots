@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommentsControls {
+class CommentsControls: CommentsControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)

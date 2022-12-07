@@ -7,9 +7,14 @@
 
 import UIKit
 
-class FeedsViewController: UIViewController {
+class FeedsVC: UIViewController {
     
-    var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
+    private var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
+    
+    private var feedsControls: FeedsControls!
+    func setController(_ feedsControls: FeedsControls) {
+        self.feedsControls = feedsControls
+    }
     
     private let feedsTable: UITableView = {
         let feedsTable = UITableView(frame: .zero)
@@ -42,7 +47,7 @@ class FeedsViewController: UIViewController {
         feedsTable.estimatedRowHeight = 300
         feedsTable.rowHeight = UITableView.automaticDimension
         
-        feedPosts = FeedsControls().getAllPosts()
+        feedPosts = feedsControls.getAllPosts()
         if feedPosts.count > 0 {
             setConstraints()
         } else {
@@ -77,7 +82,7 @@ class FeedsViewController: UIViewController {
     }
     
     @objc func refreshPostSection() {
-        feedPosts = FeedsControls().getAllPosts()
+        feedPosts = feedsControls.getAllPosts()
         if feedPosts.count > 0 {
             setConstraints()
         } else {
@@ -105,7 +110,7 @@ class FeedsViewController: UIViewController {
     }
 }
 
-extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
+extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedPosts.count
@@ -122,15 +127,15 @@ extension FeedsViewController: UITableViewDelegate,UITableViewDataSource {
             username: "\(feedPosts[indexPath.row].userName)",
             postPhoto: feedPosts[indexPath.row].postPhoto,
             postCaption: feedPosts[indexPath.row].postDetails.caption,
-            isAlreadyLiked: FeedsControls().isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row])
+            isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row])
         )
         
         return particularCell
     }
 }
 
-extension FeedsViewController: FeedsCustomCellDelegate {
-    func controller() -> FeedsViewController {
+extension FeedsVC: FeedsCustomCellDelegate {
+    func controller() -> FeedsVC {
         return self
     }
     
@@ -140,7 +145,7 @@ extension FeedsViewController: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        if FeedsControls().addLikeToThePost(postUserID: postUserID, postID: postID) {
+        if feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID) {
             print("Liked")
         } else {
             print("Could not like")
@@ -153,7 +158,7 @@ extension FeedsViewController: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        if FeedsControls().removeLikeFromThePost(postUserID: postUserID, postID: postID) {
+        if feedsControls.removeLikeFromThePost(postUserID: postUserID, postID: postID) {
             print("Unliked")
         } else {
             print("Could not unlike")
@@ -165,7 +170,10 @@ extension FeedsViewController: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        navigationController?.present(LikesVC(postUserID: postUserID, postID: postID), animated: true)
+        let LikesControls = LikesControls()
+        let likesVC = LikesVC(likesControls: LikesControls, postUserID: postUserID, postID: postID)
+        
+        navigationController?.present(likesVC, animated: true)
     }
     
     func showComments(sender: FeedsCustomCell) {
@@ -173,6 +181,9 @@ extension FeedsViewController: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        navigationController?.pushViewController(CommentsVC(postUserID: postUserID, postID: postID), animated: true)
+        let commentControls = CommentsControls()
+        let commentsVC = CommentsVC(commentsControls: commentControls, postUserID: postUserID, postID: postID)
+        
+        navigationController?.pushViewController(commentsVC, animated: true)
     }
 }

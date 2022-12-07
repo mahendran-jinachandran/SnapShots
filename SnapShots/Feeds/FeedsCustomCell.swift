@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FeedsCustomCellDelegate: AnyObject {
-    func controller() -> FeedsViewController
+    func controller() -> FeedsVC
     func likeThePost(sender: FeedsCustomCell)
     func unLikeThePost(sender: FeedsCustomCell)
     func showLikes(sender: FeedsCustomCell)

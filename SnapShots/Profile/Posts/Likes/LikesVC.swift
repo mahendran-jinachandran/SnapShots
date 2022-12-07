@@ -9,11 +9,13 @@ import UIKit
 
 class LikesVC: UIViewController {
     
-    var postUserID: Int
-    var postID: Int
-    var likedUsers: [(user: User,profilePhoto: UIImage)] = []
+    private var postUserID: Int
+    private var postID: Int
+    private var likedUsers: [(user: User,profilePhoto: UIImage)] = []
+    private var likesControls: LikesControlsProtocol
     
-    init(postUserID: Int,postID: Int) {
+    init(likesControls: LikesControlsProtocol,postUserID: Int,postID: Int) {
+        self.likesControls = likesControls
         self.postUserID = postUserID
         self.postID = postID
         super.init(nibName: nil, bundle: nil)
@@ -54,11 +56,11 @@ class LikesVC: UIViewController {
         setNavigationItems()
     }
     
-    func setupLikesTable() {
+    private func setupLikesTable() {
         likesTable.delegate = self
         likesTable.dataSource = self
         
-        likedUsers = LikesControls().getAllLikedUsers(postUserID: postUserID, postID: postID)
+        likedUsers = likesControls.getAllLikedUsers(postUserID: postUserID, postID: postID)
         
         if likedUsers.isEmpty {
             setupEmptyConstraints()
@@ -67,12 +69,12 @@ class LikesVC: UIViewController {
         }
     }
     
-    func setNavigationItems() {
+    private func setNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         view.addSubview(likesTable)
         NSLayoutConstraint.activate([
             likesTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
@@ -82,7 +84,7 @@ class LikesVC: UIViewController {
         ])
     }
     
-    func setupEmptyConstraints() {
+    private func setupEmptyConstraints() {
         view.addSubview(emptyLikesLabel)
         NSLayoutConstraint.activate([
             emptyLikesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
@@ -91,7 +93,6 @@ class LikesVC: UIViewController {
             emptyLikesLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
 }
 
 extension LikesVC: UITableViewDelegate,UITableViewDataSource {

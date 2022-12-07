@@ -82,17 +82,21 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         password.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         password.setImageInTextFieldOnLeft(imageName: "password.png")
         password.isSecureTextEntry = true
-        password.rightViewMode = .always
+        password.rightViewMode = .whileEditing
         password.rightView = passwordVisibilityToggleButton
         return password
     }()
     
     private lazy var passwordVisibilityToggleButton: UIButton = {
-       let toggleButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-       toggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
-       toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
-       toggleButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
-       return toggleButton
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        toggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
+        return toggleButton
     }()
     
     private lazy var forgotPasswordLabel: UILabel = {

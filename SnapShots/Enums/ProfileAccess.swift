@@ -10,13 +10,15 @@ import Foundation
 enum ProfileAccess: Int {
     case owner = 1
     case friend
-    case acquaintance
+    case requested
+    case unknown
     
     var description: String {
         switch self {
         case .owner: return "Edit Profile"
         case .friend: return "Unfriend"
-        case .acquaintance: return "Follow"
+        case .requested: return "Requested"
+        case .unknown: return "Request"
         }
     }
 }

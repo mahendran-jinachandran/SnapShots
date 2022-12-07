@@ -119,7 +119,10 @@ class OnboardingVC: UIViewController {
        animationView.stop()
        animationView.removeFromSuperview()
        
-       navigationController?.pushViewController(OnboardingProfilePhotoVC(), animated: true)
+       let onboardingControls = OnboardingControls()
+       let onboardingProfilePhotoVC = OnboardingProfilePhotoVC(onboardingControls: onboardingControls)
+       
+       navigationController?.pushViewController(onboardingProfilePhotoVC, animated: true)
     }
     
     

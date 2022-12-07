@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NotificationControls {
+class NotificationControls: NotificationControlsProtocols {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendRequestDaoImp: FriendRequestDao = FriendRequestDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)

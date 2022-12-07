@@ -11,14 +11,18 @@ class ProfileVC: UIViewController {
     
     private var profileView: UICollectionView!
     private var layout = UICollectionViewFlowLayout()
-    public var profileControls: ProfileControls!
+    private var profileControls: ProfileControlsProtocols!
     private var posts: [(postImage: UIImage,postDetails: Post)] = []
     private var profileUser: User!
     private var userID: Int!
     private var profileAccessibility: ProfileAccess!
     private var isVisiting: Bool!
     
-    var profileHeader: UILabel = {
+    public func setController(_ profileControls: ProfileControlsProtocols) {
+        self.profileControls = profileControls
+    }
+    
+    private lazy var profileHeader: UILabel = {
         return UILabel()
     }()
 
@@ -45,7 +49,7 @@ class ProfileVC: UIViewController {
         setupNotificationSubscription()
     }
     
-    func setupProfileView() {
+    private func setupProfileView() {
         
         posts = profileControls.getAllPosts(userID: userID)
         layout.minimumLineSpacing = 15
@@ -63,7 +67,7 @@ class ProfileVC: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
         
-        if posts.isEmpty || profileAccessibility == .acquaintance {
+        if posts.isEmpty || profileAccessibility == .requested || profileAccessibility == .unknown {
             profileView.register(
                 ProfileFooterCollectionResuableView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
@@ -75,7 +79,7 @@ class ProfileVC: UIViewController {
         profileView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setNavigationItems() {
+    private func setNavigationItems() {
         if isVisiting {
             title = profileUser.userName
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(goBack))
@@ -86,7 +90,7 @@ class ProfileVC: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
-    func setupOwnerNavigationItems() {
+    private func setupOwnerNavigationItems() {
         
         profileHeader.attributedText = NSAttributedString(string: profileUser.userName,attributes: [
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
@@ -102,11 +106,11 @@ class ProfileVC: UIViewController {
         navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
     }
     
-    @objc func goBack() {
+    @objc private func goBack() {
         navigationController?.popViewController(animated: false)
     }
         
-    func setProfileConstraints() {
+    private func setProfileConstraints() {
         
         view.addSubview(profileView)
         
@@ -118,16 +122,15 @@ class ProfileVC: UIViewController {
         ])
     }
     
-    @objc func openSettings() {
+    @objc private func openSettings() {
         navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
-    @objc func uploadNewPost() {
+    @objc private func uploadNewPost() {
         
-        let newPostVC = NewPostVC()
         let newPostControls = NewPostControls()
-        
-        newPostVC.newPostControls = newPostControls
+        let newPostVC = NewPostVC(newPostControls: newPostControls)
+     
         navigationController?.pushViewController(newPostVC, animated: false)
     }
 }
@@ -186,7 +189,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     
-        if profileAccessibility == .acquaintance {
+        if profileAccessibility == .requested || profileAccessibility == .unknown  {
             return CGSize(width: 0,height: 0)
         }
         
@@ -202,7 +205,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        if posts.isEmpty || profileAccessibility == .acquaintance  {
+        if  posts.isEmpty || profileAccessibility == .requested || profileAccessibility == .unknown   {
             return CGSize(width: 500, height: 320)
         }
         

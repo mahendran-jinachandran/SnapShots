@@ -5,10 +5,9 @@
 //  Created by mahendran-14703 on 28/11/22.
 //
 
-import Foundation
 import UIKit
 
-class SearchControls {
+class SearchControls: SearchControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     

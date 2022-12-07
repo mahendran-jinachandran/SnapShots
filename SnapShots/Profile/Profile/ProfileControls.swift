@@ -8,13 +8,12 @@
 import Foundation
 import UIKit
 
-class ProfileControls {
+class ProfileControls: ProfileControlsProtocols {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     private lazy var friendRequestDapImp: FriendRequestDao = FriendRequestDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
-    
     
     func getProfileAccessibility(userID: Int) -> ProfileAccess {
         
@@ -24,12 +23,18 @@ class ProfileControls {
             return .owner
         }
         
-        let profileAccessibility = friendsDaoImp.isUserFriends(loggedUserID: loggedUser, visitingUserID: userID)
+        var profileAccessibility = friendsDaoImp.isUserFriends(loggedUserID: loggedUser, visitingUserID: userID)
         
         if profileAccessibility {
             return .friend
+        }
+        
+        profileAccessibility = friendRequestDapImp.isAlreadyRequestedFriend(loggedUserID: loggedUser, visitingUserID: userID)
+        
+        if profileAccessibility {
+            return .requested
         } else {
-            return .acquaintance
+            return .unknown
         }
     }
     

@@ -9,6 +9,18 @@ import UIKit
 
 class OnboardingMailVC: UIViewController {
     
+    private var onboardingControls: OnboardingProtocol
+    init(onboardingControls: OnboardingProtocol) {
+        self.onboardingControls = onboardingControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
+
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +116,7 @@ class OnboardingMailVC: UIViewController {
     @objc func validateMail() {
         
         if let usermail = emailTextField.text {
-            if usermail.count == 0 || !OnboardingControls().updateEmail(email: usermail) {
+            if usermail.count == 0 || !onboardingControls.updateEmail(email: usermail) {
                 emailTextField.layer.borderColor = UIColor.red.cgColor
                 return
             }
@@ -114,11 +126,7 @@ class OnboardingMailVC: UIViewController {
     }
     
     @objc func navigateToNext() {
-        navigationController?.pushViewController(OnboardingGenderVC(), animated: false)
-    }
-    
-    @objc func goToHomePage() {
-        navigationController?.pushViewController(HomePageViewController(), animated: false)
+        navigationController?.pushViewController(OnboardingGenderVC(onboardingControls: onboardingControls), animated: false)
     }
     
     func setupConstraints() {

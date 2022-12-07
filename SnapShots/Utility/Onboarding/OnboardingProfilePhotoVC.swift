@@ -10,6 +10,16 @@ import UIKit
 class OnboardingProfilePhotoVC: UIViewController {
         
     private var isPhotoUploaded: Bool = false
+    private var onboardingControls: OnboardingProtocol
+    
+    init(onboardingControls: OnboardingProtocol) {
+        self.onboardingControls = onboardingControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -109,7 +119,7 @@ class OnboardingProfilePhotoVC: UIViewController {
     }
     
     @objc func navigateToNext() {
-        navigationController?.pushViewController(OnboardingMailVC(), animated: false)
+        navigationController?.pushViewController(OnboardingMailVC(onboardingControls: onboardingControls), animated: false)
     }
     
     func setupConstraints() {
@@ -205,7 +215,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
         if let selectedImage = info[.originalImage] as? UIImage {
             profilePhoto.image = selectedImage
             isPhotoUploaded = true
-            OnboardingControls().updateProfilePhoto(profilePhoto: selectedImage)
+            onboardingControls.updateProfilePhoto(profilePhoto: selectedImage)
             warningLabel.isHidden = true
         } else {
             print("Image not found")
