@@ -28,13 +28,7 @@ class CommentsControls: CommentsControlsProtocol {
         
         for comment in commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID) {
             
-            var userDP: UIImage!
-            if UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: comment.commentUserID)) == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
-            } else {
-                userDP = UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: comment.commentUserID))
-            }
-            
+            var userDP = AppUtility.getDisplayPicture(userID: comment.commentUserID)
             let username = userDaoImp.getUsername(userID: comment.commentUserID)
             
             comments.append((

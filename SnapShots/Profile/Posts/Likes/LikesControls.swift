@@ -17,13 +17,7 @@ class LikesControls: LikesControlsProtocol {
         var likedUsers: [(user: User,profilePhoto: UIImage)] = []
         for user in likeDaoImp.getAllLikesOfPost(userID: postUserID, postID: postID) {
             
-            var userDP: UIImage!
-            if UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: user.userID)) == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
-            } else {
-                userDP = UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: user.userID))
-            }
-            
+            var userDP = AppUtility.getDisplayPicture(userID: user.userID)
             likedUsers.append((
                 user,
                 userDP

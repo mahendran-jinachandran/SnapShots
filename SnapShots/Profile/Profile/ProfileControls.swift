@@ -43,14 +43,8 @@ class ProfileControls: ProfileControlsProtocols {
     }
     
     func getProfileDP() -> UIImage {
-        
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-
-        guard let postImage = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)\(userID)") else {
-            return UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)!
-        }
-        
-        return postImage
+        return AppUtility.getDisplayPicture(userID: userID)
     }
     
     func getAllPosts(userID: Int) -> [(postImage: UIImage,postDetails: Post)] {

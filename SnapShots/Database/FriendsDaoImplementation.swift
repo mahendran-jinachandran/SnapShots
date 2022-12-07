@@ -48,14 +48,9 @@ class FriendsDaoImplementation: FriendsDao {
         var myFriends: [(userDP: UIImage,username: String)] = []
         for friendID in getIDsOfFriends(userID: userID) {
             
-            var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)_\(friendID)")
-            
-            if userDP == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
-            }
-            
+            var userDP = AppUtility.getDisplayPicture(userID: friendID)
             myFriends.append(
-                (userDP!,
+                (userDP,
                  userDaoImplementation.getUsername(userID: friendID)
                 )
             )

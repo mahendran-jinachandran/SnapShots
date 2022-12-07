@@ -23,12 +23,7 @@ class FeedsControls {
         
         for (userID,username,postDetails) in posts {
             
-            var userDP: UIImage!
-            if UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: userID)) == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
-            } else {
-                userDP = UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: userID))
-            }
+            var userDP = AppUtility.getDisplayPicture(userID: userID)
         
             feedPosts.append((
                 userID,

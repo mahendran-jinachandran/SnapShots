@@ -16,15 +16,10 @@ class SearchControls: SearchControlsProtocol {
         var users: [(user: User,userDP: UIImage)] = []
         for user in userDaoImp.getAllUsers() {
             
-            var userDP: UIImage? = UIImage().loadImageFromDiskWith(fileName: "\(Constants.dpSavingFormat)\(user.userID)")
-            
-            if userDP == nil {
-                userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
-            }
-            
+            var userDP = AppUtility.getDisplayPicture(userID: user.userID)
             users.append((
                 user,
-                userDP!
+                userDP
             ))
         }
         

@@ -5,7 +5,6 @@
 //  Created by mahendran-14703 on 08/11/22.
 //
 
-import Foundation
 import UIKit
 
 class AppUtility {
@@ -14,10 +13,6 @@ class AppUtility {
         if let delegate = UIApplication.shared.delegate as? AppDelegate {
             delegate.orientationLock = orientation
         }
-    }
-    
-    static func getProfilePhotoSavingFormat(userID: Int) -> String {
-        return "\(Constants.dpSavingFormat)\(userID)"
     }
     
     static func isValidEmail(_ email: String) -> Bool {
@@ -51,5 +46,21 @@ class AppUtility {
     static func textLimit(existingText: String?,newText: String,limit: Int) -> Bool {
         let text = existingText ?? ""
         return text.count + newText.count <= limit
+    }
+    
+    static func getProfilePhotoSavingFormat(userID: Int) -> String {
+        return "\(Constants.dpSavingFormat)\(userID)"
+    }
+    
+    static func getDisplayPicture(userID: Int) -> UIImage {
+        var userDP: UIImage!
+        
+        if let displayPicture = UIImage().loadImageFromDiskWith(fileName: AppUtility.getProfilePhotoSavingFormat(userID: userID)) {
+            userDP = displayPicture
+        } else {
+            userDP = UIImage().loadImageFromDiskWith(fileName: Constants.noDPSavingFormat)
+        }
+        
+        return userDP
     }
 }
