@@ -23,6 +23,7 @@ class NotificationGridVC: UIViewController {
         noRequestsNotify.text = "No Requests"
         noRequestsNotify.textColor = .gray
         noRequestsNotify.translatesAutoresizingMaskIntoConstraints = false
+        noRequestsNotify.textAlignment = .center
         return noRequestsNotify
     }()
 
@@ -47,11 +48,12 @@ class NotificationGridVC: UIViewController {
         friendRequestsCV.delegate = self
         friendRequestsCV.showsVerticalScrollIndicator = false
         friendRequestsCV.register(NotificiationGridCVCell.self, forCellWithReuseIdentifier: NotificiationGridCVCell.identifier)
-    
+        friendRequestsCV.backgroundView = noRequestsNotify
+        
         setConstraints()
         
         if friendRequests.isEmpty {
-            setupNoRequestsConstraints()
+            friendRequestsCV.backgroundView?.alpha = 1.0
             return
         }
     }
@@ -70,18 +72,6 @@ class NotificationGridVC: UIViewController {
         ])
     }
     
-    func setupNoRequestsConstraints() {
-        
-        [noRequestsNotify].forEach {
-            view.addSubview($0)
-        }
-        
-        NSLayoutConstraint.activate([
-            noRequestsNotify.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noRequestsNotify.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
-    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
@@ -92,7 +82,14 @@ class NotificationGridVC: UIViewController {
 
 extension NotificationGridVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return friendRequests.count
+        
+        if friendRequests.count > 0 {
+            friendRequestsCV.backgroundView?.alpha = 0.0
+            return friendRequests.count
+        } else {
+            friendRequestsCV.backgroundView?.alpha = 1.0
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -118,13 +115,20 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
         let indexPath = friendRequestsCV.indexPath(for: sender)!
         
         if notificationControls.acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userId) {
-            friendRequestsCV.deleteItems(at: [indexPath])
             friendRequests.remove(at: indexPath.row)
             friendRequestsCV.reloadData()
         }
     }
     
     func rejectFriendRequest(sender: NotificiationGridCVCell) {
-        // MARK: REJECT FRIEND REQUEST
+        let indexPath = friendRequestsCV.indexPath(for: sender)!
+        
+        if notificationControls.rejectFriendRequest(rejectingUserID: friendRequests[indexPath.row].userId) {
+            friendRequests.remove(at: indexPath.row)
+            friendRequestsCV.reloadData()
+            print("Rejected")
+        } else {
+            print("Could not reject")
+        }
     }
 }

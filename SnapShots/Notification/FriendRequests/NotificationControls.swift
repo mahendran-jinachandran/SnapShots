@@ -20,7 +20,11 @@ class NotificationControls: NotificationControlsProtocols {
     
     func acceptFriendRequest(acceptingUserID: Int) -> Bool {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        
         return friendRequestDaoImp.acceptFriendRequest(loggedUserID: userID, friendRequestedUser: acceptingUserID)
+    }
+    
+    func rejectFriendRequest(rejectingUserID: Int) -> Bool {
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return friendRequestDaoImp.removeFriendRequest(removingUserID: userID, profileUserID: rejectingUserID)
     }
 }
