@@ -122,8 +122,6 @@ class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
         
         if textField == againNewPassword {
             
-            print(checkForPasswordMatch(password: newPassword.text, rePassword: againNewPassword.text))
-            
             if !checkForPasswordMatch(password: newPassword.text, rePassword: againNewPassword.text) {
                 isNewPasswordAgainEntered = false
             } else {

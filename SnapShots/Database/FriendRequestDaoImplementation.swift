@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 class FriendRequestDaoImplementation: FriendRequestDao {
+
+    
+    
     
     private let sqliteDatabase: DatabaseProtocol
     private let userDaoImplementation: UserDao
@@ -64,14 +67,15 @@ class FriendRequestDaoImplementation: FriendRequestDao {
         return sqliteDatabase.execute(query: acceptFriendRequestForAcceptingUserQuery) && sqliteDatabase.execute(query: acceptFriendRequestForRequestedUserQuery)
     }
     
-    func removeFriendRequest(loggedUserID: Int,userID: Int) -> Bool {
+    func removeFriendRequest(removingUserID: Int,profileUserID: Int) -> Bool {
         let rejectFriendRequestQuery = """
         DELETE FROM FriendRequest
-        WHERE Requested_id = \(userID) AND User_id = \(loggedUserID);
+        WHERE Requested_id = \(profileUserID) AND User_id = \(removingUserID);
         """
         
         return sqliteDatabase.execute(query: rejectFriendRequestQuery)
     }
+    
     
     func sendFriendRequest(loggedUserID: Int,visitingUserID: Int) -> Bool {
         let addFriendRequestQuery = """
@@ -87,7 +91,7 @@ class FriendRequestDaoImplementation: FriendRequestDao {
         DELETE FROM FriendRequest
         WHERE Requested_id = \(loggedUserID);
         """
-        
+
         return sqliteDatabase.execute(query: cancelFriendRequestQuery)
     }
     

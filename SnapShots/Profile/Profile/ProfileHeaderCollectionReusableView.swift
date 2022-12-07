@@ -13,12 +13,14 @@ protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
     func getFriendsList()
     func sendFriendRequest()
     func cancelFriendRequest()
+    func unFriendAnUser()
 }
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     static let identifier = "ProfileHeaderCollectionReusableView"
     private var portraitConstraint = [NSLayoutConstraint]()
+    private var profileAccessibility: ProfileAccess!
     
     private lazy var profileStack : UIStackView = {
         let profileStack = UIStackView()
@@ -160,9 +162,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        profileAccessButton.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
-        
+            
         [profilePhoto,profileStack,userNameLabel,bioLabel].forEach {
             self.addSubview($0)
         }
@@ -206,41 +206,53 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         postsCountLabel.text = String(postsCount)
         bioLabel.text = bio.isEmpty ? Constants.noUserBioDefault : bio
         profilePhoto.image = profileDP
+        self.profileAccessibility = profileAccessibility
         
-        if profileAccessibility == .owner {
+        if self.profileAccessibility == .owner {
             setupOwnerProfile()
-        } else if profileAccessibility == .friend {
+        } else if self.profileAccessibility == .friend {
             setupFriendProfile()
-        } else if profileAccessibility == .requested {
+        } else if self.profileAccessibility == .requested {
             setupRequestedUserProfile()
         } else {
             setupUnknownUserProfile()
+        }
+    
+        profileAccessButton.addTarget(self, action: #selector(performUserAccessibilityProcess), for: .touchUpInside)
+    }
+    
+    @objc func performUserAccessibilityProcess() {
+        if profileAccessibility == .owner {
+            editProfile()
+        } else if profileAccessibility == .friend {
+            unFollowUser()
+            profileAccessibility = .unknown
+        } else if profileAccessibility == .requested {
+            cancelFriendRequest()
+            profileAccessibility = .unknown
+        } else {
+            sendFriendRequest()
+            profileAccessibility = .requested
         }
     }
     
     func setupOwnerProfile() {
         profileAccessButton.setTitle(" Edit\nProfile", for: .normal)
-        profileAccessButton.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
     }
 
     func setupFriendProfile() {
         profileAccessButton.setTitle("Unfriend", for: .normal)
-        profileAccessButton.addTarget(self, action: #selector(unFollowUser), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
     }
     
     func setupRequestedUserProfile() {
         profileAccessButton.setTitle(" Cancel\nRequest", for: .normal)
-        profileAccessButton.addTarget(self, action: #selector(sendFriendRequest), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
-        setupUnknownUserProfile()
     }
 
     func setupUnknownUserProfile() {
         profileAccessButton.setTitle("Follow", for: .normal)
-        profileAccessButton.addTarget(self, action: #selector(sendFriendRequest), for: .touchUpInside)
         profileAccessButton.backgroundColor = .systemBlue
-        setupRequestedUserProfile()
     }
 
     @objc func editProfile() {
@@ -249,14 +261,18 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     @objc func sendFriendRequest() {
+        setupRequestedUserProfile()
         delegate?.sendFriendRequest()
     }
     
     @objc func cancelFriendRequest() {
-        // MARK: CANCEL A REQUEST
+        setupUnknownUserProfile()
+        delegate?.cancelFriendRequest()
     }
     
     @objc func unFollowUser() {
+        setupUnknownUserProfile()
+        delegate?.unFriendAnUser()
         // MARK: UNFRIENDING A USER
         //delegate
     }

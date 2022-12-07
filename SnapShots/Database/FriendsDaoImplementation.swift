@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class FriendsDaoImplementation: FriendsDao {
+
+    
     
     private let sqliteDatabase: DatabaseProtocol
     private let userDaoImplementation: UserDao
@@ -62,5 +64,20 @@ class FriendsDaoImplementation: FriendsDao {
         return myFriends
     }
     
+    func removeFriend(loggedUserID: Int, removingUserID: Int) -> Bool {
+        
+        let removingFriendRequestRemovingUserQuery = """
+        DELETE FROM Friends
+        WHERE User_id = \(loggedUserID) AND Friends_id = \(removingUserID);
+        """
+        
+        let removingFriendRequestRequestedUserQuery = """
+        DELETE FROM Friends
+        WHERE User_id = \(removingUserID) AND Friends_id = \(loggedUserID);
+        """
+        
+        return sqliteDatabase.execute(query: removingFriendRequestRemovingUserQuery) && sqliteDatabase.execute(query: removingFriendRequestRequestedUserQuery)
+        
+    }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class ProfileControls: ProfileControlsProtocols {
-    
+
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
@@ -67,17 +67,20 @@ class ProfileControls: ProfileControlsProtocols {
         return posts
     }
     
-    func sendFriendRequest(requestingUser: Int) -> Bool {
-        
+    func sendFriendRequest(profileRequestedUser: Int) -> Bool {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        return friendRequestDapImp.sendFriendRequest(loggedUserID: userID, visitingUserID: requestingUser)
+        return friendRequestDapImp.sendFriendRequest(loggedUserID: userID, visitingUserID: profileRequestedUser)
     }
     
-    func cancelFriendRequest(requestingUser: Int) -> Bool {
+    func cancelFriendRequest(profileRequestedUser: Int) -> Bool {
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return friendRequestDapImp.removeFriendRequest(removingUserID: profileRequestedUser, profileUserID: userID)
+    }
+    
+    func removeFrined(profileRequestedUser: Int) -> Bool {
         
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-      //  return friendRequestDapImp.cancelFriendRequest(loggedUserID: <#T##Int#>)
-        return false
+        return friendsDaoImp.removeFriend(loggedUserID: userID, removingUserID: profileRequestedUser)
     }
     
     func updateProfilePhoto(profilePhoto: UIImage) {
@@ -87,10 +90,8 @@ class ProfileControls: ProfileControlsProtocols {
         
         if userDaoImp.updatePhoto(photo: photoName, userID: loggedUserID) {
             // MARK: PROFILE PHOTO IS UPDATED
-            print("Photo updated")
         } else {
             // MARK: COULDN'T UPLOAD PHOTO
-            print("Could not update")
         }
     }
     

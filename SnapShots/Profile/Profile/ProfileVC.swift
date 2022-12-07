@@ -240,19 +240,29 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
         self.navigationController?.pushViewController(FriendsListVC(), animated: false)
     }
     
-    @objc func sendFriendRequest() {
-        if profileControls.sendFriendRequest(requestingUser: userID) {
+    func sendFriendRequest() {
+        if profileControls.sendFriendRequest(profileRequestedUser: userID) {
             // MARK: TOAST SEND FRIEND REQUEST
-            print("REQUEST SENT")
         } else {
-            // MARK: TOAST COULDN'T SEND REQUEST
-            print("COULDN'T SEND REQUEST")
+            // MARK: TOAST COULDN'T SEND REQUEST FAILED
         }
-        
-        profileView.reloadData()
     }
     
-    @objc func cancelFriendRequest() {
+    func cancelFriendRequest() {
+        if profileControls.cancelFriendRequest(profileRequestedUser: userID) {
+            // MARK: TOAST CANCEL FRIEND REQUEST
+        } else {
+            // MARK: TOAST CANCEL FRIEND REQUEST FAILED
+        }
+    }
+    
+    func unFriendAnUser() {
+        if profileControls.removeFrined(profileRequestedUser: userID) {
+            // MARK: TOAST UNFRIEND
+            print("Unfriended")
+        } else {
+            // MARK: TOAST UNFRIEND FAILED
+        }
     }
     
     func uploadPhoto(image: UIImage) {

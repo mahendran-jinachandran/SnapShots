@@ -16,11 +16,9 @@ class CommentsControls: CommentsControlsProtocol {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         if commentsDaoImp.addCommentToThePost(visitingUserID: postUserID, postID: postID, comment: comment, loggedUserID: loggedUserID) {
-
-            // MARK: SHOW TOAST
-            print("Added comment")
+            // MARK: SHOW TOAST COMMENTED
         } else {
-            print("Couldn't add comment")
+            // MARK: SHOW TOAST COMMENTED FAILED
         }
     }
     

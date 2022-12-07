@@ -102,7 +102,6 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         
         // MARK: SHOW THE SEARCHED RESULTS IS EMPTY
         if data.isEmpty {
-            print("EMPTY")
         }
         
         dupPeople = data

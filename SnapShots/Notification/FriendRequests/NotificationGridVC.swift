@@ -125,8 +125,6 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
     }
     
     func rejectFriendRequest(sender: NotificiationGridCVCell) {
-        
         // MARK: REJECT FRIEND REQUEST
-        print(sender)
     }
 }

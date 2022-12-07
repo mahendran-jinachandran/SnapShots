@@ -121,7 +121,6 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
         
         particularCell.delegate = self
         
-        print(FeedsControls().isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]))
         particularCell.configure(
             profilePhoto: feedPosts[indexPath.row].userDP,
             username: "\(feedPosts[indexPath.row].userName)",
@@ -146,9 +145,9 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         if feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID) {
-            print("Liked")
+            // MARK: TOAST LIKED
         } else {
-            print("Could not like")
+            // MARK: TOAST LIKED FAILED
         }
     }
     
@@ -159,9 +158,9 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         if feedsControls.removeLikeFromThePost(postUserID: postUserID, postID: postID) {
-            print("Unliked")
+            // MARK: TOAST DISLIKED
         } else {
-            print("Could not unlike")
+            // MARK: TOAST DISLIKED FAILED
         }
     }
     

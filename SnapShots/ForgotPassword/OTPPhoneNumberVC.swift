@@ -61,7 +61,6 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     @objc func sendOTP() {
         
         if let phoneNumber = phoneNumber.text,!phoneNumber.isEmpty {
-            print(phoneNumber)
             AuthManager.shared.startAuth(phoneNumber: "+91\(phoneNumber)") { [weak self] success in
                 
                 if !success {
