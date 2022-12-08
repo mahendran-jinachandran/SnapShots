@@ -7,13 +7,17 @@
 
 import UIKit
 
+protocol CustomCollectionViewCellDelegate: AnyObject {
+    func openPost(sender: CustomCollectionViewCell)
+}
+
 class CustomCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "CustomCollectionViewCell"
+    weak var delegate: CustomCollectionViewCellDelegate?
     
-    var postImage: UIImageView = {
+    private lazy var postImage: UIImageView = {
         let postImage = UIImageView()
-        postImage.image = UIImage(systemName: "house")
         postImage.contentMode = .scaleAspectFill
         postImage.isUserInteractionEnabled = true
         postImage.clipsToBounds = true
@@ -26,10 +30,16 @@ class CustomCollectionViewCell: UICollectionViewCell {
         contentView.clipsToBounds = true
         [postImage].forEach { contentView.addSubview($0) }
         
+        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
+        postImage.addGestureRecognizer(imagePicker)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(postImage: UIImage) {
+        self.postImage.image = postImage
     }
     
     override func layoutSubviews() {
@@ -40,6 +50,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
                                    width: contentView.frame.size.width,
                                    height: contentView.frame.size.height)
         
+    }
+    
+    @objc func openPost(_ sender: UITapGestureRecognizer) {
+        delegate?.openPost(sender: self)
     }
 }
 

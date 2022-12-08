@@ -18,7 +18,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     public func setController(_ controller: LoginControllerProtocol) {
         loginController = controller
     }
-    
+
     private lazy var loginScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -153,12 +153,12 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         setupLoginPage()
     }
     
-    func setupNotficationCenter() {
+    private func setupNotficationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
@@ -168,21 +168,21 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         let forgotPassword = UITapGestureRecognizer(target: self, action: #selector(executeForgotPasswordProcess))
         forgotPasswordLabel.addGestureRecognizer(forgotPassword)
         
-        loginButton.addTarget(self, action: #selector(validateUserCredentials), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(validateUserCredentials(_:)), for: .touchUpInside)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    func setupLoginPage() {
+    private func setupLoginPage() {
         loginScrollView.showsVerticalScrollIndicator = false
         phoneNumber.delegate = self
         password.delegate = self
         setupLoginStackView()
     }
 
-    func setupLoginStackView() {
+    private func setupLoginStackView() {
         
        let arrangedSubViews = [
             snapShotsLogo,snapShots,phoneNumber,phoneNumberWarningLabel,password,forgotPasswordLabel,loginButton,registerLink,appConditions]
@@ -197,7 +197,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         setupLoginStackConstraints()
     }
     
-    func setupLoginStackConstraints() {
+    private func setupLoginStackConstraints() {
         
         view.addSubview(loginScrollView)
         loginScrollView.addSubview(loginStackView)
@@ -216,7 +216,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         ])
     }
     
-    @objc func validateUserCredentials() {
+    @objc private func validateUserCredentials(_ sender: UIButton) {
         loginController.validateUserCredentials(phoneNumber: phoneNumber.text!, password: password.text!)
     }
     
@@ -243,7 +243,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         )
     }
     
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardDisappear(notification:Notification){
         loginScrollView.contentInset = contentInsetBackstore
         contentInsetBackstore = .zero
@@ -251,7 +251,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
 }
 
 extension LoginVC {
-    @objc func passwordVisibility(_ sender : UIButton) {
+    @objc private func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
             passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
@@ -261,7 +261,7 @@ extension LoginVC {
         }
     }
 
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    private func textFieldDidChangeSelection(_ textField: UITextField) {
        
         if textField == password {
             isPasswordEntered = textField.text!.count > 0 ? true : false
@@ -302,11 +302,11 @@ extension LoginVC {
         return true
     }
     
-    func goToHomePage() {
+    private func goToHomePage() {
         self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
-    @objc func executeRegistrationProcess(gesture: UITapGestureRecognizer) {
+    @objc private func executeRegistrationProcess(gesture: UITapGestureRecognizer) {
         let text = registerLink.text!
         let termsRange = (text as NSString).range(of: "Register")
         
@@ -322,11 +322,11 @@ extension LoginVC {
         }
     }
      
-     @objc func executeForgotPasswordProcess() {
+    @objc private func executeForgotPasswordProcess() {
          navigationController?.pushViewController(OTPPhoneNumberVC(), animated: true)
      }
     
-    func displayPhoneNumberVerificationState(isVerified: Bool) {
+    private func displayPhoneNumberVerificationState(isVerified: Bool) {
         if isVerified {
             displayValidPhoneNumber()
         } else {
@@ -334,7 +334,7 @@ extension LoginVC {
         }
     }
     
-    func displayWrongCredentials() {
+    private func displayWrongCredentials() {
         
         loginController.validatePhoneNumber(phoneNumber: phoneNumber.text!)
         let invalidUserCredentials = UIAlertController(title: "Invalid credentials", message: nil, preferredStyle: .alert)
@@ -345,31 +345,26 @@ extension LoginVC {
         self.present(invalidUserCredentials, animated: true)
     }
     
-    func displayValidPhoneNumber() {
+    private func displayValidPhoneNumber() {
         phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
         phoneNumberWarningLabel.isHidden = true
         isPhoneNumberEntered = true
     }
     
-    func displayInvalidPhoneNumber(warningText: String) {
+    private func displayInvalidPhoneNumber(warningText: String) {
         isPhoneNumberEntered = false
         phoneNumber.layer.borderColor = UIColor.red.cgColor
         phoneNumberWarningLabel.isHidden = false
         phoneNumberWarningLabel.text = warningText
     }
     
-    func enableLoginButton() {
+    private func enableLoginButton() {
         loginButton.isEnabled = true
         loginButton.alpha = 1.0
     }
     
-    func disableLoginButton() {
+    private func disableLoginButton() {
         loginButton.isEnabled = false
         loginButton.alpha = 0.5
     }
 }
-
-
-
-
-

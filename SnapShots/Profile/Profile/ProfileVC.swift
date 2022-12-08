@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController{
     
     private var profileView: UICollectionView!
     private var layout = UICollectionViewFlowLayout()
@@ -179,10 +179,9 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         
-        cell.postImage.image = posts[indexPath.item].postImage
-        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
-        cell.postImage.addGestureRecognizer(imagePicker)
-        cell.tag = indexPath.item
+        cell.delegate = self
+        cell.configure(postImage: posts[indexPath.item].postImage)
+
         
         return cell
     }
@@ -195,7 +194,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         
         return CGSize(width: (collectionView.frame.width / 3) - 10,
                       height: ( collectionView.frame.width / 3) - 1)
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -205,22 +203,13 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        if  posts.isEmpty || profileAccessibility == .requested || profileAccessibility == .unknown   {
+        if posts.isEmpty || profileAccessibility == .requested || profileAccessibility == .unknown   {
             return CGSize(width: 500, height: 320)
         }
         
         return  CGSize(width: 0, height: 0)
     }
-    
-    @objc func openPost(_ sender: UITapGestureRecognizer) {
 
-        navigationController?.pushViewController(
-            PostVC(
-                postImage: posts[sender.view!.tag].postImage,
-                postDetails: posts[sender.view!.tag].postDetails),
-            animated: false)
-    }
-    
     func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
     }
@@ -268,4 +257,18 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     func uploadPhoto(image: UIImage) {
         profileControls.updateProfilePhoto(profilePhoto: image)
     }
+}
+
+extension ProfileVC: CustomCollectionViewCellDelegate {
+    
+    func openPost(sender: CustomCollectionViewCell) {
+        
+        let indexPath = profileView.indexPath(for: sender)!
+        
+        let postControls = PostControls()
+        let postVC = PostVC(postControls: postControls,userID: userID,postImage: posts[indexPath.row].postImage, postDetails: posts[indexPath.row].postDetails)
+    
+        navigationController?.pushViewController(postVC,animated: false)
+    }
+    
 }

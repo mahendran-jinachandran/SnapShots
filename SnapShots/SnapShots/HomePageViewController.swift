@@ -15,10 +15,11 @@ class HomePageViewController: UITabBarController {
         // Do any additional setup after loading the view.
         navigationItem.hidesBackButton = true
         view.backgroundColor = .systemBackground
-    
+        
         tabBar.backgroundColor = .systemBackground
         tabBar.tintColor = UIColor(named: "appTheme")
         tabBar.isTranslucent = false
+        
         setupViewControllers()
     }
     

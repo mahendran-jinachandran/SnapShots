@@ -10,12 +10,11 @@ import UIKit
 class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     private var registerController: RegisterControllerProtocol!
-    
     public func setController(_ registerController: RegisterControllerProtocol) {
         self.registerController = registerController
     }
     
-    var registerStackView: UIStackView!
+    private var registerStackView: UIStackView!
     private lazy var registerScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +98,6 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return password
     }()
     
-    
     private lazy var rePassword: UITextField = {
         let rePassword = UITextField()
         rePassword.placeholder = "Re-enter password"
@@ -116,11 +114,10 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
        
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
+
         let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
-        
         return toggleButton
     }()
     
@@ -159,19 +156,19 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         passwordVisibilityToggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
     }
     
-    func setupNotficationCenter() {
+    private func setupNotficationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
         registerButton.addTarget(self, action: #selector(registerValidation), for: .touchUpInside)
     }
         
-    func createRegisterStackView() {
+    private func createRegisterStackView() {
         
         registerScrollView.showsVerticalScrollIndicator = false
         username.delegate = self
@@ -191,7 +188,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         addConstraintsLoginStack()
     }
     
-    func addConstraintsLoginStack() {
+    private func addConstraintsLoginStack() {
         
         view.addSubview(registerScrollView)
         registerScrollView.addSubview(registerStackView)
@@ -210,7 +207,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         ])
     }
         
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    private func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField == phoneNumber {
             _ = checkPhoneNumberValidation(phoneNumber: textField.text!)
         } else if textField == username {
@@ -218,7 +215,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         }
     }
 
-    func checkUsernameValidation(username: String) -> Bool {
+    private func checkUsernameValidation(username: String) -> Bool {
         let usernameDetails = registerController.validateUsername(username: username)
         
         if username.count >= Constants.miniumUsernameLength {
@@ -239,7 +236,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return false
     }
     
-    func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
+    private func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
         let phoneNumberDetails = registerController.validatePhoneNumber(phoneNumber: phoneNumber)
 
         if phoneNumber.count >= Constants.minimumPhoneNumberLength {
@@ -258,7 +255,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return false
     }
     
-    func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
+    private func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
         
         if password == rePassword {
             passwordNotMatchWarningLabel.isHidden = true
@@ -270,7 +267,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         return false
     }
     
-    @objc func registerValidation() {
+    @objc private func registerValidation() {
         if !checkUsernameValidation(username: username.text!) {
             invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
             return
@@ -294,13 +291,13 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         startOnboarding()
     }
 
-    @objc func startOnboarding() {
+    @objc private func startOnboarding() {
         
         registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!)
         navigationController?.pushViewController(OnboardingVC(), animated: true)
     }
 
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
@@ -344,44 +341,44 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
 
 extension RegisterVC {
     
-    func enableRegisterButton() {
+    private func enableRegisterButton() {
         registerButton.isEnabled = true
         registerButton.alpha = 1.0
     }
     
-    func disableRegisterButton() {
+    private func disableRegisterButton() {
         registerButton.isEnabled = false
         registerButton.alpha = 0.5
     }
     
-    func validUserName() {
+    private func validUserName() {
         usernameWarningLabel.isHidden = true
         username.layer.borderColor = UIColor.lightGray.cgColor
     }
     
-    func invalidUserName(warningLabel: String) {
+    private func invalidUserName(warningLabel: String) {
         username.layer.borderColor = UIColor.red.cgColor
         usernameWarningLabel.isHidden = false
         usernameWarningLabel.text = warningLabel
     }
         
-    func validPhoneNumber() {
+    private func validPhoneNumber() {
         phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
         phoneNumberWarningLabel.isHidden = true
     }
     
-    func invalidPhoneNumber(warningLabel: String) {
+    private func invalidPhoneNumber(warningLabel: String) {
         phoneNumber.layer.borderColor = UIColor.red.cgColor
         phoneNumberWarningLabel.text = warningLabel
         phoneNumberWarningLabel.isHidden = false
     }
     
-    func invalidPasswordStatus(warningLabel: String) {
+    private func invalidPasswordStatus(warningLabel: String) {
         passwordNotMatchWarningLabel.isHidden = false
         passwordNotMatchWarningLabel.text = warningLabel
     }
     
-    @objc func passwordVisibility(_ sender : UIButton) {
+    @objc private func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
             passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)

@@ -86,6 +86,7 @@
 		BFB3E4D729404F3B00A266D9 /* CommentsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D629404F3B00A266D9 /* CommentsProtocols.swift */; };
 		BFB3E4D92940507E00A266D9 /* OnboardingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4D82940507E00A266D9 /* OnboardingProtocols.swift */; };
 		BFB3E4DB2940593000A266D9 /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4DA2940593000A266D9 /* NewPostProtocols.swift */; };
+		BFB3E4DD2940ABE300A266D9 /* PostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4DC2940ABE300A266D9 /* PostProtocols.swift */; };
 		BFC9BAB429384C0F00EE1D42 /* UITapGestureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */; };
 		BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */; };
 		BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */; };
@@ -195,6 +196,7 @@
 		BFB3E4D629404F3B00A266D9 /* CommentsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsProtocols.swift; sourceTree = "<group>"; };
 		BFB3E4D82940507E00A266D9 /* OnboardingProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProtocols.swift; sourceTree = "<group>"; };
 		BFB3E4DA2940593000A266D9 /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
+		BFB3E4DC2940ABE300A266D9 /* PostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProtocols.swift; sourceTree = "<group>"; };
 		BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureExtensions.swift; sourceTree = "<group>"; };
 		BFC9BAB62938603B00EE1D42 /* SnapShotsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapShotsError.swift; sourceTree = "<group>"; };
 		BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityController.swift; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 			children = (
 				BFDF7075292F33D3001A736F /* PostVC.swift */,
 				BFDF7078292F375D001A736F /* PostControls.swift */,
+				BFB3E4DC2940ABE300A266D9 /* PostProtocols.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -785,6 +788,7 @@
 				BF34662D29348D98006FF9FE /* Constants.swift in Sources */,
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
 				BFB3E4D92940507E00A266D9 /* OnboardingProtocols.swift in Sources */,
+				BFB3E4DD2940ABE300A266D9 /* PostProtocols.swift in Sources */,
 				BFC9BAB92939FE6100EE1D42 /* SecurityController.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,

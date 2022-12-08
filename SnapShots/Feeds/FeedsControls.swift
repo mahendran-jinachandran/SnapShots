@@ -22,9 +22,8 @@ class FeedsControls {
         let posts = postDaoImp.getAllFriendPosts(userID: loggedUser)
         
         for (userID,username,postDetails) in posts {
+            let userDP = AppUtility.getDisplayPicture(userID: userID)
             
-            var userDP = AppUtility.getDisplayPicture(userID: userID)
-        
             feedPosts.append((
                 userID,
                 username,
@@ -35,6 +34,7 @@ class FeedsControls {
                 )!
             ))
         }
+        
         return feedPosts
     }
     

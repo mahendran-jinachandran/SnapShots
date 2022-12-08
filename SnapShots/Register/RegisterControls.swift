@@ -9,9 +9,7 @@ import Foundation
 
 class RegisterControls: RegisterControllerProtocol {
     
-    
     private var registerView: RegisterViewProtocol!
-    
     public func setView(_ registerView: RegisterViewProtocol) {
         self.registerView = registerView
     }

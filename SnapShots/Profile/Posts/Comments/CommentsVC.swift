@@ -166,6 +166,8 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource,UITextFieldDeleg
     }
     
     @objc func addComment() {
+        
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         commentsControls.addComment(postUserID: postUserID, postID: postID, comment: addCommentTextField.text!)
         
         commentDetails = commentsControls.getAllComments(postUserID: postUserID, postID: postID)
