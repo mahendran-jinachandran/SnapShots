@@ -54,7 +54,7 @@ class OnboardingBioVC: UIViewController {
         return bioLabel
     }()
     
-    private lazy var bioProfileTextView: UITextView = {
+    private lazy var profileBioTextView: UITextView = {
         let bioProfile = UITextView()
         bioProfile.textColor = .gray
         bioProfile.font = UIFont.systemFont(ofSize: 16)
@@ -98,7 +98,6 @@ class OnboardingBioVC: UIViewController {
     }
     
     func setupNotficationCenter() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
@@ -108,21 +107,24 @@ class OnboardingBioVC: UIViewController {
     }
     
     @objc func finishOnboarding() {
-        
-        if let bioProfile = bioProfileTextView.text {
-             
+        if let bioProfile = profileBioTextView.text {
             if bioProfile.count == 0 {
-                bioProfileTextView.layer.borderColor = UIColor.red.cgColor
+                profileBioTextView.layer.borderColor = UIColor.red.cgColor
                 return
             }
             
-            onboardingControls.updateBio(bio: bioProfile)
+            if onboardingControls.updateBio(bio: bioProfile) {
+                showToast(message: "Bio updated")
+            } else {
+                showToast(message: Constants.toastFailureStatus)
+            }
         }
         
         goToHomePage()
     }
     
     @objc func goToHomePage() {
+        _ = onboardingControls.updateBio(bio: Constants.noUserBioDefault)
         self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
@@ -130,7 +132,7 @@ class OnboardingBioVC: UIViewController {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
-        [bioLogo,bioLabel,bioProfileTextView,skipButton].forEach {
+        [bioLogo,bioLabel,profileBioTextView,skipButton].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -157,12 +159,12 @@ class OnboardingBioVC: UIViewController {
             bioLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             bioLabel.heightAnchor.constraint(equalToConstant: 30),
         
-            bioProfileTextView.topAnchor.constraint(equalTo: bioLabel.bottomAnchor,constant: 20),
-            bioProfileTextView.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
-            bioProfileTextView.widthAnchor.constraint(equalToConstant: 350),
-            bioProfileTextView.heightAnchor.constraint(equalToConstant: 100),
+            profileBioTextView.topAnchor.constraint(equalTo: bioLabel.bottomAnchor,constant: 20),
+            profileBioTextView.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
+            profileBioTextView.widthAnchor.constraint(equalToConstant: 350),
+            profileBioTextView.heightAnchor.constraint(equalToConstant: 100),
             
-            skipButton.topAnchor.constraint(equalTo: bioProfileTextView.bottomAnchor,constant: 20),
+            skipButton.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 20),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
             skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
             skipButton.heightAnchor.constraint(equalToConstant: 35),

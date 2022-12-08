@@ -14,7 +14,7 @@ extension UIViewController {
         
         let customCell = UIView()
         view.addSubview(customCell)
-
+        
         customCell.translatesAutoresizingMaskIntoConstraints = false
         leftImage.translatesAutoresizingMaskIntoConstraints = false
         rightImage.translatesAutoresizingMaskIntoConstraints = false
@@ -45,23 +45,22 @@ extension UIViewController {
         return customCell
     }
     
-    func presentDetail(_ viewControllerToPresent: UIViewController) {
-//        let transition = CATransition()
-//        transition.duration = 0.25
-//        transition.type = CATransitionType.push
-//        transition.subtype = CATransitionSubtype.fromRight
-//        self.view.window!.layer.add(transition, forKey: kCATransition)
+    func showToast(message : String) {
 
-        navigationController?.pushViewController(viewControllerToPresent, animated: true)
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-50, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.lightGray
+        toastLabel.textColor = UIColor.white
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 17;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
     }
-
-//    func dismissDetail() {
-//        let transition = CATransition()
-//        transition.duration = 0.25
-//        transition.type = CATransitionType.push
-//        transition.subtype = CATransitionSubtype.fromLeft
-//        self.view.window!.layer.add(transition, forKey: kCATransition)
-//
-//        navigationController?.popViewController(animated: false)
-//    }
 }
+    

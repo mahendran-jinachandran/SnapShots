@@ -19,6 +19,7 @@ struct Constants {
     
     // MARK: WARNING CONSTANTS
     static let unregisteredPhoneNumberWarning = "This phone number is not associated with any account"
+    static let toastFailureStatus = "Error: Try again"
     
     // MARK: USERNAME CONSTANTS
     static let userNameLength = "3-15"
@@ -33,8 +34,9 @@ struct Constants {
     // MARK: PASSWORD CONSTANTS
     static let minimumPasswordLength = 3
     
-    // MARK: PUBLISHING A POST EVENT
-    static let publishPostEvent = Notification.Name("Publish_Post")
+    // MARK: NOTIFICATION CENTER
+    static let publishPostEvent = Notification.Name("Publish_Post") // Uploading or deleting a post
+    static let userDetailsEvent = Notification.Name("UserDetails_Modiy")
     
     // MARK: NO BIO CONSTANT
     static let noUserBioDefault = "Nothing to share!"

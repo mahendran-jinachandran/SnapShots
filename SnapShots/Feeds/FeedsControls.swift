@@ -55,4 +55,9 @@ class FeedsControls {
         
         return likesDaoImp.removeLikeFromThePost(loggedUserID: loggedUser, visitingUserID: postUserID, postID: postID)
     }
+    
+    func isDeletionAllowed(userID: Int) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return loggedUserID == userID
+    }
 }

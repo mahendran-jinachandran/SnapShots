@@ -170,7 +170,7 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func showAboutApp() {
-        presentDetail(AboutViewController())
+      //  presentDetail(AboutViewController())
     }
     
     @objc func openSecurity() {

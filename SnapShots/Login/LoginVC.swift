@@ -261,7 +261,7 @@ extension LoginVC {
         }
     }
 
-    private func textFieldDidChangeSelection(_ textField: UITextField) {
+    internal func textFieldDidChangeSelection(_ textField: UITextField) {
        
         if textField == password {
             isPasswordEntered = textField.text!.count > 0 ? true : false
@@ -302,7 +302,7 @@ extension LoginVC {
         return true
     }
     
-    private func goToHomePage() {
+    internal func goToHomePage() {
         self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
@@ -326,7 +326,7 @@ extension LoginVC {
          navigationController?.pushViewController(OTPPhoneNumberVC(), animated: true)
      }
     
-    private func displayPhoneNumberVerificationState(isVerified: Bool) {
+    internal func displayPhoneNumberVerificationState(isVerified: Bool) {
         if isVerified {
             displayValidPhoneNumber()
         } else {
@@ -334,7 +334,7 @@ extension LoginVC {
         }
     }
     
-    private func displayWrongCredentials() {
+    internal func displayWrongCredentials() {
         
         loginController.validatePhoneNumber(phoneNumber: phoneNumber.text!)
         let invalidUserCredentials = UIAlertController(title: "Invalid credentials", message: nil, preferredStyle: .alert)

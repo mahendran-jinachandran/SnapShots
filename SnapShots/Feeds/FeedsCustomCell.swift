@@ -13,13 +13,15 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func unLikeThePost(sender: FeedsCustomCell)
     func showLikes(sender: FeedsCustomCell)
     func showComments(sender: FeedsCustomCell)
+    func isDeletionAllowed(sender: FeedsCustomCell) -> Bool
 }
 
 class FeedsCustomCell: UITableViewCell {
     
     static let identifier = "FeedsCustomCell"
-    var likeFlag: Bool = false
+    private var likeFlag: Bool = false
     weak var delegate: FeedsCustomCellDelegate?
+    private var postUserID: Int!
     
     private lazy var postContainer: UIView = {
         var postContainer = UIView()
@@ -111,7 +113,8 @@ class FeedsCustomCell: UITableViewCell {
         moreInfo.layer.cornerRadius = 15
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool) {
+    func configure(postUserID: Int,profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool) {
+        self.postUserID = postUserID
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
         self.post.image = postPhoto
@@ -157,22 +160,20 @@ class FeedsCustomCell: UITableViewCell {
     @objc func showOwnerMenu(_ sender: UIButton) {
     
         let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
             self.goToLikes()
         }
-
-        let edit = UIAlertAction(title: "Edit", style: .default) { _ in
-        }
-
-        let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
-            self.confirmDeletion()
-        }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-
         moreInfo.addAction(allLikes)
-        moreInfo.addAction(edit)
-        moreInfo.addAction(deletePost)
+        
+        if (delegate?.isDeletionAllowed(sender: self)) == true {
+            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
+                self.confirmDeletion()
+            }
+            moreInfo.addAction(deletePost)
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)    
         moreInfo.addAction(cancel)
         
         delegate?.controller().present(moreInfo, animated: true)
@@ -180,7 +181,6 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     func confirmDeletion() {
-        
         let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
         
         let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in

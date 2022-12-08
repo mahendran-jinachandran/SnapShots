@@ -54,4 +54,9 @@ class PostControls: PostControlsProtocol {
     func getUserDP(userID: Int) -> UIImage {
         return AppUtility.getDisplayPicture(userID: userID)
     }
+    
+    func isDeletionAllowed(userID: Int) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return loggedUserID == userID
+    }
 }

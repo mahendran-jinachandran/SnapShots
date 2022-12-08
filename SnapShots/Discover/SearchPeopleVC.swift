@@ -100,7 +100,7 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
             $0.user.userName.contains(searchText)
         })
         
-        // MARK: SHOW THE SEARCHED RESULTS IS EMPTY
+        // MARK: SHOW THE SEARCHED RESULTS IS EMPTY BY USING LABEL AS TABLE VIEW BACKGROUND VIEW AS DONE IN NOTIFICATIONS
         if data.isEmpty {
         }
         

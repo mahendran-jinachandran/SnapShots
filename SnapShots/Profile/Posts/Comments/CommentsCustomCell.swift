@@ -64,13 +64,13 @@ class CommentsCustomCell: UITableViewCell {
     func setupContraints() {
         NSLayoutConstraint.activate([
             
-            profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor),
+            profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8),
             profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             profilePhoto.widthAnchor.constraint(equalToConstant: 40),
             profilePhoto.heightAnchor.constraint(equalToConstant: 40),
-//            profilePhoto.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -20),
+
         
-            userNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            userNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8),
             userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 12),
             userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             userNameLabel.heightAnchor.constraint(equalToConstant: 20),
@@ -78,7 +78,7 @@ class CommentsCustomCell: UITableViewCell {
             comment.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 5),
             comment.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 12),
             comment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -12),
-            comment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -30)
+            comment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -8)
             
         
         ])

@@ -109,7 +109,11 @@ class OnboardingBirthdayVC: UIViewController {
                 return
             }
             
-            onboardingControls.updateBirthday(birthday: birthday)
+            if onboardingControls.updateBirthday(birthday: birthday) {
+                showToast(message: "DOB updated")
+            } else {
+                showToast(message: Constants.toastFailureStatus)
+            }
         }
         
        navigateToNext()

@@ -26,7 +26,7 @@ class User {
         profile = Profile()
     }
     
-    init(userId: Int,userName: String, password: String, phoneNumber: String, gender: Gender, age: String, mail: String,photo: Bool,bio: String) {
+    init(userId: Int,userName: String, password: String, phoneNumber: String, gender: Gender, age: String, mail: String,photo: String,bio: String) {
         
         self.userID = userId
         self.userName = userName
@@ -36,5 +36,7 @@ class User {
         self.age = age
         self.mail = mail
         profile = Profile()
+        profile.bio = bio
+        profile.photo = photo
     }
 }

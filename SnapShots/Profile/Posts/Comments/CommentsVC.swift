@@ -9,7 +9,7 @@ import UIKit
 
 class CommentsVC: UIViewController {
     
-    private lazy var commentDetails: [(userDP: UIImage,username: String,comment:String)] = []
+    private lazy var commentDetails: [(userDP: UIImage,username: String,comment:String,commentUserID: Int)] = []
     private var postUserID: Int
     private var postID: Int
     private var commentsControls: CommentsControlsProtocol
@@ -28,9 +28,6 @@ class CommentsVC: UIViewController {
     private lazy var commentsTable: UITableView = {
         var comments = UITableView()
         comments.translatesAutoresizingMaskIntoConstraints = false
-        comments.register(CommentsCustomCell.self, forCellReuseIdentifier: CommentsCustomCell.identifier)
-        comments.separatorStyle = .none
-        comments.bounces = false
         return comments
     }()
     
@@ -74,8 +71,13 @@ class CommentsVC: UIViewController {
     }
     
     func setupCommentsTable() {
+        commentsTable.register(CommentsCustomCell.self, forCellReuseIdentifier: CommentsCustomCell.identifier)
+        commentsTable.separatorStyle = .none
+        commentsTable.bounces = false
         commentsTable.delegate = self
         commentsTable.dataSource = self
+        commentsTable.estimatedRowHeight = 40
+        commentsTable.rowHeight = UITableView.automaticDimension
         
         commentDetails = commentsControls.getAllComments(postUserID: postUserID, postID: postID)
         if commentDetails.isEmpty {
@@ -130,12 +132,19 @@ class CommentsVC: UIViewController {
     }
 }
 
-extension CommentsVC: UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+     
+        tableView.deselectRow(at: indexPath, animated: true)
+        let userID = commentDetails[indexPath.row].commentUserID
+        let profileVC = ProfileVC(userID: userID,isVisiting: true)
+        let profileControls = ProfileControls()
+        profileVC.setController(profileControls)
+        
+        navigationController?.pushViewController(profileVC, animated: true)       
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentDetails.count
@@ -152,18 +161,6 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource,UITextFieldDeleg
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        
-        if !textField.text!.isEmpty {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addComment))
-        } else {
-            navigationItem.rightBarButtonItem = nil
-        }
-    }
     
     @objc func addComment() {
         
@@ -175,5 +172,17 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource,UITextFieldDeleg
         setupConstraints()
         commentsTable.reloadData()
         
+    }
+}
+
+extension CommentsVC : UITextFieldDelegate
+{
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        if !textField.text!.isEmpty {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addComment))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
     }
 }

@@ -212,10 +212,19 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
 
     func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUserDetails), name: Constants.userDetailsEvent, object: nil)
     }
     
     @objc func refreshPostSection() {
         posts = profileControls.getAllPosts(userID: userID)
+        profileView.reloadData()
+    }
+    
+    @objc func refreshUserDetails() {
+        self.profileUser = profileControls.getUserDetails(userID: userID)
+        profileHeader.attributedText = NSAttributedString(string: profileUser.userName,attributes: [
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
+        ])
         profileView.reloadData()
     }
 }
@@ -225,8 +234,16 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
         return self
     }
     
+    func editProfile() {
+        
+        let editProfileControls = EditProfileControls()
+        let editProfileVC = EditProfileVC(editProfileControls: editProfileControls, userID: userID, username: profileUser.userName, bio: profileUser.profile.bio)
+        
+        navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
     @objc func getFriendsList() {
-        self.navigationController?.pushViewController(FriendsListVC(), animated: false)
+        self.navigationController?.pushViewController(FriendsListVC(), animated: true)
     }
     
     func sendFriendRequest() {
@@ -248,7 +265,6 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     func unFriendAnUser() {
         if profileControls.removeFrined(profileRequestedUser: userID) {
             // MARK: TOAST UNFRIEND
-            print("Unfriended")
         } else {
             // MARK: TOAST UNFRIEND FAILED
         }
@@ -256,6 +272,7 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     
     func uploadPhoto(image: UIImage) {
         profileControls.updateProfilePhoto(profilePhoto: image)
+        showToast(message: "DP Updated")
     }
 }
 
@@ -268,7 +285,9 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         let postControls = PostControls()
         let postVC = PostVC(postControls: postControls,userID: userID,postImage: posts[indexPath.row].postImage, postDetails: posts[indexPath.row].postDetails)
     
-        navigationController?.pushViewController(postVC,animated: false)
+        navigationController?.pushViewController(postVC,animated: true)
     }
     
 }
+
+

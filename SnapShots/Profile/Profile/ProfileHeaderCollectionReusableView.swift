@@ -14,6 +14,7 @@ protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
     func sendFriendRequest()
     func cancelFriendRequest()
     func unFriendAnUser()
+    func editProfile()
 }
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
@@ -204,7 +205,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         userNameLabel.text = username
         friendsCountLabel.text = String(friendsCount)
         postsCountLabel.text = String(postsCount)
-        bioLabel.text = bio.isEmpty ? Constants.noUserBioDefault : bio
+        bioLabel.text = bio
         profilePhoto.image = profileDP
         self.profileAccessibility = profileAccessibility
         
@@ -256,8 +257,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
 
     @objc func editProfile() {
-        // MARK: EDITING THE PROFILE LOGIC HERE
-        print("Editing Profile")
+        delegate?.editProfile()
     }
     
     @objc func sendFriendRequest() {
@@ -273,8 +273,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     @objc func unFollowUser() {
         setupUnknownUserProfile()
         delegate?.unFriendAnUser()
-        // MARK: UNFRIENDING A USER
-        //delegate
     }
     
     @objc func showFriends(_ sender : UITapGestureRecognizer) {
@@ -367,11 +365,8 @@ extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,U
         if let selectedImage = info[.originalImage] as? UIImage {
             let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
             selectedImage.saveImage(imageName: "\(Constants.dpSavingFormat)\(userID)", image: selectedImage)
-            profilePhoto.image = selectedImage
             delegate?.uploadPhoto(image: selectedImage)
-            print("Image changed")
-        } else {
-            print("Image not found")
+            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         }
 
         picker.dismiss(animated: true)

@@ -70,6 +70,6 @@ class SecurityViewController: UIViewController {
     }
     
    @objc func startChangePasswordProcess() {
-       presentDetail(ChangePasswordViewController())
+      // presentDetail(ChangePasswordViewController())
     }
 }

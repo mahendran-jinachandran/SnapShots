@@ -207,7 +207,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         ])
     }
         
-    private func textFieldDidChangeSelection(_ textField: UITextField) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField == phoneNumber {
             _ = checkPhoneNumberValidation(phoneNumber: textField.text!)
         } else if textField == username {

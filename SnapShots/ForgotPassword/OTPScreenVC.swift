@@ -37,7 +37,7 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-        
+
             otpTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 60),
             otpTextField.heightAnchor.constraint(equalToConstant: 50),
             otpTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),

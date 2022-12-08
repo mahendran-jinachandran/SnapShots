@@ -212,15 +212,19 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
-        if let selectedImage = info[.originalImage] as? UIImage {
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            return
+        }
+        
+        if onboardingControls.updateProfilePhoto(profilePhoto: selectedImage) {
+            showToast(message: "DP Updated")
+            warningLabel.isHidden = true
             profilePhoto.image = selectedImage
             isPhotoUploaded = true
-            onboardingControls.updateProfilePhoto(profilePhoto: selectedImage)
-            warningLabel.isHidden = true
         } else {
-            print("Image not found")
+            showToast(message: Constants.toastFailureStatus)
         }
-
+        
         picker.dismiss(animated: true)
     }
 

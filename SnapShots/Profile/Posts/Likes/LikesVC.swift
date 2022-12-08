@@ -96,6 +96,16 @@ class LikesVC: UIViewController {
 }
 
 extension LikesVC: UITableViewDelegate,UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let userID = likedUsers[indexPath.row].user.userID
+        let profileVC = ProfileVC(userID: userID,isVisiting: true)
+        let profileControls = ProfileControls()
+        profileVC.setController(profileControls)
+        
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80

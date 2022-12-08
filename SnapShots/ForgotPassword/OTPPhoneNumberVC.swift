@@ -33,7 +33,6 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         return phoneNumber
     }()
     
-    
     private lazy var sendOTPButton: UIButton = {
        var sendOTPButton = UIButton()
         sendOTPButton.translatesAutoresizingMaskIntoConstraints = false

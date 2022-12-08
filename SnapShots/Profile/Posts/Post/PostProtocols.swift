@@ -15,4 +15,5 @@ protocol PostControlsProtocol {
     func getUsername(userID: Int) -> String
     func getPostImage(postImageName: String) -> UIImage
     func getUserDP(userID: Int) -> UIImage
+    func isDeletionAllowed(userID: Int) -> Bool
 }

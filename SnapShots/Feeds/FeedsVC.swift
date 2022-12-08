@@ -73,12 +73,13 @@ class FeedsVC: UIViewController {
         button.tintColor = UIColor(named: "appTheme")!
         button.menu = UIMenu(title: "", image: nil, children: [friendsAction])
         
-        let barButton =  UIBarButtonItem(customView: button)
+        let barButton = UIBarButtonItem(customView: button)
         navigationItem.leftBarButtonItem = barButton
     }
     
     func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.userDetailsEvent, object: nil)
     }
     
     @objc func refreshPostSection() {
@@ -122,6 +123,7 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
         particularCell.delegate = self
         
         particularCell.configure(
+            postUserID: feedPosts[indexPath.row].userID,
             profilePhoto: feedPosts[indexPath.row].userDP,
             username: "\(feedPosts[indexPath.row].userName)",
             postPhoto: feedPosts[indexPath.row].postPhoto,
@@ -144,11 +146,7 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        if feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID) {
-            // MARK: TOAST LIKED
-        } else {
-            // MARK: TOAST LIKED FAILED
-        }
+        _ = feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID) 
     }
     
     func unLikeThePost(sender: FeedsCustomCell) {
@@ -157,11 +155,7 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        if feedsControls.removeLikeFromThePost(postUserID: postUserID, postID: postID) {
-            // MARK: TOAST DISLIKED
-        } else {
-            // MARK: TOAST DISLIKED FAILED
-        }
+        _ = feedsControls.removeLikeFromThePost(postUserID: postUserID, postID: postID)
     }
     
     func showLikes(sender: FeedsCustomCell) {
@@ -172,7 +166,8 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let LikesControls = LikesControls()
         let likesVC = LikesVC(likesControls: LikesControls, postUserID: postUserID, postID: postID)
         
-        navigationController?.present(likesVC, animated: true)
+     //   navigationController?.present(likesVC, animated: true)
+        navigationController?.pushViewController(likesVC, animated: true)
     }
     
     func showComments(sender: FeedsCustomCell) {
@@ -184,5 +179,13 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let commentsVC = CommentsVC(commentsControls: commentControls, postUserID: postUserID, postID: postID)
         
         navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func isDeletionAllowed(sender: FeedsCustomCell) -> Bool {
+        
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let postUserID = feedPosts[indexPath.row].userID
+        
+        return feedsControls.isDeletionAllowed(userID: postUserID)
     }
 }

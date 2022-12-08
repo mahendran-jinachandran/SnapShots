@@ -39,7 +39,8 @@ class UserDaoImplementation: UserDao {
     
     func getUserDetails(userID: Int) -> User? {
         let getParticularUserQuery = "SELECT * FROM User WHERE User_id = \(userID)"
-        return UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
+        let user = UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
+        return user
     }
     
     func getAllUsers() -> [User] {

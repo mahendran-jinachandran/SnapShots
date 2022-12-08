@@ -11,16 +11,12 @@ class OnboardingControls: OnboardingProtocol {
     
     private lazy var userDao: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
-    func updateProfilePhoto(profilePhoto: UIImage) {
+    func updateProfilePhoto(profilePhoto: UIImage) -> Bool {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         let photoName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
         profilePhoto.saveImage(imageName: photoName,image: profilePhoto)
         
-        if userDao.updatePhoto(photo: photoName, userID: loggedUserID) {
-            // MARK: PROFILE PHOTO IS UPDATED
-        } else {
-            // MARK: COULDN'T UPLOAD PHOTO
-        }
+        return userDao.updatePhoto(photo: photoName, userID: loggedUserID) 
     }
     
     func updateEmail(email: String) -> Bool {
@@ -30,45 +26,25 @@ class OnboardingControls: OnboardingProtocol {
             return false
         }
         
-        if userDao.updateMail(mailID: email, userID: loggedUserID) {
-            // MARK: EMAIL IS UPDATED
-        } else {
-            // MARK: COULDN'T UPDATE
-        }
-        
-        return true
+        return userDao.updateMail(mailID: email, userID: loggedUserID)
     }
     
-    func updateGender(gender: String) {
+    func updateGender(gender: String) -> Bool {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        
-        if userDao.updateGender(gender: gender, userID: loggedUserID) {
-            // MARK: GENDER IS UPDATED
-        } else {
-            // MARK: COULDN'T UPDATE
-        }
+        return userDao.updateGender(gender: gender, userID: loggedUserID)
     }
     
-    func updateBirthday(birthday: String) {
+    func updateBirthday(birthday: String) -> Bool {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        
-        if userDao.updateAge(age: birthday, userID: loggedUserID) {
-            // MARK: AGE IS UPDATED
-        } else {
-            // MARK: COULDN'T UPDATE
-        }
+        return userDao.updateAge(age: birthday, userID: loggedUserID) 
     }
     
-    func updateBio(bio: String) {
+    func updateBio(bio: String) -> Bool {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        
-        if userDao.updateBio(profileBio: bio, userID: loggedUserID){
-            // MARK: AGE IS UPDATED
-        } else {
-            // MARK: COULDN'T UPDATE
-        }
+        return userDao.updateBio(profileBio: bio, userID: loggedUserID)
+   
     }
 }

@@ -22,19 +22,20 @@ class CommentsControls: CommentsControlsProtocol {
         }
     }
     
-    func getAllComments(postUserID: Int,postID: Int) -> [(userDP: UIImage,username: String,comment:String)] {
+    func getAllComments(postUserID: Int,postID: Int) -> [(userDP: UIImage,username: String,comment:String,commentUserID: Int)] {
         
-        var comments: [(userDP: UIImage,username: String,comment:String)] = []
+        var comments: [(userDP: UIImage,username: String,comment:String,commentUserID: Int)] = []
         
         for comment in commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID) {
             
-            var userDP = AppUtility.getDisplayPicture(userID: comment.commentUserID)
+            let userDP = AppUtility.getDisplayPicture(userID: comment.commentUserID)
             let username = userDaoImp.getUsername(userID: comment.commentUserID)
             
             comments.append((
                 userDP,
                 username,
-                comment.comment
+                comment.comment,
+                comment.commentUserID
             ))
         }
         

@@ -237,7 +237,6 @@ class PostVC: UIViewController {
         } else {
             like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
         }
-        
     }
     
     @objc func goToLikes() {
@@ -257,15 +256,17 @@ class PostVC: UIViewController {
         let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
             self.goToLikes()
         }
-
-        let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
-            self.confirmDeletion()
+        
+        if postControls.isDeletionAllowed(userID: userID) {
+            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
+                self.confirmDeletion()
+            }
+            moreInfo.addAction(deletePost)
         }
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
 
         moreInfo.addAction(allLikes)
-        moreInfo.addAction(deletePost)
         moreInfo.addAction(cancel)
         
         present(moreInfo, animated: true)

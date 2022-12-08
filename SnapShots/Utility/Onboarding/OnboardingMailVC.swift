@@ -118,7 +118,10 @@ class OnboardingMailVC: UIViewController {
         if let usermail = emailTextField.text {
             if usermail.count == 0 || !onboardingControls.updateEmail(email: usermail) {
                 emailTextField.layer.borderColor = UIColor.red.cgColor
+                showToast(message: Constants.toastFailureStatus)
                 return
+            } else {
+                showToast(message: "Mail updated")
             }
         }
         
