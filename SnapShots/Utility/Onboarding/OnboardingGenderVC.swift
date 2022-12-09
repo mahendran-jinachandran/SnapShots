@@ -23,7 +23,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         fatalError("init(coder:) has not been implemented")
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -38,7 +38,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         return scrollContainer
     }()
     
-    private var genderImage: UIImageView = {
+    private lazy var genderImage: UIImageView = {
         let genderImage = UIImageView(frame: .zero)
         genderImage.image = UIImage(named: "genderImg")
         genderImage.tintColor = UIColor(named: "appTheme")
@@ -59,7 +59,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         return gender
     }()
     
-    lazy var skipButton: UIButton = {
+    private lazy var skipButton: UIButton = {
         let skipButton = UIButton()
         skipButton.setTitle("Skip", for: .normal)
         skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
@@ -96,17 +96,17 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         view.addGestureRecognizer(screenTap)
     }
     
-    func setupNotficationCenter() {
+    private func setupNotficationCenter() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    @objc func updateGender() {
+    @objc private func updateGender() {
         
         if let gender = genderTextField.text {
             if gender.count == 0 {
@@ -124,11 +124,11 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         navigateToNext()
     }
     
-    @objc func navigateToNext() {
+    @objc private func navigateToNext() {
         navigationController?.pushViewController(OnboardingBirthdayVC(onboardingControls: onboardingControls), animated: false)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -166,25 +166,25 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         ])
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    private func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    private func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return genders.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    private func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return genders[row]
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    private func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         genderTextField.text = genders[row]
         genderTextField.resignFirstResponder()
     }
     
     // MARK: KEYBOARD NOTIFICATION CENTER
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

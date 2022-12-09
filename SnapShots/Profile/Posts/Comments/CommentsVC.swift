@@ -65,7 +65,6 @@ class CommentsVC: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         title = "Comments"
         
-
         addCommentTextField.delegate = self
         setupCommentsTable()
     }
@@ -142,13 +141,21 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
         let profileControls = ProfileControls()
         profileVC.setController(profileControls)
         
-        navigationController?.pushViewController(profileVC, animated: true)       
+        navigationController?.pushViewController(profileVC, animated: true)
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentDetails.count
     }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if velocity.y > 2 || velocity.y < -2 {
+            self.view.endEditing(true)
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell

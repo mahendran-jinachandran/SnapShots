@@ -21,7 +21,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -36,7 +36,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         return scrollContainer
     }()
     
-    private var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
         let profileImage = UIImageView(frame: .zero)
         profileImage.image = UIImage(named: "blankPhoto")
         profileImage.backgroundColor = .systemBlue
@@ -47,7 +47,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         return profileImage
     }()
     
-    private var primaryLabel: UILabel = {
+    private lazy var primaryLabel: UILabel = {
         let primaryLabel = UILabel()
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.text = "Upload your Profile Picture"
@@ -55,7 +55,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         return primaryLabel
     }()
     
-    private var secondaryLabel: UILabel = {
+    private lazy var secondaryLabel: UILabel = {
         let secondaryLabel = UILabel()
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.text = "This picture will be used to display\n\t\tfor others to view."
@@ -65,7 +65,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         return secondaryLabel
     }()
     
-    private var warningLabel: UILabel = {
+    private lazy var warningLabel: UILabel = {
         let warningLabel = UILabel()
         warningLabel.translatesAutoresizingMaskIntoConstraints = false
         warningLabel.text = "Please upload a photo or click skip"
@@ -76,7 +76,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         return warningLabel
     }()
     
-    lazy var skipButton: UIButton = {
+    private lazy var skipButton: UIButton = {
         let skipButton = UIButton()
         skipButton.setTitle("Skip", for: .normal)
         skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
@@ -110,7 +110,7 @@ class OnboardingProfilePhotoVC: UIViewController {
         profilePhoto.addGestureRecognizer(imagePicker)
     }
     
-    @objc func uploadPhoto() {
+    @objc private func uploadPhoto() {
         if isPhotoUploaded {
             navigateToNext()
         } else {
@@ -118,11 +118,11 @@ class OnboardingProfilePhotoVC: UIViewController {
         }
     }
     
-    @objc func navigateToNext() {
+    @objc private func navigateToNext() {
         navigationController?.pushViewController(OnboardingMailVC(onboardingControls: onboardingControls), animated: false)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -171,7 +171,7 @@ class OnboardingProfilePhotoVC: UIViewController {
 
 extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
-    @objc func imagePress(_ sender : UITapGestureRecognizer) {
+    @objc private func imagePress(_ sender : UITapGestureRecognizer) {
 
         let imagePicker = UIAlertController(title: "CHANGE DP", message: nil, preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) { _ in
@@ -196,7 +196,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
         present(imagePicker, animated: true,completion: nil)
     }
     
-    func showImagePicker(selectedSource: UIImagePickerController.SourceType) {
+    private func showImagePicker(selectedSource: UIImagePickerController.SourceType) {
         guard UIImagePickerController.isSourceTypeAvailable(selectedSource) else {
             print("Selected source not available")
             return
@@ -210,7 +210,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
         present(imagePickerController, animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
         guard let selectedImage = info[.originalImage] as? UIImage else {
             return
@@ -228,7 +228,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
         picker.dismiss(animated: true)
     }
 
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    private func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
     }
 }

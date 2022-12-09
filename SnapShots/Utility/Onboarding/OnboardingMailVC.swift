@@ -18,10 +18,8 @@ class OnboardingMailVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
-
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -36,7 +34,7 @@ class OnboardingMailVC: UIViewController {
         return scrollContainer
     }()
     
-    private var mailLogo: UIImageView = {
+    private lazy var mailLogo: UIImageView = {
         let mailLogo = UIImageView(frame: .zero)
         mailLogo.image = UIImage(systemName: "envelope")
         mailLogo.clipsToBounds = true
@@ -47,7 +45,7 @@ class OnboardingMailVC: UIViewController {
         return mailLogo
     }()
     
-    private var primaryLabel: UILabel = {
+    private lazy var primaryLabel: UILabel = {
         let primaryLabel = UILabel()
         primaryLabel.text = "Your mail id can be used for various \n\t\tverification purposes"
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +68,7 @@ class OnboardingMailVC: UIViewController {
         return email
     }()
     
-    lazy var skipButton: UIButton = {
+    private lazy var skipButton: UIButton = {
         let skipButton = UIButton()
         skipButton.setTitle("Skip", for: .normal)
         skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
@@ -103,17 +101,17 @@ class OnboardingMailVC: UIViewController {
         view.addGestureRecognizer(screenTap)
     }
     
-    func setupNotficationCenter() {
+    private func setupNotficationCenter() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    @objc func validateMail() {
+    @objc private func validateMail() {
         
         if let usermail = emailTextField.text {
             if usermail.count == 0 || !onboardingControls.updateEmail(email: usermail) {
@@ -128,11 +126,11 @@ class OnboardingMailVC: UIViewController {
         navigateToNext()
     }
     
-    @objc func navigateToNext() {
+    @objc private func navigateToNext() {
         navigationController?.pushViewController(OnboardingGenderVC(onboardingControls: onboardingControls), animated: false)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -176,7 +174,7 @@ class OnboardingMailVC: UIViewController {
     }
     
     // MARK: KEYBOARD NOTIFICATION CENTER
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

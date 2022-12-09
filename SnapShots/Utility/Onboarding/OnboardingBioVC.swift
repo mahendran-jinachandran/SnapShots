@@ -19,7 +19,7 @@ class OnboardingBioVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -34,7 +34,7 @@ class OnboardingBioVC: UIViewController {
         return scrollContainer
     }()
     
-    private var bioLogo: UIImageView = {
+    private lazy var bioLogo: UIImageView = {
         let bioLogo = UIImageView(frame: .zero)
         bioLogo.image = UIImage(systemName: "person.text.rectangle.fill")
         bioLogo.clipsToBounds = true
@@ -45,7 +45,7 @@ class OnboardingBioVC: UIViewController {
         return bioLogo
     }()
     
-    private var bioLabel: UILabel = {
+    private lazy var bioLabel: UILabel = {
         let bioLabel = UILabel()
         bioLabel.text = "Tell about yourself"
         bioLabel.textColor = UIColor(named: "appTheme")
@@ -64,7 +64,7 @@ class OnboardingBioVC: UIViewController {
         return bioProfile
     }()
     
-    lazy var skipButton: UIButton = {
+    private lazy var skipButton: UIButton = {
         let skipButton = UIButton()
         skipButton.setTitle("Skip", for: .normal)
         skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
@@ -102,11 +102,11 @@ class OnboardingBioVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    @objc func finishOnboarding() {
+    @objc private func finishOnboarding() {
         if let bioProfile = profileBioTextView.text {
             if bioProfile.count == 0 {
                 profileBioTextView.layer.borderColor = UIColor.red.cgColor
@@ -123,12 +123,12 @@ class OnboardingBioVC: UIViewController {
         goToHomePage()
     }
     
-    @objc func goToHomePage() {
+    @objc private func goToHomePage() {
         _ = onboardingControls.updateBio(bio: Constants.noUserBioDefault)
         self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -173,7 +173,7 @@ class OnboardingBioVC: UIViewController {
     }
     
     // MARK: KEYBOARD NOTIFICATION CENTER
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

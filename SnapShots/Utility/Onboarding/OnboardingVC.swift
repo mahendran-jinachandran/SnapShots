@@ -10,19 +10,18 @@ import Lottie
 
 class OnboardingVC: UIViewController {
     
-    var heightAnchor: NSLayoutConstraint?
+    private var heightAnchor: NSLayoutConstraint?
+    private var onBoardingStackView: UIStackView!
     
-    let onBoardingscrollView: UIScrollView = {
+    private lazy var onBoardingscrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
         return scrollView
     }()
-
-    var onBoardingStackView: UIStackView!
     
-    let welcomeLabel: UILabel = {
+    private lazy var welcomeLabel: UILabel = {
        let welcomeLabel = UILabel()
         welcomeLabel.text = "SNAPSHOTS"
         welcomeLabel.font =  UIFont(name: "Papyrus", size: 45)
@@ -33,7 +32,7 @@ class OnboardingVC: UIViewController {
        return welcomeLabel
     }()
     
-    let welcomeSubLabel: UILabel = {
+    private lazy var welcomeSubLabel: UILabel = {
        let welcomeSubLabel = UILabel()
         welcomeSubLabel.text = "A new world is rising. Discover it."
         welcomeSubLabel.font =  UIFont(name: "Papyrus", size: 20)
@@ -44,7 +43,7 @@ class OnboardingVC: UIViewController {
        return welcomeSubLabel
     }()
     
-    var animationView: LottieAnimationView = {
+    private lazy var animationView: LottieAnimationView = {
         var animationView = LottieAnimationView()
         animationView = .init(name: "OnBoardingScreen1")
         animationView.contentMode = .scaleAspectFit
@@ -55,7 +54,7 @@ class OnboardingVC: UIViewController {
         return animationView
     }()
     
-    lazy var nextButton: UIButton = {
+    private lazy var nextButton: UIButton = {
         let nextButton = UIButton()
         nextButton.setTitle("Next", for: .normal)
         nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
@@ -101,7 +100,7 @@ class OnboardingVC: UIViewController {
         updateScrollViewHeightConstraintActiveState()
     }
     
-    func createOnboardingStackView() {
+    private func createOnboardingStackView() {
         let arrangedSubViews = [welcomeLabel,welcomeSubLabel,animationView,nextButton]
 
         onBoardingStackView = UIStackView(arrangedSubviews: arrangedSubViews)
@@ -115,7 +114,7 @@ class OnboardingVC: UIViewController {
         nextButton.addTarget(self, action: #selector(goToNextOnboarding), for: .touchUpInside)
     }
     
-   @objc func goToNextOnboarding() {
+   @objc private func goToNextOnboarding() {
        animationView.stop()
        animationView.removeFromSuperview()
        
@@ -126,7 +125,7 @@ class OnboardingVC: UIViewController {
     }
     
     
-    func setConstraints() {
+    private func setConstraints() {
         
         NSLayoutConstraint.activate([
             
