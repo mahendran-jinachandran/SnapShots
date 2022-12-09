@@ -14,31 +14,24 @@ class FeedsControls {
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
-    func getAllPosts() -> [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] {
+    func getAllPosts() -> [FeedsDetails] {
         
-        var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
+        var feedPosts: [FeedsDetails] = []
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         
-        let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        let posts = postDaoImp.getAllFriendPosts(userID: loggedUser)
-        
-        for (userID,username,postDetails) in posts {
-            let userDP = AppUtility.getDisplayPicture(userID: userID)
+        for (userID,username,postDetails) in postDaoImp.getAllFriendPosts(userID: loggedUserID) {
             
-            feedPosts.append((
-                userID,
-                username,
-                userDP,
-                postDetails,
-                UIImage().loadImageFromDiskWith(
-                    fileName: "\(userID)\(Constants.postSavingFormat)\(postDetails.postID)"
-                )!
-            ))
+            feedPosts.append(FeedsDetails(
+                userID: userID,
+                userName: username,
+                postDetails: postDetails)
+            )
         }
         
         return feedPosts
     }
     
-    func isAlreadyLikedThePost(postDetails: (userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)) -> Bool {
+    func isAlreadyLikedThePost(postDetails: FeedsDetails) -> Bool {
         
         let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return likesDaoImp.isPostAlreadyLiked(loggedUserID: loggedUser, visitingUserID: postDetails.userID, postID: postDetails.postDetails.postID)

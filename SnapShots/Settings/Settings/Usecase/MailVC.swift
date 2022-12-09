@@ -165,6 +165,7 @@ class MailVC: UIViewController {
         }
         
         if contentInsetBackstore == .zero {
+            print(scrollView.contentInset)
             contentInsetBackstore = scrollView.contentInset
         }
         

@@ -11,18 +11,7 @@ class SearchControls: SearchControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
-    func getAllUsers() -> [(user: User,userDP: UIImage)] {
-        
-        var users: [(user: User,userDP: UIImage)] = []
-        for user in userDaoImp.getAllUsers() {
-            
-            var userDP = AppUtility.getDisplayPicture(userID: user.userID)
-            users.append((
-                user,
-                userDP
-            ))
-        }
-        
-        return users
+    func getAllUsers() -> [User] {
+        return userDaoImp.getAllUsers()
     }
 }

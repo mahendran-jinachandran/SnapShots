@@ -12,7 +12,7 @@ class ProfileVC: UIViewController{
     private var profileView: UICollectionView!
     private var layout = UICollectionViewFlowLayout()
     private var profileControls: ProfileControlsProtocols!
-    private var posts: [(postImage: UIImage,postDetails: Post)] = []
+    private var posts: [Post] = []
     private var profileUser: User!
     private var userID: Int!
     private var profileAccessibility: ProfileAccess!
@@ -179,8 +179,14 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
         
+        
+        let postPicture = AppUtility.getPostPicture(
+            userID: userID,
+            postID: posts[indexPath.row].postID)
+        
         cell.delegate = self
-        cell.configure(postImage: posts[indexPath.item].postImage)
+        cell.configure(
+            postImage: postPicture)
 
         
         return cell
@@ -243,7 +249,11 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     @objc func getFriendsList() {
-        self.navigationController?.pushViewController(FriendsListVC(), animated: true)
+        
+        let friendsControls = FriendsControls()
+        let friendsListVC = FriendsListVC(friendsControls: friendsControls)
+        
+        self.navigationController?.pushViewController(friendsListVC, animated: true)
     }
     
     func sendFriendRequest() {
@@ -282,12 +292,15 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         
         let indexPath = profileView.indexPath(for: sender)!
         
+        let postPicture = AppUtility.getPostPicture(
+            userID: userID,
+            postID: posts[indexPath.row].postID)
+        
         let postControls = PostControls()
-        let postVC = PostVC(postControls: postControls,userID: userID,postImage: posts[indexPath.row].postImage, postDetails: posts[indexPath.row].postDetails)
+        let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: posts[indexPath.row])
     
         navigationController?.pushViewController(postVC,animated: true)
     }
-    
 }
 
 

@@ -8,5 +8,5 @@
 import UIKit
 
 protocol LikesControlsProtocol {
-    func getAllLikedUsers(postUserID: Int,postID: Int) -> [(user: User,profilePhoto: UIImage)]
+    func getAllLikedUsers(postUserID: Int,postID: Int) -> [User]
 }

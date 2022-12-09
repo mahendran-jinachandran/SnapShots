@@ -9,5 +9,5 @@ import UIKit
 
 protocol CommentsControlsProtocol {
     func addComment(postUserID: Int,postID: Int,comment: String)
-    func getAllComments(postUserID: Int,postID: Int) -> [(userDP: UIImage,username: String,comment:String,commentUserID: Int)]
+    func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails]
 }

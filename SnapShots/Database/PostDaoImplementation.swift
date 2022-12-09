@@ -49,18 +49,20 @@ class PostDaoImplementation: PostDao {
         return newPostID
     }
     
-    func getAllPosts(userID: Int) -> [(postID: Int, postDetails: Post)] {
+    func getAllPosts(userID: Int) -> [Post] {
         let getAllPostQuery = """
         SELECT Post_id,Photo,Caption FROM POST
         WHERE User_id = \(userID);
         """
         
-        var allPosts: [(Int, Post)] = []
+        var allPosts: [Post] = []
         for (_,post) in sqliteDatabase.retrievingQuery(query: getAllPostQuery) {
-            allPosts.append(( Int(post[0])!,
-                                  Post(postID: Int(post[0])!,
-                                       photo: post[1],
-                                       caption: post[2]))   )
+            allPosts.append(
+                Post(postID: Int(post[0])!,
+                     photo: post[1],
+                     caption: post[2]
+                    )
+             )
         }
         
         return allPosts

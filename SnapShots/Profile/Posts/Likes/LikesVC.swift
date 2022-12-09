@@ -11,7 +11,7 @@ class LikesVC: UIViewController {
     
     private var postUserID: Int
     private var postID: Int
-    private var likedUsers: [(user: User,profilePhoto: UIImage)] = []
+    private var likedUsers: [User] = []
     private var likesControls: LikesControlsProtocol
     
     init(likesControls: LikesControlsProtocol,postUserID: Int,postID: Int) {
@@ -99,8 +99,10 @@ extension LikesVC: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let userID = likedUsers[indexPath.row].user.userID
-        let profileVC = ProfileVC(userID: userID,isVisiting: true)
+        let profileVC = ProfileVC(
+            userID: likedUsers[indexPath.row].userID,
+            isVisiting: true)
+        
         let profileControls = ProfileControls()
         profileVC.setController(profileControls)
         
@@ -121,9 +123,10 @@ extension LikesVC: UITableViewDelegate,UITableViewDataSource {
             withIdentifier: LikesCustomCell.identifier,
             for: indexPath) as! LikesCustomCell
         
+        let profilePicture = AppUtility.getDisplayPicture(userID: likedUsers[indexPath.row].userID)
         cell.configure(
-            profilePhoto: likedUsers[indexPath.row].profilePhoto,
-            userNameLabel: likedUsers[indexPath.row].user.userName)
+            profilePhoto: profilePicture,
+            userNameLabel: likedUsers[indexPath.row].userName)
         
         return cell
     }

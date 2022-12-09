@@ -210,7 +210,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
         present(imagePickerController, animated: true)
     }
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
         guard let selectedImage = info[.originalImage] as? UIImage else {
             return
@@ -228,7 +228,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
         picker.dismiss(animated: true)
     }
 
-    private func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
     }
 }

@@ -6,15 +6,22 @@
 //
 
 import Foundation
-import UIKit
 
-class FriendsControls {
+class FriendsControls: FriendsControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     
-    func getAllFriends() -> [(userDP: UIImage,username: String)] {
+    func getAllFriends() -> [User] {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        return friendsDaoImp.getUserFriends(userID: userID)
+        var friends: [User] = []
+        
+        for userID in friendsDaoImp.getIDsOfFriends(userID: userID) {
+            friends.append(
+                userDaoImp.getUserDetails(userID: userID)!
+            )
+        }
+
+        return friends
     }
 }

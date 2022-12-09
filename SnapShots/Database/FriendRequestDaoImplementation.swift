@@ -21,30 +21,19 @@ class FriendRequestDaoImplementation: FriendRequestDao {
         self.userDaoImplementation = userDaoImplementation
     }
     
-    func getRequestedFriendsList(userID: Int) -> [(userId: Int, userName: String,userDP: UIImage)] {
+    func getRequestedFriendsList(userID: Int) -> [User] {
         let getFriendRequestsQuery = """
         SELECT Requested_id FROM FriendRequest WHERE User_id = \(userID)
         """
         
-        var requestFriendIDs: Set<Int> = []
+        var requestFriends: [User] = []
         for (_,userID) in sqliteDatabase.retrievingQuery(query: getFriendRequestsQuery) {
-            requestFriendIDs.insert(Int(userID[0])!)
-        }
-        
-        var requestedFriendDetails: [(userId: Int, userName: String,userDP: UIImage)] = []
-        
-        for friendRequestID in requestFriendIDs {
-            
-            var userDP = AppUtility.getDisplayPicture(userID: friendRequestID)
-            requestedFriendDetails.append(
-                (friendRequestID,
-                 userDaoImplementation.getUsername(userID: friendRequestID),
-                 userDP
-                )
+            requestFriends.append(
+                userDaoImplementation.getUserDetails(userID: Int(userID[0])!)!
             )
         }
         
-        return requestedFriendDetails
+        return requestFriends
     }
     
     func acceptFriendRequest(loggedUserID: Int,friendRequestedUser: Int) -> Bool {

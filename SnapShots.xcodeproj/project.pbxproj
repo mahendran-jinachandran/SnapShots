@@ -79,6 +79,9 @@
 		BFAE19CB2941820F00D7A012 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */; };
 		BFAE19CD2941823E00D7A012 /* EditProfileControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CC2941823E00D7A012 /* EditProfileControls.swift */; };
 		BFAE19CF2941824A00D7A012 /* EditProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CE2941824A00D7A012 /* EditProfileProtocols.swift */; };
+		BFAE19D12942E9CB00D7A012 /* FeedsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D02942E9CB00D7A012 /* FeedsDetails.swift */; };
+		BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */; };
+		BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D4294324ED00D7A012 /* CommentDetails.swift */; };
 		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
 		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
 		BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */; };
@@ -192,6 +195,9 @@
 		BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		BFAE19CC2941823E00D7A012 /* EditProfileControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileControls.swift; sourceTree = "<group>"; };
 		BFAE19CE2941824A00D7A012 /* EditProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileProtocols.swift; sourceTree = "<group>"; };
+		BFAE19D02942E9CB00D7A012 /* FeedsDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsDetails.swift; sourceTree = "<group>"; };
+		BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsProtocols.swift; sourceTree = "<group>"; };
+		BFAE19D4294324ED00D7A012 /* CommentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetails.swift; sourceTree = "<group>"; };
 		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
 		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
 		BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
@@ -272,6 +278,7 @@
 				BF31169A292FA306008BAA08 /* CommentsVC.swift */,
 				BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */,
 				BFB3E4D629404F3B00A266D9 /* CommentsProtocols.swift */,
+				BFAE19D4294324ED00D7A012 /* CommentDetails.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -293,6 +300,7 @@
 				BFA5600C292519B900A948B4 /* FriendsListVC.swift */,
 				BFA5600E29251A6B00A948B4 /* FriendsListCustomTVCell.swift */,
 				BF3466342934D29D006FF9FE /* FriendsControls.swift */,
+				BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */,
 			);
 			path = Friends;
 			sourceTree = "<group>";
@@ -650,6 +658,7 @@
 				BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */,
 				BFDF7073292F28B6001A736F /* FeedsControls.swift */,
 				BFB3E4D2294049FE00A266D9 /* FeedsProtocols.swift */,
+				BFAE19D02942E9CB00D7A012 /* FeedsDetails.swift */,
 			);
 			path = Feeds;
 			sourceTree = "<group>";
@@ -760,6 +769,7 @@
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
+				BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */,
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,
 				BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */,
 				BF5A13F32935FA2C0051FC8D /* OnboardingGenderVC.swift in Sources */,
@@ -826,6 +836,7 @@
 				BFB3E4D529404E2100A266D9 /* LikesProtocols.swift in Sources */,
 				BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */,
 				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
+				BFAE19D12942E9CB00D7A012 /* FeedsDetails.swift in Sources */,
 				BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */,
 				BFA560132925ED7600A948B4 /* SettingsViewController.swift in Sources */,
 				BFDD55CF2937295E00DC8D68 /* OTPPhoneNumberVC.swift in Sources */,
@@ -840,6 +851,7 @@
 				BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */,
 				BF5A13F72935FA7C0051FC8D /* OnboardingBioVC.swift in Sources */,
 				BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */,
+				BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
 				BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */,
 				BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */,

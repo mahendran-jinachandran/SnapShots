@@ -10,8 +10,8 @@ import Lottie
 
 class SearchPeopleVC: UIViewController {
 
-    private var people: [(user: User,userDP: UIImage)] = []
-    private var dupPeople: [(user: User,userDP: UIImage)] = []
+    private var people: [User] = []
+    private var dupPeople: [User] = []
     private var searchBar: UISearchController!
     private var searchControls: SearchControlsProtocol!
     
@@ -19,12 +19,9 @@ class SearchPeopleVC: UIViewController {
         self.searchControls = searchControls
     }
 
-    private lazy var recentSearchTable: UITableView = {
+    private lazy var searchTable: UITableView = {
         let recentSearchTable = UITableView(frame: .zero)
         recentSearchTable.translatesAutoresizingMaskIntoConstraints = false
-        recentSearchTable.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
-        recentSearchTable.bounces = false
-        recentSearchTable.separatorStyle = .none
        return recentSearchTable
     }()
 
@@ -33,7 +30,7 @@ class SearchPeopleVC: UIViewController {
         
         people = searchControls.getAllUsers()
         dupPeople = people
-        
+        setupNotificationSubscription()
         title = "Search"
         searchBar = UISearchController(searchResultsController: nil)
         searchBar.searchBar.placeholder = "Search people 🌎"
@@ -41,20 +38,38 @@ class SearchPeopleVC: UIViewController {
         navigationItem.searchController = searchBar
         
         searchBar.searchBar.delegate = self
-        recentSearchTable.delegate = self
-        recentSearchTable.dataSource = self
-        
-        view.addSubview(recentSearchTable)
+
+        setupSearchTable()
+        view.addSubview(searchTable)
         
         setSearchTableConstraints()
+        
+    }
+    
+    func setupSearchTable() {
+        searchTable.delegate = self
+        searchTable.dataSource = self
+        searchTable.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
+        searchTable.bounces = false
+        searchTable.separatorStyle = .none
+    }
+    
+    func setupNotificationSubscription() {
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshSearch), name: Constants.userDetailsEvent, object: nil)
+    }
+    
+    @objc func refreshSearch() {
+        people = searchControls.getAllUsers()
+        dupPeople = people
+        searchTable.reloadData()
     }
     
     func setSearchTableConstraints() {
         NSLayoutConstraint.activate([
-            recentSearchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            recentSearchTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            recentSearchTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            recentSearchTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            searchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            searchTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 }
@@ -69,7 +84,7 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
-        let profileVC = ProfileVC(userID: dupPeople[indexPath.row].user.userID,isVisiting: true)
+        let profileVC = ProfileVC(userID: dupPeople[indexPath.row].userID,isVisiting: true)
         let profileControls = ProfileControls()
         profileVC.setController(profileControls)
         
@@ -78,11 +93,13 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let particularCell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+        
+        let userProfilePicture = AppUtility.getDisplayPicture(userID: dupPeople[indexPath.row].userID)
 
         particularCell.tag = indexPath.row
         particularCell.configure(
-            userName: dupPeople[indexPath.row].user.userName,
-            userDP: dupPeople[indexPath.row].userDP)
+            userName: dupPeople[indexPath.row].userName,
+            userDP: userProfilePicture)
         return particularCell
     }
 }
@@ -92,12 +109,12 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         
         if searchText.isEmpty {
             dupPeople = people
-            recentSearchTable.reloadData()
+            searchTable.reloadData()
             return
         }
 
         let data = people.filter( {
-            $0.user.userName.contains(searchText)
+            $0.userName.contains(searchText)
         })
         
         // MARK: SHOW THE SEARCHED RESULTS IS EMPTY BY USING LABEL AS TABLE VIEW BACKGROUND VIEW AS DONE IN NOTIFICATIONS
@@ -105,13 +122,13 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         }
         
         dupPeople = data
-        recentSearchTable.reloadData()
+        searchTable.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         dupPeople = people
-        recentSearchTable.reloadData()
+        searchTable.reloadData()
     }
 }
 

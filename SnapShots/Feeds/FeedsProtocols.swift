@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FeedsControlsProtocol {
-    func getAllPosts() -> [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)]
+    func getAllPosts() -> [FeedsDetails]
     func isAlreadyLikedThePost(postDetails: (userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)) -> Bool
     func addLikeToThePost(postUserID: Int,postID: Int) -> Bool
     func removeLikeFromThePost(postUserID: Int,postID: Int) -> Bool

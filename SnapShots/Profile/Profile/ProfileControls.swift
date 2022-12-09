@@ -47,18 +47,8 @@ class ProfileControls: ProfileControlsProtocols {
         return AppUtility.getDisplayPicture(userID: userID)
     }
     
-    func getAllPosts(userID: Int) -> [(postImage: UIImage,postDetails: Post)] {
-        
-        var posts: [(postImage: UIImage,postDetails: Post)] = []
-        let postDetails = postDaoImp.getAllPosts(userID: userID)
-        
-        for (_,postDetails) in postDetails {
-            guard let postImage =  UIImage().loadImageFromDiskWith(fileName: postDetails.photo) else {
-                return posts
-            }
-            posts.append((postImage,postDetails))
-        }
-        return posts
+    func getAllPosts(userID: Int) -> [Post] {
+       return postDaoImp.getAllPosts(userID: userID)
     }
     
     func sendFriendRequest(profileRequestedUser: Int) -> Bool {

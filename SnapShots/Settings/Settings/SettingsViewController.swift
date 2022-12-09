@@ -170,13 +170,12 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func showAboutApp() {
-      //  presentDetail(AboutViewController())
+        navigationController?.pushViewController(AboutViewController(), animated: true)
     }
     
     @objc func openSecurity() {
         navigationController?.pushViewController(SecurityViewController(), animated: true)
     }
-    
     
 
     @objc func openAccount(sender: UITapGestureRecognizer) {

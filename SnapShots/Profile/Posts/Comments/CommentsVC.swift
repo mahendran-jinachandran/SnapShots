@@ -9,7 +9,7 @@ import UIKit
 
 class CommentsVC: UIViewController {
     
-    private lazy var commentDetails: [(userDP: UIImage,username: String,comment:String,commentUserID: Int)] = []
+    private var commentDetails: [CommentDetails] = []
     private var postUserID: Int
     private var postID: Int
     private var commentsControls: CommentsControlsProtocol
@@ -136,8 +136,11 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
      
         tableView.deselectRow(at: indexPath, animated: true)
-        let userID = commentDetails[indexPath.row].commentUserID
-        let profileVC = ProfileVC(userID: userID,isVisiting: true)
+        
+        let profileVC = ProfileVC(
+            userID: commentDetails[indexPath.row].commentUserID,
+            isVisiting: true)
+        
         let profileControls = ProfileControls()
         profileVC.setController(profileControls)
         
@@ -160,8 +163,9 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
         
+        let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
         cell.configure(
-            userDP: commentDetails[indexPath.row].userDP,
+            userDP: profilePicture,
             username: commentDetails[indexPath.row].username,
             comment: commentDetails[indexPath.row].comment)
         

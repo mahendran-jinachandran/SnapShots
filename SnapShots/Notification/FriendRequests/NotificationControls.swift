@@ -13,7 +13,7 @@ class NotificationControls: NotificationControlsProtocols {
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendRequestDaoImp: FriendRequestDao = FriendRequestDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     
-    func getAllFriendRequests() -> [(userId: Int, userName: String,userDP: UIImage)] {
+    func getAllFriendRequests() -> [User] {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return friendRequestDaoImp.getRequestedFriendsList(userID: userID)
     }

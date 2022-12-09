@@ -63,4 +63,10 @@ class AppUtility {
         
         return userDP
     }
+    
+    static func getPostPicture(userID: Int,postID: Int) -> UIImage {
+        
+        return UIImage().loadImageFromDiskWith(
+            fileName: "\(userID)\(Constants.postSavingFormat)\(postID)")!
+    }
 }

@@ -8,5 +8,5 @@
 import UIKit
 
 protocol SearchControlsProtocol {
-    func getAllUsers() -> [(user: User,userDP: UIImage)]
+    func getAllUsers() -> [User]
 }

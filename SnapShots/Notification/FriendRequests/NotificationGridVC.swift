@@ -11,7 +11,7 @@ class NotificationGridVC: UIViewController {
     
     private var friendRequestsCV: UICollectionView!
     private var friendRequestsCVLayout: UICollectionViewFlowLayout!
-    private var friendRequests: [(userId: Int, userName: String,userDP: UIImage)] = []
+    private var friendRequests: [User] = []
     private var notificationControls: NotificationControlsProtocols!
     
     func setNotificationControls(_ notificationControls: NotificationControlsProtocols) {
@@ -33,10 +33,23 @@ class NotificationGridVC: UIViewController {
         // Do any additional setup after loading the view.
         
         friendRequests = notificationControls.getAllFriendRequests()
+    
+        setupNavigationItems()
+        setupFriendRequestTable()
+        setConstraints()
         
+        if friendRequests.isEmpty {
+            friendRequestsCV.backgroundView?.alpha = 1.0
+            return
+        }
+    }
+    
+    func setupNavigationItems() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Notification", style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+    }
+    
+    func setupFriendRequestTable() {
         friendRequestsCVLayout = UICollectionViewFlowLayout()
         friendRequestsCVLayout.scrollDirection = .vertical
         friendRequestsCVLayout.minimumLineSpacing = 1
@@ -49,13 +62,6 @@ class NotificationGridVC: UIViewController {
         friendRequestsCV.showsVerticalScrollIndicator = false
         friendRequestsCV.register(NotificiationGridCVCell.self, forCellWithReuseIdentifier: NotificiationGridCVCell.identifier)
         friendRequestsCV.backgroundView = noRequestsNotify
-        
-        setConstraints()
-        
-        if friendRequests.isEmpty {
-            friendRequestsCV.backgroundView?.alpha = 1.0
-            return
-        }
     }
     
     func setConstraints() {
@@ -96,9 +102,12 @@ extension NotificationGridVC: UICollectionViewDelegateFlowLayout,UICollectionVie
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificiationGridCVCell.identifier, for: indexPath) as! NotificiationGridCVCell
         cell.notificationGridVCCellDelegate = self
+        
+        let profilePicture = AppUtility.getDisplayPicture(userID: friendRequests[indexPath.row].userID)
+        
         cell.configure(
             username: friendRequests[indexPath.row].userName,
-            userDP: friendRequests[indexPath.row].userDP)
+            userDP: profilePicture)
         
         return cell
     }
@@ -114,7 +123,7 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
     func acceptFriendRequest(sender: NotificiationGridCVCell) {
         let indexPath = friendRequestsCV.indexPath(for: sender)!
         
-        if notificationControls.acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userId) {
+        if notificationControls.acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userID) {
             friendRequests.remove(at: indexPath.row)
             friendRequestsCV.reloadData()
         }
@@ -123,12 +132,9 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
     func rejectFriendRequest(sender: NotificiationGridCVCell) {
         let indexPath = friendRequestsCV.indexPath(for: sender)!
         
-        if notificationControls.rejectFriendRequest(rejectingUserID: friendRequests[indexPath.row].userId) {
+        if notificationControls.rejectFriendRequest(rejectingUserID: friendRequests[indexPath.row].userID) {
             friendRequests.remove(at: indexPath.row)
             friendRequestsCV.reloadData()
-            print("Rejected")
-        } else {
-            print("Could not reject")
         }
     }
 }

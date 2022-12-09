@@ -9,7 +9,7 @@ import UIKit
 
 class FeedsVC: UIViewController {
     
-    private var feedPosts: [(userID:Int,userName: String,userDP: UIImage,postDetails:Post,postPhoto: UIImage)] = []
+    private var feedPosts: [FeedsDetails] = []
     
     private var feedsControls: FeedsControls!
     func setController(_ feedsControls: FeedsControls) {
@@ -122,11 +122,16 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
         
         particularCell.delegate = self
         
+        let profilePhoto = AppUtility.getDisplayPicture(userID: feedPosts[indexPath.row].userID)
+        let postPhoto = AppUtility.getPostPicture(
+            userID: feedPosts[indexPath.row].userID,
+            postID: feedPosts[indexPath.row].postDetails.postID)
+        
         particularCell.configure(
             postUserID: feedPosts[indexPath.row].userID,
-            profilePhoto: feedPosts[indexPath.row].userDP,
+            profilePhoto: profilePhoto,
             username: "\(feedPosts[indexPath.row].userName)",
-            postPhoto: feedPosts[indexPath.row].postPhoto,
+            postPhoto: postPhoto,
             postCaption: feedPosts[indexPath.row].postDetails.caption,
             isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row])
         )
