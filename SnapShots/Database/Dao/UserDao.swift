@@ -21,6 +21,7 @@ protocol UserDao {
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool
     func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: String) -> Bool
 
+    func updatePassword(password: String,phoneNumber: String) -> Bool
     func updatePassword(password: String,userID: Int) -> Bool
     func updateUsername(username: String,userID: Int) -> Bool
     func updatePhoneNumber(phoneNumber: String,userID: Int) -> Bool

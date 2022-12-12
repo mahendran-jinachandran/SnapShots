@@ -70,6 +70,6 @@ class SecurityViewController: UIViewController {
     }
     
    @objc func startChangePasswordProcess() {
-       navigationController?.pushViewController(ChangePasswordViewController(), animated: true)
+       navigationController?.pushViewController(ChangePasswordVC(), animated: true)
     }
 }

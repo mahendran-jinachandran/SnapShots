@@ -9,7 +9,14 @@ import Foundation
 
 class ForgotPasswordControls {
     
-    func sendOTPVerification() {
+    private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
+    
+    func updatePassword(phoneNumber: String,password: String) {
         
+        if userDaoImp.updatePassword(password: password, phoneNumber: phoneNumber) {
+            print("Password changed")
+        } else {
+            print("Couldn't change password")
+        }
     }
 }

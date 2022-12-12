@@ -171,7 +171,6 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let LikesControls = LikesControls()
         let likesVC = LikesVC(likesControls: LikesControls, postUserID: postUserID, postID: postID)
         
-     //   navigationController?.present(likesVC, animated: true)
         navigationController?.pushViewController(likesVC, animated: true)
     }
     

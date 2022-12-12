@@ -46,14 +46,17 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.isNavigationBarHidden = false
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+        
         [phoneNumberLabel,phoneNumber,sendOTPButton].forEach {
             view.addSubview($0)
         }
-        
+
         phoneNumber.delegate = self
         setupConstraints()
-        
+
         sendOTPButton.addTarget(self, action: #selector(sendOTP), for: .touchUpInside)
     }
     
@@ -67,14 +70,14 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
                 }
 
                 DispatchQueue.main.async {
-                    self?.navigationController?.pushViewController(OTPScreenVC(), animated: false)
+                    
+                    self?.navigationController?.pushViewController(OTPScreenVC(phoneNumber: phoneNumber), animated: false)
                 }
             }
         }
     }
 
     func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
-        
         return self.textLimit(existingText: textField.text,newText: string,limit: 10)
     }
 

@@ -326,7 +326,7 @@ extension LoginVC {
          navigationController?.pushViewController(OTPPhoneNumberVC(), animated: true)
      }
     
-    internal func displayPhoneNumberVerificationState(isVerified: Bool) {
+    func displayPhoneNumberVerificationState(isVerified: Bool) {
         if isVerified {
             displayValidPhoneNumber()
         } else {

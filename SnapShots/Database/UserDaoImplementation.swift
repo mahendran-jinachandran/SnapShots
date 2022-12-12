@@ -85,6 +85,14 @@ class UserDaoImplementation: UserDao {
         
     }
     
+    func updatePassword(password: String,phoneNumber: String) -> Bool {
+        let updatePasswordQuery = """
+        UPDATE User SET Password = '\(password)' WHERE Phone = '\(phoneNumber)';
+        """
+
+        return sqliteDatabase.execute(query: updatePasswordQuery)
+    }
+    
     func updatePassword(password: String,userID: Int) -> Bool {
         let updatePasswordQuery = """
         UPDATE User SET Password = '\(password)' WHERE User_id = \(userID);

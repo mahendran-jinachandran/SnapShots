@@ -1,36 +1,24 @@
 //
-//  ChangePasswordViewController.swift
+//  ChangePasswordVC.swift
 //  SnapShots
 //
-//  Created by mahendran-14703 on 20/11/22.
+//  Created by mahendran-14703 on 12/12/22.
 //
 
 import UIKit
 
-class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
+class OTPChangePasswordVC: UIViewController,UITextFieldDelegate {
     
-    private lazy var currentPassword: UITextField = {
-        let currentPassword = UITextField()
-        currentPassword.placeholder = "Current Password"
-        currentPassword.layer.cornerRadius = 10
-        currentPassword.layer.borderWidth = 2
-        currentPassword.layer.borderColor = UIColor.lightGray.cgColor
-        currentPassword.translatesAutoresizingMaskIntoConstraints = false
-        currentPassword.isSecureTextEntry = true
-        currentPassword.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: currentPassword.frame.height))
-        currentPassword.leftViewMode = .always
-        return currentPassword
-    }()
     
-    private lazy var currentPasswordIncorrectLabel: UILabel = {
-       let oldPasswordIncorrect = UILabel()
-        oldPasswordIncorrect.text = "Password is incorrect"
-        oldPasswordIncorrect.translatesAutoresizingMaskIntoConstraints = false
-        oldPasswordIncorrect.textColor = .red
-        oldPasswordIncorrect.isHidden = true
-        oldPasswordIncorrect.font = UIFont.systemFont(ofSize: 16)
-       return oldPasswordIncorrect
-    }()
+    var phoneNumber: String
+    init(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var newPassword: UITextField = {
         let newPassword = UITextField()
@@ -85,29 +73,17 @@ class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
         
+        navigationItem.hidesBackButton = true
         saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
-        currentPassword.delegate = self
         newPassword.delegate = self
         againNewPassword.delegate = self
         
         setConstraints()
     }
     
-    var isCurrentPasswordEntered: Bool = false
     var isNewPasswordEntered: Bool = false
     var isNewPasswordAgainEntered: Bool = false
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        
-        if textField == currentPassword {
-            if textField.text!.isEmpty || !SecurityController().isPasswordCorrect(password: textField.text!) {
-                isCurrentPasswordEntered = false
-                invalidCurrentPasswordStatus(warningLabel: "Wrong password")
-            } else {
-                isCurrentPasswordEntered = true
-                validCurrentPasswordStatus()
-                currentPasswordIncorrectLabel.isHidden = true
-            }
-        }
         
         if textField == newPassword {
 
@@ -130,7 +106,7 @@ class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
             }
         }
         
-        if isCurrentPasswordEntered && isNewPasswordEntered && isNewPasswordAgainEntered {
+        if isNewPasswordEntered && isNewPasswordAgainEntered {
             saveButton.alpha = 1.0
             saveButton.isEnabled = true
         } else {
@@ -140,28 +116,25 @@ class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
     }
     
     @objc func saveDetails() {
-        SecurityController().updatePassword(password: newPassword.text!)
-        navigationController?.popViewController(animated: true)
+        ForgotPasswordControls().updatePassword(phoneNumber: phoneNumber, password: newPassword.text!)
+        
+        let loginViewController = LoginVC()
+        let loginController = LoginControls()
+
+        loginController.setView(loginViewController)
+        loginViewController.setController(loginController)
+        navigationController?.pushViewController(loginViewController, animated: true)
     }
     
     func setConstraints() {
         
-        [currentPassword,currentPasswordIncorrectLabel,newPassword,againNewPassword,newPasswordsMismatchLabel].forEach {
+        [newPassword,againNewPassword,newPasswordsMismatchLabel].forEach {
             view.addSubview($0)
         }
         
         NSLayoutConstraint.activate([
-            currentPassword.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
-            currentPassword.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            currentPassword.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            currentPassword.heightAnchor.constraint(equalToConstant: 50),
             
-            currentPasswordIncorrectLabel.topAnchor.constraint(equalTo: currentPassword.bottomAnchor,constant: 10),
-            currentPasswordIncorrectLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            currentPasswordIncorrectLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            currentPasswordIncorrectLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            newPassword.topAnchor.constraint(equalTo: currentPasswordIncorrectLabel.bottomAnchor,constant: 20),
+            newPassword.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             newPassword.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             newPassword.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
             newPassword.heightAnchor.constraint(equalToConstant: 50),
@@ -187,15 +160,6 @@ class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
         newPasswordsMismatchLabel.isHidden = true
     }
     
-    func invalidCurrentPasswordStatus(warningLabel: String) {
-        currentPasswordIncorrectLabel.text = warningLabel
-        currentPasswordIncorrectLabel.isHidden = false
-    }
-    
-    func validCurrentPasswordStatus() {
-        currentPasswordIncorrectLabel.isHidden = true
-    }
-    
     func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
         
         if password == rePassword {
@@ -207,4 +171,5 @@ class ChangePasswordViewController: UIViewController,UITextFieldDelegate {
         invalidPasswordStatus(warningLabel: PasswordActionError.mismatch.description)
         return false
     }
+
 }

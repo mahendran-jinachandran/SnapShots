@@ -82,6 +82,7 @@
 		BFAE19D12942E9CB00D7A012 /* FeedsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D02942E9CB00D7A012 /* FeedsDetails.swift */; };
 		BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */; };
 		BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D4294324ED00D7A012 /* CommentDetails.swift */; };
+		BFAE19D72946EBCF00D7A012 /* OTPChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */; };
 		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
 		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
 		BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */; };
@@ -108,7 +109,7 @@
 		BFDD55FD2937769B00DC8D68 /* MailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55FC2937769B00DC8D68 /* MailVC.swift */; };
 		BFDD55FF293795CA00DC8D68 /* GenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55FE293795CA00DC8D68 /* GenderVC.swift */; };
 		BFDD560129379D2700DC8D68 /* DataOfBirthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD560029379D2700DC8D68 /* DataOfBirthVC.swift */; };
-		BFDF7058292A3E13001A736F /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */; };
+		BFDF7058292A3E13001A736F /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7057292A3E13001A736F /* ChangePasswordVC.swift */; };
 		BFDF705A292B4237001A736F /* PersonalInformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7059292B4237001A736F /* PersonalInformationVC.swift */; };
 		BFDF7060292B7A25001A736F /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */; };
 		BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7062292BA20A001A736F /* ProfileControls.swift */; };
@@ -198,6 +199,7 @@
 		BFAE19D02942E9CB00D7A012 /* FeedsDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsDetails.swift; sourceTree = "<group>"; };
 		BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsProtocols.swift; sourceTree = "<group>"; };
 		BFAE19D4294324ED00D7A012 /* CommentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetails.swift; sourceTree = "<group>"; };
+		BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPChangePasswordVC.swift; sourceTree = "<group>"; };
 		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
 		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
 		BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
@@ -223,7 +225,7 @@
 		BFDD55FC2937769B00DC8D68 /* MailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailVC.swift; sourceTree = "<group>"; };
 		BFDD55FE293795CA00DC8D68 /* GenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderVC.swift; sourceTree = "<group>"; };
 		BFDD560029379D2700DC8D68 /* DataOfBirthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataOfBirthVC.swift; sourceTree = "<group>"; };
-		BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		BFDF7057292A3E13001A736F /* ChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		BFDF7059292B4237001A736F /* PersonalInformationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationVC.swift; sourceTree = "<group>"; };
 		BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		BFDF7062292BA20A001A736F /* ProfileControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileControls.swift; sourceTree = "<group>"; };
@@ -509,7 +511,7 @@
 			isa = PBXGroup;
 			children = (
 				BF816BA32929D3E90097421D /* SecurityViewController.swift */,
-				BFDF7057292A3E13001A736F /* ChangePasswordViewController.swift */,
+				BFDF7057292A3E13001A736F /* ChangePasswordVC.swift */,
 				BFC9BAB82939FE6100EE1D42 /* SecurityController.swift */,
 			);
 			path = Security;
@@ -624,6 +626,7 @@
 				BFDD55D32937379D00DC8D68 /* AuthManager.swift */,
 				BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */,
 				BFDD55D729373FDE00DC8D68 /* OTPScreenVC.swift */,
+				BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */,
 			);
 			path = ForgotPassword;
 			sourceTree = "<group>";
@@ -798,6 +801,7 @@
 				BFDD55D629373A6400DC8D68 /* ForgotPasswordControls.swift in Sources */,
 				BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */,
 				BF4542EE291B8A6000BAC4B2 /* LaunchScreenVC.swift in Sources */,
+				BFAE19D72946EBCF00D7A012 /* OTPChangePasswordVC.swift in Sources */,
 				BF5A13C72935CC290051FC8D /* OnboardingProfilePhotoVC.swift in Sources */,
 				BFC9BABB293A213B00EE1D42 /* PhoneNumberVC.swift in Sources */,
 				BF4542E1291B4B6F00BAC4B2 /* CommentDao.swift in Sources */,
@@ -858,7 +862,7 @@
 				BFDD55FA29376AD700DC8D68 /* AccountControls.swift in Sources */,
 				BF4542CC291B4A8A00BAC4B2 /* UserDaoImplementation.swift in Sources */,
 				BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */,
-				BFDF7058292A3E13001A736F /* ChangePasswordViewController.swift in Sources */,
+				BFDF7058292A3E13001A736F /* ChangePasswordVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
