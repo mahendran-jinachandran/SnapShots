@@ -126,7 +126,7 @@ class OnboardingProfilePhotoVC: UIViewController {
     }
     
     @objc private func navigateToNext() {
-        navigationController?.pushViewController(OnboardingMailVC(onboardingControls: onboardingControls), animated: false)
+        navigationController?.pushViewController(OnboardingMailVC(onboardingControls: onboardingControls), animated: true)
     }
     
     private func setupConstraints() {

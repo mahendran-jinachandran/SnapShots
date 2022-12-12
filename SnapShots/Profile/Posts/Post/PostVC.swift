@@ -201,7 +201,7 @@ class PostVC: UIViewController {
     }
     
     @objc private func goBack() {
-        self.navigationController?.popViewController(animated: false)
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setLikeButton() {

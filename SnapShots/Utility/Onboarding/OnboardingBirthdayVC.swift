@@ -126,7 +126,7 @@ class OnboardingBirthdayVC: UIViewController {
        navigateToNext()
     }
     @objc private func navigateToNext() {
-        navigationController?.pushViewController(OnboardingBioVC(onboardingControls: onboardingControls), animated: false)
+        navigationController?.pushViewController(OnboardingBioVC(onboardingControls: onboardingControls), animated: true)
     }
     
     private func setupDatePicker() {

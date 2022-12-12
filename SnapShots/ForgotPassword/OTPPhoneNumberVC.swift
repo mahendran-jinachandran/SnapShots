@@ -71,7 +71,7 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
 
                 DispatchQueue.main.async {
                     
-                    self?.navigationController?.pushViewController(OTPScreenVC(phoneNumber: phoneNumber), animated: false)
+                    self?.navigationController?.pushViewController(OTPScreenVC(phoneNumber: phoneNumber), animated: true)
                 }
             }
         }

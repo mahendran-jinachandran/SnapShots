@@ -136,7 +136,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     
     @objc private func navigateToNext() {
-        navigationController?.pushViewController(OnboardingBirthdayVC(onboardingControls: onboardingControls), animated: false)
+        navigationController?.pushViewController(OnboardingBirthdayVC(onboardingControls: onboardingControls), animated: true)
     }
     
     private func setupConstraints() {

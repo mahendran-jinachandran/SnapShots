@@ -109,7 +109,7 @@ class ProfileVC: UIViewController{
     }
     
     @objc private func goBack() {
-        navigationController?.popViewController(animated: false)
+        navigationController?.popViewController(animated: true)
     }
         
     private func setProfileConstraints() {
@@ -133,7 +133,7 @@ class ProfileVC: UIViewController{
         let newPostControls = NewPostControls()
         let newPostVC = NewPostVC(newPostControls: newPostControls)
      
-        navigationController?.pushViewController(newPostVC, animated: false)
+        navigationController?.pushViewController(newPostVC, animated: true)
     }
 }
 

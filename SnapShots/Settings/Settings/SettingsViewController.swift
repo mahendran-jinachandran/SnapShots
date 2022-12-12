@@ -164,7 +164,11 @@ class SettingsViewController: UIViewController {
     }
     
     @objc private func openAccount(sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(AccountVC(), animated: true)
+        
+        let accountControls = AccountControls()
+        let accountVC = AccountVC(accountControls: accountControls)
+        
+        navigationController?.pushViewController(accountVC, animated: true)
     }
     
     private func executeLogoutProcess() {

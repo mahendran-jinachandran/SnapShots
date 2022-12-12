@@ -9,6 +9,16 @@ import UIKit
 
 class AccountVC: UIViewController {
     
+    private var accountControls: AccountControlsProtocol
+    init(accountControls: AccountControlsProtocol) {
+        self.accountControls = accountControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var personalInformationView: UIView = {
         let accountsLabel = UILabel()
         accountsLabel.text = "Personal Information"
@@ -66,6 +76,6 @@ class AccountVC: UIViewController {
     }
     
     @objc func showPersonalInformation() {
-        navigationController?.pushViewController(PersonalInformationVC(), animated: false)
+        navigationController?.pushViewController(PersonalInformationVC(), animated: true)
     }
 }

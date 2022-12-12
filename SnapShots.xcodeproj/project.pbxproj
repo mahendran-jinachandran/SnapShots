@@ -83,6 +83,7 @@
 		BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */; };
 		BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D4294324ED00D7A012 /* CommentDetails.swift */; };
 		BFAE19D72946EBCF00D7A012 /* OTPChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */; };
+		BFAE19D92947697100D7A012 /* AccountControlProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D82947697100D7A012 /* AccountControlProtocols.swift */; };
 		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
 		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
 		BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */; };
@@ -200,6 +201,7 @@
 		BFAE19D229430BD000D7A012 /* FriendsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsProtocols.swift; sourceTree = "<group>"; };
 		BFAE19D4294324ED00D7A012 /* CommentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetails.swift; sourceTree = "<group>"; };
 		BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPChangePasswordVC.swift; sourceTree = "<group>"; };
+		BFAE19D82947697100D7A012 /* AccountControlProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControlProtocols.swift; sourceTree = "<group>"; };
 		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
 		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
 		BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 			children = (
 				BF816BA52929D3F30097421D /* AccountVC.swift */,
 				BFDD55F929376AD700DC8D68 /* AccountControls.swift */,
+				BFAE19D82947697100D7A012 /* AccountControlProtocols.swift */,
 				BFDD55FB2937767B00DC8D68 /* PersonalInformation */,
 			);
 			name = Account;
@@ -779,6 +782,7 @@
 				BFAE19CF2941824A00D7A012 /* EditProfileProtocols.swift in Sources */,
 				BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
+				BFAE19D92947697100D7A012 /* AccountControlProtocols.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
 				BFB3E4D3294049FE00A266D9 /* FeedsProtocols.swift in Sources */,

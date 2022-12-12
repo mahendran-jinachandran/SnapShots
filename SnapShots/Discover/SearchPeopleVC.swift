@@ -91,7 +91,7 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
         let profileControls = ProfileControls()
         profileVC.setController(profileControls)
         
-        navigationController?.pushViewController(profileVC, animated: false)
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

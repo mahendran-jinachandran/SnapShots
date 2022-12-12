@@ -10,7 +10,10 @@ import UIKit
 class PhoneNumberVC: UIViewController {
     
     private var phoneNumber: String!
-    init(phoneNumber: String) {
+    private var accountControls: AccountControlsProtocol
+    
+    init(accountControls: AccountControlsProtocol,phoneNumber: String) {
+        self.accountControls = accountControls
         self.phoneNumber = phoneNumber
         super.init(nibName: nil, bundle: nil)
     }
@@ -132,13 +135,13 @@ class PhoneNumberVC: UIViewController {
             return
         }
         
-        _ = AccountControls().updatePhoneNumber(phoneNumber: phoneNumberTextField.text!)
+        _ = accountControls.updatePhoneNumber(phoneNumber: phoneNumberTextField.text!)
         NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     
     private func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
-        let phoneNumberDetails = AccountControls().validatePhoneNumber(phoneNumber: phoneNumber)
+        let phoneNumberDetails = accountControls.validatePhoneNumber(phoneNumber: phoneNumber)
 
 
         if phoneNumberDetails == .success(true) {

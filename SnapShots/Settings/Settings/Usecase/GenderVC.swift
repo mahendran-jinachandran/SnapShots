@@ -13,7 +13,10 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     private var pickerView = UIPickerView()
     
     private var gender: String!
-    init(gender: String) {
+    private var accountControls: AccountControlsProtocol
+    
+    init(accountControls: AccountControlsProtocol,gender: String) {
+        self.accountControls = accountControls
         self.gender = gender
         super.init(nibName: nil, bundle: nil)
     }
@@ -109,7 +112,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     @objc private func updateGender(_ sender: UITapGestureRecognizer) {
         
         if let gender = genderTextField.text, !gender.isEmpty {
-            if !AccountControls().updateGender(gender: gender) {
+            if !accountControls.updateGender(gender: gender) {
                 genderTextField.layer.borderColor = UIColor.red.cgColor
                 return
             }

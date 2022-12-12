@@ -9,6 +9,16 @@ import UIKit
 
 class PersonalInformationVC: UIViewController {
     
+    private var accountControls: AccountControlsProtocol
+    init(accountControls: AccountControlsProtocol) {
+        self.accountControls = accountControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +145,7 @@ class PersonalInformationVC: UIViewController {
     }
     
    @objc func updatePersonalInformation() {
-        let user = AccountControls().getuserDetails()
+        let user = accountControls.getuserDetails()
         email.text = user.mail == "-1" ? "Yet to fill" : user.mail
         phone.text = user.phoneNumber
         gender.text = user.gender == .male ? "Male" : "Female"
@@ -161,23 +171,21 @@ class PersonalInformationVC: UIViewController {
         let phoneNumberTap = UITapGestureRecognizer(target: self, action: #selector(editPhoneNumber(_:)))
         phone.addGestureRecognizer(phoneNumberTap)
     }
-    
 
-    
     @objc private func editMail(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(MailVC(mail: email.text!), animated: true)
+        navigationController?.pushViewController(MailVC(accountControls: accountControls,mail: email.text!), animated: true)
     }
     
     @objc private func editGender(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(GenderVC(gender: gender.text!), animated: true)
+        navigationController?.pushViewController(GenderVC(accountControls: accountControls,gender: gender.text!), animated: true)
     }
     
     @objc private func editDateOfBirth(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(DataOfBirthVC(dateOfBirth: dateOfBirth.text!), animated: true)
+        navigationController?.pushViewController(DataOfBirthVC(accountControls: accountControls,dateOfBirth: dateOfBirth.text!), animated: true)
     }
     
     @objc func editPhoneNumber(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(PhoneNumberVC(phoneNumber: phone.text!) ,animated: false)
+        navigationController?.pushViewController(PhoneNumberVC(accountControls: accountControls,phoneNumber: phone.text!) ,animated: true)
     }
         
     private func setConstraints() {

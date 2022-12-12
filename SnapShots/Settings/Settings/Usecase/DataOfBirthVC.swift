@@ -12,7 +12,9 @@ class DataOfBirthVC: UIViewController {
     private var dateOfBirth: String!
     private let datePicker = UIDatePicker()
     
-    init(dateOfBirth: String) {
+    private var accountControls: AccountControlsProtocol
+    init(accountControls: AccountControlsProtocol,dateOfBirth: String) {
+        self.accountControls = accountControls
         self.dateOfBirth = dateOfBirth
         super.init(nibName: nil, bundle: nil)
     }
@@ -104,7 +106,7 @@ class DataOfBirthVC: UIViewController {
     @objc private func updateBirthday(_ sender: UITapGestureRecognizer) {
         
         if let birthday = dateOfBirthTextField.text,!birthday.isEmpty {
-            if !AccountControls().updateBirthday(birthday: birthday) {
+            if !accountControls.updateBirthday(birthday: birthday) {
                 dateOfBirthTextField.layer.borderColor = UIColor.red.cgColor
             }
         }

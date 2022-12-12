@@ -134,7 +134,7 @@ class OnboardingMailVC: UIViewController {
     }
     
     @objc private func navigateToNext() {
-        navigationController?.pushViewController(OnboardingGenderVC(onboardingControls: onboardingControls), animated: false)
+        navigationController?.pushViewController(OnboardingGenderVC(onboardingControls: onboardingControls), animated: true)
     }
     
     private func setupConstraints() {

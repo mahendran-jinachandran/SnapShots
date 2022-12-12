@@ -81,7 +81,7 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
                     
                     otpAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                                        
-                    self?.present(otpAlert, animated: false)
+                    self?.present(otpAlert, animated: true)
                     return
                 }
                 

@@ -10,7 +10,9 @@ import UIKit
 class MailVC: UIViewController {
     
     private var mail: String!
-    init(mail: String) {
+    private var accountControls: AccountControlsProtocol
+    init(accountControls: AccountControlsProtocol,mail: String) {
+        self.accountControls = accountControls
         self.mail = mail
         super.init(nibName: nil, bundle: nil)
     }
@@ -108,14 +110,14 @@ class MailVC: UIViewController {
     
     @objc private func validateMail(_ sender: UITapGestureRecognizer) {
         if let usermail = emailTextField.text,!usermail.isEmpty {
-            if !OnboardingControls().updateEmail(email: usermail) {
+            if !accountControls.updateEmail(email: usermail) {
                 emailTextField.layer.borderColor = UIColor.red.cgColor
                 return
             }
         }
         
         NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
-        navigationController?.popViewController(animated: false)
+        navigationController?.popViewController(animated: true)
     }
     
     private func setupConstraints() {
