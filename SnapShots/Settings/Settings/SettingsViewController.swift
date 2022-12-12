@@ -75,27 +75,26 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.systemBackground
-        navigationItem.scrollEdgeAppearance = appearance
-        
-        navigationItem.title = "Settings"
         view.backgroundColor = .systemBackground
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
+    
+        setupNavigationItems()
         setupTintColors()
         setupTapGestures()
         setSettingsContraints()
     }
     
-    func setupTintColors() {
+    private func setupNavigationItems() {
+        navigationItem.title = "Settings"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    private func setupTintColors() {
         accountsView.tintColor = UIColor(named: "appTheme")
         securityView.tintColor = UIColor(named: "appTheme")
         aboutView.tintColor = UIColor(named: "appTheme")
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let accountsViewTap = UITapGestureRecognizer(target: self, action: #selector(openAccount))
         accountsView.addGestureRecognizer(accountsViewTap)
         
@@ -108,12 +107,7 @@ class SettingsViewController: UIViewController {
         logoutButton.addTarget(self, action: #selector(startLogoutProcess), for: .touchUpInside)
     }
     
-    @objc func goBack() {
-        navigationController?.popToRootViewController(animated: true)
-    
-    }
-    
-    func setSettingsContraints() {
+    private func setSettingsContraints() {
         
         [accountsView,securityView,aboutView,logoutButton].forEach {
             view.addSubview($0)
@@ -144,66 +138,46 @@ class SettingsViewController: UIViewController {
         ])
     }
     
-    @objc func startLogoutProcess() {
+    @objc private func startLogoutProcess() {
         
         let logoutConfirmation = UIAlertController(title: "Confirm?", message: nil, preferredStyle: .alert)
-        let logout = UIAlertAction(title: "Log out", style: .default) { _ in
-            
-            UserDefaults.standard.removeObject(forKey: Constants.loggedUserFormat)
-            UserDefaults.standard.synchronize()
-            
-            let loginViewController = LoginVC()
-            let loginController = LoginControls()
-            
-            loginController.setView(loginViewController)
-            loginViewController.setController(loginController)
-           
-            self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
-        }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
      
-        logoutConfirmation.addAction(cancel)
-        logoutConfirmation.addAction(logout)
+        logoutConfirmation.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel)
+        )
+        
+        logoutConfirmation.addAction(
+            UIAlertAction(title: "Log out", style: .default) { _ in
+                self.executeLogoutProcess()
+            }
+        )
         
         self.present(logoutConfirmation, animated: true)
     }
     
-    @objc func showAboutApp() {
+    @objc private func showAboutApp(sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(AboutViewController(), animated: true)
     }
     
-    @objc func openSecurity() {
+    @objc private func openSecurity(sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(SecurityViewController(), animated: true)
     }
     
-
-    @objc func openAccount(sender: UITapGestureRecognizer) {
+    @objc private func openAccount(sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(AccountVC(), animated: true)
-        if(sender.view == accountsView) {
-            print("Account View Selected")
-        } else if(sender.view == securityView) {
-            print("Security View Selected")
-        }
+    }
+    
+    private func executeLogoutProcess() {
+        UserDefaults.standard.removeObject(forKey: Constants.loggedUserFormat)
+        UserDefaults.standard.synchronize()
+        
+        let loginViewController = LoginVC()
+        let loginController = LoginControls()
+        
+        loginController.setView(loginViewController)
+        loginViewController.setController(loginController)
+       
+        self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
     }
 }
 
-
-//class CustomUILabel: UILabel {
-//
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//        self.backgroundColor = .gray
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesEnded(touches, with: event)
-//        self.backgroundColor = .white
-//    }
-//
-//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesCancelled(touches, with: event)
-//
-//        self.backgroundColor = .white
-//    }
-//}

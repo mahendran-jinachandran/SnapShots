@@ -22,6 +22,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "ProfileHeaderCollectionReusableView"
     private var portraitConstraint = [NSLayoutConstraint]()
     private var profileAccessibility: ProfileAccess!
+    weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
     
     private lazy var profileStack : UIStackView = {
         let profileStack = UIStackView()
@@ -31,8 +32,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileStack.spacing = 10
         return profileStack
     }()
-    
-    weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
     
     private var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
@@ -68,7 +67,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        return postContainer
     }()
     
-    var postsLabel: UILabel = {
+    private lazy var postsLabel: UILabel = {
        var postsLabel = UILabel()
         postsLabel.translatesAutoresizingMaskIntoConstraints = false
        postsLabel.attributedText = NSAttributedString(string: "Post",attributes: [
@@ -78,7 +77,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        return postsLabel
     }()
     
-    var postsCountLabel: UILabel = {
+    private lazy var postsCountLabel: UILabel = {
        var postsCountLabel = UILabel()
        postsCountLabel.translatesAutoresizingMaskIntoConstraints = false
         postsCountLabel.textAlignment = .right
@@ -112,7 +111,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        return friendsContainer
     }()
     
-    var friendsLabel: UILabel = {
+    private lazy var friendsLabel: UILabel = {
        var friendsLabel = UILabel()
        friendsLabel.translatesAutoresizingMaskIntoConstraints = false
        friendsLabel.attributedText = NSAttributedString(string: "Friends",attributes: [
@@ -122,7 +121,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
        return friendsLabel
     }()
     
-    var friendsCountLabel: UILabel = {
+    private lazy var friendsCountLabel: UILabel = {
        var friendsCountLabel = UILabel()
        friendsCountLabel.translatesAutoresizingMaskIntoConstraints = false
        friendsCountLabel.attributedText = NSAttributedString(string: "10",attributes: [
@@ -174,7 +173,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profilePhoto.layer.cornerRadius = 60
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         profilePhoto.addGestureRecognizer(imagePicker)
         
@@ -182,7 +181,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         friendsContainer.addGestureRecognizer(openFriendsTap)
     }
     
-    func setupStackView() {
+    private func setupStackView() {
         
         [postContainer,friendsContainer,profileAccessButton].forEach {
             profileStack.addArrangedSubview($0)
@@ -222,7 +221,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileAccessButton.addTarget(self, action: #selector(performUserAccessibilityProcess), for: .touchUpInside)
     }
     
-    @objc func performUserAccessibilityProcess() {
+    @objc private func performUserAccessibilityProcess() {
         if profileAccessibility == .owner {
             editProfile()
         } else if profileAccessibility == .friend {
@@ -237,50 +236,49 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         }
     }
     
-    func setupOwnerProfile() {
+    private func setupOwnerProfile() {
         profileAccessButton.setTitle(" Edit\nProfile", for: .normal)
     }
 
-    func setupFriendProfile() {
+    private func setupFriendProfile() {
         profileAccessButton.setTitle("Unfriend", for: .normal)
         profileAccessButton.backgroundColor = .systemBlue
     }
     
-    func setupRequestedUserProfile() {
+    private func setupRequestedUserProfile() {
         profileAccessButton.setTitle(" Cancel\nRequest", for: .normal)
         profileAccessButton.backgroundColor = .systemBlue
     }
 
-    func setupUnknownUserProfile() {
+    private func setupUnknownUserProfile() {
         profileAccessButton.setTitle("Follow", for: .normal)
         profileAccessButton.backgroundColor = .systemBlue
     }
 
-    @objc func editProfile() {
+    @objc private func editProfile() {
         delegate?.editProfile()
     }
     
-    @objc func sendFriendRequest() {
+    @objc private func sendFriendRequest() {
         setupRequestedUserProfile()
         delegate?.sendFriendRequest()
     }
     
-    @objc func cancelFriendRequest() {
+    @objc private func cancelFriendRequest() {
         setupUnknownUserProfile()
         delegate?.cancelFriendRequest()
     }
     
-    @objc func unFollowUser() {
+    @objc private func unFollowUser() {
         setupUnknownUserProfile()
         delegate?.unFriendAnUser()
     }
     
-    @objc func showFriends(_ sender : UITapGestureRecognizer) {
+    @objc private func showFriends(_ sender : UITapGestureRecognizer) {
         delegate?.getFriendsList()
     }
 }
 
-// MARK: TRAIT COLLECTION AND IMAGE PICKING
 extension ProfileHeaderCollectionReusableView {
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -292,24 +290,21 @@ extension ProfileHeaderCollectionReusableView {
     @objc func imagePress(_ sender : UITapGestureRecognizer) {
 
         let imagePicker = UIAlertController(title: "CHANGE DP", message: nil, preferredStyle: .actionSheet)
-        let camera = UIAlertAction(title: "Camera", style: .default) { _ in
+
+        imagePicker.addAction(UIAlertAction(title: "Camera", style: .default) { _ in
             self.showImagePicker(selectedSource: .camera)
-        }
-
-        let gallery = UIAlertAction(title: "Gallery", style: .default) { _ in
+        })
+        imagePicker.addAction(UIAlertAction(title: "Gallery", style: .default) { _ in
             self.showImagePicker(selectedSource: .photoLibrary)
-        }
+        })
 
-        let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
+        imagePicker.addAction(UIAlertAction(title: "Remove", style: .default) { _ in
             self.profilePhoto.image = UIImage(named: "blankPhoto")
-        }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-
-        imagePicker.addAction(camera)
-        imagePicker.addAction(gallery)
-        imagePicker.addAction(cancel)
-        imagePicker.addAction(removeDP)
+        })
+        
+        imagePicker.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+        )
         
         delegate?.controller().present(imagePicker, animated: true,completion: nil)
     }

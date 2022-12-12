@@ -11,10 +11,10 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
     
     private var username: String
     private var bio: String
-    private var editProfileControls: EditProfileControls
+    private var editProfileControls: EditProfileControlsProtocol
     private var userID: Int
     
-    init(editProfileControls: EditProfileControls,userID: Int,username: String, bio: String) {
+    init(editProfileControls: EditProfileControlsProtocol,userID: Int,username: String, bio: String) {
         self.editProfileControls = editProfileControls
         self.username = username
         self.bio = bio

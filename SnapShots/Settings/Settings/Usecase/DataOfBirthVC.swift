@@ -9,7 +9,9 @@ import UIKit
 
 class DataOfBirthVC: UIViewController {
     
-    var dateOfBirth: String!
+    private var dateOfBirth: String!
+    private let datePicker = UIDatePicker()
+    
     init(dateOfBirth: String) {
         self.dateOfBirth = dateOfBirth
         super.init(nibName: nil, bundle: nil)
@@ -19,7 +21,7 @@ class DataOfBirthVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -34,7 +36,7 @@ class DataOfBirthVC: UIViewController {
         return scrollContainer
     }()
     
-    private var birthdayLogo: UIImageView = {
+    private lazy var birthdayLogo: UIImageView = {
         let birthdayLogo = UIImageView(frame: .zero)
         birthdayLogo.image = UIImage(systemName: "birthday.cake")
         birthdayLogo.clipsToBounds = true
@@ -64,33 +66,34 @@ class DataOfBirthVC: UIViewController {
         return uploadLabel
     }()
     
-    let datePicker = UIDatePicker()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        title = "Date of birth"
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-        
+        setupNavigationItems()
         setConstraints()
         setupDatePicker()
         setupTapGestures()
         setupNotificationCenter()
     }
     
+    private func setupNavigationItems() {
+        title = "Date of birth"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
+    }
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    func setupNotificationCenter() {
+    private func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(updateBirthday(_:)))
         uploadLabel.addGestureRecognizer(uploadLabelTap)
         
@@ -98,7 +101,7 @@ class DataOfBirthVC: UIViewController {
         view.addGestureRecognizer(screenTap)
     }
     
-    @objc func updateBirthday(_ sender: UITapGestureRecognizer) {
+    @objc private func updateBirthday(_ sender: UITapGestureRecognizer) {
         
         if let birthday = dateOfBirthTextField.text,!birthday.isEmpty {
             if !AccountControls().updateBirthday(birthday: birthday) {
@@ -108,14 +111,14 @@ class DataOfBirthVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    func setupDatePicker() {
+    private func setupDatePicker() {
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
         dateOfBirthTextField.inputView = datePicker
         dateOfBirthTextField.inputAccessoryView = createToolBar()
     }
     
-    func createToolBar() -> UIToolbar {
+    private func createToolBar() -> UIToolbar {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
@@ -125,7 +128,7 @@ class DataOfBirthVC: UIViewController {
         return toolbar
     }
     
-    @objc func addBirthday() {
+    @objc private func addBirthday() {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -135,7 +138,7 @@ class DataOfBirthVC: UIViewController {
         self.view.endEditing(true)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -172,7 +175,7 @@ class DataOfBirthVC: UIViewController {
     }
     
     
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
         
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

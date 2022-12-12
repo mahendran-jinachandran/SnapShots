@@ -10,14 +10,13 @@ import UIKit
 class ProfileFooterCollectionResuableView: UICollectionReusableView {
     static let identifier = "ProfileHeaderCollectionReusableView"
     
-    var postsLabel: UILabel = {
-       var postsLabel = UILabel()
+    private lazy var postsLabel: UILabel = {
+        var postsLabel = UILabel()
         postsLabel.translatesAutoresizingMaskIntoConstraints = false
-        postsLabel.text = "No Posts yet"
         postsLabel.font = UIFont.boldSystemFont(ofSize: 25)
         postsLabel.textAlignment = .center
         postsLabel.textColor = .gray
-       return postsLabel
+        return postsLabel
     }()
     
     override init(frame: CGRect) {
@@ -28,6 +27,14 @@ class ProfileFooterCollectionResuableView: UICollectionReusableView {
         }
         
         setupConstraints()
+    }
+    
+    func configure(isFriend: Bool) {
+        if isFriend {
+            postsLabel.text = "No Posts yet"
+        } else {
+            postsLabel.text =  "Private Account"
+        }
     }
     
     required init?(coder: NSCoder) {

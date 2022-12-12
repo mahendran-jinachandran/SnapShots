@@ -9,10 +9,10 @@ import UIKit
 
 class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 
-    let gendersList = ["Male","Female"]
-    var pickerView = UIPickerView()
+    private let gendersList = ["Male","Female"]
+    private var pickerView = UIPickerView()
     
-    var gender: String!
+    private var gender: String!
     init(gender: String) {
         self.gender = gender
         super.init(nibName: nil, bundle: nil)
@@ -22,7 +22,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -69,20 +69,27 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        title = "Gender"
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        genderTextField.inputView = pickerView
         
+        setupNavigationItems()
+        setupDelegates()
         setupConstraints()
         setupNotificationCenter()
         setupTapGestures()
     }
     
-    func setupTapGestures() {
+    private func setupNavigationItems() {
+        title = "Gender"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
+    }
+    
+    private func setupDelegates() {
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        genderTextField.inputView = pickerView
+    }
+    
+    private func setupTapGestures() {
         let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(updateGender(_:)))
         uploadLabel.addGestureRecognizer(uploadLabelTap)
         
@@ -90,16 +97,16 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         view.addGestureRecognizer(screenTap)
     }
     
-    func setupNotificationCenter() {
+    private func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    @objc func updateGender(_ sender: UITapGestureRecognizer) {
+    @objc private func updateGender(_ sender: UITapGestureRecognizer) {
         
         if let gender = genderTextField.text, !gender.isEmpty {
             if !AccountControls().updateGender(gender: gender) {
@@ -111,7 +118,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         navigationController?.popViewController(animated: true)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -162,7 +169,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         genderTextField.resignFirstResponder()
     }
     
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
         
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

@@ -14,15 +14,9 @@ class PostControls: PostControlsProtocol {
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImplementation)
     private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
-    func deletePost(postID: Int) {
+    func deletePost(postID: Int) -> Bool {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        if postDaoImp.deletePost(userID: userID, postID: postID) {
-            print("Deleted")
-            // MARK: SHOW THAT POST IS DELETED
-        } else {
-            print("Not Deleted")
-            // MARK: SHOW THAT POST IS NOT DELETED
-        }
+        return postDaoImp.deletePost(userID: userID, postID: postID)
     }
     
     func addLikeToThePost(postUserID: Int,postID: Int) -> Bool {

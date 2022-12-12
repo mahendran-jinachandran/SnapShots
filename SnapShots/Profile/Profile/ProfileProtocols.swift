@@ -15,5 +15,5 @@ protocol ProfileControlsProtocols {
     func sendFriendRequest(profileRequestedUser: Int) -> Bool
     func cancelFriendRequest(profileRequestedUser: Int) -> Bool
     func removeFrined(profileRequestedUser: Int) -> Bool
-    func updateProfilePhoto(profilePhoto: UIImage)
+    func updateProfilePhoto(profilePhoto: UIImage) -> Bool
 }

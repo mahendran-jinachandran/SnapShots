@@ -28,9 +28,13 @@ class SearchPeopleVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        people = searchControls.getAllUsers()
-        dupPeople = people
         setupNotificationSubscription()
+        setupNavigationItems()
+        setupSearchTable()
+        setSearchTableConstraints()
+    }
+    
+    private func setupNavigationItems() {
         title = "Search"
         searchBar = UISearchController(searchResultsController: nil)
         searchBar.searchBar.placeholder = "Search people 🌎"
@@ -38,15 +42,12 @@ class SearchPeopleVC: UIViewController {
         navigationItem.searchController = searchBar
         
         searchBar.searchBar.delegate = self
-
-        setupSearchTable()
-        view.addSubview(searchTable)
-        
-        setSearchTableConstraints()
-        
     }
     
-    func setupSearchTable() {
+    private func setupSearchTable() {
+        people = searchControls.getAllUsers()
+        dupPeople = people
+        
         searchTable.delegate = self
         searchTable.dataSource = self
         searchTable.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
@@ -54,17 +55,19 @@ class SearchPeopleVC: UIViewController {
         searchTable.separatorStyle = .none
     }
     
-    func setupNotificationSubscription() {
+    private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshSearch), name: Constants.userDetailsEvent, object: nil)
     }
     
-    @objc func refreshSearch() {
+    @objc private func refreshSearch() {
         people = searchControls.getAllUsers()
         dupPeople = people
         searchTable.reloadData()
     }
     
-    func setSearchTableConstraints() {
+    private func setSearchTableConstraints() {
+        
+        view.addSubview(searchTable)
         NSLayoutConstraint.activate([
             searchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -100,6 +103,7 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
         particularCell.configure(
             userName: dupPeople[indexPath.row].userName,
             userDP: userProfilePicture)
+        
         return particularCell
     }
 }
@@ -117,7 +121,7 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
             $0.userName.contains(searchText)
         })
         
-        // MARK: SHOW THE SEARCHED RESULTS IS EMPTY BY USING LABEL AS TABLE VIEW BACKGROUND VIEW AS DONE IN NOTIFICATIONS
+        // MARK: SHOW THE SEARCHED RESULTS IS EMPTY BY USING LABEL AS TABLE VIEW BACKGROUND VIEW AS DONE IN NOTIFICATIONS - USE BACKGROUND VIEW
         if data.isEmpty {
         }
         

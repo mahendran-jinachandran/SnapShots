@@ -10,6 +10,9 @@ import UIKit
 
 class ProfileControls: ProfileControlsProtocols {
 
+
+    
+
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
@@ -67,16 +70,11 @@ class ProfileControls: ProfileControlsProtocols {
         return friendsDaoImp.removeFriend(loggedUserID: userID, removingUserID: profileRequestedUser)
     }
     
-    func updateProfilePhoto(profilePhoto: UIImage) {
+    func updateProfilePhoto(profilePhoto: UIImage) -> Bool {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         let photoName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
         profilePhoto.saveImage(imageName: photoName,image: profilePhoto)
         
-        if userDaoImp.updatePhoto(photo: photoName, userID: loggedUserID) {
-            // MARK: PROFILE PHOTO IS UPDATED
-        } else {
-            // MARK: COULDN'T UPLOAD PHOTO
-        }
+        return userDaoImp.updatePhoto(photo: photoName, userID: loggedUserID)
     }
-    
 }

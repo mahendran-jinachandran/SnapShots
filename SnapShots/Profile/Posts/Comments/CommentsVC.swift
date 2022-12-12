@@ -49,7 +49,6 @@ class CommentsVC: UIViewController {
     private lazy var emptyCommentsLabel: UILabel = {
         let emptyComments = UILabel()
         emptyComments.text = "No Comments yet. Be the first."
-        emptyComments.translatesAutoresizingMaskIntoConstraints = false
         emptyComments.font = UIFont.boldSystemFont(ofSize: 25)
         emptyComments.numberOfLines = 2
         emptyComments.textAlignment = .center
@@ -62,11 +61,18 @@ class CommentsVC: UIViewController {
         
         view.keyboardLayoutGuide.followsUndockedKeyboard = true
         view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+
         title = "Comments"
-        
         addCommentTextField.delegate = self
+       
+        setupNavigationItems()
         setupCommentsTable()
+        setupConstraints()
+        getComments()
+    }
+    
+    private func setupNavigationItems() {
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
     func setupCommentsTable() {
@@ -77,14 +83,18 @@ class CommentsVC: UIViewController {
         commentsTable.dataSource = self
         commentsTable.estimatedRowHeight = 40
         commentsTable.rowHeight = UITableView.automaticDimension
-        
+        commentsTable.backgroundView = emptyCommentsLabel
+    }
+    
+    func getComments() {
         commentDetails = commentsControls.getAllComments(postUserID: postUserID, postID: postID)
         if commentDetails.isEmpty {
-            setupNoCommentsConstraints()
-            return
+            commentsTable.backgroundView?.alpha = 1.0
         } else {
-            setupConstraints()
+            commentsTable.backgroundView?.alpha = 0.0
         }
+        
+        commentsTable.reloadData()
     }
     
     func setupConstraints() {
@@ -103,27 +113,6 @@ class CommentsVC: UIViewController {
             commentsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
             commentsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
             commentsTable.bottomAnchor.constraint(equalTo: addCommentTextField.topAnchor)
-        ])
-        
-        let textFieldOnKeyboard = view.keyboardLayoutGuide.topAnchor.constraint(equalTo: addCommentTextField.bottomAnchor,constant: 10)
-        view.keyboardLayoutGuide.setConstraints([textFieldOnKeyboard], activeWhenAwayFrom: .top)
-    }
-    
-    func setupNoCommentsConstraints() {
-        [emptyCommentsLabel,addCommentTextField].forEach {
-            view.addSubview($0)
-        }
-        
-        NSLayoutConstraint.activate([
-            
-            addCommentTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            addCommentTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
-            addCommentTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            emptyCommentsLabel.bottomAnchor.constraint(equalTo: addCommentTextField.topAnchor),
-            emptyCommentsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            emptyCommentsLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            emptyCommentsLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
         let textFieldOnKeyboard = view.keyboardLayoutGuide.topAnchor.constraint(equalTo: addCommentTextField.bottomAnchor,constant: 10)
@@ -159,7 +148,6 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
         
@@ -174,15 +162,15 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     
     
     @objc func addComment() {
+
+        if !commentsControls.addComment(postUserID: postUserID, postID: postID, comment: addCommentTextField.text!) {
+            showToast(message: Constants.toastFailureStatus)
+            return
+        }
         
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-        commentsControls.addComment(postUserID: postUserID, postID: postID, comment: addCommentTextField.text!)
-        
-        commentDetails = commentsControls.getAllComments(postUserID: postUserID, postID: postID)
         addCommentTextField.text = nil
-        setupConstraints()
-        commentsTable.reloadData()
-        
+        getComments()
     }
 }
 

@@ -16,21 +16,24 @@ class FeedsVC: UIViewController {
         self.feedsControls = feedsControls
     }
     
-    private let feedsTable: UITableView = {
+    private lazy var feedsTable: UITableView = {
         let feedsTable = UITableView(frame: .zero)
         feedsTable.translatesAutoresizingMaskIntoConstraints = false
-        feedsTable.register(FeedsCustomCell.self, forCellReuseIdentifier: FeedsCustomCell.identifier)
-        feedsTable.bounces = false
-        feedsTable.separatorStyle = .none
        return feedsTable
     }()
     
-    private var noPostsNotify: UILabel = {
-        let noRequestsNotify = UILabel()
-        noRequestsNotify.text = "No Feeds"
-        noRequestsNotify.textColor = .gray
-        noRequestsNotify.translatesAutoresizingMaskIntoConstraints = false
-        return noRequestsNotify
+    private lazy var noPostsNotify: UIView = {
+        let noPostsNotify = UIView()
+        noPostsNotify.backgroundColor = .red
+        return noPostsNotify
+    }()
+    
+    private lazy var noPostsLabel: UILabel = {
+       let noPostsLabel = UILabel()
+        noPostsLabel.text = "No Feeds"
+        noPostsLabel.textColor = .gray
+        noPostsLabel.textAlignment = .center
+        return noPostsLabel
     }()
 
     override func viewDidLoad() {
@@ -38,24 +41,25 @@ class FeedsVC: UIViewController {
 
         setNavigationItems()
         setupFeedsTable()
+        setConstraints()
         setupNotificationSubscription()
     }
     
-    func setupFeedsTable() {
+    private func setupFeedsTable() {
+        
+        feedsTable.register(FeedsCustomCell.self, forCellReuseIdentifier: FeedsCustomCell.identifier)
+        feedsTable.bounces = false
+        feedsTable.separatorStyle = .none
         feedsTable.delegate = self
         feedsTable.dataSource = self
         feedsTable.estimatedRowHeight = 300
         feedsTable.rowHeight = UITableView.automaticDimension
         
-        feedPosts = feedsControls.getAllPosts()
-        if feedPosts.count > 0 {
-            setConstraints()
-        } else {
-            setNoFeedsConstraints()
-        }
+        feedsTable.backgroundView = noPostsLabel
+        getEntireFeeds()
     }
     
-    func setNavigationItems() {
+    private func setNavigationItems() {
         let friendsAction = UIAction(
           title: "Friends",
           image: UIImage(systemName: "person.3.fill")) { _ in
@@ -77,36 +81,28 @@ class FeedsVC: UIViewController {
         navigationItem.leftBarButtonItem = barButton
     }
     
-    func setupNotificationSubscription() {
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.userDetailsEvent, object: nil)
+    private func setupNotificationSubscription() {
+        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
     }
     
-    @objc func refreshPostSection() {
+    @objc private func getEntireFeeds() {
         feedPosts = feedsControls.getAllPosts()
         if feedPosts.count > 0 {
-            setConstraints()
+            feedsTable.backgroundView?.alpha = 0.0
         } else {
-            setNoFeedsConstraints()
+            feedsTable.backgroundView?.alpha = 1.0
         }
         feedsTable.reloadData()
     }
 
-    func setConstraints() {
+    private func setConstraints() {
         view.addSubview(feedsTable)
         NSLayoutConstraint.activate([
             feedsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
             feedsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             feedsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             feedsTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
-    func setNoFeedsConstraints() {
-        view.addSubview(noPostsNotify)
-        NSLayoutConstraint.activate([
-            noPostsNotify.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            noPostsNotify.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }

@@ -71,8 +71,7 @@ class OnboardingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        navigationItem.hidesBackButton = true
+        setNavigationItems()
         createOnboardingStackView()
         setConstraints()
         updateScrollViewHeightConstraintActiveState()
@@ -82,6 +81,12 @@ class OnboardingVC: UIViewController {
         super.viewDidLayoutSubviews()
         
         heightAnchor?.constant = -(view.safeAreaInsets.top + view.safeAreaInsets.bottom)
+    }
+    
+    private func setNavigationItems() {
+        
+        view.backgroundColor = .systemBackground
+        navigationItem.hidesBackButton = true
     }
     
     private func updateScrollViewHeightConstraintActiveState() {

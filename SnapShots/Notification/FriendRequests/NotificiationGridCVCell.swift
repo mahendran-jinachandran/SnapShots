@@ -28,7 +28,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
         return requestContainer
     }()
     
-    public var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
        profileImage.image = UIImage(named: "Quote")
        profileImage.clipsToBounds = true
@@ -70,18 +70,16 @@ class NotificiationGridCVCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        
-        contentView.addSubview(requestContainer)
-        
-        [profilePhoto,userNameLabel,acceptRequest,rejectRequest].forEach{
-            contentView.addSubview($0)
-        }
-        
+
         setConstraints()
+        setupTapGestures()
+        
         profilePhoto.layer.cornerRadius = 30
         acceptRequest.layer.cornerRadius = 13
         rejectRequest.layer.cornerRadius = 13
+    }
+    
+    func setupTapGestures() {
         acceptRequest.addTarget(self, action: #selector(acceptingUser), for: .touchUpInside)
         rejectRequest.addTarget(self, action: #selector(rejectingUser), for: .touchUpInside)
     }
@@ -104,6 +102,13 @@ class NotificiationGridCVCell: UICollectionViewCell {
     }
     
     func setConstraints() {
+        
+        contentView.addSubview(requestContainer)
+        
+        [profilePhoto,userNameLabel,acceptRequest,rejectRequest].forEach{
+            contentView.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             requestContainer.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 4),
             requestContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),

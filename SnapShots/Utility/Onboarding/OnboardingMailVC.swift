@@ -24,6 +24,7 @@ class OnboardingMailVC: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -86,19 +87,25 @@ class OnboardingMailVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        scrollView.showsVerticalScrollIndicator = false
-        
+        setupNavigationItems()
+        setupNotficationCenter()
+        setupConstraints()
+        setupTapGestures()
+
+        skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupNavigationItems() {
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(validateMail))
-        
-        setupNotficationCenter()
-        setupConstraints()
-        
-        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
-        skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupTapGestures() {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
+        
+        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
     }
     
     private func setupNotficationCenter() {
@@ -173,7 +180,6 @@ class OnboardingMailVC: UIViewController {
         ])
     }
     
-    // MARK: KEYBOARD NOTIFICATION CENTER
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 

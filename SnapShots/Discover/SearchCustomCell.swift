@@ -15,7 +15,7 @@ class SearchTableViewCell: UITableViewCell {
 
     static let identifier = "SearchTableViewCell"
     
-    private var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
        profileImage.image = UIImage(named: "blankPhoto")
        profileImage.clipsToBounds = true

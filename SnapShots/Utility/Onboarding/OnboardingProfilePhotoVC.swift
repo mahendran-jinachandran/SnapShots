@@ -26,6 +26,8 @@ class OnboardingProfilePhotoVC: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         return scrollView
     }()
     
@@ -93,21 +95,26 @@ class OnboardingProfilePhotoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.showsVerticalScrollIndicator = false
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(uploadPhoto))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        
         view.backgroundColor = .systemBackground
-        
+        setupNavigationItems()
         setupConstraints()
+        setupTapGestures()
+        
         profilePhoto.layer.cornerRadius = 100
         skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupTapGestures() {
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         profilePhoto.addGestureRecognizer(imagePicker)
+    }
+    
+    private func setupNavigationItems() {
+        navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(uploadPhoto))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
     }
     
     @objc private func uploadPhoto() {

@@ -47,31 +47,30 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "About"
         view.backgroundColor = .systemBackground
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
+
+        setupNavigationItems()
         setupTintColors()
         setupTapGestures()
         setAboutConstraints()
      }
     
+    private func setupNavigationItems() {
+        title = "About"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
     
-    func setupTintColors() {
+    private func setupTintColors() {
         privacyView.tintColor = UIColor(named: "appTheme")
         termsView.tintColor = UIColor(named: "appTheme")
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let privacyPolicyTap = UITapGestureRecognizer(target: self, action: #selector(showPrivacyPolicies))
         privacyView.addGestureRecognizer(privacyPolicyTap)
     }
     
-    @objc func goBack() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func setAboutConstraints() {
+    private func setAboutConstraints() {
         
         [privacyView,termsView].forEach {
             view.addSubview($0)
@@ -91,13 +90,15 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
         ])
     }
     
-    @objc func showPrivacyPolicies() {
+    @objc private func showPrivacyPolicies() {
         guard let url = URL(string: "https://www.termsfeed.com/live/04e5a598-6985-4e03-a896-31106dc8edbc") else {
             return
         }
         
-        let openSafariVC = SFSafariViewController(url: url)
-        present(openSafariVC, animated: true)
+        present(
+            SFSafariViewController(url: url),
+            animated: true
+        )
     }
 }
 

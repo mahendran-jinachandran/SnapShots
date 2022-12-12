@@ -28,17 +28,12 @@ class LikesVC: UIViewController {
     private lazy var likesTable: UITableView = {
         let likesTable = UITableView()
         likesTable.translatesAutoresizingMaskIntoConstraints = false
-        likesTable.register(
-            LikesCustomCell.self,
-            forCellReuseIdentifier: LikesCustomCell.identifier)
-        likesTable.separatorStyle = .none
         return likesTable
     }()
     
     private lazy var emptyLikesLabel: UILabel = {
         let emptyLikes = UILabel()
         emptyLikes.text = "No Likes yet. Be the first."
-        emptyLikes.translatesAutoresizingMaskIntoConstraints = false
         emptyLikes.font = UIFont.boldSystemFont(ofSize: 25)
         emptyLikes.numberOfLines = 2
         emptyLikes.textAlignment = .center
@@ -52,26 +47,31 @@ class LikesVC: UIViewController {
         // Do any additional setup after loading the view.
         title = "Likes"
         view.backgroundColor = .systemBackground
-        setupLikesTable()
         setNavigationItems()
-    }
-    
-    private func setupLikesTable() {
-        likesTable.delegate = self
-        likesTable.dataSource = self
-        
-        likedUsers = likesControls.getAllLikedUsers(postUserID: postUserID, postID: postID)
-        
-        if likedUsers.isEmpty {
-            setupEmptyConstraints()
-        } else {
-            setupConstraints()
-        }
+        setupLikesTable()
+        setupConstraints()
     }
     
     private func setNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupLikesTable() {
+        
+        likesTable.delegate = self
+        likesTable.dataSource = self
+        likesTable.register(LikesCustomCell.self,forCellReuseIdentifier: LikesCustomCell.identifier)
+        likesTable.separatorStyle = .none
+        likesTable.backgroundView = emptyLikesLabel
+        
+        likedUsers = likesControls.getAllLikedUsers(postUserID: postUserID, postID: postID)
+        
+        if likedUsers.isEmpty {
+            likesTable.backgroundView?.alpha = 1.0
+        } else {
+            likesTable.backgroundView?.alpha = 0.0
+        }
     }
     
     private func setupConstraints() {
@@ -81,16 +81,6 @@ class LikesVC: UIViewController {
             likesTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
             likesTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             likesTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
-    private func setupEmptyConstraints() {
-        view.addSubview(emptyLikesLabel)
-        NSLayoutConstraint.activate([
-            emptyLikesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            emptyLikesLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            emptyLikesLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            emptyLikesLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

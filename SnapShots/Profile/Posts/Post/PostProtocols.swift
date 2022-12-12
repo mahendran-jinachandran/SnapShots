@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PostControlsProtocol {
-    func deletePost(postID: Int)
+    func deletePost(postID: Int) -> Bool
     func addLikeToThePost(postUserID: Int,postID: Int) -> Bool
     func removeLikeFromThePost(postUserID: Int,postID: Int) -> Bool
     func isAlreadyLikedThePost(postUserID: Int,postID: Int) -> Bool

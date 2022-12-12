@@ -12,7 +12,7 @@ class FriendsListCustomTVCell: UITableViewCell {
     static let identifier = "CustomTableViewCell"
     
     
-    private var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
        profileImage.image = UIImage(named: "blankPhoto")
        profileImage.clipsToBounds = true
@@ -58,18 +58,19 @@ class FriendsListCustomTVCell: UITableViewCell {
         
         contentView.backgroundColor = .systemBackground
         
-        [profilePhoto,userNameLabel,followUser,unfollowUser].forEach {
-            contentView.addSubview($0)
-        }
-        
         setupConstraint()
+        setupTapGestures()
         profilePhoto.layer.cornerRadius = 50 / 2
-        followUser.addTarget(self, action: #selector(addToFriends), for: .touchUpInside)
-        unfollowUser.addTarget(self, action: #selector(removeFromFriends), for: .touchUpInside)
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupTapGestures() {
+        followUser.addTarget(self, action: #selector(addToFriends), for: .touchUpInside)
+        unfollowUser.addTarget(self, action: #selector(removeFromFriends), for: .touchUpInside)
     }
     
     func configure(userDP: UIImage,username: String) {
@@ -77,17 +78,21 @@ class FriendsListCustomTVCell: UITableViewCell {
         userNameLabel.text = username
     }
     
-    @objc func addToFriends() {
+    @objc private func addToFriends() {
         unfollowUser.isHidden = false
         followUser.isHidden = true
     }
         
-    @objc func removeFromFriends() {
+    @objc private func removeFromFriends() {
         unfollowUser.isHidden = true
         followUser.isHidden = false
     }
     
     private func setupConstraint() {
+        
+        [profilePhoto,userNameLabel,followUser,unfollowUser].forEach {
+            contentView.addSubview($0)
+        }
 
         NSLayoutConstraint.activate([
             

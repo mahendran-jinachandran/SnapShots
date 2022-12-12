@@ -31,17 +31,12 @@ class NotificationGridVC: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
-        friendRequests = notificationControls.getAllFriendRequests()
     
         setupNavigationItems()
         setupFriendRequestTable()
         setConstraints()
         
-        if friendRequests.isEmpty {
-            friendRequestsCV.backgroundView?.alpha = 1.0
-            return
-        }
+
     }
     
     func setupNavigationItems() {
@@ -50,6 +45,7 @@ class NotificationGridVC: UIViewController {
     }
     
     func setupFriendRequestTable() {
+        
         friendRequestsCVLayout = UICollectionViewFlowLayout()
         friendRequestsCVLayout.scrollDirection = .vertical
         friendRequestsCVLayout.minimumLineSpacing = 1
@@ -62,6 +58,12 @@ class NotificationGridVC: UIViewController {
         friendRequestsCV.showsVerticalScrollIndicator = false
         friendRequestsCV.register(NotificiationGridCVCell.self, forCellWithReuseIdentifier: NotificiationGridCVCell.identifier)
         friendRequestsCV.backgroundView = noRequestsNotify
+        
+        friendRequests = notificationControls.getAllFriendRequests()
+        if friendRequests.isEmpty {
+            friendRequestsCV.backgroundView?.alpha = 1.0
+            return
+        }
     }
     
     func setConstraints() {

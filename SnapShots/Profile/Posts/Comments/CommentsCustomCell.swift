@@ -9,9 +9,9 @@ import UIKit
 
 class CommentsCustomCell: UITableViewCell {
 
-    static let identifier = "CommentsCustomCell"
+  static let identifier = "CommentsCustomCell"
     
-    public var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
        profileImage.image = UIImage(named: "Quote")
        profileImage.clipsToBounds = true
@@ -21,18 +21,16 @@ class CommentsCustomCell: UITableViewCell {
        return profileImage
     }()
     
-    public lazy var userNameLabel: UILabel = {
+    private lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-       userNameLabel.text = "Mahendran"
        userNameLabel.font = UIFont.systemFont(ofSize:16)
        return userNameLabel
     }()
     
-    public lazy var comment: UILabel = {
+    private lazy var comment: UILabel = {
         var comment = UILabel()
         comment.translatesAutoresizingMaskIntoConstraints = false
-        comment.text = "AmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazingAmazing"
         comment.font = UIFont.systemFont(ofSize: 14)
         comment.numberOfLines = 0
         return comment
@@ -40,10 +38,6 @@ class CommentsCustomCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        [profilePhoto,userNameLabel,comment].forEach {
-            contentView.addSubview($0)
-        }
         
         setupContraints()
         profilePhoto.layer.cornerRadius = 20
@@ -53,8 +47,6 @@ class CommentsCustomCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var bottomConstraint: NSLayoutConstraint!
-    
     func configure(userDP: UIImage,username: String,comment: String) {
         self.profilePhoto.image = userDP
         self.userNameLabel.text = username
@@ -62,13 +54,17 @@ class CommentsCustomCell: UITableViewCell {
     }
     
     func setupContraints() {
+        
+        [profilePhoto,userNameLabel,comment].forEach {
+            contentView.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8),
             profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             profilePhoto.widthAnchor.constraint(equalToConstant: 40),
             profilePhoto.heightAnchor.constraint(equalToConstant: 40),
-
         
             userNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8),
             userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 12),
@@ -80,8 +76,6 @@ class CommentsCustomCell: UITableViewCell {
             comment.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -12),
             comment.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -8)
             
-        
         ])
     }
-    
 }

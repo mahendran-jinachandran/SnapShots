@@ -9,7 +9,7 @@ import UIKit
 
 class PersonalInformationVC: UIViewController {
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -45,7 +45,7 @@ class PersonalInformationVC: UIViewController {
     }()
     
     private lazy var emailLabel: UILabel = {
-      let emailLabel = UILabel()
+        let emailLabel = UILabel()
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
         emailLabel.text = "Email"
         emailLabel.textColor = UIColor(named: "appTheme")
@@ -54,7 +54,7 @@ class PersonalInformationVC: UIViewController {
     }()
     
     private lazy var email: UILabel = {
-      let email = UILabel()
+        let email = UILabel()
         email.translatesAutoresizingMaskIntoConstraints = false
         email.text = "mithu.dar@gmail.com"
         email.textColor = UIColor(named: "appTheme")
@@ -122,16 +122,20 @@ class PersonalInformationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Personal Information"
         view.backgroundColor = .systemBackground
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
+        setupNavigationItems()
         setConstraints()
         setupTapGestures()
     }
+    
+    private func setupNavigationItems() {
+        title = "Personal Information"
+
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
 
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let emailTap = UITapGestureRecognizer(target: self, action: #selector(editMail(_:)))
         email.addGestureRecognizer(emailTap)
         
@@ -145,6 +149,7 @@ class PersonalInformationVC: UIViewController {
         phone.addGestureRecognizer(phoneNumberTap)
     }
     
+    // MARK: CHANGE THIS TO NOTIFICATION CENTER - AVOID VIEW WILL APPEAR
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -155,15 +160,15 @@ class PersonalInformationVC: UIViewController {
         dateOfBirth.text = user.age == "-1" ? "Yet to fill" : user.age
     }
     
-    @objc func editMail(_ sender: UITapGestureRecognizer) {
+    @objc private func editMail(_ sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(MailVC(mail: email.text!), animated: true)
     }
     
-    @objc func editGender(_ sender: UITapGestureRecognizer) {
+    @objc private func editGender(_ sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(GenderVC(gender: gender.text!), animated: true)
     }
     
-    @objc func editDateOfBirth(_ sender: UITapGestureRecognizer) {
+    @objc private func editDateOfBirth(_ sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(DataOfBirthVC(dateOfBirth: dateOfBirth.text!), animated: true)
     }
     
@@ -171,7 +176,7 @@ class PersonalInformationVC: UIViewController {
         navigationController?.pushViewController(PhoneNumberVC(phoneNumber: phone.text!) ,animated: false)
     }
         
-    func setConstraints() {
+    private func setConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)

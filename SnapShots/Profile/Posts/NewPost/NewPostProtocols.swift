@@ -8,5 +8,5 @@
 import UIKit
 
 protocol NewPostControlProtocol {
-    func addPost(caption: String,image: UIImage)
+    func addPost(caption: String,image: UIImage) -> Bool
 }

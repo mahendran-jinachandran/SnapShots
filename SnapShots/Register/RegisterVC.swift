@@ -293,8 +293,11 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
 
     @objc private func startOnboarding() {
         
-        registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!)
-        navigationController?.pushViewController(OnboardingVC(), animated: true)
+        if registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!) {
+            navigationController?.pushViewController(OnboardingVC(), animated: true)
+        } else {
+            showToast(message: Constants.toastFailureStatus)
+        }
     }
 
     @objc private func dismissKeyboard() {
@@ -307,8 +310,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         }
         return true
     }
-    
-    // MARK: KEYBOARD NOTIFICATION CENTER
+
     var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 

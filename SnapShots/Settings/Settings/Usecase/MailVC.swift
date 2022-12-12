@@ -9,7 +9,7 @@ import UIKit
 
 class MailVC: UIViewController {
     
-    var mail: String!
+    private var mail: String!
     init(mail: String) {
         self.mail = mail
         super.init(nibName: nil, bundle: nil)
@@ -19,7 +19,7 @@ class MailVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -34,7 +34,7 @@ class MailVC: UIViewController {
         return scrollContainer
     }()
     
-    private var mailLogo: UIImageView = {
+    private lazy var mailLogo: UIImageView = {
         let mailLogo = UIImageView(frame: .zero)
         mailLogo.image = UIImage(systemName: "envelope")
         mailLogo.clipsToBounds = true
@@ -45,7 +45,7 @@ class MailVC: UIViewController {
         return mailLogo
     }()
     
-    private var primaryLabel: UILabel = {
+    private lazy var primaryLabel: UILabel = {
         let primaryLabel = UILabel()
         primaryLabel.text = "Your mail id can be used for various \n\t\tverification purposes"
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -78,20 +78,23 @@ class MailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Mail"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-
+        setupNavigationItems()
         setupConstraints()
         setupNotificationCenter()
         setupTapGestures()
     }
     
-    func setupNotificationCenter() {
+    private func setupNavigationItems() {
+        title = "Mail"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
+    }
+    
+    private func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(validateMail(_:)))
         uploadLabel.addGestureRecognizer(uploadLabelTap)
         
@@ -99,11 +102,11 @@ class MailVC: UIViewController {
         view.addGestureRecognizer(screenTap)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    @objc func validateMail(_ sender: UITapGestureRecognizer) {
+    @objc private func validateMail(_ sender: UITapGestureRecognizer) {
         if let usermail = emailTextField.text,!usermail.isEmpty {
             if !OnboardingControls().updateEmail(email: usermail) {
                 emailTextField.layer.borderColor = UIColor.red.cgColor
@@ -114,7 +117,7 @@ class MailVC: UIViewController {
         navigationController?.popViewController(animated: false)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -153,7 +156,7 @@ class MailVC: UIViewController {
         ])
     }
     
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
         
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

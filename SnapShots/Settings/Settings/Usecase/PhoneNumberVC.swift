@@ -9,13 +9,13 @@ import UIKit
 
 class PhoneNumberVC: UIViewController {
     
-    var phoneNumber: String!
+    private var phoneNumber: String!
     init(phoneNumber: String) {
         self.phoneNumber = phoneNumber
         super.init(nibName: nil, bundle: nil)
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -30,7 +30,7 @@ class PhoneNumberVC: UIViewController {
         return scrollContainer
     }()
     
-    private var phoneNumberImage: UIImageView = {
+    private lazy var phoneNumberImage: UIImageView = {
         let phoneNumberImage = UIImageView(frame: .zero)
         phoneNumberImage.image = UIImage(systemName: "iphone.circle")
         phoneNumberImage.clipsToBounds = true
@@ -53,7 +53,7 @@ class PhoneNumberVC: UIViewController {
     }()
     
     
-    lazy var phoneNumberWarningLabel: UILabel = {
+    private lazy var phoneNumberWarningLabel: UILabel = {
         let phoneNumberLabel = UILabel()
         phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         phoneNumberLabel.textColor = .red
@@ -78,12 +78,12 @@ class PhoneNumberVC: UIViewController {
     }
     
     
-    func setupNotificationCenter() {
+    private func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
         
@@ -123,11 +123,11 @@ class PhoneNumberVC: UIViewController {
         ])
     }
     
-    func setupNavigationButtons() {
+    private func setupNavigationButtons() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Upload", style: .plain, target: self, action: #selector(updatePhoneNumber))
     }
     
-    @objc func updatePhoneNumber() {
+    @objc private func updatePhoneNumber() {
         if !checkPhoneNumberValidation(phoneNumber: phoneNumberTextField.text!) {
             return
         }
@@ -135,7 +135,7 @@ class PhoneNumberVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
+    private func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
         let phoneNumberDetails = AccountControls().validatePhoneNumber(phoneNumber: phoneNumber)
 
 
@@ -153,18 +153,18 @@ class PhoneNumberVC: UIViewController {
         return false
     }
     
-    func validPhoneNumber() {
+    private func validPhoneNumber() {
         phoneNumberTextField.layer.borderColor = UIColor.lightGray.cgColor
         phoneNumberWarningLabel.isHidden = true
     }
     
-    func invalidPhoneNumber(warningLabel: String) {
+    private func invalidPhoneNumber(warningLabel: String) {
         phoneNumberTextField.layer.borderColor = UIColor.red.cgColor
         phoneNumberWarningLabel.text = warningLabel
         phoneNumberWarningLabel.isHidden = false
     }
     
-    var contentInsetBackstore: UIEdgeInsets = .zero
+    private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
         
         guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {

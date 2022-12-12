@@ -16,20 +16,18 @@ class RegisterControls: RegisterControllerProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
-    func executeRegistrationProcess(username: String,phoneNumber: String,password: String) {
+    func executeRegistrationProcess(username: String,phoneNumber: String,password: String) -> Bool {
         
-        if userDaoImp.createNewUser(userName: username, password: password, phoneNumber: phoneNumber) {
-            
-            guard let userID = userDaoImp.getUserID(phoneNumber: phoneNumber, password: password) else {
-                return
-            }
-            
-            UserDefaults.standard.set(userID, forKey: Constants.loggedUserFormat)
-            // MARK: TOAST CREATED USER
-            
-        } else {
-            // MARK: TOAST COULD NOT CREATE USER
+        if !userDaoImp.createNewUser(userName: username, password: password, phoneNumber: phoneNumber) {
+            return false
         }
+        
+        guard let userID = userDaoImp.getUserID(phoneNumber: phoneNumber, password: password) else {
+            return false
+        }
+        
+        UserDefaults.standard.set(userID, forKey: Constants.loggedUserFormat)
+        return true
     }
     
     func validateUsername(username: String) -> Result<Bool,UsernameError> {

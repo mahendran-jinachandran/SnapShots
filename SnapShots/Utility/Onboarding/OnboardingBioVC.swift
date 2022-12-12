@@ -22,6 +22,7 @@ class OnboardingBioVC: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
         return scrollView
@@ -82,22 +83,27 @@ class OnboardingBioVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        scrollView.showsVerticalScrollIndicator = false
-
+        setupNavigationItems()
+        setupNotficationCenter()
+        setupConstraints()
+        setupTapGestures()
+        
+        skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupNavigationItems() {
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Finish", style: .plain, target: self, action: #selector(finishOnboarding))
-        
-        setupNotficationCenter()
-        setupConstraints()
-        
+    }
+    
+    private func setupTapGestures() {
         skipButton.addTarget(self, action: #selector(goToHomePage), for: .touchUpInside)
-        skipButton.tintColor = UIColor(named: "appTheme")
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
     }
     
-    func setupNotficationCenter() {
+    private func setupNotficationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
@@ -172,7 +178,6 @@ class OnboardingBioVC: UIViewController {
         ])
     }
     
-    // MARK: KEYBOARD NOTIFICATION CENTER
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 

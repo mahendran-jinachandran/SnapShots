@@ -26,6 +26,7 @@ class OnboardingBirthdayVC: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -76,17 +77,23 @@ class OnboardingBirthdayVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        scrollView.showsVerticalScrollIndicator = false
-
-        navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateBirthday))
-        
+        setupNavigationItems()
         setupNotficationCenter()
         setConstraints()
         setupDatePicker()
-        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
+        setupTapGestures()
+        
         skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupNavigationItems() {
+        navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateBirthday))
+    }
+    
+    private func setupTapGestures() {
+        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
     }
@@ -188,7 +195,6 @@ class OnboardingBirthdayVC: UIViewController {
         ])
     }
     
-    // MARK: KEYBOARD NOTIFICATION CENTER
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 

@@ -40,9 +40,7 @@ class ProfileVC: UIViewController{
         super.viewDidLoad()
         
         navigationItem.title = ""
-        profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
-        self.profileUser = profileControls.getUserDetails(userID: userID)
-        
+
         setupProfileView()
         setNavigationItems()
         setProfileConstraints()
@@ -51,7 +49,11 @@ class ProfileVC: UIViewController{
     
     private func setupProfileView() {
         
+        
+        profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
+        self.profileUser = profileControls.getUserDetails(userID: userID)
         posts = profileControls.getAllPosts(userID: userID)
+        
         layout.minimumLineSpacing = 15
         layout.minimumInteritemSpacing = 1
         
@@ -67,18 +69,18 @@ class ProfileVC: UIViewController{
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
         
-        if posts.isEmpty || profileAccessibility == .requested || profileAccessibility == .unknown {
-            profileView.register(
-                ProfileFooterCollectionResuableView.self,
-                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: ProfileFooterCollectionResuableView.identifier)
-        }
-      
+        
+        profileView.register(
+            ProfileFooterCollectionResuableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: ProfileFooterCollectionResuableView.identifier)
+        
         profileView.dataSource = self
         profileView.delegate = self
         profileView.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    // MARK: CHANGE BACK BUTTON
     private func setNavigationItems() {
         if isVisiting {
             title = profileUser.userName
@@ -150,6 +152,12 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         if kind == UICollectionView.elementKindSectionFooter {
     
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileFooterCollectionResuableView.identifier, for: indexPath) as! ProfileFooterCollectionResuableView
+            
+            if profileAccessibility == .friend || profileAccessibility == .owner {
+                footerView.configure(isFriend: true)
+            } else {
+                footerView.configure(isFriend: false)
+            }
             
             return footerView
         }
@@ -257,32 +265,38 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func sendFriendRequest() {
-        if profileControls.sendFriendRequest(profileRequestedUser: userID) {
-            // MARK: TOAST SEND FRIEND REQUEST
-        } else {
-            // MARK: TOAST COULDN'T SEND REQUEST FAILED
+        if !profileControls.sendFriendRequest(profileRequestedUser: userID) {
+            showToast(message: Constants.toastFailureStatus)
         }
     }
     
     func cancelFriendRequest() {
-        if profileControls.cancelFriendRequest(profileRequestedUser: userID) {
-            // MARK: TOAST CANCEL FRIEND REQUEST
-        } else {
-            // MARK: TOAST CANCEL FRIEND REQUEST FAILED
+        if !profileControls.cancelFriendRequest(profileRequestedUser: userID) {
+            showToast(message: Constants.toastFailureStatus)
         }
     }
     
     func unFriendAnUser() {
+   
+
         if profileControls.removeFrined(profileRequestedUser: userID) {
-            // MARK: TOAST UNFRIEND
+            posts = []
+            profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
+            
+            profileAccessibility = .unknown
+            profileView.reloadData()
+
         } else {
-            // MARK: TOAST UNFRIEND FAILED
+            showToast(message: Constants.toastFailureStatus)
         }
     }
     
     func uploadPhoto(image: UIImage) {
-        profileControls.updateProfilePhoto(profilePhoto: image)
-        showToast(message: "DP Updated")
+        if profileControls.updateProfilePhoto(profilePhoto: image) {
+            showToast(message: "DP Updated")
+        } else {
+            showToast(message: Constants.toastFailureStatus)
+        }
     }
 }
 

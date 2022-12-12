@@ -28,6 +28,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -77,23 +78,33 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        scrollView.showsVerticalScrollIndicator = false
+        setupNavigationItems()
+        setupDelegates()
+        setupNotficationCenter()
+        setupConstraints()
+        setupTapGestures()
         
+        skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupNavigationItems() {
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateGender))
-        
+    }
+    
+    private func setupDelegates() {
         pickerView.delegate = self
         pickerView.dataSource = self
         genderTextField.inputView = pickerView
-        
-        setupNotficationCenter()
-        setupConstraints()
-        
-        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
-        skipButton.tintColor = UIColor(named: "appTheme")
+    }
+    
+    private func setupTapGestures() {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
+        
+        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
+
     }
     
     private func setupNotficationCenter() {
@@ -183,7 +194,6 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         genderTextField.resignFirstResponder()
     }
     
-    // MARK: KEYBOARD NOTIFICATION CENTER
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 

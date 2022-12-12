@@ -79,23 +79,34 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = "Password"
+
         view.backgroundColor = .systemBackground
+        setupNavigationItems()
+        setupDelegates()
+        setConstraints()
+        setupTapGestures()
+    }
+    
+    private func setupNavigationItems() {
+        title = "Password"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-        
-        saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
+    }
+    
+    private func setupDelegates() {
         currentPassword.delegate = self
         newPassword.delegate = self
         againNewPassword.delegate = self
-        
-        setConstraints()
     }
     
-    var isCurrentPasswordEntered: Bool = false
-    var isNewPasswordEntered: Bool = false
-    var isNewPasswordAgainEntered: Bool = false
+    private func setupTapGestures() {
+        saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
+
+    }
+    
+    private var isCurrentPasswordEntered: Bool = false
+    private var isNewPasswordEntered: Bool = false
+    private var isNewPasswordAgainEntered: Bool = false
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
         if textField == currentPassword {
@@ -139,12 +150,12 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         }
     }
     
-    @objc func saveDetails() {
+    @objc private func saveDetails() {
         SecurityController().updatePassword(password: newPassword.text!)
         navigationController?.popViewController(animated: true)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         
         [currentPassword,currentPasswordIncorrectLabel,newPassword,againNewPassword,newPasswordsMismatchLabel].forEach {
             view.addSubview($0)
@@ -178,25 +189,25 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         ])
     }
     
-    func invalidPasswordStatus(warningLabel: String) {
+    private func invalidPasswordStatus(warningLabel: String) {
         newPasswordsMismatchLabel.text = warningLabel
         newPasswordsMismatchLabel.isHidden = false
     }
     
-    func validPasswordStatus() {
+    private func validPasswordStatus() {
         newPasswordsMismatchLabel.isHidden = true
     }
     
-    func invalidCurrentPasswordStatus(warningLabel: String) {
+    private func invalidCurrentPasswordStatus(warningLabel: String) {
         currentPasswordIncorrectLabel.text = warningLabel
         currentPasswordIncorrectLabel.isHidden = false
     }
     
-    func validCurrentPasswordStatus() {
+    private func validCurrentPasswordStatus() {
         currentPasswordIncorrectLabel.isHidden = true
     }
     
-    func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
+    private func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
         
         if password == rePassword {
             newPasswordsMismatchLabel.isHidden = true

@@ -34,7 +34,7 @@ class FeedsCustomCell: UITableViewCell {
         return postContainer
     }()
     
-    public var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
        profileImage.clipsToBounds = true
        profileImage.contentMode = .scaleAspectFill
@@ -43,14 +43,14 @@ class FeedsCustomCell: UITableViewCell {
        return profileImage
     }()
     
-    public lazy var userNameLabel: UILabel = {
+    private lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
        userNameLabel.font = UIFont.systemFont(ofSize:17)
        return userNameLabel
     }()
     
-    public lazy var moreInfo: UIButton = {
+    private lazy var moreInfo: UIButton = {
         var moreInfo = UIButton(type: .custom)
         moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreInfo.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +59,7 @@ class FeedsCustomCell: UITableViewCell {
         return moreInfo
     }()
     
-    var post: UIImageView = {
+    private lazy var post: UIImageView = {
        let post = UIImageView()
        post.clipsToBounds = true
        post.contentMode = .scaleAspectFill
@@ -69,7 +69,7 @@ class FeedsCustomCell: UITableViewCell {
        return post
     }()
     
-    public lazy var like: UIButton = {
+    private lazy var like: UIButton = {
         var like = UIButton()
         like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
         like.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ class FeedsCustomCell: UITableViewCell {
         return like
     }()
     
-    public lazy var comment: UIButton = {
+    private lazy var comment: UIButton = {
         var comment = UIButton()
         comment.setBackgroundImage(UIImage(systemName: "ellipsis.message"), for: .normal)
         comment.translatesAutoresizingMaskIntoConstraints = false
@@ -88,12 +88,10 @@ class FeedsCustomCell: UITableViewCell {
         return comment
     }()
     
-    public lazy var caption: UILabel = {
+    private lazy var caption: UILabel = {
        var caption = UILabel()
        caption.translatesAutoresizingMaskIntoConstraints = false
-       caption.text = "User: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged"
        caption.font = UIFont.systemFont(ofSize:15)
-       caption.numberOfLines = 10
        return caption
     }()
 
@@ -123,13 +121,13 @@ class FeedsCustomCell: UITableViewCell {
         setLikeHeartImage(isLiked: likeFlag)
     }
     
-    func setupButtonTargets() {
+    private func setupButtonTargets() {
         like.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
     }
     
-    @objc func reactToThePost(_ sender : UITapGestureRecognizer) {
+    @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
         likeFlag = !likeFlag
         
         if likeFlag {
@@ -141,7 +139,7 @@ class FeedsCustomCell: UITableViewCell {
         }
     }
     
-    func setLikeHeartImage(isLiked: Bool) {
+    private func setLikeHeartImage(isLiked: Bool) {
         if isLiked {
             like.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
@@ -149,15 +147,15 @@ class FeedsCustomCell: UITableViewCell {
         }
     }
     
-    @objc func goToLikes() {
+    @objc private func goToLikes() {
         delegate?.showLikes(sender: self)
     }
     
-    @objc func gotToComments() {
+    @objc private func gotToComments() {
         delegate?.showComments(sender: self)
     }
     
-    @objc func showOwnerMenu(_ sender: UIButton) {
+    @objc private func showOwnerMenu(_ sender: UIButton) {
     
         let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -180,7 +178,7 @@ class FeedsCustomCell: UITableViewCell {
         
     }
     
-    func confirmDeletion() {
+    private func confirmDeletion() {
         let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
         
         let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in

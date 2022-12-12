@@ -27,9 +27,14 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         contentView.clipsToBounds = true
         [postImage].forEach { contentView.addSubview($0) }
         
+        setupTapGestures()
+    }
+    
+    func setupTapGestures() {
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
         postImage.addGestureRecognizer(imagePicker)
     }
@@ -46,9 +51,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         postImage.frame = CGRect(x: 0,
-                                   y: 0,
-                                   width: contentView.frame.size.width,
-                                   height: contentView.frame.size.height)
+                                 y: 0,
+                                 width: contentView.frame.size.width,
+                                 height: contentView.frame.size.height)
         
     }
     

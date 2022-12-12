@@ -9,7 +9,7 @@ import UIKit
 
 class NewPostVC: UIViewController {
     
-    var isPhotoUploaded: Bool = false
+    private var isPhotoUploaded: Bool = false
     private var newPostControls: NewPostControlProtocol
     
     init(newPostControls: NewPostControlProtocol) {
@@ -64,16 +64,17 @@ class NewPostVC: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        
+        setupNavigationItems()
+        setupTapGestures()
+        setupProfileConstraints()
+    }
+    
+    private func setupNavigationItems()  {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        
-        [postImage,captionLabel,caption].forEach {
-            view.addSubview($0)
-        }
-        
-        setupProfileConstraints()
-        
+    }
+    
+    private func setupTapGestures() {
         let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
         postImage.addGestureRecognizer(imagePicker)
         
@@ -81,7 +82,11 @@ class NewPostVC: UIViewController {
         uploadLabel.addGestureRecognizer(uploadTap)
     }
     
-    func setupProfileConstraints() {
+    private func setupProfileConstraints() {
+        
+        [postImage,captionLabel,caption].forEach {
+            view.addSubview($0)
+        }
         
         NSLayoutConstraint.activate([
             
@@ -103,8 +108,13 @@ class NewPostVC: UIViewController {
         ])
     }
     
-    @objc func uploadPost(_ sender : UITapGestureRecognizer) {
-        newPostControls.addPost(caption: caption.text, image: postImage.image!)
+    @objc private func uploadPost(_ sender : UITapGestureRecognizer) {
+        
+        if !newPostControls.addPost(caption: caption.text, image: postImage.image!) {
+            showToast(message: Constants.toastFailureStatus)
+            return
+        }
+        
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         self.navigationController?.popViewController(animated: true)
     }
@@ -115,26 +125,30 @@ extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDeleg
     @objc func imagePress(_ sender : UITapGestureRecognizer) {
 
         let imagePicker = UIAlertController(title: "CHANGE DP", message: nil, preferredStyle: .actionSheet)
-        let camera = UIAlertAction(title: "Camera", style: .default) { _ in
-            self.showImagePicker(selectedSource: .camera)
-        }
+        
 
-        let gallery = UIAlertAction(title: "Gallery", style: .default) { _ in
+        imagePicker.addAction(
+            UIAlertAction(title: "Camera", style: .default) { _ in
+                self.showImagePicker(selectedSource: .camera)
+        })
+        
+        imagePicker.addAction(
+            UIAlertAction(title: "Gallery", style: .default) { _ in
             self.showImagePicker(selectedSource: .photoLibrary)
-        }
-
-        let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
-            self.postImage.image = UIImage(named: "blankPhoto")
-            self.uploadLabel.isUserInteractionEnabled = false
-            self.uploadLabel.alpha = 0.5
-        }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-
-        imagePicker.addAction(camera)
-        imagePicker.addAction(gallery)
-        imagePicker.addAction(cancel)
-        imagePicker.addAction(removeDP)
+        })
+        
+        imagePicker.addAction(
+            UIAlertAction(title: "Remove", style: .default) { _ in
+                self.postImage.image = UIImage(named: "blankPhoto")
+                self.uploadLabel.isUserInteractionEnabled = false
+                self.uploadLabel.alpha = 0.5
+            }
+        )
+        
+        imagePicker.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+        )
+        
         present(imagePicker, animated: true,completion: nil)
     }
     

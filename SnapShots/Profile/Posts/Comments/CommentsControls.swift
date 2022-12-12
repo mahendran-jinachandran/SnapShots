@@ -12,14 +12,10 @@ class CommentsControls: CommentsControlsProtocol {
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
-    func addComment(postUserID: Int,postID: Int,comment: String) {
+    func addComment(postUserID: Int,postID: Int,comment: String) -> Bool {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        if commentsDaoImp.addCommentToThePost(visitingUserID: postUserID, postID: postID, comment: comment, loggedUserID: loggedUserID) {
-            // MARK: SHOW TOAST COMMENTED
-        } else {
-            // MARK: SHOW TOAST COMMENTED FAILED
-        }
+        return commentsDaoImp.addCommentToThePost(visitingUserID: postUserID, postID: postID, comment: comment, loggedUserID: loggedUserID)
     }
     
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails] {

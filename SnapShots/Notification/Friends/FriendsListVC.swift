@@ -11,7 +11,8 @@ class FriendsListVC: UIViewController {
     
     private var friends: [User] = []
     private var friendsControls: FriendsControlsProtocol
-    
+  
+    // MARK: SEND USER-ID TO DISPLAY ALL THE USER'S FRIENDS
     init(friendsControls: FriendsControlsProtocol) {
         self.friendsControls = friendsControls
         super.init(nibName: nil, bundle: nil)
@@ -21,7 +22,7 @@ class FriendsListVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var notificationTitle: UILabel = {
+    private lazy var notificationTitle: UILabel = {
         var notificationTitle = UILabel()
         notificationTitle.attributedText = NSAttributedString(string: "Notification",attributes: [
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
@@ -29,7 +30,7 @@ class FriendsListVC: UIViewController {
         return notificationTitle
     }()
 
-    private let friendsListTable: UITableView = {
+    private lazy var friendsListTable: UITableView = {
        let friendsListTable = UITableView()
        friendsListTable.translatesAutoresizingMaskIntoConstraints = false
        return friendsListTable
@@ -39,7 +40,6 @@ class FriendsListVC: UIViewController {
         super.viewDidLoad()
         
         title = "Friends"
-        friends = friendsControls.getAllFriends()
         setupNavigationItems()
         setupFriendsListTable()
         setScreenConstraints()
@@ -50,6 +50,7 @@ class FriendsListVC: UIViewController {
     }
     
     private func setupFriendsListTable() {
+        friends = friendsControls.getAllFriends()
         friendsListTable.bounces = false
         friendsListTable.delegate = self
         friendsListTable.dataSource = self

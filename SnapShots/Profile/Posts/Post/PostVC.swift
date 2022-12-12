@@ -9,11 +9,11 @@ import UIKit
 
 class PostVC: UIViewController {
 
-    var postImage: UIImage
-    var postDetails: Post
-    var postControls: PostControlsProtocol
-    var userID: Int
-    var likeFlag: Bool!
+    private var postImage: UIImage
+    private var postDetails: Post
+    private var postControls: PostControlsProtocol
+    private var userID: Int
+    private var likeFlag: Bool!
     
     init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post) {
         self.postControls = postControls
@@ -23,7 +23,7 @@ class PostVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
@@ -40,7 +40,7 @@ class PostVC: UIViewController {
         return scrollContainer
     }()
     
-    public lazy var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
         let profileImage = UIImageView(frame: .zero)
         profileImage.image = postControls.getUserDP(userID: userID)
         profileImage.clipsToBounds = true
@@ -50,7 +50,7 @@ class PostVC: UIViewController {
         return profileImage
     }()
     
-    public lazy var userNameLabel: UILabel = {
+    private lazy var userNameLabel: UILabel = {
         var userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.font = UIFont.systemFont(ofSize:17)
@@ -58,7 +58,7 @@ class PostVC: UIViewController {
         return userNameLabel
     }()
     
-    public lazy var moreInfo: UIButton = {
+    private lazy var moreInfo: UIButton = {
         var moreInfo = UIButton(type: .custom)
         moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreInfo.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ class PostVC: UIViewController {
         return moreInfo
     }()
     
-    public lazy var post: UIImageView = {
+    private lazy var post: UIImageView = {
        let post = UIImageView()
        post.clipsToBounds = true
        post.image = postControls.getPostImage(postImageName: postDetails.photo)
@@ -78,7 +78,7 @@ class PostVC: UIViewController {
        return post
     }()
     
-    public lazy var caption: UILabel = {
+    private lazy var caption: UILabel = {
         var caption = UILabel()
         caption.translatesAutoresizingMaskIntoConstraints = false
         caption.text = postDetails.caption
@@ -87,7 +87,7 @@ class PostVC: UIViewController {
         return caption
     }()
     
-    public lazy var like: UIButton = {
+    private lazy var like: UIButton = {
         var like = UIButton()
         like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
         like.translatesAutoresizingMaskIntoConstraints = false
@@ -97,7 +97,7 @@ class PostVC: UIViewController {
         return like
     }()
     
-    public lazy var comment: UIButton = {
+    private lazy var comment: UIButton = {
         var comment = UIButton()
         comment.setBackgroundImage(UIImage(systemName: "ellipsis.message"), for: .normal)
         comment.translatesAutoresizingMaskIntoConstraints = false
@@ -123,13 +123,14 @@ class PostVC: UIViewController {
         moreInfo.layer.cornerRadius = 15
     }
     
-    func setupTapGestures() {
+    private func setupTapGestures() {
         like.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         comment.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
     }
     
-    func setupNavigationItems() {
+    // MARK: CHANGE THE BACK BUTTON
+    private func setupNavigationItems() {
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "arrow.left"),
@@ -140,7 +141,7 @@ class PostVC: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
@@ -199,39 +200,35 @@ class PostVC: UIViewController {
         ])
     }
     
-    @objc func goBack() {
+    @objc private func goBack() {
         self.navigationController?.popViewController(animated: false)
     }
     
-    func setLikeButton() {
+    private func setLikeButton() {
         likeFlag = postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID)
         setLikeHeartImage(isLiked: likeFlag)
     }
 
-    @objc func reactToThePost(_ sender : UITapGestureRecognizer) {
+    @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
         
         
         likeFlag = !likeFlag
         if likeFlag {
             setLikeHeartImage(isLiked: likeFlag)
-            if postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID) {
-                // MARK: POST LIKED
-            } else {
-                // MARK: POST LIKED FAILED
+            if !postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID) {
+                showToast(message: Constants.toastFailureStatus)
             }
         } else {
             setLikeHeartImage(isLiked: likeFlag)
-            if postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID) {
-                // MARK: POST DISLIKED
-            } else {
-                // MARK: POST DISLIKED FAILED
+            if !postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID) {
+                showToast(message: Constants.toastFailureStatus)
             }
         }
        
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
-    func setLikeHeartImage(isLiked: Bool) {
+    private func setLikeHeartImage(isLiked: Bool) {
         if isLiked {
             like.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
@@ -239,18 +236,18 @@ class PostVC: UIViewController {
         }
     }
     
-    @objc func goToLikes() {
+    @objc private func goToLikes() {
         let likesControl = LikesControls()
         self.navigationController?.pushViewController(LikesVC(likesControls: likesControl, postUserID: userID, postID: postDetails.postID), animated: true)
     }
     
-    @objc func goToComments() {
+    @objc private func goToComments() {
         
         let commentsControl = CommentsControls()
         self.navigationController?.pushViewController(CommentsVC(commentsControls: commentsControl, postUserID: userID, postID: postDetails.postID), animated: true)
     }
     
-    @objc func showOwnerMenu(_ sender: UIButton) {
+    @objc private func showOwnerMenu(_ sender: UIButton) {
     
         let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
@@ -272,20 +269,26 @@ class PostVC: UIViewController {
         present(moreInfo, animated: true)
     }
     
-    func confirmDeletion() {
+    private func confirmDeletion() {
         
         let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
         
-        let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.postControls.deletePost(postID: self.postDetails.postID)
-            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-            self.navigationController?.popViewController(animated: true)
-        }
+        confirmDeletion.addAction(
+            UIAlertAction(title: "Delete", style: .destructive) { _ in
+                
+                if !self.postControls.deletePost(postID: self.postDetails.postID) {
+                    self.showToast(message: Constants.toastFailureStatus)
+                    return
+                }
+                
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                self.navigationController?.popViewController(animated: true)
+            }
+        )
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        confirmDeletion.addAction(confirm)
-        confirmDeletion.addAction(cancel)
+        confirmDeletion.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel)
+        )
         
         present(confirmDeletion, animated: true)
         

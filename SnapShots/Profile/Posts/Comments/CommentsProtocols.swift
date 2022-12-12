@@ -8,6 +8,6 @@
 import UIKit
 
 protocol CommentsControlsProtocol {
-    func addComment(postUserID: Int,postID: Int,comment: String)
+    func addComment(postUserID: Int,postID: Int,comment: String) -> Bool
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails]
 }

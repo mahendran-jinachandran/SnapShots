@@ -11,9 +11,8 @@ class LikesCustomCell: UITableViewCell {
     
     static let identifier = "LikesCustomCell"
     
-    public var profilePhoto: UIImageView = {
+    private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
-//       profileImage.image = UIImage(named: "Quote")
        profileImage.clipsToBounds = true
        profileImage.contentMode = .scaleAspectFill
        profileImage.translatesAutoresizingMaskIntoConstraints = false
@@ -21,10 +20,9 @@ class LikesCustomCell: UITableViewCell {
        return profileImage
     }()
     
-    public lazy var userNameLabel: UILabel = {
+    private lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-     //  userNameLabel.text = "MahendranMahendranqw"
        userNameLabel.font = UIFont.systemFont(ofSize:16)
        return userNameLabel
     }()
@@ -37,7 +35,6 @@ class LikesCustomCell: UITableViewCell {
         setupConstraint()
         profilePhoto.layer.cornerRadius = 30
     }
-    
     
     func configure(profilePhoto: UIImage,userNameLabel: String) {
         self.profilePhoto.image = profilePhoto

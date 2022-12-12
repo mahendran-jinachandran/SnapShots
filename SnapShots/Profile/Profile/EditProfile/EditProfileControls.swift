@@ -7,7 +7,7 @@
 
 import Foundation
 
-class EditProfileControls {
+class EditProfileControls: EditProfileControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
