@@ -35,8 +35,9 @@ struct Constants {
     static let minimumPasswordLength = 3
     
     // MARK: NOTIFICATION CENTER
-    static let publishPostEvent = Notification.Name("Publish_Post") // Uploading or deleting a post
-    static let userDetailsEvent = Notification.Name("UserDetails_Modiy")
+    static let publishPostEvent = Notification.Name("Publish_Post") // Changes in the Post
+    static let userDetailsEvent = Notification.Name("UserDetails_Modify") // Changes in the user details
+    static let profileDetailsEvent = Notification.Name("ProfileDetails_Modify") // Regarding Profile details
     
     // MARK: NO BIO CONSTANT
     static let noUserBioDefault = "Nothing to share!"

@@ -126,6 +126,20 @@ class PersonalInformationVC: UIViewController {
         setupNavigationItems()
         setConstraints()
         setupTapGestures()
+        setupNotificationCenter()
+        updatePersonalInformation()
+    }
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePersonalInformation), name: Constants.profileDetailsEvent, object: nil)
+    }
+    
+   @objc func updatePersonalInformation() {
+        let user = AccountControls().getuserDetails()
+        email.text = user.mail == "-1" ? "Yet to fill" : user.mail
+        phone.text = user.phoneNumber
+        gender.text = user.gender == .male ? "Male" : "Female"
+        dateOfBirth.text = user.age == "-1" ? "Yet to fill" : user.age
     }
     
     private func setupNavigationItems() {
@@ -134,7 +148,6 @@ class PersonalInformationVC: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
-    
     private func setupTapGestures() {
         let emailTap = UITapGestureRecognizer(target: self, action: #selector(editMail(_:)))
         email.addGestureRecognizer(emailTap)
@@ -149,16 +162,7 @@ class PersonalInformationVC: UIViewController {
         phone.addGestureRecognizer(phoneNumberTap)
     }
     
-    // MARK: CHANGE THIS TO NOTIFICATION CENTER - AVOID VIEW WILL APPEAR
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let user = AccountControls().getuserDetails()
-        email.text = user.mail == "-1" ? "Yet to fill" : user.mail
-        phone.text = user.phoneNumber
-        gender.text = user.gender == .male ? "Male" : "Female"
-        dateOfBirth.text = user.age == "-1" ? "Yet to fill" : user.age
-    }
+
     
     @objc private func editMail(_ sender: UITapGestureRecognizer) {
         navigationController?.pushViewController(MailVC(mail: email.text!), animated: true)

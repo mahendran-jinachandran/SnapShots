@@ -108,6 +108,8 @@ class DataOfBirthVC: UIViewController {
                 dateOfBirthTextField.layer.borderColor = UIColor.red.cgColor
             }
         }
+        
+        NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     
