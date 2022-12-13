@@ -80,11 +80,10 @@ class ProfileVC: UIViewController{
         profileView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    // MARK: CHANGE BACK BUTTON
     private func setNavigationItems() {
         if isVisiting {
             title = profileUser.userName
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(goBack))
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         } else {
             setupOwnerNavigationItems()
         }
@@ -106,10 +105,6 @@ class ProfileVC: UIViewController{
         addPost.tintColor = UIColor(named: "appTheme")!
      
         navigationItem.rightBarButtonItems = [ hamburgerMenu,addPost]
-    }
-    
-    @objc private func goBack() {
-        navigationController?.popViewController(animated: true)
     }
         
     private func setProfileConstraints() {

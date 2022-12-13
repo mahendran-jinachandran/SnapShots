@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OnboardingBioVC: UIViewController {
+class OnboardingBioVC: UIViewController,UITextViewDelegate {
     
     private var onboardingControls: OnboardingProtocol
     init(onboardingControls: OnboardingProtocol) {
@@ -83,6 +83,7 @@ class OnboardingBioVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        profileBioTextView.delegate = self
         setupNavigationItems()
         setupNotficationCenter()
         setupConstraints()
@@ -180,6 +181,11 @@ class OnboardingBioVC: UIViewController {
             skipButton.heightAnchor.constraint(equalToConstant: 35),
             skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        return newText.count < 70
     }
     
     private var contentInsetBackstore: UIEdgeInsets = .zero

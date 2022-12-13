@@ -13,7 +13,6 @@ class FriendsListVC: UIViewController {
     private var friends: [User] = []
     private var friendsControls: FriendsControlsProtocol
   
-    // MARK: SEND USER-ID TO DISPLAY ALL THE USER'S FRIENDS
     init(userID:Int,friendsControls: FriendsControlsProtocol) {
         self.userID = userID
         self.friendsControls = friendsControls
@@ -57,6 +56,7 @@ class FriendsListVC: UIViewController {
     
     private func setupNavigationItems() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
     private func setupFriendsListTable() {

@@ -199,4 +199,11 @@ extension FeedsVC: FeedsCustomCellDelegate {
         
         return feedsControls.isDeletionAllowed(userID: postUserID)
     }
+    
+    func deletePost(sender: FeedsCustomCell) {
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let postID = feedPosts[indexPath.row].postDetails.postID
+        
+        _ = feedsControls.deletePost(postID: postID)
+    }
 }

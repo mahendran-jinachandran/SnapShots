@@ -114,6 +114,7 @@ class PostVC: UIViewController {
         super.viewDidLoad()
         
         title = "Posts"
+        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setupConstraints()
         setupTapGestures()
@@ -129,16 +130,11 @@ class PostVC: UIViewController {
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
     }
     
-    // MARK: CHANGE THE BACK BUTTON
     private func setupNavigationItems() {
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.left"),
-            style: .plain,
-            target: self,
-            action: #selector(goBack))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+        navigationController?.navigationBar.isOpaque = true
     }
     
     private func setupConstraints() {
@@ -193,15 +189,11 @@ class PostVC: UIViewController {
             comment.heightAnchor.constraint(equalToConstant: 30),
             comment.widthAnchor.constraint(equalToConstant: 35),
             
-            caption.topAnchor.constraint(equalTo: like.bottomAnchor),
+            caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
             caption.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -12),
             caption.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
-    }
-    
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
     }
     
     private func setLikeButton() {

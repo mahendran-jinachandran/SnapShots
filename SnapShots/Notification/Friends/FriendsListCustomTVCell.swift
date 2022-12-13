@@ -61,7 +61,6 @@ class FriendsListCustomTVCell: UITableViewCell {
         setupConstraint()
         setupTapGestures()
         profilePhoto.layer.cornerRadius = 50 / 2
-
     }
     
     required init?(coder: NSCoder) {

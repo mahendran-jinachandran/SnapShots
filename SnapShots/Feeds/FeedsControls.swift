@@ -53,4 +53,9 @@ class FeedsControls {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return loggedUserID == userID
     }
+    
+    func deletePost(postID: Int) -> Bool {
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return postDaoImp.deletePost(userID: userID, postID: postID)
+    }
 }

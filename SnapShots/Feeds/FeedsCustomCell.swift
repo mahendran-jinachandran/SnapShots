@@ -14,6 +14,7 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func showLikes(sender: FeedsCustomCell)
     func showComments(sender: FeedsCustomCell)
     func isDeletionAllowed(sender: FeedsCustomCell) -> Bool
+    func deletePost(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -182,7 +183,8 @@ class FeedsCustomCell: UITableViewCell {
         let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
         
         let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.delegate?.controller().navigationController?.popViewController(animated: true)
+            self.delegate?.deletePost(sender: self)
+            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
