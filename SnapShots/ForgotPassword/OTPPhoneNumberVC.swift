@@ -80,23 +80,22 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.isNavigationBarHidden = false
-        view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
-        
-        
-        view.addSubview(scrollView)
-        scrollView.addSubview(scrollContainer)
-        [phoneNumberLabel,phoneNumber,phoneNumberWarningLabel,sendOTPButton].forEach {
-            scrollContainer.addSubview($0)
-        }
-
-        phoneNumber.delegate = self
+        setupNavigationItems()
         setupConstraints()
-
-        sendOTPButton.addTarget(self, action: #selector(validatePhoneNumber), for: .touchUpInside)
-        
         setupNotificationCenter()
+        setupTapGestures()
+        phoneNumber.delegate = self
+
+    }
+    
+    private func setupTapGestures() {
+        sendOTPButton.addTarget(self, action: #selector(validatePhoneNumber), for: .touchUpInside)
+    }
+    
+    private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
     private func setupNotificationCenter() {
@@ -145,8 +144,14 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     }
     
     func setupConstraints() {
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        [phoneNumberLabel,phoneNumber,phoneNumberWarningLabel,sendOTPButton].forEach {
+            scrollContainer.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
-            
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),

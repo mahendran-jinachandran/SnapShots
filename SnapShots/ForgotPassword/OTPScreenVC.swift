@@ -46,28 +46,20 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        AppUtility.lockOrientation(.all)
-        self.setNeedsUpdateOfSupportedInterfaceOrientations()
 
         setupNavigationItems()
-        
-        otpCheckButton.addTarget(self, action: #selector(validateOTP), for: .touchUpInside)
-        
-        view.backgroundColor = .systemBackground
-        [otpTextField,otpCheckButton].forEach {
-            view.addSubview($0)
-        }
-        
-        otpTextField.delegate = self
         setupConstraints()
+        setupTapGestures()
+        otpTextField.delegate = self
     }
     
-    func setupNavigationItems() {
-
+    private func setupTapGestures() {
+        otpCheckButton.addTarget(self, action: #selector(validateOTP), for: .touchUpInside)
+    }
+    
+    private func setupNavigationItems() {
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
-
     }
     
     @objc func goBack() {
@@ -107,8 +99,13 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     }
     
     func setupConstraints() {
+        
+        view.backgroundColor = .systemBackground
+        [otpTextField,otpCheckButton].forEach {
+            view.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
-
             otpTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 60),
             otpTextField.heightAnchor.constraint(equalToConstant: 50),
             otpTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),

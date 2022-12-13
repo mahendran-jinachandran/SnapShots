@@ -144,13 +144,15 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        navigationController?.isNavigationBarHidden = true
-        navigationItem.hidesBackButton = true
-                
+        setupNavigationItems()
         setupNotficationCenter()
         setupTapGestures()
         setupLoginPage()
+    }
+    
+    private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
+        navigationController?.isNavigationBarHidden = true
     }
     
     private func setupNotficationCenter() {

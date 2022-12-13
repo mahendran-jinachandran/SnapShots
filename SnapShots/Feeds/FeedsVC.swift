@@ -87,7 +87,7 @@ class FeedsVC: UIViewController {
         
         
         friendsMenuButton.menu = UIMenu(title: "", image: nil, children: [friendsAction])
-        
+
         let barButton = UIBarButtonItem(customView: friendsMenuButton)
         navigationItem.leftBarButtonItem = barButton
     }

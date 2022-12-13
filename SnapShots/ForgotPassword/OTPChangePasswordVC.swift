@@ -67,21 +67,17 @@ class OTPChangePasswordVC: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AppUtility.lockOrientation(.all)
-        self.setNeedsUpdateOfSupportedInterfaceOrientations()
-        
         title = "Password"
-        view.backgroundColor = .systemBackground
-
         setupNavigationItems()
+        setConstraints()
+        
         saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
         newPassword.delegate = self
         againNewPassword.delegate = self
-        
-        setConstraints()
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
     }

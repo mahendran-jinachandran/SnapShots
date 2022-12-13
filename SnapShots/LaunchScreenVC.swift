@@ -14,7 +14,8 @@ class LaunchScreenVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        AppUtility.lockOrientation(.portrait)
         SQLiteDatabase.shared.getDatabaseReady()
         UIImage().saveImage(imageName: Constants.noDPSavingFormat, image: UIImage(named: "blankPhoto")!)
 
