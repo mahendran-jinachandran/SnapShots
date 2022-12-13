@@ -88,6 +88,18 @@ class FriendsListVC: UIViewController {
 
 extension FriendsListVC: UITableViewDataSource,UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let profileVC = ProfileVC(
+            userID: friends[indexPath.row].userID,
+            isVisiting: true)
+        
+        let profileControls = ProfileControls()
+        profileVC.setController(profileControls)
+        
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friends.count
     }

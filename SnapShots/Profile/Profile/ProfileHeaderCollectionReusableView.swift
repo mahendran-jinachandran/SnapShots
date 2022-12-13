@@ -174,7 +174,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func setupTapGestures() {
-        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
+        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(uploadPhoto(_:)))
         profilePhoto.addGestureRecognizer(imagePicker)
         
         let openFriendsTap = UITapGestureRecognizer(target: self, action: #selector(showFriends(_:)))
@@ -188,10 +188,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         }
 
         NSLayoutConstraint.activate([
-            
             postContainer.widthAnchor.constraint(equalTo: profileAccessButton.widthAnchor),
             friendsContainer.widthAnchor.constraint(equalTo: postContainer.widthAnchor)
-            
         ])
     }
     
@@ -275,7 +273,10 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     @objc private func showFriends(_ sender : UITapGestureRecognizer) {
-        delegate?.getFriendsList()
+        
+        if profileAccessibility == .owner || profileAccessibility == .friend {
+            delegate?.getFriendsList()
+        }
     }
 }
 
@@ -287,7 +288,11 @@ extension ProfileHeaderCollectionReusableView {
         return super.preferredLayoutAttributesFitting(layoutAttributes)
     }
     
-    @objc func imagePress(_ sender : UITapGestureRecognizer) {
+    @objc func uploadPhoto(_ sender : UITapGestureRecognizer) {
+        
+        if profileAccessibility != .owner {
+            return
+        }
 
         let imagePicker = UIAlertController(title: "CHANGE DP", message: nil, preferredStyle: .actionSheet)
 
@@ -300,6 +305,9 @@ extension ProfileHeaderCollectionReusableView {
 
         imagePicker.addAction(UIAlertAction(title: "Remove", style: .default) { _ in
             self.profilePhoto.image = UIImage(named: "blankPhoto")
+            self.delegate?.uploadPhoto(image: self.profilePhoto.image!)
+            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
         })
         
         imagePicker.addAction(

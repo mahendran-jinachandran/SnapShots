@@ -120,7 +120,6 @@ class PhoneNumberVC: UIViewController {
             phoneNumberWarningLabel.topAnchor.constraint(equalTo: phoneNumberTextField.bottomAnchor,constant: 10),
             phoneNumberWarningLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             phoneNumberWarningLabel.widthAnchor.constraint(equalToConstant: 350),
-            phoneNumberWarningLabel.heightAnchor.constraint(equalToConstant: 40),
             phoneNumberWarningLabel.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor),
             
         ])

@@ -168,7 +168,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             friendsCount: profileUser.profile.friendsList.count,
             postsCount: posts.count,
             bio: profileUser.profile.bio,
-            profileDP: profileControls.getProfileDP(),
+            profileDP: profileControls.getProfileDP(userID: userID),
             profileAccessibility: profileAccessibility
         )
         
@@ -244,10 +244,8 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func editProfile() {
-        
         let editProfileControls = EditProfileControls()
         let editProfileVC = EditProfileVC(editProfileControls: editProfileControls, userID: userID, username: profileUser.userName, bio: profileUser.profile.bio)
-        
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     

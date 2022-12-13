@@ -45,8 +45,7 @@ class ProfileControls: ProfileControlsProtocols {
         return userDaoImp.getUserDetails(userID: userID)!
     }
     
-    func getProfileDP() -> UIImage {
-        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+    func getProfileDP(userID: Int) -> UIImage {
         return AppUtility.getDisplayPicture(userID: userID)
     }
     

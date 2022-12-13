@@ -10,7 +10,7 @@ import UIKit
 protocol ProfileControlsProtocols {
     func getProfileAccessibility(userID: Int) -> ProfileAccess
     func getUserDetails(userID: Int) -> User
-    func getProfileDP() -> UIImage
+    func getProfileDP(userID: Int) -> UIImage
     func getAllPosts(userID: Int) -> [Post]
     func sendFriendRequest(profileRequestedUser: Int) -> Bool
     func cancelFriendRequest(profileRequestedUser: Int) -> Bool

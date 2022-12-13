@@ -18,7 +18,6 @@ extension UIViewController {
         customCell.translatesAutoresizingMaskIntoConstraints = false
         leftImage.translatesAutoresizingMaskIntoConstraints = false
         rightImage.translatesAutoresizingMaskIntoConstraints = false
-        customCell.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         [leftImage,label,rightImage].forEach {
             customCell.addSubview($0)
@@ -30,10 +29,10 @@ extension UIViewController {
             leftImage.widthAnchor.constraint(equalToConstant: 26),
             leftImage.heightAnchor.constraint(equalToConstant: 26),
             
-            rightImage.topAnchor.constraint(equalTo: customCell.topAnchor,constant: 5),
+            rightImage.topAnchor.constraint(equalTo: customCell.topAnchor,constant: 7),
             rightImage.trailingAnchor.constraint(equalTo: customCell.trailingAnchor,constant: -10),
-            leftImage.widthAnchor.constraint(equalToConstant: 30),
-            leftImage.heightAnchor.constraint(equalToConstant: 36),
+            rightImage.widthAnchor.constraint(equalToConstant: 17),
+            rightImage.heightAnchor.constraint(equalToConstant: 18),
             
             label.topAnchor.constraint(equalTo: customCell.topAnchor,constant: 5),
             label.leadingAnchor.constraint(equalTo: leftImage.trailingAnchor,constant: 10),
