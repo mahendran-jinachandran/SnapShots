@@ -108,7 +108,11 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
     
     @objc func updateProfileDetails() {
      
-        editProfileControls.updateProfileDetails(username: usernameTextField.text!, profileBio: profileBioTextView.text!)
+        if !editProfileControls.updateProfileDetails(username: usernameTextField.text!, profileBio: profileBioTextView.text!) {
+            showToast(message: Constants.toastFailureStatus)
+            return
+        }
+        
         NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }

@@ -15,20 +15,11 @@ class EditProfileControls: EditProfileControlsProtocol {
         return AppUtility.validateUsername(username: username)
     }
     
-    func updateProfileDetails(username: String,profileBio: String) {
+    func updateProfileDetails(username: String,profileBio: String) -> Bool {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        if userDaoImp.updateUsername(username: username, userID: loggedUserID) {
-            print("Update username")
-        } else {
-            print("Could not update username")
-        }
-        
         let profileBio = profileBio.count > 0 ? profileBio : Constants.noUserBioDefault
-        if userDaoImp.updateBio(profileBio: profileBio, userID: loggedUserID) {
-            print("Update Bio")
-        } else {
-            print("Could not update Bio")
-        }
+
+        return userDaoImp.updateUsername(username: username, userID: loggedUserID) && userDaoImp.updateBio(profileBio: profileBio, userID: loggedUserID)
     }
 }
