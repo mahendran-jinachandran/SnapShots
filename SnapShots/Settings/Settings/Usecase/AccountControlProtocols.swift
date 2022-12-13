@@ -15,4 +15,5 @@ protocol AccountControlsProtocol {
     func updateBirthday(birthday: String) -> Bool
     func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError>
     func updatePhoneNumber(phoneNumber: String) -> Bool
+    func deleteAccount() -> Bool
 }

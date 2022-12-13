@@ -36,4 +36,9 @@ class AccountControls: AccountControlsProtocol {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return userDaoImp.updatePhoneNumber(phoneNumber: phoneNumber, userID: loggedUserID)
     }
+    
+    func deleteAccount() -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return userDaoImp.deleteAccount(userID: loggedUserID)
+    }
 }
