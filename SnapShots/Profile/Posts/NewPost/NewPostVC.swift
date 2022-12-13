@@ -21,6 +21,21 @@ class NewPostVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
+    
     private lazy var postImage: UIImageView = {
        let postImage = UIImageView(frame: .zero)
         postImage.image = UIImage(named: "blankPhoto")
@@ -63,10 +78,12 @@ class NewPostVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.backgroundColor = .systemBackground
         
         setupNavigationItems()
         setupTapGestures()
         setupProfileConstraints()
+        setupNotificationCenter()
     }
     
     private func setupNavigationItems()  {
@@ -82,28 +99,48 @@ class NewPostVC: UIViewController {
         uploadLabel.addGestureRecognizer(uploadTap)
     }
     
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
     private func setupProfileConstraints() {
         
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        
         [postImage,captionLabel,caption].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
         
         NSLayoutConstraint.activate([
             
-            postImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 30),
-            postImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
-            postImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            postImage.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 30),
+            postImage.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 30),
+            postImage.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -30),
             postImage.heightAnchor.constraint(equalToConstant: 300),
             
             captionLabel.topAnchor.constraint(equalTo: postImage.bottomAnchor,constant: 20),
-            captionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
-            captionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
+            captionLabel.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 30),
+            captionLabel.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -30),
             captionLabel.heightAnchor.constraint(equalToConstant: 30),
             
             caption.topAnchor.constraint(equalTo: captionLabel.bottomAnchor),
-            caption.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
-            caption.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -30),
-            caption.heightAnchor.constraint(equalToConstant: 100)
+            caption.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 30),
+            caption.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -30),
+            caption.heightAnchor.constraint(equalToConstant: 100),
+            caption.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         
         ])
     }
@@ -117,6 +154,34 @@ class NewPostVC: UIViewController {
         
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private var contentInsetBackstore: UIEdgeInsets = .zero
+    @objc private func didKeyboardAppear(notification:Notification){
+        
+        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+        }
+        
+        if contentInsetBackstore != .zero {
+            return
+        }
+        
+        if contentInsetBackstore == .zero {
+            contentInsetBackstore = scrollView.contentInset
+        }
+        
+        scrollView.contentInset = UIEdgeInsets(
+            top: contentInsetBackstore.top,
+            left: contentInsetBackstore.left,
+            bottom: keyboardFrame.height,
+            right: contentInsetBackstore.right
+        )
+    }
+    
+    @objc private func didKeyboardDisappear(notification:Notification){
+        scrollView.contentInset = contentInsetBackstore
+        contentInsetBackstore = .zero
     }
 }
 

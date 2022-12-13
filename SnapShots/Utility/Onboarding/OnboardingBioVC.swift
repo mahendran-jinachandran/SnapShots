@@ -98,7 +98,7 @@ class OnboardingBioVC: UIViewController {
     }
     
     private func setupTapGestures() {
-        skipButton.addTarget(self, action: #selector(goToHomePage), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipProcess), for: .touchUpInside)
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
     }
@@ -130,6 +130,10 @@ class OnboardingBioVC: UIViewController {
     }
     
     @objc private func goToHomePage() {
+        self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
+    }
+    
+    @objc private func skipProcess() {
         _ = onboardingControls.updateBio(bio: Constants.noUserBioDefault)
         self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }

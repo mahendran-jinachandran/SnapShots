@@ -147,13 +147,17 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.isNavigationBarHidden = false
         view.backgroundColor = .systemBackground
         
+        setupNavigationItems()
         setupNotficationCenter()
         setupTapGestures()
         createRegisterStackView()
-        passwordVisibilityToggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
+    }
+    
+    private func setupNavigationItems() {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
     private func setupNotficationCenter() {
@@ -166,6 +170,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         view.addGestureRecognizer(screenTap)
         
         registerButton.addTarget(self, action: #selector(registerValidation), for: .touchUpInside)
+        passwordVisibilityToggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
     }
         
     private func createRegisterStackView() {

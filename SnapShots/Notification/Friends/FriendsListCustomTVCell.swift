@@ -102,7 +102,7 @@ class FriendsListCustomTVCell: UITableViewCell {
             profilePhoto.widthAnchor.constraint(equalToConstant: 50),
             
             userNameLabel.centerYAnchor.constraint(equalTo: profilePhoto.centerYAnchor),
-            userNameLabel.centerXAnchor.constraint(equalTo: profilePhoto.centerXAnchor,constant: 57),
+            userNameLabel.centerXAnchor.constraint(equalTo: profilePhoto.centerXAnchor,constant: 80),
             
             followUser.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -10),
             followUser.topAnchor.constraint(equalTo: self.topAnchor,constant: 15),

@@ -9,11 +9,13 @@ import UIKit
 
 class FriendsListVC: UIViewController {
     
+    private var userID: Int
     private var friends: [User] = []
     private var friendsControls: FriendsControlsProtocol
   
     // MARK: SEND USER-ID TO DISPLAY ALL THE USER'S FRIENDS
-    init(friendsControls: FriendsControlsProtocol) {
+    init(userID:Int,friendsControls: FriendsControlsProtocol) {
+        self.userID = userID
         self.friendsControls = friendsControls
         super.init(nibName: nil, bundle: nil)
     }
@@ -35,6 +37,14 @@ class FriendsListVC: UIViewController {
        friendsListTable.translatesAutoresizingMaskIntoConstraints = false
        return friendsListTable
     }()
+    
+    private lazy var noFriendsLabel: UILabel = {
+       let noFriendsLabel = UILabel()
+        noFriendsLabel.text = "No Friends"
+        noFriendsLabel.textColor = .gray
+        noFriendsLabel.textAlignment = .center
+        return noFriendsLabel
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +52,7 @@ class FriendsListVC: UIViewController {
         title = "Friends"
         setupNavigationItems()
         setupFriendsListTable()
-        setScreenConstraints()
+        setFriendsListTableConstraints()
     }
     
     private func setupNavigationItems() {
@@ -50,15 +60,22 @@ class FriendsListVC: UIViewController {
     }
     
     private func setupFriendsListTable() {
-        friends = friendsControls.getAllFriends()
         friendsListTable.bounces = false
         friendsListTable.delegate = self
         friendsListTable.dataSource = self
         friendsListTable.register(FriendsListCustomTVCell.self, forCellReuseIdentifier: FriendsListCustomTVCell.identifier)
         friendsListTable.separatorStyle = .none
+        friendsListTable.backgroundView = noFriendsLabel
+        
+        friends = friendsControls.getAllFriends(userID: userID)
+        if friends.isEmpty {
+            friendsListTable.backgroundView?.alpha = 1.0
+        } else {
+            friendsListTable.backgroundView?.alpha = 0.0
+        }
     }
     
-    private func setScreenConstraints() {
+    private func setFriendsListTableConstraints() {
         view.addSubview(friendsListTable)
         NSLayoutConstraint.activate([
             friendsListTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -86,6 +103,7 @@ extension FriendsListVC: UITableViewDataSource,UITableViewDelegate {
         cell.configure(
             userDP: profilePhoto,
             username: friends[indexPath.row].userName)
+       
         return cell
     }
 }

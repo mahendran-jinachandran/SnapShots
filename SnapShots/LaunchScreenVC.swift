@@ -17,7 +17,7 @@ class LaunchScreenVC: UIViewController {
 
         SQLiteDatabase.shared.getDatabaseReady()
         UIImage().saveImage(imageName: Constants.noDPSavingFormat, image: UIImage(named: "blankPhoto")!)
-        AppUtility.lockOrientation(.portrait)
+
         
         launchScreenAnimation = .init(name: "SocialMediaLaunchScreen")
         launchScreenAnimation.frame = view.bounds
@@ -43,8 +43,9 @@ class LaunchScreenVC: UIViewController {
 
                     loginController.setView(loginViewController)
                     loginViewController.setController(loginController)
-
-                    self.navigationController?.pushViewController(loginViewController, animated: true)
+                    
+                    self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
+                    
                 }
             }
         }

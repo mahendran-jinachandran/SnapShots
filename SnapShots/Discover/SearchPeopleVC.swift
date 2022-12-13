@@ -24,6 +24,14 @@ class SearchPeopleVC: UIViewController {
         recentSearchTable.translatesAutoresizingMaskIntoConstraints = false
        return recentSearchTable
     }()
+    
+    private lazy var searchEmptyLabel: UILabel = {
+       let searchEmptyLabel = UILabel()
+        searchEmptyLabel.text = "Search not found"
+        searchEmptyLabel.textColor = .gray
+        searchEmptyLabel.textAlignment = .center
+        return searchEmptyLabel
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +61,8 @@ class SearchPeopleVC: UIViewController {
         searchTable.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
         searchTable.bounces = false
         searchTable.separatorStyle = .none
+        searchTable.backgroundView = searchEmptyLabel
+        searchTable.backgroundView?.alpha = 0.0
     }
     
     private func setupNotificationSubscription() {
@@ -110,7 +120,7 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
 
 extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+
         if searchText.isEmpty {
             dupPeople = people
             searchTable.reloadData()
@@ -120,14 +130,13 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         let data = people.filter( {
             $0.userName.contains(searchText)
         })
-        
-        // MARK: SHOW THE SEARCHED RESULTS IS EMPTY BY USING LABEL AS TABLE VIEW BACKGROUND VIEW AS DONE IN NOTIFICATIONS - USE BACKGROUND VIEW
-        if data.isEmpty {
-        }
-        
+
+        searchTable.backgroundView?.alpha = data.isEmpty ? 1.0 : 0.0
+
         dupPeople = data
         searchTable.reloadData()
     }
+    
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""

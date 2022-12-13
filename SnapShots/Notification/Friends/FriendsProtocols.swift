@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FriendsControlsProtocol {
-    func getAllFriends() -> [User]
+    func getAllFriends(userID: Int) -> [User]
 }

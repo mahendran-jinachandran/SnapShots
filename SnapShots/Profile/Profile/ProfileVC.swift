@@ -259,7 +259,7 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     @objc func getFriendsList() {
         
         let friendsControls = FriendsControls()
-        let friendsListVC = FriendsListVC(friendsControls: friendsControls)
+        let friendsListVC = FriendsListVC(userID: userID, friendsControls: friendsControls)
         
         self.navigationController?.pushViewController(friendsListVC, animated: true)
     }

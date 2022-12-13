@@ -35,6 +35,20 @@ class FeedsVC: UIViewController {
         noPostsLabel.textAlignment = .center
         return noPostsLabel
     }()
+    
+    private lazy var friendsMenuButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.showsMenuAsPrimaryAction = true
+        button.titleLabel?.font = UIFont(name: "Billabong", size: 30)
+        button.setTitle("Snapshots ", for: .normal)
+        button.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        button.setImage(UIImage(systemName: "chevron.down")!, for: .normal)
+        button.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        button.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        button.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        button.tintColor = UIColor(named: "appTheme")!
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,21 +77,18 @@ class FeedsVC: UIViewController {
         let friendsAction = UIAction(
           title: "Friends",
           image: UIImage(systemName: "person.3.fill")) { _ in
+              
+              let friendsControls = FriendsControls()
+              let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+              let friendsListVC = FriendsListVC(userID: userID, friendsControls: friendsControls)
+              
+              self.navigationController?.pushViewController(friendsListVC, animated: true)
         }
         
-        let button  = UIButton(type: .custom)
-        button.showsMenuAsPrimaryAction = true
-        button.titleLabel?.font = UIFont(name: "Billabong", size: 30)
-        button.setTitle("Snapshots ", for: .normal)
-        button.setTitleColor(UIColor(named: "appTheme"), for: .normal)
-        button.setImage(UIImage(systemName: "chevron.down")!, for: .normal)
-        button.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        button.tintColor = UIColor(named: "appTheme")!
-        button.menu = UIMenu(title: "", image: nil, children: [friendsAction])
         
-        let barButton = UIBarButtonItem(customView: button)
+        friendsMenuButton.menu = UIMenu(title: "", image: nil, children: [friendsAction])
+        
+        let barButton = UIBarButtonItem(customView: friendsMenuButton)
         navigationItem.leftBarButtonItem = barButton
     }
     
