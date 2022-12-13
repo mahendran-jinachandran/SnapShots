@@ -625,11 +625,11 @@
 		BFDD55942937205C00DC8D68 /* ForgotPassword */ = {
 			isa = PBXGroup;
 			children = (
-				BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */,
 				BFDD55D32937379D00DC8D68 /* AuthManager.swift */,
-				BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */,
+				BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */,
 				BFDD55D729373FDE00DC8D68 /* OTPScreenVC.swift */,
 				BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */,
+				BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */,
 			);
 			path = ForgotPassword;
 			sourceTree = "<group>";

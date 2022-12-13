@@ -8,8 +8,7 @@
 import UIKit
 
 class OTPChangePasswordVC: UIViewController,UITextFieldDelegate {
-    
-    
+
     var phoneNumber: String
     init(phoneNumber: String) {
         self.phoneNumber = phoneNumber
@@ -68,17 +67,27 @@ class OTPChangePasswordVC: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        AppUtility.lockOrientation(.all)
+        self.setNeedsUpdateOfSupportedInterfaceOrientations()
+        
         title = "Password"
         view.backgroundColor = .systemBackground
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-        
-        navigationItem.hidesBackButton = true
+
+        setupNavigationItems()
         saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
         newPassword.delegate = self
         againNewPassword.delegate = self
         
         setConstraints()
+    }
+    
+    private func setupNavigationItems() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+    }
+    
+    @objc func goBack() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     var isNewPasswordEntered: Bool = false

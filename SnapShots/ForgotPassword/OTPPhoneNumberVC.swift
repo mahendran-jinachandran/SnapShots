@@ -8,6 +8,21 @@
 import UIKit
 
 class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
 
     private lazy var phoneNumberLabel: UILabel = {
         var phoneNumber = UILabel()
@@ -53,6 +68,14 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         phoneNumberLabel.heightAnchor.constraint(equalToConstant: 12).isActive  = true
         return phoneNumberLabel
     }()
+    
+    private lazy var blurEffect: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return blurEffectView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,45 +84,54 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
         [phoneNumberLabel,phoneNumber,phoneNumberWarningLabel,sendOTPButton].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
 
         phoneNumber.delegate = self
         setupConstraints()
 
         sendOTPButton.addTarget(self, action: #selector(validatePhoneNumber), for: .touchUpInside)
+        
+        setupNotificationCenter()
+    }
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     @objc func validatePhoneNumber() {
         if AppUtility.validatePhoneNumber(phoneNumber: phoneNumber.text!) == .success(false){
             phoneNumberWarningLabel.isHidden = true
-            print("Registered")
+            phoneNumber.resignFirstResponder()
+            sendOTP()
         } else {
             phoneNumberWarningLabel.isHidden = false
-            print("Not registered")
         }
     }
     
     @objc func sendOTP() {
-        
+
         if let phoneNumber = phoneNumber.text,!phoneNumber.isEmpty {
             AuthManager.shared.startAuth(phoneNumber: "+91\(phoneNumber)") { [weak self] success in
-                
-             
+
                 if !success {
-                    self!.stopAnimating()
+                    self!.unblurTheScreen()
+                    self!.showToast(message: Constants.toastFailureStatus)
                     return
                 }
 
                 DispatchQueue.main.async {
-                    self!.stopAnimating()
+                    self!.unblurTheScreen()
                     self?.navigationController?.pushViewController(OTPScreenVC(phoneNumber: phoneNumber), animated: true)
-                    
                 }
             }
-            
-            self.startLoadingActivityIndicator()
+
+            blurTheScreen()
         }
     }
 
@@ -114,31 +146,59 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            phoneNumberLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
-            phoneNumberLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            phoneNumberLabel.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 20),
+            phoneNumberLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             phoneNumberLabel.heightAnchor.constraint(equalToConstant: 60),
             phoneNumberLabel.widthAnchor.constraint(equalToConstant: 200),
             
             phoneNumber.topAnchor.constraint(equalTo: phoneNumberLabel.bottomAnchor,constant: 20),
             phoneNumber.heightAnchor.constraint(equalToConstant: 50),
-            phoneNumber.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
-            phoneNumber.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
+            phoneNumber.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 20),
+            phoneNumber.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -20),
             
             phoneNumberWarningLabel.topAnchor.constraint(equalTo: phoneNumber.bottomAnchor,constant: 20),
-            phoneNumberWarningLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            phoneNumberWarningLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             
             sendOTPButton.topAnchor.constraint(equalTo: phoneNumberWarningLabel.bottomAnchor,constant: 20),
             
-            sendOTPButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sendOTPButton.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             sendOTPButton.heightAnchor.constraint(equalToConstant: 40),
-            sendOTPButton.widthAnchor.constraint(equalToConstant: 100)
+            sendOTPButton.widthAnchor.constraint(equalToConstant: 100),
+            sendOTPButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
     }
     
+    private func blurTheScreen() {
+        self.startLoadingActivityIndicator()
+        view.addSubview(blurEffect)
+        view.isUserInteractionEnabled = false
+        navigationController?.navigationBar.isUserInteractionEnabled = false
+    }
+    
+    private func unblurTheScreen() {
+        self.stopAnimating()
+        self.blurEffect.removeFromSuperview()
+        self.view.isUserInteractionEnabled = true
+        navigationController?.navigationBar.isUserInteractionEnabled = true
+    }
+    
+    
     var activityIndicatorView: UIActivityIndicatorView!
-    func startLoadingActivityIndicator() {
+    private func startLoadingActivityIndicator() {
         activityIndicatorView = UIActivityIndicatorView(style: .medium)
-        self.view.addSubview(activityIndicatorView)
+        self.blurEffect.contentView.addSubview(activityIndicatorView)
         
     
         activityIndicatorView.frame = CGRect(
@@ -150,8 +210,36 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         activityIndicatorView.startAnimating()
     }
     
-    func stopAnimating() {
+    private func stopAnimating() {
         activityIndicatorView.stopAnimating()
         activityIndicatorView.removeFromSuperview()
+    }
+    
+    private var contentInsetBackstore: UIEdgeInsets = .zero
+    @objc private func didKeyboardAppear(notification:Notification){
+        
+        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+        }
+        
+        if contentInsetBackstore != .zero {
+            return
+        }
+        
+        if contentInsetBackstore == .zero {
+            contentInsetBackstore = scrollView.contentInset
+        }
+        
+        scrollView.contentInset = UIEdgeInsets(
+            top: contentInsetBackstore.top,
+            left: contentInsetBackstore.left,
+            bottom: keyboardFrame.height,
+            right: contentInsetBackstore.right
+        )
+    }
+    
+    @objc private func didKeyboardDisappear(notification:Notification){
+        scrollView.contentInset = contentInsetBackstore
+        contentInsetBackstore = .zero
     }
 }

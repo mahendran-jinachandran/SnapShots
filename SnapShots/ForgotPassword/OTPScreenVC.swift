@@ -46,8 +46,12 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        AppUtility.lockOrientation(.all)
+        self.setNeedsUpdateOfSupportedInterfaceOrientations()
 
-        navigationItem.hidesBackButton = true
+        setupNavigationItems()
+        
         otpCheckButton.addTarget(self, action: #selector(validateOTP), for: .touchUpInside)
         
         view.backgroundColor = .systemBackground
@@ -57,6 +61,17 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
         
         otpTextField.delegate = self
         setupConstraints()
+    }
+    
+    func setupNavigationItems() {
+
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
+
+    }
+    
+    @objc func goBack() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -69,26 +84,26 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     @objc func validateOTP() {
         if let text = otpTextField.text, !text.isEmpty {
             let code = text
-            
+
             AuthManager.shared.verifyOTP(code: code) { [weak self] success in
                 guard success else {
-                    
+
                     let otpAlert=UIAlertController(title: "OTP", message: "Invalid OTP", preferredStyle: .alert)
-                    
+
                     otpAlert.addAction(UIAlertAction(title: "Retry", style: .default){ _ in
                         OTPPhoneNumberVC().sendOTP()
                     })
-                    
+
                     otpAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                                       
+
                     self?.present(otpAlert, animated: true)
                     return
                 }
-                
-                self?.navigationController?.pushViewController(OTPChangePasswordVC(phoneNumber: self!.phoneNumber), animated: true)
 
+                self?.navigationController?.pushViewController(OTPChangePasswordVC(phoneNumber: self!.phoneNumber), animated: true)
             }
         }
+
     }
     
     func setupConstraints() {

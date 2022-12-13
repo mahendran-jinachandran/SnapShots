@@ -18,7 +18,6 @@ class LaunchScreenVC: UIViewController {
         SQLiteDatabase.shared.getDatabaseReady()
         UIImage().saveImage(imageName: Constants.noDPSavingFormat, image: UIImage(named: "blankPhoto")!)
 
-        
         launchScreenAnimation = .init(name: "SocialMediaLaunchScreen")
         launchScreenAnimation.frame = view.bounds
         launchScreenAnimation.contentMode = .scaleAspectFit
