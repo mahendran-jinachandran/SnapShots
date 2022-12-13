@@ -17,36 +17,19 @@ class AccountControls: AccountControlsProtocol {
     }
     
     func updateEmail(email: String) -> Bool {
-        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        
-        if !AppUtility.isValidEmail(email){
-            return false
-        }
-        
-        return userDaoImp.updateMail(mailID: email, userID: loggedUserID)
-   
+        return AppUtility.updateEmail(email: email)
     }
     
     func updateGender(gender: String) -> Bool {
-        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        return userDaoImp.updateGender(gender: gender, userID: loggedUserID)
+        return AppUtility.updateGender(gender: gender)
     }
     
     func updateBirthday(birthday: String) -> Bool {
-        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        return userDaoImp.updateAge(age: birthday, userID: loggedUserID)
+        return AppUtility.updateBirthday(birthday: birthday)
     }
     
     func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
-        
-        let isValidPhoneNumber = AppUtility.isValidPhoneNumber(phoneNumber: phoneNumber)
-        
-        guard let _ = try? isValidPhoneNumber.get() else {
-            return isValidPhoneNumber
-        }
-        
-        let isPhoneNumberTaken = userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber)
-        return .success(!isPhoneNumberTaken)
+        return AppUtility.validatePhoneNumber(phoneNumber: phoneNumber)
     }
     
     func updatePhoneNumber(phoneNumber: String) -> Bool {

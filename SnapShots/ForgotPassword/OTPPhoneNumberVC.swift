@@ -8,7 +8,7 @@
 import UIKit
 
 class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
-    
+
     private lazy var phoneNumberLabel: UILabel = {
         var phoneNumber = UILabel()
         phoneNumber.translatesAutoresizingMaskIntoConstraints = false
@@ -42,6 +42,17 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         sendOTPButton.layer.cornerRadius = 5
         return sendOTPButton
     }()
+    
+    private lazy var phoneNumberWarningLabel: UILabel = {
+        let phoneNumberLabel = UILabel()
+        phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        phoneNumberLabel.text = Constants.unregisteredPhoneNumberWarning
+        phoneNumberLabel.textColor = .red
+        phoneNumberLabel.font = UIFont.systemFont(ofSize: 10)
+        phoneNumberLabel.isHidden = true
+        phoneNumberLabel.heightAnchor.constraint(equalToConstant: 12).isActive  = true
+        return phoneNumberLabel
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +61,24 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         
-        [phoneNumberLabel,phoneNumber,sendOTPButton].forEach {
+        [phoneNumberLabel,phoneNumber,phoneNumberWarningLabel,sendOTPButton].forEach {
             view.addSubview($0)
         }
 
         phoneNumber.delegate = self
         setupConstraints()
 
-        sendOTPButton.addTarget(self, action: #selector(sendOTP), for: .touchUpInside)
+        sendOTPButton.addTarget(self, action: #selector(validatePhoneNumber), for: .touchUpInside)
+    }
+    
+    @objc func validatePhoneNumber() {
+        if AppUtility.validatePhoneNumber(phoneNumber: phoneNumber.text!) == .success(false){
+            phoneNumberWarningLabel.isHidden = true
+            print("Registered")
+        } else {
+            phoneNumberWarningLabel.isHidden = false
+            print("Not registered")
+        }
     }
     
     @objc func sendOTP() {
@@ -65,20 +86,25 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         if let phoneNumber = phoneNumber.text,!phoneNumber.isEmpty {
             AuthManager.shared.startAuth(phoneNumber: "+91\(phoneNumber)") { [weak self] success in
                 
+             
                 if !success {
+                    self!.stopAnimating()
                     return
                 }
 
                 DispatchQueue.main.async {
-                    
+                    self!.stopAnimating()
                     self?.navigationController?.pushViewController(OTPScreenVC(phoneNumber: phoneNumber), animated: true)
+                    
                 }
             }
+            
+            self.startLoadingActivityIndicator()
         }
     }
 
     func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
-        return self.textLimit(existingText: textField.text,newText: string,limit: 10)
+        return self.textLimit(existingText: textField.text,newText: string,limit: 15)
     }
 
     private func textLimit(existingText: String?,newText: String,limit: Int) -> Bool {
@@ -98,10 +124,34 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
             phoneNumber.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
             phoneNumber.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
             
-            sendOTPButton.topAnchor.constraint(equalTo: phoneNumber.bottomAnchor,constant: 20),
+            phoneNumberWarningLabel.topAnchor.constraint(equalTo: phoneNumber.bottomAnchor,constant: 20),
+            phoneNumberWarningLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            sendOTPButton.topAnchor.constraint(equalTo: phoneNumberWarningLabel.bottomAnchor,constant: 20),
+            
             sendOTPButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             sendOTPButton.heightAnchor.constraint(equalToConstant: 40),
             sendOTPButton.widthAnchor.constraint(equalToConstant: 100)
         ])
+    }
+    
+    var activityIndicatorView: UIActivityIndicatorView!
+    func startLoadingActivityIndicator() {
+        activityIndicatorView = UIActivityIndicatorView(style: .medium)
+        self.view.addSubview(activityIndicatorView)
+        
+    
+        activityIndicatorView.frame = CGRect(
+            x: view.frame.size.width / 2 ,
+            y: view.frame.size.height / 2 ,
+            width: 50,
+            height: 50)
+        
+        activityIndicatorView.startAnimating()
+    }
+    
+    func stopAnimating() {
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.removeFromSuperview()
     }
 }

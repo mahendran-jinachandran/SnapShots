@@ -31,27 +31,10 @@ class RegisterControls: RegisterControllerProtocol {
     }
     
     func validateUsername(username: String) -> Result<Bool,UsernameError> {
-        
-        let isValidUsername = AppUtility.isValidUsername(username: username)
-        
-        guard let _ = try? isValidUsername.get() else {
-            return isValidUsername
-        }
-        
-
-        let isUsernameTaken = userDaoImp.isUsernameAlreadyExist(username: username)
-        return .success(!isUsernameTaken)
+        return AppUtility.validateUsername(username: username)
     }
     
     func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
-        
-        let isValidPhoneNumber = AppUtility.isValidPhoneNumber(phoneNumber: phoneNumber)
-        
-        guard let _ = try? isValidPhoneNumber.get() else {
-            return isValidPhoneNumber
-        }
-        
-        let isPhoneNumberTaken = userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber)
-        return .success(!isPhoneNumberTaken)
+        return AppUtility.validatePhoneNumber(phoneNumber: phoneNumber)
     }
 }

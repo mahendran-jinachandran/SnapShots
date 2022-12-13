@@ -8,6 +8,8 @@
 import UIKit
 
 class AppUtility {
+    
+    static private var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
 
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
         if let delegate = UIApplication.shared.delegate as? AppDelegate {
@@ -31,8 +33,7 @@ class AppUtility {
         
         return .success(true)
     }
-    
-    
+
     static func isValidPhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
         
         if phoneNumber.isEmpty {
@@ -68,5 +69,50 @@ class AppUtility {
         
         return UIImage().loadImageFromDiskWith(
             fileName: "\(userID)\(Constants.postSavingFormat)\(postID)")!
+    }
+    
+    static func updateEmail(email: String) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
+        if !AppUtility.isValidEmail(email){
+            return false
+        }
+        
+        return userDaoImp.updateMail(mailID: email, userID: loggedUserID)
+    }
+    
+    static func updateGender(gender: String) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return userDaoImp.updateGender(gender: gender, userID: loggedUserID)
+    }
+    
+    static func updateBirthday(birthday: String) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return userDaoImp.updateAge(age: birthday, userID: loggedUserID)
+    }
+    
+    static func validatePhoneNumber(phoneNumber: String) -> Result<Bool,PhoneNumberError> {
+        
+        let isValidPhoneNumber = isValidPhoneNumber(phoneNumber: phoneNumber)
+        
+        guard let _ = try? isValidPhoneNumber.get() else {
+            return isValidPhoneNumber
+        }
+        
+        let isPhoneNumberTaken = userDaoImp.isPhoneNumberAlreadyExist(phoneNumber: phoneNumber)
+        return .success(!isPhoneNumberTaken)
+    }
+    
+    static func validateUsername(username: String) -> Result<Bool,UsernameError> {
+        
+        let isValidUsername = AppUtility.isValidUsername(username: username)
+        
+        guard let _ = try? isValidUsername.get() else {
+            return isValidUsername
+        }
+        
+
+        let isUsernameTaken = userDaoImp.isUsernameAlreadyExist(username: username)
+        return .success(!isUsernameTaken)
     }
 }

@@ -76,6 +76,6 @@ class AccountVC: UIViewController {
     }
     
     @objc func showPersonalInformation() {
-        navigationController?.pushViewController(PersonalInformationVC(), animated: true)
+        navigationController?.pushViewController(PersonalInformationVC(accountControls: accountControls), animated: true)
     }
 }

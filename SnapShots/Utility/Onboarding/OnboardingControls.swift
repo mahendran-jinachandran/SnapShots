@@ -15,36 +15,24 @@ class OnboardingControls: OnboardingProtocol {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         let photoName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
         profilePhoto.saveImage(imageName: photoName,image: profilePhoto)
-        
         return userDao.updatePhoto(photo: photoName, userID: loggedUserID) 
     }
     
     func updateEmail(email: String) -> Bool {
-        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        
-        if !AppUtility.isValidEmail(email){
-            return false
-        }
-        
-        return userDao.updateMail(mailID: email, userID: loggedUserID)
+        return AppUtility.updateEmail(email: email)
     }
     
     func updateGender(gender: String) -> Bool {
-        
-        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        return userDao.updateGender(gender: gender, userID: loggedUserID)
+        return AppUtility.updateGender(gender: gender)
     }
     
     func updateBirthday(birthday: String) -> Bool {
-        
-        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        return userDao.updateAge(age: birthday, userID: loggedUserID) 
+        return AppUtility.updateBirthday(birthday: birthday)
     }
     
     func updateBio(bio: String) -> Bool {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return userDao.updateBio(profileBio: bio, userID: loggedUserID)
-   
     }
 }

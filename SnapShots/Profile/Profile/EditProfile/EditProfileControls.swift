@@ -12,16 +12,7 @@ class EditProfileControls: EditProfileControlsProtocol {
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
     func validateUsername(username: String) -> Result<Bool,UsernameError> {
-        
-        let isValidUsername = AppUtility.isValidUsername(username: username)
-        
-        guard let _ = try? isValidUsername.get() else {
-            return isValidUsername
-        }
-        
-
-        let isUsernameTaken = userDaoImp.isUsernameAlreadyExist(username: username)
-        return .success(!isUsernameTaken)
+        return AppUtility.validateUsername(username: username)
     }
     
     func updateProfileDetails(username: String,profileBio: String) {
@@ -34,7 +25,6 @@ class EditProfileControls: EditProfileControlsProtocol {
         }
         
         let profileBio = profileBio.count > 0 ? profileBio : Constants.noUserBioDefault
-        
         if userDaoImp.updateBio(profileBio: profileBio, userID: loggedUserID) {
             print("Update Bio")
         } else {
