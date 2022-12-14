@@ -10,7 +10,7 @@ import Firebase
 
 class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 
-    let genders = ["Male","Female"]
+    let genders = [Constants.MALE,Constants.FEMALE]
     var pickerView = UIPickerView()
     
     private var onboardingControls: OnboardingProtocol

@@ -8,6 +8,13 @@
 import Foundation
 
 class LikesDaoImplementation: LikesDao {
+    
+    private let TABLE_NAME = "Likes"
+    private let USER_ID = "User_id"
+    private let POST_ID = "Post_id"
+    private let LIKEDUSER_ID = "LikedUser_id"
+    
+    
     private let sqliteDatabase: DatabaseProtocol
     private var userDaoImp: UserDao
     init(sqliteDatabase: DatabaseProtocol,userDaoImp: UserDao) {
@@ -17,9 +24,11 @@ class LikesDaoImplementation: LikesDao {
     
     func isPostAlreadyLiked(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {
         let getLikesOfPostQuery = """
-        SELECT LikedUser_id FROM Likes
-        WHERE User_id = \(visitingUserID) AND Post_id = \(postID)
-        AND LikedUser_id = \(loggedUserID);
+        SELECT \(LIKEDUSER_ID)
+        FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(visitingUserID)
+        AND \(POST_ID) = \(postID)
+        AND \(LIKEDUSER_ID) = \(loggedUserID);
         """
         
         return !sqliteDatabase.retrievingQuery(query: getLikesOfPostQuery).isEmpty
@@ -28,7 +37,7 @@ class LikesDaoImplementation: LikesDao {
     func addLikeToThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {
         
         let insertIntoDB = """
-        INSERT INTO Likes
+        INSERT INTO \(TABLE_NAME)
         VALUES (\(visitingUserID),\(postID),\(loggedUserID));
         """
     
@@ -37,8 +46,10 @@ class LikesDaoImplementation: LikesDao {
     
     func removeLikeFromThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {
         let removeFromDB = """
-        DELETE FROM Likes
-        WHERE User_id = \(visitingUserID) AND Post_id = \(postID) AND LikedUser_id = \(loggedUserID)
+        DELETE FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(visitingUserID)
+        AND \(POST_ID) = \(postID)
+        AND \(LIKEDUSER_ID) = \(loggedUserID)
         """
         
         return sqliteDatabase.execute(query: removeFromDB)
@@ -46,8 +57,10 @@ class LikesDaoImplementation: LikesDao {
     
     func getAllLikesOfPost(userID: Int,postID: Int) -> [User] {
         let getLikesOfPostQuery = """
-        SELECT LikedUser_id FROM Likes
-        WHERE User_id = \(userID) AND Post_id = \(postID);
+        SELECT \(LIKEDUSER_ID)
+        FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(userID)
+        AND \(POST_ID) = \(postID);
         """
         
         var likedUsers: [User] = []

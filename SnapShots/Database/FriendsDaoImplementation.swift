@@ -10,7 +10,9 @@ import UIKit
 
 class FriendsDaoImplementation: FriendsDao {
 
-    
+    private let TABLE_NAME = "Friends"
+    private let USER_ID = "User_id"
+    private let FRIENDS_ID = "Friends_id"
     
     private let sqliteDatabase: DatabaseProtocol
     private let userDaoImplementation: UserDao
@@ -23,8 +25,9 @@ class FriendsDaoImplementation: FriendsDao {
     func isUserFriends(loggedUserID: Int,visitingUserID: Int) -> Bool {
         
         let isUserFriendsQuery = """
-        SELECT * FROM Friends WHERE User_id = \(loggedUserID)
-        AND Friends_id = \(visitingUserID);
+        SELECT * FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(loggedUserID)
+        AND \(FRIENDS_ID) = \(visitingUserID);
         """
         
         return !sqliteDatabase.retrievingQuery(query: isUserFriendsQuery).isEmpty
@@ -32,7 +35,9 @@ class FriendsDaoImplementation: FriendsDao {
     
     func getIDsOfFriends(userID: Int) -> Set<Int> {
         let getFriendIDsQuery = """
-        SELECT Friends_id FROM Friends WHERE User_id = \(userID);
+        SELECT \(FRIENDS_ID)
+        FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(userID);
         """
         
         var myFriendIDs: Set<Int> = []
@@ -62,13 +67,15 @@ class FriendsDaoImplementation: FriendsDao {
     func removeFriend(loggedUserID: Int, removingUserID: Int) -> Bool {
         
         let removingFriendRequestRemovingUserQuery = """
-        DELETE FROM Friends
-        WHERE User_id = \(loggedUserID) AND Friends_id = \(removingUserID);
+        DELETE FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(loggedUserID)
+        AND \(FRIENDS_ID) = \(removingUserID);
         """
         
         let removingFriendRequestRequestedUserQuery = """
-        DELETE FROM Friends
-        WHERE User_id = \(removingUserID) AND Friends_id = \(loggedUserID);
+        DELETE FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(removingUserID)
+        AND \(FRIENDS_ID) = \(loggedUserID);
         """
         
         return sqliteDatabase.execute(query: removingFriendRequestRemovingUserQuery) && sqliteDatabase.execute(query: removingFriendRequestRequestedUserQuery)

@@ -25,7 +25,7 @@ class AppUtility {
     }
     
     static func isValidUsername(username: String) -> Result<Bool,UsernameError> {
-        if username.isEmpty {
+        if username.isEmpty || username.trimmingCharacters(in: .whitespaces).count == 0 {
             return .failure(.cannotBeEmpty)
         } else if username.count < Constants.miniumUsernameLength || username.count > Constants.maximumUsernameLength {
             return .failure(.invalidNumberOfCharacters)

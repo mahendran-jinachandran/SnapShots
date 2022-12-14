@@ -39,6 +39,7 @@ class ProfileVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
         navigationItem.title = ""
 
         setupProfileView()
@@ -270,8 +271,6 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func unFriendAnUser() {
-   
-
         if profileControls.removeFrined(profileRequestedUser: userID) {
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)

@@ -13,8 +13,8 @@ enum Gender: Int,CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .male: return "Male"
-        case .female: return "Female"
+        case .male: return Constants.MALE
+        case .female: return Constants.FEMALE
         }
     }
 }

@@ -11,8 +11,9 @@ import UIKit
 
 class FriendRequestDaoImplementation: FriendRequestDao {
 
-    
-    
+    private let TABLE_NAME = "FriendRequest"
+    private let REQUESTED_ID = "Requested_id"
+    private let USER_ID = "User_id"
     
     private let sqliteDatabase: DatabaseProtocol
     private let userDaoImplementation: UserDao
@@ -23,7 +24,9 @@ class FriendRequestDaoImplementation: FriendRequestDao {
     
     func getRequestedFriendsList(userID: Int) -> [User] {
         let getFriendRequestsQuery = """
-        SELECT Requested_id FROM FriendRequest WHERE User_id = \(userID)
+        SELECT \(REQUESTED_ID)
+        FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(userID)
         """
         
         var requestFriends: [User] = []
@@ -53,8 +56,9 @@ class FriendRequestDaoImplementation: FriendRequestDao {
     
     func removeFriendRequest(removingUserID: Int,profileUserID: Int) -> Bool {
         let rejectFriendRequestQuery = """
-        DELETE FROM FriendRequest
-        WHERE Requested_id = \(profileUserID) AND User_id = \(removingUserID);
+        DELETE FROM \(TABLE_NAME)
+        WHERE \(REQUESTED_ID) = \(profileUserID)
+        AND \(USER_ID) = \(removingUserID);
         """
         
         return sqliteDatabase.execute(query: rejectFriendRequestQuery)
@@ -63,7 +67,7 @@ class FriendRequestDaoImplementation: FriendRequestDao {
     
     func sendFriendRequest(loggedUserID: Int,visitingUserID: Int) -> Bool {
         let addFriendRequestQuery = """
-        INSERT INTO FriendRequest
+        INSERT INTO \(TABLE_NAME)
         VALUES (\(visitingUserID),\(loggedUserID));
         """
         
@@ -72,8 +76,8 @@ class FriendRequestDaoImplementation: FriendRequestDao {
     
     func cancelFriendRequest(loggedUserID: Int) -> Bool {
         let cancelFriendRequestQuery = """
-        DELETE FROM FriendRequest
-        WHERE Requested_id = \(loggedUserID);
+        DELETE FROM \(TABLE_NAME)
+        WHERE \(REQUESTED_ID) = \(loggedUserID);
         """
 
         return sqliteDatabase.execute(query: cancelFriendRequestQuery)
@@ -81,8 +85,9 @@ class FriendRequestDaoImplementation: FriendRequestDao {
     
     func isAlreadyRequestedFriend(loggedUserID: Int,visitingUserID: Int) -> Bool {
         let isAlreadyRequestedFriend = """
-        SELECT * FROM FriendRequest WHERE User_id = \(visitingUserID)
-        AND Requested_id = \(loggedUserID);
+        SELECT * FROM \(TABLE_NAME)
+        WHERE \(USER_ID) = \(visitingUserID)
+        AND \(REQUESTED_ID) = \(loggedUserID);
         """
         
         return !sqliteDatabase.retrievingQuery(query: isAlreadyRequestedFriend).isEmpty

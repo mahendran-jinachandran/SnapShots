@@ -9,6 +9,14 @@ import Foundation
 
 class PostDaoImplementation: PostDao {
     
+    private let USER_TABLE_NAME = "User"
+    private let POST_TABLE_NAME = "Post"
+    private let POST_ID = "Post_id"
+    private let PHOTO = "Photo"
+    private let CAPTION = "Caption"
+    private let USER_ID = "User_id"
+    private let USERNAME = "Username"
+    
     private let sqliteDatabase: DatabaseProtocol
     private let friendsDaoImplementation: FriendsDao
     init(sqliteDatabase: DatabaseProtocol,friendsDaoImplementation: FriendsDao) {
@@ -18,7 +26,7 @@ class PostDaoImplementation: PostDao {
     
     func uploadPost(postID: Int,photo: String,caption: String,userID: Int) -> Bool {
         let uploadPostQuery = """
-        INSERT INTO Post
+        INSERT INTO \(POST_TABLE_NAME)
         VALUES (
             \(postID),
             '\(photo)',
@@ -32,7 +40,10 @@ class PostDaoImplementation: PostDao {
     
     func createNewPostID(userID: Int) -> Int {
         let getExistingPostIDQuery = """
-        SELECT Post_id FROM POST WHERE User_id = \(userID) ORDER BY Post_id DESC LIMIT 1;
+        SELECT \(POST_ID) FROM \(POST_TABLE_NAME)
+        WHERE \(USER_ID) = \(userID)
+        ORDER BY \(POST_ID)
+        DESC LIMIT 1;
         """
         
         let existingPostIDs = sqliteDatabase.retrievingQuery(query: getExistingPostIDQuery)
@@ -51,8 +62,9 @@ class PostDaoImplementation: PostDao {
     
     func getAllPosts(userID: Int) -> [Post] {
         let getAllPostQuery = """
-        SELECT Post_id,Photo,Caption FROM POST
-        WHERE User_id = \(userID);
+        SELECT \(POST_ID),\(PHOTO),\(CAPTION)
+        FROM \(POST_TABLE_NAME)
+        WHERE \(USER_ID) = \(userID);
         """
         
         var allPosts: [Post] = []
@@ -79,15 +91,15 @@ class PostDaoImplementation: PostDao {
             
             let getAllFriendsPostQuery = """
             SELECT
-                User.User_id,
-                Username,
-                Post_id,
-                Post.Photo,
-                Caption
+                \(USER_TABLE_NAME).\(USER_ID),
+                \(USERNAME),
+                \(POST_ID),
+                \(POST_TABLE_NAME).\(PHOTO),
+                \(CAPTION)
             FROM
-                User
-                INNER JOIN Post ON Post.User_id = \(friendID) AND
-                User.User_id = Post.User_id;
+                \(USER_TABLE_NAME)
+                INNER JOIN \(POST_TABLE_NAME) ON \(POST_TABLE_NAME).\(USER_ID) = \(friendID) AND
+                \(USER_TABLE_NAME).\(USER_ID) = \(POST_TABLE_NAME).\(USER_ID);
 
             """
             
@@ -102,8 +114,10 @@ class PostDaoImplementation: PostDao {
     
     func editCaptionInPost(caption: String,userID: Int,postID: Int) -> Bool {
         let updateCaptionInPostQuery = """
-        UPDATE Post SET Caption = '\(caption)'
-        WHERE User_id = \(userID) AND Post_id = \(postID);
+        UPDATE \(POST_TABLE_NAME)
+        SET \(CAPTION) = '\(caption)'
+        WHERE \(USER_ID) = \(userID)
+        AND \(POST_ID) = \(postID);
         """
         
         return sqliteDatabase.execute(query: updateCaptionInPostQuery)
@@ -111,8 +125,9 @@ class PostDaoImplementation: PostDao {
     
     func deletePost(userID: Int,postID: Int) -> Bool {
         let deletePostQuery = """
-        DELETE FROM Post
-        WHERE User_id = \(userID) AND Post_id = \(postID);
+        DELETE FROM \(POST_TABLE_NAME)
+        WHERE \(USER_ID) = \(userID)
+        AND \(POST_ID) = \(postID);
         """
         
         return sqliteDatabase.execute(query: deletePostQuery)

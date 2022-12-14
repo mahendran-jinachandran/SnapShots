@@ -66,7 +66,6 @@ class PersonalInformationVC: UIViewController {
     private lazy var email: UILabel = {
         let email = UILabel()
         email.translatesAutoresizingMaskIntoConstraints = false
-        email.text = "mithu.dar@gmail.com"
         email.textColor = UIColor(named: "appTheme")
         email.font = UIFont.systemFont(ofSize: 18)
         email.isUserInteractionEnabled = true
@@ -85,7 +84,6 @@ class PersonalInformationVC: UIViewController {
     private lazy var phone: UILabel = {
       let phone = UILabel()
         phone.translatesAutoresizingMaskIntoConstraints = false
-        phone.text = "9884133730"
         phone.textColor = UIColor(named: "appTheme")
         phone.font = UIFont.systemFont(ofSize: 18)
         phone.isUserInteractionEnabled = true
@@ -104,7 +102,6 @@ class PersonalInformationVC: UIViewController {
     private lazy var gender: UILabel = {
       let gender = UILabel()
         gender.translatesAutoresizingMaskIntoConstraints = false
-        gender.text = "Male"
         gender.textColor = UIColor(named: "appTheme")
         gender.font = UIFont.systemFont(ofSize: 18)
         gender.isUserInteractionEnabled = true
@@ -145,11 +142,11 @@ class PersonalInformationVC: UIViewController {
     }
     
    @objc func updatePersonalInformation() {
-        let user = accountControls.getuserDetails()
-        email.text = user.mail == "-1" ? "Yet to fill" : user.mail
-        phone.text = user.phoneNumber
-        gender.text = user.gender == .male ? "Male" : "Female"
-        dateOfBirth.text = user.age == "-1" ? "Yet to fill" : user.age
+       let user = accountControls.getuserDetails()
+       email.text = user.mail == "-1" ? Constants.EMPTY : user.mail
+       phone.text = user.phoneNumber
+       gender.text = user.gender == .male ? Constants.MALE : Constants.FEMALE
+       dateOfBirth.text = user.age == "-1" ? Constants.EMPTY : user.age
     }
     
     private func setupNavigationItems() {

@@ -41,4 +41,9 @@ struct Constants {
     
     // MARK: NO BIO CONSTANT
     static let noUserBioDefault = "Nothing to share!"
+    
+    // MARK: GENERAL CONSTANTS
+    static let MALE = "Male"
+    static let FEMALE = "Female"
+    static let EMPTY = "Yet to fill"
 }
