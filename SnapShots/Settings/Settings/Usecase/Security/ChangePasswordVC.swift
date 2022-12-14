@@ -80,7 +80,6 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setupDelegates()
         setConstraints()
@@ -89,6 +88,7 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     private func setupNavigationItems() {
         title = "Password"
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
     }

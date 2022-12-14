@@ -46,9 +46,7 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemBackground
-
+    
         setupNavigationItems()
         setupTintColors()
         setupTapGestures()
@@ -57,6 +55,7 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
     
     private func setupNavigationItems() {
         title = "About"
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     

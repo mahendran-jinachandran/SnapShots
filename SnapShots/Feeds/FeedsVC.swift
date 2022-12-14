@@ -74,6 +74,7 @@ class FeedsVC: UIViewController {
     }
     
     private func setNavigationItems() {
+        view.backgroundColor = .systemBackground
         let friendsAction = UIAction(
           title: "Friends",
           image: UIImage(systemName: "person.3.fill")) { _ in

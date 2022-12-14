@@ -129,7 +129,6 @@ class PersonalInformationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setConstraints()
         setupTapGestures()
@@ -151,7 +150,7 @@ class PersonalInformationVC: UIViewController {
     
     private func setupNavigationItems() {
         title = "Personal Information"
-
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 

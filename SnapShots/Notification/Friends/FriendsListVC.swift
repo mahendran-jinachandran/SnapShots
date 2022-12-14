@@ -48,13 +48,15 @@ class FriendsListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Friends"
+
         setupNavigationItems()
         setupFriendsListTable()
         setFriendsListTableConstraints()
     }
     
     private func setupNavigationItems() {
+        title = "Friends"
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }

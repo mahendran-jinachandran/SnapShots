@@ -38,9 +38,6 @@ class ProfileVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemBackground
-        navigationItem.title = ""
 
         setupProfileView()
         setNavigationItems()
@@ -82,6 +79,9 @@ class ProfileVC: UIViewController{
     }
     
     private func setNavigationItems() {
+        navigationItem.title = ""
+        view.backgroundColor = .systemBackground
+        
         if isVisiting {
             title = profileUser.userName
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -272,6 +272,8 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     
     func unFriendAnUser() {
         if profileControls.removeFrined(profileRequestedUser: userID) {
+            
+            NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
             

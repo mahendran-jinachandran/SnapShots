@@ -71,9 +71,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        view.backgroundColor = .systemBackground
-        
+
         setupNavigationItems()
         setupDelegates()
         setupConstraints()
@@ -82,6 +80,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         title = "Gender"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
     }

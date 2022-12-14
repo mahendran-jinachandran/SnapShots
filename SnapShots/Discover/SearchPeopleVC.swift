@@ -36,8 +36,6 @@ class SearchPeopleVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        
         setupNotificationSubscription()
         setupNavigationItems()
         setupSearchTable()
@@ -46,11 +44,11 @@ class SearchPeopleVC: UIViewController {
     
     private func setupNavigationItems() {
         title = "Search"
+        view.backgroundColor = .systemBackground
+        navigationItem.hidesSearchBarWhenScrolling = false
         searchBar = UISearchController(searchResultsController: nil)
         searchBar.searchBar.placeholder = "Search people 🌎"
-        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchBar
-        
         searchBar.searchBar.delegate = self
     }
     

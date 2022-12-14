@@ -74,6 +74,7 @@ class PhoneNumberVC: UIViewController {
         super.viewDidLoad()
         
         title = "Phone number"
+        view.backgroundColor = .systemBackground
         
         setupNotificationCenter()
         setupConstraints()

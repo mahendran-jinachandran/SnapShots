@@ -31,6 +31,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -80,8 +81,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         
         title = "Edit Profile"
         view.backgroundColor = .systemBackground
-        scrollView.showsVerticalScrollIndicator = false
-        
+
         setConstraints()
         showUpdateButton(isShown: true)
         usernameTextField.delegate = self

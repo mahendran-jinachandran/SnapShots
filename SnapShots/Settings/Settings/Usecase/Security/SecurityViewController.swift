@@ -30,7 +30,6 @@ class SecurityViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setConstraints()
         setupTapGestures()
@@ -39,7 +38,7 @@ class SecurityViewController: UIViewController {
     
     private func setupNavigationItems(){
         title = "Security"
-
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     

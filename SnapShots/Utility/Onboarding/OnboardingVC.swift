@@ -84,7 +84,6 @@ class OnboardingVC: UIViewController {
     }
     
     private func setNavigationItems() {
-        
         view.backgroundColor = .systemBackground
         navigationItem.hidesBackButton = true
     }

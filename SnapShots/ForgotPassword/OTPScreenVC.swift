@@ -58,6 +58,7 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
     }

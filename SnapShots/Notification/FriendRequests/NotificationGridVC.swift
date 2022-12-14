@@ -35,11 +35,10 @@ class NotificationGridVC: UIViewController {
         setupNavigationItems()
         setupFriendRequestTable()
         setConstraints()
-        
-
     }
     
     func setupNavigationItems() {
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Notification", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }

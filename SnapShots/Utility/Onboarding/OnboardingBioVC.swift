@@ -82,7 +82,6 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
         profileBioTextView.delegate = self
         setupNavigationItems()
         setupNotficationCenter()
@@ -93,6 +92,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Finish", style: .plain, target: self, action: #selector(finishOnboarding))

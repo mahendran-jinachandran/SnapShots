@@ -50,7 +50,7 @@ class AccountVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemBackground
+
         setupNavigationItems()
         setupTapGestures()
         setupTintColours()
@@ -59,6 +59,7 @@ class AccountVC: UIViewController {
     
     func setupNavigationItems() {
         title = "Account"
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     

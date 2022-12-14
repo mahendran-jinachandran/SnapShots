@@ -95,7 +95,6 @@ class OnboardingProfilePhotoVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setupConstraints()
         setupTapGestures()
@@ -112,6 +111,7 @@ class OnboardingProfilePhotoVC: UIViewController {
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(uploadPhoto))
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")

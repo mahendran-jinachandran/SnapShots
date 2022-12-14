@@ -88,6 +88,7 @@ class MailVC: UIViewController {
     
     private func setupNavigationItems() {
         title = "Mail"
+        view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
     }
     

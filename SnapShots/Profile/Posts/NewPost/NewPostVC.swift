@@ -78,8 +78,6 @@ class NewPostVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemBackground
-        
         setupNavigationItems()
         setupTapGestures()
         setupProfileConstraints()
@@ -87,6 +85,7 @@ class NewPostVC: UIViewController {
     }
     
     private func setupNavigationItems()  {
+        view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
     }

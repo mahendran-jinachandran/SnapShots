@@ -73,7 +73,7 @@ class DataOfBirthVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemBackground
+
         setupNavigationItems()
         setConstraints()
         setupDatePicker()
@@ -83,6 +83,7 @@ class DataOfBirthVC: UIViewController {
     
     private func setupNavigationItems() {
         title = "Date of birth"
+        view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
     }
     

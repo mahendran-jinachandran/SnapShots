@@ -113,8 +113,7 @@ class PostVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Posts"
-        view.backgroundColor = .systemBackground
+
         setupNavigationItems()
         setupConstraints()
         setupTapGestures()
@@ -131,8 +130,9 @@ class PostVC: UIViewController {
     }
     
     private func setupNavigationItems() {
+        title = "Posts"
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         navigationController?.navigationBar.isOpaque = true
     }

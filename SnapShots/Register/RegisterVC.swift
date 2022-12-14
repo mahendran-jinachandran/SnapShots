@@ -147,8 +147,6 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        
         setupNavigationItems()
         setupNotficationCenter()
         setupTapGestures()
@@ -156,6 +154,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }

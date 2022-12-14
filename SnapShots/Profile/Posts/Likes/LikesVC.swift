@@ -45,14 +45,15 @@ class LikesVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        title = "Likes"
-        view.backgroundColor = .systemBackground
+
         setNavigationItems()
         setupLikesTable()
         setupConstraints()
     }
     
     private func setNavigationItems() {
+        title = "Likes"
+        view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }

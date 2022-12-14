@@ -77,7 +77,6 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setupDelegates()
         setupNotficationCenter()
@@ -88,6 +87,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(updateGender))

@@ -58,20 +58,18 @@ class CommentsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.keyboardLayoutGuide.followsUndockedKeyboard = true
-        view.backgroundColor = .systemBackground
-
-        title = "Comments"
-        addCommentTextField.delegate = self
        
         setupNavigationItems()
         setupCommentsTable()
         setupConstraints()
         getComments()
+        addCommentTextField.delegate = self
     }
     
     private func setupNavigationItems() {
+        title = "Comments"
+        view.keyboardLayoutGuide.followsUndockedKeyboard = true
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     

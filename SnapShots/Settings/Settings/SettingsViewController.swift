@@ -75,7 +75,6 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemBackground
     
         setupNavigationItems()
         setupTintColors()
@@ -84,6 +83,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupNavigationItems() {
+        view.backgroundColor = .systemBackground
         navigationItem.title = "Settings"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
