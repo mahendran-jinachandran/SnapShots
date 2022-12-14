@@ -43,15 +43,15 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
         
         return privacyView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupNavigationItems()
         setupTintColors()
         setupTapGestures()
         setAboutConstraints()
-     }
+    }
     
     private func setupNavigationItems() {
         title = "About"
@@ -67,6 +67,9 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
     private func setupTapGestures() {
         let privacyPolicyTap = UITapGestureRecognizer(target: self, action: #selector(showPrivacyPolicies))
         privacyView.addGestureRecognizer(privacyPolicyTap)
+        
+        let termsViewTap = UITapGestureRecognizer(target: self, action: #selector(showTermsAndConditions))
+        termsView.addGestureRecognizer(termsViewTap)
     }
     
     private func setAboutConstraints() {
@@ -91,6 +94,18 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
     
     @objc private func showPrivacyPolicies() {
         guard let url = URL(string: "https://www.termsfeed.com/live/04e5a598-6985-4e03-a896-31106dc8edbc") else {
+            return
+        }
+        
+        present(
+            SFSafariViewController(url: url),
+            animated: true
+        )
+    }
+    
+    
+    @objc private func showTermsAndConditions() {
+        guard let url = URL(string: "https://www.termsfeed.com/live/6bcedb47-0825-4233-ab5b-475f6d90b5a0") else {
             return
         }
         
