@@ -36,9 +36,7 @@ class SearchTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.backgroundColor = UIColor.systemBackground
-        
+                
         [profilePhoto,userNameLabel].forEach {
             contentView.addSubview($0)
         }

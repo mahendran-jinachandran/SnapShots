@@ -110,7 +110,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     }()
     
     private lazy var loginButton: UIButton = {
-        let loginButton = UIButton()
+        let loginButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         loginButton.setTitle("Log In", for: .normal)
         loginButton.backgroundColor = .systemBlue
         loginButton.layer.cornerRadius = 10

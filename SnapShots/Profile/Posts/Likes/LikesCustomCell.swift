@@ -30,8 +30,6 @@ class LikesCustomCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .systemBackground
-        
         setupConstraint()
         profilePhoto.layer.cornerRadius = 30
     }
@@ -53,12 +51,12 @@ class LikesCustomCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             
-            profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor),
-            profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            profilePhoto.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
             profilePhoto.widthAnchor.constraint(equalToConstant: 60),
             profilePhoto.heightAnchor.constraint(equalToConstant: 60),
             
-            userNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 10),
+            userNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 12),
             userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             userNameLabel.heightAnchor.constraint(equalToConstant: 40),

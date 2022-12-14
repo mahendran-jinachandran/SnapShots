@@ -76,7 +76,6 @@ class CommentsVC: UIViewController {
     func setupCommentsTable() {
         commentsTable.register(CommentsCustomCell.self, forCellReuseIdentifier: CommentsCustomCell.identifier)
         commentsTable.separatorStyle = .none
-        commentsTable.bounces = false
         commentsTable.delegate = self
         commentsTable.dataSource = self
         commentsTable.estimatedRowHeight = 40
@@ -108,8 +107,8 @@ class CommentsVC: UIViewController {
             addCommentTextField.heightAnchor.constraint(equalToConstant: 50),
             
             commentsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
-            commentsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
-            commentsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
+            commentsTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            commentsTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             commentsTable.bottomAnchor.constraint(equalTo: addCommentTextField.topAnchor)
         ])
         
@@ -148,6 +147,10 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
+        
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        cell.selectedBackgroundView = view
         
         let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
         cell.configure(

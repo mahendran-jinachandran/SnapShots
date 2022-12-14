@@ -12,6 +12,7 @@ class Post {
     var photo: String
     var caption: String
     var likes = Set<Int>()
+    var postCreatedDate: String = ""
     var comments: [(Int, String, String)] = []
 
     init(photo: String, caption: String) {
@@ -19,9 +20,10 @@ class Post {
         self.caption = caption
     }
     
-    init(postID: Int,photo: String, caption: String) {
+    init(postID: Int,photo: String, caption: String,postCreatedDate: String) {
         self.postID = postID
         self.photo = photo
         self.caption = caption
+        self.postCreatedDate = postCreatedDate
     }
 }

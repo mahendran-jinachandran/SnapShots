@@ -9,7 +9,6 @@ protocol PostDao{
     func uploadPost(postID: Int,photo: String,caption: String,userID: Int) -> Bool
     func createNewPostID(userID: Int) -> Int
     func getAllPosts(userID: Int) ->[Post]
-    func getAllFriendPosts(userID: Int) -> [(userId: Int,userName: String,post: Post)]
-    func editCaptionInPost(caption: String,userID: Int,postID: Int) -> Bool
+    func getAllFriendPosts(userID: Int) -> [FeedsDetails]
     func deletePost(userID: Int,postID: Int) -> Bool
 }

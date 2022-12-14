@@ -50,7 +50,13 @@ class ProfileControls: ProfileControlsProtocols {
     }
     
     func getAllPosts(userID: Int) -> [Post] {
-       return postDaoImp.getAllPosts(userID: userID)
+       var posts = postDaoImp.getAllPosts(userID: userID)
+        
+        posts = posts.sorted(by: {
+            $0.postCreatedDate.compare($1.postCreatedDate) == .orderedAscending
+        })
+        
+       return posts
     }
     
     func sendFriendRequest(profileRequestedUser: Int) -> Bool {

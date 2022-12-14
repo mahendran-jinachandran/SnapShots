@@ -34,7 +34,7 @@ class OTPScreenVC: UIViewController,UITextFieldDelegate {
     }()
     
     private lazy var otpCheckButton: UIButton = {
-        let otpCheckButton = UIButton()
+        let otpCheckButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         otpCheckButton.setTitle("Check OTP", for: .normal)
         otpCheckButton.backgroundColor = .systemBlue
         otpCheckButton.layer.cornerRadius = 10

@@ -132,8 +132,9 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }()
     
     private lazy var profileAccessButton: UIButton = {
-        let profileAccessButton = UIButton()
-        profileAccessButton.titleLabel?.text = " Edit \n Profile"
+        let profileAccessButton = CustomButton(selectColour: UIColor(named: "post_bg_color")!, deselectColour: UIColor(named: "post_bg_color")!)
+        profileAccessButton.titleLabel?.text = "Edit \n  Profile"
+        profileAccessButton.titleLabel?.textAlignment = .center
         profileAccessButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         profileAccessButton.backgroundColor = UIColor(named: "post_bg_color")
         profileAccessButton.translatesAutoresizingMaskIntoConstraints = false

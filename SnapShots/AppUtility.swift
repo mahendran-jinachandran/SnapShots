@@ -115,4 +115,11 @@ class AppUtility {
         let isUsernameTaken = userDaoImp.isUsernameAlreadyExist(username: username)
         return .success(!isUsernameTaken)
     }
+    
+    static func getCurrentTime() -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter.string(from: Date())
+    }
 }

@@ -42,10 +42,18 @@ class SearchPeopleVC: UIViewController {
         setSearchTableConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let indexPath = searchTable.indexPathForSelectedRow {
+            searchTable.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
     private func setupNavigationItems() {
         title = "Search"
         view.backgroundColor = .systemBackground
         navigationItem.hidesSearchBarWhenScrolling = false
+        
         searchBar = UISearchController(searchResultsController: nil)
         searchBar.searchBar.placeholder = "Search people 🌎"
         navigationItem.searchController = searchBar
@@ -59,7 +67,6 @@ class SearchPeopleVC: UIViewController {
         searchTable.delegate = self
         searchTable.dataSource = self
         searchTable.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
-        searchTable.bounces = false
         searchTable.separatorStyle = .none
         searchTable.backgroundView = searchEmptyLabel
         searchTable.backgroundView?.alpha = 0.0
@@ -105,7 +112,12 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        tableView.deselectRow(at: indexPath, animated: true)
         let particularCell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+        
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        particularCell.selectedBackgroundView = view
         
         let userProfilePicture = AppUtility.getDisplayPicture(userID: dupPeople[indexPath.row].userID)
 

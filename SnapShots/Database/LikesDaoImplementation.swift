@@ -13,7 +13,7 @@ class LikesDaoImplementation: LikesDao {
     private let USER_ID = "User_id"
     private let POST_ID = "Post_id"
     private let LIKEDUSER_ID = "LikedUser_id"
-    
+    private let LIKED_TIME = "Liked_time"
     
     private let sqliteDatabase: DatabaseProtocol
     private var userDaoImp: UserDao
@@ -38,7 +38,7 @@ class LikesDaoImplementation: LikesDao {
         
         let insertIntoDB = """
         INSERT INTO \(TABLE_NAME)
-        VALUES (\(visitingUserID),\(postID),\(loggedUserID));
+        VALUES (\(visitingUserID),\(postID),\(loggedUserID),'\(AppUtility.getCurrentTime())');
         """
     
         return sqliteDatabase.execute(query: insertIntoDB)
@@ -57,15 +57,27 @@ class LikesDaoImplementation: LikesDao {
     
     func getAllLikesOfPost(userID: Int,postID: Int) -> [User] {
         let getLikesOfPostQuery = """
-        SELECT \(LIKEDUSER_ID)
+        SELECT \(LIKEDUSER_ID),\(LIKED_TIME)
         FROM \(TABLE_NAME)
         WHERE \(USER_ID) = \(userID)
         AND \(POST_ID) = \(postID);
         """
+                
+        var sortedlikedUsers: [(userID: Int,createdDate: String)] = []
+        for (_,postLikedUserID) in sqliteDatabase.retrievingQuery(query: getLikesOfPostQuery) {
+            sortedlikedUsers.append((
+                Int(postLikedUserID[0])!,
+                postLikedUserID[1]
+            ))
+        }
+        
+        sortedlikedUsers = sortedlikedUsers.sorted(by: {
+            $0.createdDate.compare($1.createdDate) == .orderedAscending
+        })
         
         var likedUsers: [User] = []
-        for (_,postLikedUserID) in sqliteDatabase.retrievingQuery(query: getLikesOfPostQuery){            
-            likedUsers.append(userDaoImp.getUserDetails(userID: Int(postLikedUserID[0])!)!)
+        for users in sortedlikedUsers {
+            likedUsers.append(userDaoImp.getUserDetails(userID: users.userID)!)
         }
         
         return likedUsers

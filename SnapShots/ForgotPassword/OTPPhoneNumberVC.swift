@@ -49,7 +49,7 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     }()
     
     private lazy var sendOTPButton: UIButton = {
-       var sendOTPButton = UIButton()
+       var sendOTPButton = CustomButton(selectColour: UIColor(named: "appTheme")!, deselectColour: UIColor(named: "appTheme")!)
         sendOTPButton.translatesAutoresizingMaskIntoConstraints = false
         sendOTPButton.setTitle("Send OTP", for: .normal)
         sendOTPButton.setTitleColor(.systemBackground, for: .normal)

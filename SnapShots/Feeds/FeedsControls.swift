@@ -16,19 +16,15 @@ class FeedsControls {
     
     func getAllPosts() -> [FeedsDetails] {
         
-        var feedPosts: [FeedsDetails] = []
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         
-        for (userID,username,postDetails) in postDaoImp.getAllFriendPosts(userID: loggedUserID) {
-            
-            feedPosts.append(FeedsDetails(
-                userID: userID,
-                userName: username,
-                postDetails: postDetails)
-            )
-        }
+        let posts = postDaoImp.getAllFriendPosts(userID: loggedUserID)
         
-        return feedPosts
+        let feeds = posts.sorted(by: {
+            $0.postDetails.postCreatedDate.compare($1.postDetails.postCreatedDate) == .orderedDescending
+        })
+        
+        return feeds
     }
     
     func isAlreadyLikedThePost(postDetails: FeedsDetails) -> Bool {

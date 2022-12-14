@@ -62,7 +62,7 @@ class CommentsCustomCell: UITableViewCell {
         NSLayoutConstraint.activate([
             
             profilePhoto.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 8),
-            profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 8),
             profilePhoto.widthAnchor.constraint(equalToConstant: 40),
             profilePhoto.heightAnchor.constraint(equalToConstant: 40),
         

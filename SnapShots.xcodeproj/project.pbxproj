@@ -76,6 +76,7 @@
 		BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginControls.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
+		BFA959332949B03A00387440 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA959322949B03A00387440 /* UIButtonExtension.swift */; };
 		BFAE19CB2941820F00D7A012 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */; };
 		BFAE19CD2941823E00D7A012 /* EditProfileControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CC2941823E00D7A012 /* EditProfileControls.swift */; };
 		BFAE19CF2941824A00D7A012 /* EditProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CE2941824A00D7A012 /* EditProfileProtocols.swift */; };
@@ -194,6 +195,7 @@
 		BFA5601429262FEF00A948B4 /* LoginControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControls.swift; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
+		BFA959322949B03A00387440 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		BFAE19CC2941823E00D7A012 /* EditProfileControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileControls.swift; sourceTree = "<group>"; };
 		BFAE19CE2941824A00D7A012 /* EditProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileProtocols.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 				BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */,
 				BFDF706B292D1651001A736F /* UIImageExtension.swift */,
 				BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */,
+				BFA959322949B03A00387440 /* UIButtonExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -774,6 +777,7 @@
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */,
+				BFA959332949B03A00387440 /* UIButtonExtension.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
 				BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */,
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,

@@ -62,7 +62,7 @@ class SettingsViewController: UIViewController {
     
 
     private lazy var logoutButton: UIButton = {
-       let logoutButton = UIButton()
+        let logoutButton = CustomButton(selectColour: UIColor(named: "appTheme")!, deselectColour: UIColor(named: "appTheme")!)
         logoutButton.setTitle("LOG OUT", for: .normal)
         logoutButton.backgroundColor = UIColor(named: "appTheme")
         logoutButton.setTitleColor(.systemBackground, for: .normal)

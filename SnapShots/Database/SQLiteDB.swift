@@ -80,7 +80,8 @@ class SQLiteDatabase: DatabaseProtocol {
             Age CHAR(255),
             Mail CHAR(255),
             Photo CHAR(255) NOT NULL,
-            Bio CHAR(255)
+            Bio CHAR(255),
+            Account_Created TEXT
             );
         """
 
@@ -90,6 +91,7 @@ class SQLiteDatabase: DatabaseProtocol {
             Photo CHAR(255) NOT NULL,
             Caption CHAR(255),
             User_id INT NOT NULL,
+            Created_time TEXT,
             PRIMARY KEY(Post_id,User_id),
             FOREIGN KEY(User_id) REFERENCES User(User_id) ON DELETE CASCADE
             );
@@ -118,6 +120,7 @@ class SQLiteDatabase: DatabaseProtocol {
                 User_id INT,
                 Post_id INT,
                 LikedUser_id INT,
+                Liked_time TEXT,
                 FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE
                 FOREIGN KEY (LikedUser_id) REFERENCES User(User_id) ON DELETE CASCADE
             );
@@ -129,7 +132,7 @@ class SQLiteDatabase: DatabaseProtocol {
                 Post_id INT,
                 Comment CHAR(255),
                 CommentUser_id INT,
-                
+                Commented_time TEXT,
                 FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE
                 FOREIGN KEY (CommentUser_id) REFERENCES User(User_id) ON DELETE CASCADE
             );
@@ -212,6 +215,7 @@ class SQLiteDatabase: DatabaseProtocol {
             data[rowCount] = columnData
             rowCount = rowCount + 1
         }
+        
         return data
     }
 }

@@ -8,6 +8,6 @@
 import Foundation
 
 protocol CommentDao {
-    func getAllCommmentsOfPost(postUserID: Int,postID: Int) -> [(comment: String,commentUserID: Int)]
+    func getAllCommmentsOfPost(postUserID: Int,postID: Int) -> [CommentDetails]
     func addCommentToThePost(visitingUserID: Int,postID: Int,comment: String,loggedUserID: Int) -> Bool
 }

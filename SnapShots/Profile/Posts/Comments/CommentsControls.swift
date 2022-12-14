@@ -10,7 +10,7 @@ import UIKit
 class CommentsControls: CommentsControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
-    private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
+    private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared,userDaoImp: userDaoImp)
     
     func addComment(postUserID: Int,postID: Int,comment: String) -> Bool {
         
@@ -19,21 +19,6 @@ class CommentsControls: CommentsControlsProtocol {
     }
     
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails] {
-        
-        var comments: [CommentDetails] = []
-        
-        for comment in commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID) {
-            
-            let username = userDaoImp.getUsername(userID: comment.commentUserID)
-            
-            comments.append(
-                CommentDetails(
-                    username: username,
-                    comment: comment.comment,
-                    commentUserID: comment.commentUserID)
-            )
-        }
-        
-        return comments
+        return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID)
     }
 }

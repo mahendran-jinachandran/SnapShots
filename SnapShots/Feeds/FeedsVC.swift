@@ -37,7 +37,7 @@ class FeedsVC: UIViewController {
     }()
     
     private lazy var friendsMenuButton: UIButton = {
-        let button = UIButton(type: .custom)
+        let button = UIButton()
         button.showsMenuAsPrimaryAction = true
         button.titleLabel?.font = UIFont(name: "Billabong", size: 30)
         button.setTitle("Snapshots ", for: .normal)
@@ -62,7 +62,6 @@ class FeedsVC: UIViewController {
     private func setupFeedsTable() {
         
         feedsTable.register(FeedsCustomCell.self, forCellReuseIdentifier: FeedsCustomCell.identifier)
-        feedsTable.bounces = false
         feedsTable.separatorStyle = .none
         feedsTable.delegate = self
         feedsTable.dataSource = self

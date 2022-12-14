@@ -32,7 +32,7 @@ struct UserInstance {
         }
         
         let getAllPostQuery = """
-        SELECT Post_id,Photo,Caption FROM POST
+        SELECT Post_id,Photo,Caption,Created_time FROM POST
         WHERE User_id = \(user!.userID);
         """
     
@@ -40,7 +40,8 @@ struct UserInstance {
         for (_,post) in DBInstance.retrievingQuery(query: getAllPostQuery) {
             allPosts[Int(post[0])!] = Post(postID: Int(post[0])!,
                                            photo: post[1],
-                                        caption: post[2])
+                                        caption: post[2],
+                                        postCreatedDate: post[3])
             
         }
         

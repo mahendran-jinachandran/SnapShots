@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SQLite3
 
 class UserDaoImplementation: UserDao {
 
@@ -19,6 +20,7 @@ class UserDaoImplementation: UserDao {
     private let MAIL = "Mail"
     private let PHOTO = "Photo"
     private let BIO = "Bio"
+    private let CREATED = "Account_Created"
     
     private let sqliteDatabase: DatabaseProtocol
     init(sqliteDatabase: DatabaseProtocol) {
@@ -98,9 +100,9 @@ class UserDaoImplementation: UserDao {
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool {
         let insertUserTableQuery = """
-        INSERT INTO \(TABLE_NAME) (\(USERNAME),\(PASSWORD),\(PHONE),\(PHOTO))
+        INSERT INTO \(TABLE_NAME) (\(USERNAME),\(PASSWORD),\(PHONE),\(PHOTO),\(CREATED))
         VALUES
-        ('\(userName)','\(password)','\(phoneNumber)','Default');
+        ('\(userName)','\(password)','\(phoneNumber)','Default', '\(AppUtility.getCurrentTime())');
         """
         
         return sqliteDatabase.execute(query: insertUserTableQuery)

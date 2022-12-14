@@ -55,7 +55,7 @@ class OnboardingVC: UIViewController {
     }()
     
     private lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
+        let nextButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         nextButton.setTitle("Next", for: .normal)
         nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         nextButton.backgroundColor = .systemBlue

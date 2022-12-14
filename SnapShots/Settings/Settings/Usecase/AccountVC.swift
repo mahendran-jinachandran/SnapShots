@@ -37,7 +37,7 @@ class AccountVC: UIViewController {
     }()
     
     private lazy var deleteAccount: UIButton = {
-        let deleteAccount = UIButton()
+        let deleteAccount = CustomButton(selectColour: .red, deselectColour: .red)
         deleteAccount.setTitle("Delete Account", for: .normal)
         deleteAccount.backgroundColor = .red
         deleteAccount.setTitleColor(.systemBackground, for: .normal)

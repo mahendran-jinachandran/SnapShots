@@ -133,7 +133,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }()
     
     private lazy var registerButton: UIButton = {
-        let registerButton = UIButton()
+        let registerButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         registerButton.setTitle("Register", for: .normal)
         registerButton.backgroundColor = .systemBlue
         registerButton.layer.cornerRadius = 10

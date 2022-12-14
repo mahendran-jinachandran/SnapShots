@@ -52,7 +52,7 @@ class FeedsCustomCell: UITableViewCell {
     }()
     
     private lazy var moreInfo: UIButton = {
-        var moreInfo = UIButton(type: .custom)
+        var moreInfo = CustomButton(selectColour: UIColor(named: "moreInfo_bg_color")!, deselectColour: UIColor(named: "moreInfo_bg_color")!)
         moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreInfo.translatesAutoresizingMaskIntoConstraints = false
         moreInfo.tintColor = UIColor(named: "appTheme")

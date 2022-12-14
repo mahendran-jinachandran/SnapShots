@@ -33,16 +33,16 @@ class FriendsDaoImplementation: FriendsDao {
         return !sqliteDatabase.retrievingQuery(query: isUserFriendsQuery).isEmpty
     }
     
-    func getIDsOfFriends(userID: Int) -> Set<Int> {
+    func getIDsOfFriends(userID: Int) -> [Int] {
         let getFriendIDsQuery = """
         SELECT \(FRIENDS_ID)
         FROM \(TABLE_NAME)
         WHERE \(USER_ID) = \(userID);
         """
         
-        var myFriendIDs: Set<Int> = []
+        var myFriendIDs: [Int] = []
         for (_,userID) in sqliteDatabase.retrievingQuery(query: getFriendIDsQuery) {
-            myFriendIDs.insert(Int(userID[0])!)
+            myFriendIDs.append(Int(userID[0])!)
         }
         
         return myFriendIDs
@@ -53,7 +53,7 @@ class FriendsDaoImplementation: FriendsDao {
         var myFriends: [(userDP: UIImage,username: String)] = []
         for friendID in getIDsOfFriends(userID: userID) {
             
-            var userDP = AppUtility.getDisplayPicture(userID: friendID)
+            let userDP = AppUtility.getDisplayPicture(userID: friendID)
             myFriends.append(
                 (userDP,
                  userDaoImplementation.getUsername(userID: friendID)

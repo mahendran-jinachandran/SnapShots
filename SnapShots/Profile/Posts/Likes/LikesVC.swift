@@ -78,7 +78,7 @@ class LikesVC: UIViewController {
     private func setupConstraints() {
         view.addSubview(likesTable)
         NSLayoutConstraint.activate([
-            likesTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            likesTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             likesTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 8),
             likesTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             likesTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -90,6 +90,7 @@ extension LikesVC: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        tableView.deselectRow(at: indexPath, animated: true)
         let profileVC = ProfileVC(
             userID: likedUsers[indexPath.row].userID,
             isVisiting: true)
@@ -109,10 +110,14 @@ extension LikesVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         let cell = tableView.dequeueReusableCell(
             withIdentifier: LikesCustomCell.identifier,
             for: indexPath) as! LikesCustomCell
+        
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        cell.selectedBackgroundView = view
         
         let profilePicture = AppUtility.getDisplayPicture(userID: likedUsers[indexPath.row].userID)
         cell.configure(
