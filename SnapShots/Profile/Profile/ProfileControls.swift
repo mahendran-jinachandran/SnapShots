@@ -82,4 +82,13 @@ class ProfileControls: ProfileControlsProtocols {
         
         return userDaoImp.updatePhoto(photo: photoName, userID: loggedUserID)
     }
+    
+    func removeProfilePhoto() -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        let photoName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
+
+        UIImage().deleteImage(imageName: photoName)
+        
+        return userDaoImp.updatePhoto(photo: Constants.noDPSavingFormat, userID: loggedUserID)
+    }
 }

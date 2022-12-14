@@ -88,7 +88,25 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     private func setupDelegates() {
         pickerView.delegate = self
         pickerView.dataSource = self
+
         genderTextField.inputView = pickerView
+        genderTextField.inputAccessoryView = createToolBar()
+        genderTextField.tintColor = .clear
+    }
+    
+    private func createToolBar() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(addGender))
+        toolbar.setItems([doneButton], animated: true)
+        
+        return toolbar
+    }
+    
+    @objc private func addGender() {
+        genderTextField.text = gendersList[pickerView.selectedRow(inComponent: 0)]
+        genderTextField.resignFirstResponder()
     }
     
     private func setupTapGestures() {
@@ -166,10 +184,14 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return gendersList[row]
     }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        genderTextField.text = gendersList[row]
-        genderTextField.resignFirstResponder()
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:)) {
+            return false
+        }
+
+        return super.canPerformAction(action, withSender: sender)
     }
     
     private var contentInsetBackstore: UIEdgeInsets = .zero

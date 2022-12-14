@@ -186,17 +186,22 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
             self.showImagePicker(selectedSource: .photoLibrary)
         }
 
-        let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
-            self.profilePhoto.image = UIImage(named: "blankPhoto")
-            self.isPhotoUploaded = false
+        if isPhotoUploaded {
+            let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
+                self.profilePhoto.image = UIImage(named: "blankPhoto")
+                self.isPhotoUploaded = false
+            }
+            
+            imagePicker.addAction(removeDP)
         }
+
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
 
         imagePicker.addAction(camera)
         imagePicker.addAction(gallery)
         imagePicker.addAction(cancel)
-        imagePicker.addAction(removeDP)
+     
         present(imagePicker, animated: true,completion: nil)
     }
     

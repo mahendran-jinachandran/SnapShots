@@ -169,7 +169,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             friendsCount: profileUser.profile.friendsList.count,
             postsCount: posts.count,
             bio: profileUser.profile.bio,
-            profileDP: profileControls.getProfileDP(userID: userID),
+            profileDP: profileUser.profile.photo, // profileControls.getProfileDP(userID: userID),
             profileAccessibility: profileAccessibility
         )
         
@@ -207,7 +207,14 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-
+        
+//        let headerView = collectionView.dequeueReusableSupplementaryView(
+//            ofKind: "",
+//            withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
+//            for: IndexPath(row: 0, section: section)) as! ProfileHeaderCollectionReusableView
+//
+//        headerView.intrinsicContentSize
+        
         return CGSize(width: 500, height: 300)
     }
     
@@ -288,6 +295,14 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     func uploadPhoto(image: UIImage) {
         if profileControls.updateProfilePhoto(profilePhoto: image) {
             showToast(message: "DP Updated")
+        } else {
+            showToast(message: Constants.toastFailureStatus)
+        }
+    }
+    
+    func removeProfilePhoto() {
+        if profileControls.removeProfilePhoto() {
+            showToast(message: "DP Removed")
         } else {
             showToast(message: Constants.toastFailureStatus)
         }

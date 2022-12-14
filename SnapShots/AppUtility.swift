@@ -65,6 +65,10 @@ class AppUtility {
         return userDP
     }
     
+    static func getDisplayPicture(fileName: String) -> UIImage {
+        UIImage().loadImageFromDiskWith(fileName: fileName)!
+    }
+    
     static func getPostPicture(userID: Int,postID: Int) -> UIImage {
         
         return UIImage().loadImageFromDiskWith(

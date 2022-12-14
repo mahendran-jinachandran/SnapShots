@@ -119,8 +119,11 @@ class DataOfBirthVC: UIViewController {
     private func setupDatePicker() {
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
+        datePicker.maximumDate = Date()
+        
         dateOfBirthTextField.inputView = datePicker
         dateOfBirthTextField.inputAccessoryView = createToolBar()
+        dateOfBirthTextField.tintColor = .clear
     }
     
     private func createToolBar() -> UIToolbar {
@@ -177,6 +180,15 @@ class DataOfBirthVC: UIViewController {
             dateOfBirthTextField.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
             
         ])
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:)) {
+            return false
+        }
+
+        return super.canPerformAction(action, withSender: sender)
     }
     
     

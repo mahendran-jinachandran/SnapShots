@@ -13,10 +13,6 @@ class ForgotPasswordControls {
     
     func updatePassword(phoneNumber: String,password: String) {
         
-        if userDaoImp.updatePassword(password: password, phoneNumber: phoneNumber) {
-            print("Password changed")
-        } else {
-            print("Couldn't change password")
-        }
+        _ =  userDaoImp.updatePassword(password: password, phoneNumber: phoneNumber) 
     }
 }

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension UIImage {
+    
     func saveImage(imageName: String, image: UIImage) {
 
      guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
@@ -29,6 +30,20 @@ extension UIImage {
             try data.write(to: fileURL)
         } catch let error {
             print("error saving file with error", error)
+        }
+    }
+    
+    func deleteImage(imageName: String) {
+        
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+
+           let fileName = imageName
+           let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        
+        do {
+            try FileManager.default.removeItem(atPath: fileURL.path)
+        } catch let removeError {
+            print("couldn't remove file at path", removeError)
         }
     }
     

@@ -10,6 +10,7 @@ import UIKit
 protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
     func controller() -> ProfileVC
     func uploadPhoto(image: UIImage)
+    func removeProfilePhoto()
     func getFriendsList()
     func sendFriendRequest()
     func cancelFriendRequest()
@@ -23,6 +24,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     private var portraitConstraint = [NSLayoutConstraint]()
     private var profileAccessibility: ProfileAccess!
     weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
+    private var isPhotoAvailable: Bool = false
     
     private lazy var profileStack : UIStackView = {
         let profileStack = UIStackView()
@@ -32,6 +34,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileStack.spacing = 10
         return profileStack
     }()
+    
+    
+//    override var intrinsicContentSize: CGSize {
+//        return CGSize(width: 10, height: 10)
+//    }
     
     private var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
@@ -198,13 +205,14 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setData(username: String,friendsCount: Int,postsCount: Int,bio: String,profileDP: UIImage,profileAccessibility: ProfileAccess) {
+    func setData(username: String,friendsCount: Int,postsCount: Int,bio: String,profileDP: String,profileAccessibility: ProfileAccess) {
         
         userNameLabel.text = username
         friendsCountLabel.text = String(friendsCount)
         postsCountLabel.text = String(postsCount)
         bioLabel.text = bio
-        profilePhoto.image = profileDP
+        isPhotoAvailable = profileDP == Constants.noDPSavingFormat ? false : true
+        profilePhoto.image = AppUtility.getDisplayPicture(fileName: profileDP)
         self.profileAccessibility = profileAccessibility
         
         if self.profileAccessibility == .owner {
@@ -303,13 +311,22 @@ extension ProfileHeaderCollectionReusableView {
         imagePicker.addAction(UIAlertAction(title: "Gallery", style: .default) { _ in
             self.showImagePicker(selectedSource: .photoLibrary)
         })
-
-        imagePicker.addAction(UIAlertAction(title: "Remove", style: .default) { _ in
-            self.profilePhoto.image = UIImage(named: "blankPhoto")
-            self.delegate?.uploadPhoto(image: self.profilePhoto.image!)
-            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-            NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
-        })
+        
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        
+        let fileName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            imagePicker.addAction(UIAlertAction(title: "Remove", style: .default) { _ in
+                self.profilePhoto.image = UIImage(named: "blankPhoto")
+                self.delegate?.removeProfilePhoto()
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
+            })
+        }
+        
         
         imagePicker.addAction(
             UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
@@ -381,3 +398,26 @@ extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,U
         picker.dismiss(animated: true)
     }
 }
+
+
+
+/***
+ 
+ 
+ class HeaderView: UIView {
+    var name: UILabel!
+    var age: UILabel!
+ 
+    /////////// 20
+       | - 10
+    ////////////// 20
+ 
+ override var intrinsicContentSize: CGSize {
+    let totalHeigh = name.intrinsicContentSize.height + 10 + age.intrinsicContentSize.height
+    return CGSize(width: self.intrinsicContentSize.width, height: totalHeight)
+ }
+ 
+ }
+ 
+ 
+ */

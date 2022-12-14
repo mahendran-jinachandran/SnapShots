@@ -96,7 +96,25 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     private func setupDelegates() {
         pickerView.delegate = self
         pickerView.dataSource = self
+
         genderTextField.inputView = pickerView
+        genderTextField.inputAccessoryView = createToolBar()
+        genderTextField.tintColor = .clear
+    }
+    
+    private func createToolBar() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(addGender))
+        toolbar.setItems([doneButton], animated: true)
+        
+        return toolbar
+    }
+    
+    @objc private func addGender() {
+        genderTextField.text = genders[pickerView.selectedRow(inComponent: 0)]
+        genderTextField.resignFirstResponder()
     }
     
     private func setupTapGestures() {
@@ -104,7 +122,6 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         view.addGestureRecognizer(screenTap)
         
         skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
-
     }
     
     private func setupNotficationCenter() {
@@ -189,9 +206,13 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         return genders[row]
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        genderTextField.text = genders[row]
-        genderTextField.resignFirstResponder()
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+
+        if action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:)) {
+            return false
+        }
+
+        return super.canPerformAction(action, withSender: sender)
     }
     
     private var contentInsetBackstore: UIEdgeInsets = .zero
