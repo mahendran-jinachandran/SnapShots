@@ -75,6 +75,17 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         bioProfile.layer.borderColor = UIColor.lightGray.cgColor
         return bioProfile
     }()
+    
+    private lazy var maximumBioLength: UILabel = {
+        let maximumBioLength = UILabel()
+        maximumBioLength.text = "Maximum character limit reached"
+        maximumBioLength.translatesAutoresizingMaskIntoConstraints = false
+        maximumBioLength.textColor = .red
+        maximumBioLength.font = UIFont.systemFont(ofSize: 10)
+        maximumBioLength.isHidden = true
+        maximumBioLength.heightAnchor.constraint(equalToConstant: 12).isActive  = true
+        return maximumBioLength
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +111,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
     private func showUpdateButton(isShown: Bool) {
         
         if isShown {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(updateProfileDetails))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .plain, target: self, action: #selector(updateProfileDetails))
         } else {
             navigationItem.rightBarButtonItem = nil
         }
@@ -152,7 +163,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
         
-        [usernameTextField,usernameWarningLabel,profileBioTextView].forEach {
+        [usernameTextField,usernameWarningLabel,maximumBioLength,profileBioTextView].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -182,13 +193,23 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             profileBioTextView.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 40),
             profileBioTextView.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -40),
             profileBioTextView.heightAnchor.constraint(equalToConstant: 100),
-            profileBioTextView.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+            profileBioTextView.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor),
+            
+            maximumBioLength.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 8),
+            maximumBioLength.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         
         ])
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < 70
+        if newText.count < 70 && newText.count > 0 {
+            profileBioTextView.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+            maximumBioLength.isHidden = true
+            return true
+        } else {
+            maximumBioLength.isHidden = false
+            return false
+        }
     }
 }

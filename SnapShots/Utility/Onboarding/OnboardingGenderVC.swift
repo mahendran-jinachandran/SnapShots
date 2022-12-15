@@ -140,12 +140,9 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
             if gender.count == 0 {
                 genderTextField.layer.borderColor = UIColor.red.cgColor
                 return
-            }
-            
-            if onboardingControls.updateGender(gender: gender) {
-                showToast(message: "Gender Updated")
-            } else {
+            } else if !onboardingControls.updateGender(gender: gender) {
                 showToast(message: Constants.toastFailureStatus)
+                return
             }
         }
         

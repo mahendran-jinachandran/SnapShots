@@ -23,7 +23,7 @@ struct UserInstance {
                 userName: data[1],
                 password: data[2],
                 phoneNumber: data[3],
-                gender: data[4] == Constants.MALE ? .male : .female,
+                gender: data[4] == "-1" ? .preferNotSay : data[4] == Constants.MALE ? .male : .female,
                 age: data[5],
                 mail: data[6],
                 photo: data[7],

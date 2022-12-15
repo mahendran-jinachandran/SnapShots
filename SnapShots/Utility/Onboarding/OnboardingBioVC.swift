@@ -57,12 +57,23 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     
     private lazy var profileBioTextView: UITextView = {
         let bioProfile = UITextView()
-        bioProfile.textColor = .gray
+        bioProfile.textColor = UIColor(named: "appTheme")
         bioProfile.font = UIFont.systemFont(ofSize: 16)
         bioProfile.translatesAutoresizingMaskIntoConstraints = false
         bioProfile.layer.borderWidth = 1.0
-        bioProfile.layer.borderColor = UIColor.gray.cgColor
+        bioProfile.layer.borderColor = UIColor(named: "appTheme")?.cgColor
         return bioProfile
+    }()
+    
+    private lazy var maximumBioLength: UILabel = {
+        let maximumBioLength = UILabel()
+        maximumBioLength.text = "Maximum character limit reached"
+        maximumBioLength.translatesAutoresizingMaskIntoConstraints = false
+        maximumBioLength.textColor = .red
+        maximumBioLength.font = UIFont.systemFont(ofSize: 10)
+        maximumBioLength.isHidden = true
+        maximumBioLength.heightAnchor.constraint(equalToConstant: 12).isActive  = true
+        return maximumBioLength
     }()
     
     private lazy var skipButton: UIButton = {
@@ -88,6 +99,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         setupConstraints()
         setupTapGestures()
         
+        profileBioTextView.delegate = self
         skipButton.tintColor = UIColor(named: "appTheme")
     }
     
@@ -115,15 +127,13 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     
     @objc private func finishOnboarding() {
         if let bioProfile = profileBioTextView.text {
+            
             if bioProfile.count == 0 {
                 profileBioTextView.layer.borderColor = UIColor.red.cgColor
                 return
-            }
-            
-            if onboardingControls.updateBio(bio: bioProfile) {
-                showToast(message: "Bio updated")
-            } else {
+            } else if !onboardingControls.updateBio(bio: bioProfile) {
                 showToast(message: Constants.toastFailureStatus)
+                return
             }
         }
         
@@ -143,7 +153,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
-        [bioLogo,bioLabel,profileBioTextView,skipButton].forEach {
+        [bioLogo,bioLabel,profileBioTextView,maximumBioLength,skipButton].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -175,6 +185,9 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
             profileBioTextView.widthAnchor.constraint(equalToConstant: 350),
             profileBioTextView.heightAnchor.constraint(equalToConstant: 100),
             
+            maximumBioLength.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 8),
+            maximumBioLength.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             skipButton.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 20),
             skipButton.widthAnchor.constraint(equalToConstant: 100),
             skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
@@ -185,7 +198,14 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < 70
+        if newText.count < 70 && newText.count > 0 {
+            profileBioTextView.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+            maximumBioLength.isHidden = true
+            return true
+        } else {
+            maximumBioLength.isHidden = false
+            return false
+        }
     }
     
     private var contentInsetBackstore: UIEdgeInsets = .zero

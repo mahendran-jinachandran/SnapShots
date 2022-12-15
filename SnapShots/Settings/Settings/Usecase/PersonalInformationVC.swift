@@ -144,7 +144,7 @@ class PersonalInformationVC: UIViewController {
        let user = accountControls.getuserDetails()
        email.text = user.mail == "-1" ? Constants.EMPTY : user.mail
        phone.text = user.phoneNumber
-       gender.text = user.gender == .male ? Constants.MALE : Constants.FEMALE
+       gender.text = user.gender == .preferNotSay ? Constants.EMPTY : user.gender == .male ? Constants.MALE : Constants.FEMALE
        dateOfBirth.text = user.age == "-1" ? Constants.EMPTY : user.age
     }
     

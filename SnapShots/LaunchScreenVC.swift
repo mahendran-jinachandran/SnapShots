@@ -16,7 +16,6 @@ class LaunchScreenVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        AppUtility.lockOrientation(.portrait)
         SQLiteDatabase.shared.getDatabaseReady()
         UIImage().saveImage(imageName: Constants.noDPSavingFormat, image: UIImage(named: "blankPhoto")!)
 

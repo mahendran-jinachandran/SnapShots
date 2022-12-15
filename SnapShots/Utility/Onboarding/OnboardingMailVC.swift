@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OnboardingMailVC: UIViewController {
+class OnboardingMailVC: UIViewController,UITextFieldDelegate {
     
     private var onboardingControls: OnboardingProtocol
     init(onboardingControls: OnboardingProtocol) {
@@ -91,6 +91,7 @@ class OnboardingMailVC: UIViewController {
         setupConstraints()
         setupTapGestures()
 
+        emailTextField.delegate = self
         skipButton.tintColor = UIColor(named: "appTheme")
     }
     
@@ -121,16 +122,22 @@ class OnboardingMailVC: UIViewController {
     @objc private func validateMail() {
         
         if let usermail = emailTextField.text {
-            if usermail.count == 0 || !onboardingControls.updateEmail(email: usermail) {
+            
+            if usermail.count == 0 {
                 emailTextField.layer.borderColor = UIColor.red.cgColor
+                return
+            }
+            else if !onboardingControls.updateEmail(email: usermail) {
                 showToast(message: Constants.toastFailureStatus)
                 return
-            } else {
-                showToast(message: "Mail updated")
-            }
+            } 
         }
         
         navigateToNext()
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        emailTextField.layer.borderColor = UIColor.gray.cgColor
     }
     
     @objc private func navigateToNext() {
