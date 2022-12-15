@@ -71,7 +71,7 @@ class MailVC: UIViewController {
     
     private lazy var uploadLabel: UILabel = {
        let uploadLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
-        uploadLabel.text = "Upload"
+        uploadLabel.text = "Update"
         uploadLabel.textColor = UIColor(named: "appTheme")
         uploadLabel.isUserInteractionEnabled = true
         return uploadLabel

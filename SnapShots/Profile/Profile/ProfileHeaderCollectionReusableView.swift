@@ -334,6 +334,11 @@ extension ProfileHeaderCollectionReusableView {
         
         delegate?.controller().present(imagePicker, animated: true,completion: nil)
     }
+    
+    override var intrinsicContentSize: CGSize {
+        
+        return CGSize(width: self.frame.size.width, height: 180  + userNameLabel.intrinsicContentSize.height + bioLabel.intrinsicContentSize.height + 70)
+    }
 }
 
 extension ProfileHeaderCollectionReusableView {
@@ -353,7 +358,6 @@ extension ProfileHeaderCollectionReusableView {
             profileStack.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 10),
             profileStack.heightAnchor.constraint(equalToConstant: 60),
             
-
             userNameLabel.topAnchor.constraint(equalTo: profileStack.bottomAnchor,constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
             userNameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),

@@ -30,8 +30,8 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
-        scrollView.backgroundColor = .systemBackground
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .systemBackground
         return scrollView
     }()
     
@@ -86,6 +86,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         maximumBioLength.heightAnchor.constraint(equalToConstant: 12).isActive  = true
         return maximumBioLength
     }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,9 +95,25 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         view.backgroundColor = .systemBackground
 
         setConstraints()
+        setupNotficationCenter()
+        setupTapGestures()
         showUpdateButton(isShown: true)
         usernameTextField.delegate = self
         profileBioTextView.delegate = self
+    }
+    
+    private func setupTapGestures() {
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    private func setupNotficationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -192,18 +209,17 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             profileBioTextView.topAnchor.constraint(equalTo: usernameWarningLabel.bottomAnchor,constant: 20),
             profileBioTextView.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 40),
             profileBioTextView.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -40),
-            profileBioTextView.heightAnchor.constraint(equalToConstant: 100),
-            profileBioTextView.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor),
+           profileBioTextView.heightAnchor.constraint(equalToConstant: 100),
+           profileBioTextView.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor),
             
             maximumBioLength.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 8),
             maximumBioLength.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        
         ])
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        if newText.count < 70 && newText.count > 0 {
+        if newText.count < 70 && newText.count >= 0 {
             profileBioTextView.layer.borderColor = UIColor(named: "appTheme")?.cgColor
             maximumBioLength.isHidden = true
             return true
@@ -212,4 +228,56 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             return false
         }
     }
+        
+    @objc private func handleKeyboard(_ notification: Notification) {
+        
+        var scrollViewMovingOffsetY: CGFloat = 0
+        
+        if notification.name == UIResponder.keyboardDidHideNotification {
+            scrollView.contentInset = .zero
+        }
+        
+        if notification.name != UIResponder.keyboardDidHideNotification, let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            
+            let scrollViewMaxY = self.view.convert(
+                scrollView.frame,
+                to: nil
+            ).maxY
+            
+            scrollViewMovingOffsetY = -(scrollViewMaxY - keyboardFrame.minY) + scrollViewMovingOffsetY + scrollView.contentInset.bottom
+            
+            if let keyWindow = UIApplication.shared.keyWindow {
+                scrollViewMovingOffsetY -= (UIScreen.main.bounds.height - keyWindow.frame.height) / 2
+            }
+        }
+        
+        let keyboardAwareInset = UIEdgeInsets(
+            top: scrollView.contentInset.top,
+            left: scrollView.contentInset.left,
+            bottom: scrollView.contentInset.bottom + abs(scrollViewMovingOffsetY),
+            right: scrollView.contentInset.right
+        )
+        scrollView.contentInset = keyboardAwareInset
+        
+        var firstResponderView: UIView? = nil
+        if profileBioTextView.isFirstResponder {
+            firstResponderView = profileBioTextView
+        } else if profileBioTextView.isFirstResponder {
+            firstResponderView = profileBioTextView
+        }
+
+        UIView.animate(withDuration: notification.name == UIResponder.keyboardDidShowNotification ? 0 : 0.25) {[weak self] in
+            self?.view.layoutIfNeeded()
+        } completion: {[weak self] finished in
+            guard let self = self else { return }
+
+            if let focusedView = firstResponderView {
+                if self.scrollView.isDecelerating { return }
+                    self.scrollView.scrollRectToVisible(focusedView.superview!.frame, animated: true)
+
+            }
+        }
+    }
 }
+
+

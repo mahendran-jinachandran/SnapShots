@@ -96,11 +96,18 @@ class NewPostVC: UIViewController {
         
         let uploadTap = UITapGestureRecognizer(target: self, action: #selector(uploadPost(_:)))
         uploadLabel.addGestureRecognizer(uploadTap)
+        
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     private func setupNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboard), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     private func setupProfileConstraints() {
@@ -155,32 +162,54 @@ class NewPostVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    private var contentInsetBackstore: UIEdgeInsets = .zero
-    @objc private func didKeyboardAppear(notification:Notification){
+    @objc private func handleKeyboard(_ notification: Notification) {
         
-        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
-            return
+        var scrollViewMovingOffsetY: CGFloat = 0
+        
+        if notification.name == UIResponder.keyboardDidHideNotification {
+            scrollView.contentInset = .zero
         }
         
-        if contentInsetBackstore != .zero {
-            return
+        if notification.name != UIResponder.keyboardDidHideNotification, let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            
+            let scrollViewMaxY = self.view.convert(
+                scrollView.frame,
+                to: nil
+            ).maxY
+            
+            scrollViewMovingOffsetY = -(scrollViewMaxY - keyboardFrame.minY) + scrollViewMovingOffsetY + scrollView.contentInset.bottom
+            
+            if let keyWindow = UIApplication.shared.keyWindow {
+                scrollViewMovingOffsetY -= (UIScreen.main.bounds.height - keyWindow.frame.height) / 2
+            }
         }
         
-        if contentInsetBackstore == .zero {
-            contentInsetBackstore = scrollView.contentInset
-        }
-        
-        scrollView.contentInset = UIEdgeInsets(
-            top: contentInsetBackstore.top,
-            left: contentInsetBackstore.left,
-            bottom: keyboardFrame.height,
-            right: contentInsetBackstore.right
+        let keyboardAwareInset = UIEdgeInsets(
+            top: scrollView.contentInset.top,
+            left: scrollView.contentInset.left,
+            bottom: scrollView.contentInset.bottom + abs(scrollViewMovingOffsetY),
+            right: scrollView.contentInset.right
         )
-    }
-    
-    @objc private func didKeyboardDisappear(notification:Notification){
-        scrollView.contentInset = contentInsetBackstore
-        contentInsetBackstore = .zero
+        scrollView.contentInset = keyboardAwareInset
+        
+        var firstResponderView: UIView? = nil
+        if caption.isFirstResponder {
+            firstResponderView = caption
+        } else if caption.isFirstResponder {
+            firstResponderView = caption
+        }
+
+        UIView.animate(withDuration: notification.name == UIResponder.keyboardDidShowNotification ? 0 : 0.25) {[weak self] in
+            self?.view.layoutIfNeeded()
+        } completion: {[weak self] finished in
+            guard let self = self else { return }
+
+            if let focusedView = firstResponderView {
+                if self.scrollView.isDecelerating { return }
+                    self.scrollView.scrollRectToVisible(focusedView.superview!.frame, animated: true)
+
+            }
+        }
     }
 }
 
@@ -201,13 +230,15 @@ extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDeleg
             self.showImagePicker(selectedSource: .photoLibrary)
         })
         
-        imagePicker.addAction(
-            UIAlertAction(title: "Remove", style: .default) { _ in
-                self.postImage.image = UIImage(named: "blankPhoto")
-                self.uploadLabel.isUserInteractionEnabled = false
-                self.uploadLabel.alpha = 0.5
-            }
-        )
+        if isPhotoUploaded {
+            imagePicker.addAction(
+                UIAlertAction(title: "Remove", style: .default) { _ in
+                    self.postImage.image = UIImage(named: "blankPhoto")
+                    self.uploadLabel.isUserInteractionEnabled = false
+                    self.uploadLabel.alpha = 0.5
+                }
+            )
+        }
         
         imagePicker.addAction(
             UIAlertAction(title: "Cancel", style: .cancel,handler: nil)

@@ -79,8 +79,17 @@ class PhoneNumberVC: UIViewController {
         setupNotificationCenter()
         setupConstraints()
         setupNavigationButtons()
+        setupTapGestures()
     }
     
+    private func setupTapGestures() {
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
     
     private func setupNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -127,7 +136,7 @@ class PhoneNumberVC: UIViewController {
     }
     
     private func setupNavigationButtons() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Upload", style: .plain, target: self, action: #selector(updatePhoneNumber))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .plain, target: self, action: #selector(updatePhoneNumber))
     }
     
     @objc private func updatePhoneNumber() {
@@ -190,6 +199,8 @@ class PhoneNumberVC: UIViewController {
             bottom: keyboardFrame.height,
             right: contentInsetBackstore.right
         )
+        
+        
     }
     
     @objc private func didKeyboardDisappear(notification:Notification){

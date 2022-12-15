@@ -9,6 +9,21 @@ import UIKit
 
 class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.decelerationRate = .fast
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let scrollContainer = UIView()
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        scrollContainer.backgroundColor = .systemBackground
+        return scrollContainer
+    }()
+    
     private lazy var currentPassword: UITextField = {
         let currentPassword = UITextField()
         currentPassword.placeholder = "Current Password"
@@ -84,6 +99,7 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         setupDelegates()
         setConstraints()
         setupTapGestures()
+        setupNotificationCenter()
     }
     
     private func setupNavigationItems() {
@@ -91,6 +107,11 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
+    }
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didKeyboardDisappear), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     private func setupDelegates() {
@@ -101,8 +122,15 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     private func setupTapGestures() {
         saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
-
+        
+        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(screenTap)
     }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     
     private var isCurrentPasswordEntered: Bool = false
     private var isNewPasswordEntered: Bool = false
@@ -157,35 +185,50 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     private func setConstraints() {
         
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
         [currentPassword,currentPasswordIncorrectLabel,newPassword,againNewPassword,newPasswordsMismatchLabel].forEach {
-            view.addSubview($0)
+            scrollContainer.addSubview($0)
         }
         
         NSLayoutConstraint.activate([
-            currentPassword.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
-            currentPassword.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            currentPassword.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            currentPassword.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 20),
+            currentPassword.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 10),
+            currentPassword.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -10),
             currentPassword.heightAnchor.constraint(equalToConstant: 50),
             
             currentPasswordIncorrectLabel.topAnchor.constraint(equalTo: currentPassword.bottomAnchor,constant: 10),
-            currentPasswordIncorrectLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            currentPasswordIncorrectLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            currentPasswordIncorrectLabel.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 10),
+            currentPasswordIncorrectLabel.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -10),
             currentPasswordIncorrectLabel.heightAnchor.constraint(equalToConstant: 20),
             
             newPassword.topAnchor.constraint(equalTo: currentPasswordIncorrectLabel.bottomAnchor,constant: 20),
-            newPassword.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            newPassword.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            newPassword.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 10),
+            newPassword.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -10),
             newPassword.heightAnchor.constraint(equalToConstant: 50),
 
             againNewPassword.topAnchor.constraint(equalTo: newPassword.bottomAnchor,constant: 20),
-            againNewPassword.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            againNewPassword.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
+            againNewPassword.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 10),
+            againNewPassword.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -10),
             againNewPassword.heightAnchor.constraint(equalToConstant: 50),
             
             newPasswordsMismatchLabel.topAnchor.constraint(equalTo: againNewPassword.bottomAnchor,constant: 10),
-            newPasswordsMismatchLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            newPasswordsMismatchLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
-            newPasswordsMismatchLabel.heightAnchor.constraint(equalToConstant: 20)
+            newPasswordsMismatchLabel.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 10),
+            newPasswordsMismatchLabel.trailingAnchor.constraint(equalTo:scrollContainer.trailingAnchor,constant: -10),
+            newPasswordsMismatchLabel.heightAnchor.constraint(equalToConstant: 20),
+            newPasswordsMismatchLabel.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
     }
     
@@ -217,5 +260,33 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         newPasswordsMismatchLabel.isHidden = false
         invalidPasswordStatus(warningLabel: PasswordActionError.mismatch.description)
         return false
+    }
+    
+    private var contentInsetBackstore: UIEdgeInsets = .zero
+    @objc private func didKeyboardAppear(notification:Notification){
+        
+        guard let keyboardFrame = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect else {
+            return
+        }
+        
+        if contentInsetBackstore != .zero {
+            return
+        }
+        
+        if contentInsetBackstore == .zero {
+            contentInsetBackstore = scrollView.contentInset
+        }
+        
+        scrollView.contentInset = UIEdgeInsets(
+            top: contentInsetBackstore.top,
+            left: contentInsetBackstore.left,
+            bottom: keyboardFrame.height,
+            right: contentInsetBackstore.right
+        )
+    }
+    
+    @objc private func didKeyboardDisappear(notification:Notification){
+        scrollView.contentInset = contentInsetBackstore
+        contentInsetBackstore = .zero
     }
 }

@@ -215,7 +215,11 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
 //
 //        headerView.intrinsicContentSize
         
-        return CGSize(width: 500, height: 300)
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+        
+        
+        return headerView.intrinsicContentSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
