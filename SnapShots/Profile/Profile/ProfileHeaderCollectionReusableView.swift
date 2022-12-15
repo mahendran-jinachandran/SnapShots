@@ -336,7 +336,6 @@ extension ProfileHeaderCollectionReusableView {
     }
     
     override var intrinsicContentSize: CGSize {
-        
         return CGSize(width: self.frame.size.width, height: 180  + userNameLabel.intrinsicContentSize.height + bioLabel.intrinsicContentSize.height + 70)
     }
 }

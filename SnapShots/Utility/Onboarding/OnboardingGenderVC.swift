@@ -49,8 +49,8 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         return genderImage
     }()
     
-    private lazy var genderTextField: UITextField = {
-        let gender = UITextField()
+    private lazy var genderTextField: CustomTextField = {
+        let gender = CustomTextField()
         gender.placeholder = "Gender"
         gender.layer.cornerRadius = 5
         gender.layer.borderWidth = 2

@@ -50,8 +50,8 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         return genderImage
     }()
     
-    private lazy var genderTextField: UITextField = {
-        let genderTextField = UITextField()
+    private lazy var genderTextField: CustomTextField = {
+        let genderTextField = CustomTextField()
         genderTextField.text = gender
         genderTextField.layer.cornerRadius = 5
         genderTextField.layer.borderWidth = 2

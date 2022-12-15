@@ -246,7 +246,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             
             scrollViewMovingOffsetY = -(scrollViewMaxY - keyboardFrame.minY) + scrollViewMovingOffsetY + scrollView.contentInset.bottom
             
-            if let keyWindow = UIApplication.shared.keyWindow {
+            if let keyWindow = view.window {
                 scrollViewMovingOffsetY -= (UIScreen.main.bounds.height - keyWindow.frame.height) / 2
             }
         }

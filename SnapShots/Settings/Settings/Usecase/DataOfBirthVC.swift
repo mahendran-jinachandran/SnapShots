@@ -49,8 +49,8 @@ class DataOfBirthVC: UIViewController {
         return birthdayLogo
     }()
 
-    private lazy var dateOfBirthTextField: UITextField = {
-        let dateOfBirthTextField = UITextField()
+    private lazy var dateOfBirthTextField: CustomTextField = {
+        let dateOfBirthTextField = CustomTextField()
         dateOfBirthTextField.text = dateOfBirth
         dateOfBirthTextField.layer.cornerRadius = 5
         dateOfBirthTextField.layer.borderWidth = 2

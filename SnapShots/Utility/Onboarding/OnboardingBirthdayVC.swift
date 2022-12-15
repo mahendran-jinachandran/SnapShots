@@ -48,8 +48,8 @@ class OnboardingBirthdayVC: UIViewController {
         return birthdayLogo
     }()
 
-    private lazy var dateOfBirth: UITextField = {
-        let dateOfBirth = UITextField()
+    private lazy var dateOfBirth: CustomTextField = {
+        let dateOfBirth = CustomTextField()
         dateOfBirth.placeholder = "Birthday"
         dateOfBirth.layer.cornerRadius = 5
         dateOfBirth.layer.borderWidth = 2
@@ -195,15 +195,6 @@ class OnboardingBirthdayVC: UIViewController {
         ])
     }
     
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-
-        if action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:)) {
-            return false
-        }
-
-        return super.canPerformAction(action, withSender: sender)
-    }
-    
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 
@@ -230,5 +221,13 @@ class OnboardingBirthdayVC: UIViewController {
     @objc private func didKeyboardDisappear(notification:Notification){
         scrollView.contentInset = contentInsetBackstore
         contentInsetBackstore = .zero
+    }
+}
+
+
+class MyTextField: UITextField {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        super.canPerformAction(action, withSender: sender)
+        return false
     }
 }

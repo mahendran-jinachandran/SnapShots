@@ -33,7 +33,7 @@ class SQLiteDatabase: DatabaseProtocol {
 
         let DBPath = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Snapshots.sqlite").relativePath
         
-        print(DBPath)
+      //  print(DBPath)
 
         if sqlite3_open(DBPath, &dbPointer) == SQLITE_OK {
             print("Database connected")

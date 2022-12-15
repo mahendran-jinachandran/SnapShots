@@ -133,9 +133,9 @@ class NewPostVC: UIViewController {
             scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
             postImage.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 30),
-            postImage.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 30),
-            postImage.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -30),
-            postImage.heightAnchor.constraint(equalToConstant: 300),
+            postImage.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
+            postImage.widthAnchor.constraint(equalToConstant: 200),
+            postImage.heightAnchor.constraint(equalToConstant: 200),
             
             captionLabel.topAnchor.constraint(equalTo: postImage.bottomAnchor,constant: 20),
             captionLabel.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 30),
@@ -179,7 +179,7 @@ class NewPostVC: UIViewController {
             
             scrollViewMovingOffsetY = -(scrollViewMaxY - keyboardFrame.minY) + scrollViewMovingOffsetY + scrollView.contentInset.bottom
             
-            if let keyWindow = UIApplication.shared.keyWindow {
+            if let keyWindow = view.window {
                 scrollViewMovingOffsetY -= (UIScreen.main.bounds.height - keyWindow.frame.height) / 2
             }
         }

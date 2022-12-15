@@ -77,6 +77,7 @@
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
 		BFA959332949B03A00387440 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA959322949B03A00387440 /* UIButtonExtension.swift */; };
+		BFA95935294B07F300387440 /* SubClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA95934294B07F300387440 /* SubClass.swift */; };
 		BFAE19CB2941820F00D7A012 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */; };
 		BFAE19CD2941823E00D7A012 /* EditProfileControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CC2941823E00D7A012 /* EditProfileControls.swift */; };
 		BFAE19CF2941824A00D7A012 /* EditProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CE2941824A00D7A012 /* EditProfileProtocols.swift */; };
@@ -196,6 +197,7 @@
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
 		BFA959322949B03A00387440 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		BFA95934294B07F300387440 /* SubClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubClass.swift; sourceTree = "<group>"; };
 		BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		BFAE19CC2941823E00D7A012 /* EditProfileControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileControls.swift; sourceTree = "<group>"; };
 		BFAE19CE2941824A00D7A012 /* EditProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileProtocols.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				BF34662C29348D98006FF9FE /* Constants.swift */,
 				BF4542C4291A971100BAC4B2 /* AppUtility.swift */,
 				BF4542E8291B579E00BAC4B2 /* UserInstance.swift */,
+				BFA95934294B07F300387440 /* SubClass.swift */,
 			);
 			name = Utils;
 			path = ..;
@@ -819,6 +822,7 @@
 				BF4542AE291A31CB00BAC4B2 /* User.swift in Sources */,
 				BFDD55D42937379D00DC8D68 /* AuthManager.swift in Sources */,
 				BF4542B2291A31DC00BAC4B2 /* Post.swift in Sources */,
+				BFA95935294B07F300387440 /* SubClass.swift in Sources */,
 				BFDF7060292B7A25001A736F /* UIViewControllerExtension.swift in Sources */,
 				BF4542E5291B4B9500BAC4B2 /* SQLiteDB.swift in Sources */,
 				BFDF7070292DFAAC001A736F /* SearchCustomCell.swift in Sources */,

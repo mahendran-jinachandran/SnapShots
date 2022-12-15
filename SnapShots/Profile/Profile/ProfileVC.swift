@@ -208,16 +208,9 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-//        let headerView = collectionView.dequeueReusableSupplementaryView(
-//            ofKind: "",
-//            withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-//            for: IndexPath(row: 0, section: section)) as! ProfileHeaderCollectionReusableView
-//
-//        headerView.intrinsicContentSize
         
         let indexPath = IndexPath(row: 0, section: section)
         let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
-        
         
         return headerView.intrinsicContentSize
     }

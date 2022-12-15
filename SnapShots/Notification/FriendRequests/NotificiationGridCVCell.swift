@@ -41,7 +41,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
     public lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-       userNameLabel.text = "Mahendran"
+       userNameLabel.text = "MahendranMahendranMahendran"
        userNameLabel.font = UIFont.systemFont(ofSize:17)
        return userNameLabel
     }()
@@ -121,21 +121,22 @@ class NotificiationGridCVCell: UICollectionViewCell {
             profilePhoto.heightAnchor.constraint(equalToConstant: 60),
             profilePhoto.widthAnchor.constraint(equalToConstant: 60),
             
-            userNameLabel.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor),
+            userNameLabel.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 12),
             userNameLabel.centerXAnchor.constraint(equalTo: requestContainer.centerXAnchor),
-            userNameLabel.centerYAnchor.constraint(equalTo: requestContainer.centerYAnchor,constant: 4),
-            userNameLabel.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 4),
-            userNameLabel.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor,constant: -4),
+            userNameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: requestContainer.leadingAnchor,constant: 4),
+            userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: requestContainer.trailingAnchor,constant: -4),
             
-            acceptRequest.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 7.5),
+            acceptRequest.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 6),
             acceptRequest.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 8),
             acceptRequest.heightAnchor.constraint(equalToConstant: 35),
-            acceptRequest.widthAnchor.constraint(equalToConstant: 80),
+            acceptRequest.widthAnchor.constraint(equalTo: requestContainer.widthAnchor, multiplier: 0.45),
+            acceptRequest.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor),
             
-            rejectRequest.leadingAnchor.constraint(equalTo: acceptRequest.trailingAnchor,constant: 6.5),
+            rejectRequest.leadingAnchor.constraint(equalTo: acceptRequest.trailingAnchor),
             rejectRequest.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 8),
             rejectRequest.heightAnchor.constraint(equalToConstant: 35),
-            rejectRequest.widthAnchor.constraint(equalToConstant: 80),
+            rejectRequest.widthAnchor.constraint(equalTo: requestContainer.widthAnchor, multiplier: 0.45),
+            rejectRequest.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor, constant: -6),
             
         ])
     }
