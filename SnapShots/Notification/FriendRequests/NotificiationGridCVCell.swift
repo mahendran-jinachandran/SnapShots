@@ -124,6 +124,8 @@ class NotificiationGridCVCell: UICollectionViewCell {
             userNameLabel.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor),
             userNameLabel.centerXAnchor.constraint(equalTo: requestContainer.centerXAnchor),
             userNameLabel.centerYAnchor.constraint(equalTo: requestContainer.centerYAnchor,constant: 4),
+            userNameLabel.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 4),
+            userNameLabel.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor,constant: -4),
             
             acceptRequest.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 7.5),
             acceptRequest.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 8),
