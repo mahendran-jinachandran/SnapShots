@@ -61,7 +61,6 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     private lazy var phoneNumberWarningLabel: UILabel = {
         let phoneNumberLabel = UILabel()
         phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        phoneNumberLabel.text = Constants.unregisteredPhoneNumberWarning
         phoneNumberLabel.textColor = .red
         phoneNumberLabel.font = UIFont.systemFont(ofSize: 10)
         phoneNumberLabel.isHidden = true
@@ -104,11 +103,17 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
     }
     
     @objc func validatePhoneNumber() {
-        if AppUtility.validatePhoneNumber(phoneNumber: phoneNumber.text!) == .success(false){
+    
+        if phoneNumber.text!.count < Constants.minimumPhoneNumberLength {
+            phoneNumberWarningLabel.text = "Enter Valid Phone Number"
+            phoneNumberWarningLabel.isHidden = false
+            return
+        } else if AppUtility.validatePhoneNumber(phoneNumber: phoneNumber.text!) == .success(false){
             phoneNumberWarningLabel.isHidden = true
             phoneNumber.resignFirstResponder()
             sendOTP()
         } else {
+            phoneNumberWarningLabel.text = Constants.unregisteredPhoneNumberWarning
             phoneNumberWarningLabel.isHidden = false
         }
     }

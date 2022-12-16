@@ -203,15 +203,6 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         return genders[row]
     }
     
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-
-        if action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:)) {
-            return false
-        }
-
-        return super.canPerformAction(action, withSender: sender)
-    }
-    
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
 

@@ -37,10 +37,6 @@ class SearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
                 
-        [profilePhoto,userNameLabel].forEach {
-            contentView.addSubview($0)
-        }
-                
         setupConstraint()
         profilePhoto.layer.cornerRadius = 50/2
     }
@@ -55,6 +51,11 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     private func setupConstraint() {
+        
+        [profilePhoto,userNameLabel].forEach {
+            contentView.addSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
             
             profilePhoto.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),

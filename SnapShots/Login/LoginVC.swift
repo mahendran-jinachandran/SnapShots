@@ -144,6 +144,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.isNavigationBarHidden = true
         setupNavigationItems()
         setupNotficationCenter()
         setupTapGestures()
@@ -268,12 +269,11 @@ extension LoginVC {
         if textField == password {
             isPasswordEntered = textField.text!.count > 0 ? true : false
         } else if textField == phoneNumber {
+        
             isPhoneNumberEntered = textField.text!.count > 0 ? true : false
             if isPhoneNumberEntered {
                 displayValidPhoneNumber()
-            } else {
-                displayInvalidPhoneNumber(warningText: "Enter phone number")
-            }
+            } 
         }
         
         if isPasswordEntered && isPhoneNumberEntered {
@@ -285,10 +285,10 @@ extension LoginVC {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == phoneNumber {
-            if phoneNumber.text!.count > 0 {
+            if phoneNumber.text!.count >= 8 {
                 loginController.validatePhoneNumber(phoneNumber: phoneNumber.text!)
             } else {
-                displayInvalidPhoneNumber(warningText: "Enter phone number")
+                displayInvalidPhoneNumber(warningText: "Enter valid phone number of \(Constants.phoneNumberLength)")
             }
         }
     }

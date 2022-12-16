@@ -68,11 +68,8 @@ class DataOfBirthVC: UIViewController {
         return uploadLabel
     }()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
 
         setupNavigationItems()
         setConstraints()
@@ -181,17 +178,7 @@ class DataOfBirthVC: UIViewController {
             
         ])
     }
-    
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
 
-        if action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:)) {
-            return false
-        }
-
-        return super.canPerformAction(action, withSender: sender)
-    }
-    
-    
     private var contentInsetBackstore: UIEdgeInsets = .zero
     @objc private func didKeyboardAppear(notification:Notification){
         
