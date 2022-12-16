@@ -139,12 +139,12 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }()
     
     private lazy var profileAccessButton: UIButton = {
-        let profileAccessButton = CustomButton(selectColour: UIColor(named: "post_bg_color")!, deselectColour: UIColor(named: "post_bg_color")!)
+        let profileAccessButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         profileAccessButton.titleLabel?.text = "Edit \n  Profile"
         profileAccessButton.titleLabel?.textAlignment = .center
         profileAccessButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        profileAccessButton.backgroundColor = UIColor(named: "post_bg_color")
         profileAccessButton.translatesAutoresizingMaskIntoConstraints = false
+        profileAccessButton.backgroundColor = .systemBlue
         profileAccessButton.layer.cornerRadius = 10
         profileAccessButton.layer.borderWidth = 0.5
         profileAccessButton.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
@@ -249,17 +249,14 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 
     private func setupFriendProfile() {
         profileAccessButton.setTitle("Unfriend", for: .normal)
-        profileAccessButton.backgroundColor = .systemBlue
     }
     
     private func setupRequestedUserProfile() {
         profileAccessButton.setTitle(" Cancel\nRequest", for: .normal)
-        profileAccessButton.backgroundColor = .systemBlue
     }
 
     private func setupUnknownUserProfile() {
         profileAccessButton.setTitle("Follow", for: .normal)
-        profileAccessButton.backgroundColor = .systemBlue
     }
 
     @objc private func editProfile() {
@@ -401,26 +398,3 @@ extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,U
         picker.dismiss(animated: true)
     }
 }
-
-
-
-/***
- 
- 
- class HeaderView: UIView {
-    var name: UILabel!
-    var age: UILabel!
- 
-    /////////// 20
-       | - 10
-    ////////////// 20
- 
- override var intrinsicContentSize: CGSize {
-    let totalHeigh = name.intrinsicContentSize.height + 10 + age.intrinsicContentSize.height
-    return CGSize(width: self.intrinsicContentSize.width, height: totalHeight)
- }
- 
- }
- 
- 
- */

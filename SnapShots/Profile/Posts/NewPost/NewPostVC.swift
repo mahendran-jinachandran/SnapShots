@@ -233,6 +233,7 @@ extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDeleg
         if isPhotoUploaded {
             imagePicker.addAction(
                 UIAlertAction(title: "Remove", style: .default) { _ in
+                    self.isPhotoUploaded = false
                     self.postImage.image = UIImage(named: "blankPhoto")
                     self.uploadLabel.isUserInteractionEnabled = false
                     self.uploadLabel.alpha = 0.5
