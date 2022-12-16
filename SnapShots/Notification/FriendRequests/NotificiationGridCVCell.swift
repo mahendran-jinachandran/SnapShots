@@ -46,8 +46,8 @@ class NotificiationGridCVCell: UICollectionViewCell {
        return userNameLabel
     }()
     
-    public lazy var acceptRequest: UIButton = {
-        let acceptRequest = UIButton(type: .custom)
+    public lazy var acceptRequest: CustomButton = {
+        let acceptRequest = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         acceptRequest.translatesAutoresizingMaskIntoConstraints = false
         acceptRequest.setTitle("Accept", for: .normal)
         acceptRequest.clipsToBounds = true
@@ -57,8 +57,8 @@ class NotificiationGridCVCell: UICollectionViewCell {
         return acceptRequest
     }()
     
-    public lazy var rejectRequest: UIButton = {
-        let rejectRequest = UIButton(type: .custom)
+    public lazy var rejectRequest: CustomButton = {
+        let rejectRequest = CustomButton(selectColour: UIColor(named: "moreInfo_bg_color")!, deselectColour: UIColor(named: "moreInfo_bg_color")!)
         rejectRequest.translatesAutoresizingMaskIntoConstraints = false
         rejectRequest.clipsToBounds = true
         rejectRequest.backgroundColor = UIColor(named: "moreInfo_bg_color")

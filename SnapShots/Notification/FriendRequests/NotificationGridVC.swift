@@ -126,6 +126,7 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
         
         if notificationControls.acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userID) {
             NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
             friendRequests.remove(at: indexPath.row)
             friendRequestsCV.reloadData()
         }

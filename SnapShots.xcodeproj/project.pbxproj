@@ -332,19 +332,21 @@
 		BF4542592918C03100BAC4B2 /* SnapShots */ = {
 			isa = PBXGroup;
 			children = (
-				BFC9BAB52938602600EE1D42 /* Enums */,
+				BF4542EC291B8A4A00BAC4B2 /* LaunchScreen */,
+				BF4542B7291A329C00BAC4B2 /* Onboarding */,
+				BF4542952918D72300BAC4B2 /* Login */,
+				BF4542A9291A0F1700BAC4B2 /* Register */,
 				BFDD55942937205C00DC8D68 /* ForgotPassword */,
-				BFA560162926474400A948B4 /* Utility */,
-				BF4542C8291B4A4B00BAC4B2 /* Database */,
+				BF4542BE291A86EB00BAC4B2 /* SnapShots */,
 				BFDF706A292CE4EB001A736F /* Feeds */,
 				BFDF7069292CE4D9001A736F /* Discover */,
-				BFA560102925ED2D00A948B4 /* Settings */,
 				BFA5600B2925197800A948B4 /* Notification */,
 				BFA560092924EF4C00A948B4 /* Profile */,
-				BF4542BE291A86EB00BAC4B2 /* SnapShots */,
+				BFA560102925ED2D00A948B4 /* Settings */,
 				BF4542AC291A31BA00BAC4B2 /* Entity */,
-				BF4542A9291A0F1700BAC4B2 /* Register */,
-				BF4542952918D72300BAC4B2 /* Login */,
+				BFA560162926474400A948B4 /* Utility */,
+				BFC9BAB52938602600EE1D42 /* Enums */,
+				BF4542C8291B4A4B00BAC4B2 /* Database */,
 				BF45425A2918C03100BAC4B2 /* AppDelegate.swift */,
 				BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */,
 				BF4542602918C03100BAC4B2 /* Main.storyboard */,
@@ -494,7 +496,6 @@
 				BF4542ED291B8A6000BAC4B2 /* LaunchScreenVC.swift */,
 			);
 			name = LaunchScreen;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		BF816B9D2929C8BC0097421D /* Usecase */ = {
@@ -592,8 +593,6 @@
 				BF4542702918CE4F00BAC4B2 /* Extensions */,
 				BF4542A6291A0C8700BAC4B2 /* Utils */,
 				BF45429A2918E9D900BAC4B2 /* Animation */,
-				BF4542EC291B8A4A00BAC4B2 /* LaunchScreen */,
-				BF4542B7291A329C00BAC4B2 /* Onboarding */,
 			);
 			path = Utility;
 			sourceTree = "<group>";

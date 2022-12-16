@@ -9,6 +9,7 @@ import UIKit
 
 protocol OnboardingProtocol {
     func updateProfilePhoto(profilePhoto: UIImage) -> Bool
+    func removeProfilePhoto() -> Bool
     func updateEmail(email: String) -> Bool
     func updateGender(gender: String) -> Bool
     func updateBirthday(birthday: String) -> Bool

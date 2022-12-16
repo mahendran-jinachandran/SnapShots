@@ -190,6 +190,7 @@ extension OnboardingProfilePhotoVC: UIImagePickerControllerDelegate,UINavigation
             let removeDP = UIAlertAction(title: "Remove", style: .default) { _ in
                 self.profilePhoto.image = UIImage(named: "blankPhoto")
                 self.isPhotoUploaded = false
+                _ = self.onboardingControls.removeProfilePhoto()
             }
             
             imagePicker.addAction(removeDP)

@@ -18,6 +18,15 @@ class OnboardingControls: OnboardingProtocol {
         return userDao.updatePhoto(photo: photoName, userID: loggedUserID) 
     }
     
+    func removeProfilePhoto() -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        let photoName = AppUtility.getProfilePhotoSavingFormat(userID: loggedUserID)
+
+        UIImage().deleteImage(imageName: photoName)
+        
+        return userDao.updatePhoto(photo: Constants.noDPSavingFormat, userID: loggedUserID)
+    }
+    
     func updateEmail(email: String) -> Bool {
         return AppUtility.updateEmail(email: email)
     }

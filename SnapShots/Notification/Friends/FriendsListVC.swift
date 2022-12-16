@@ -54,6 +54,13 @@ class FriendsListVC: UIViewController {
         setFriendsListTableConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let indexPath = friendsListTable.indexPathForSelectedRow {
+            friendsListTable.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
     private func setupNavigationItems() {
         title = "Friends"
         view.backgroundColor = .systemBackground
@@ -112,6 +119,11 @@ extension FriendsListVC: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsListCustomTVCell.identifier, for: indexPath) as! FriendsListCustomTVCell
+        
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        cell.selectedBackgroundView = view
+        
         
         let profilePhoto = AppUtility.getDisplayPicture(userID: friends[indexPath.row].userID)
         cell.configure(

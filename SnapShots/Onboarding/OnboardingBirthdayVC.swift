@@ -114,7 +114,7 @@ class OnboardingBirthdayVC: UIViewController {
             if birthday.count == 0 {
                 dateOfBirth.layer.borderColor = UIColor.red.cgColor
                 return
-            } else if onboardingControls.updateBirthday(birthday: birthday) {
+            } else if !onboardingControls.updateBirthday(birthday: birthday) {
                showToast(message: Constants.toastFailureStatus)
                 return
             }
