@@ -123,7 +123,12 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     private lazy var registerLink: UILabel = {
         let registerLink = UILabel()
-        registerLink.text = "Don't have an account? Register."
+        registerLink.text = "Don't have an account? Register"
+        let underlineAttriString = NSMutableAttributedString(string: "Don't have an account? Register")
+        let range1 = ("Don't have an account? Register." as NSString).range(of: "Register")
+        underlineAttriString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range1)
+        underlineAttriString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "appTheme")!], range: range1)
+        registerLink.attributedText = underlineAttriString
         registerLink.translatesAutoresizingMaskIntoConstraints = false
         registerLink.font = UIFont.systemFont(ofSize: 15)
         registerLink.heightAnchor.constraint(equalToConstant: 20).isActive = true
