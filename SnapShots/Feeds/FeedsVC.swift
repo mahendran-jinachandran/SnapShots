@@ -148,6 +148,7 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
 }
 
 extension FeedsVC: FeedsCustomCellDelegate {
+    
     func controller() -> FeedsVC {
         return self
     }

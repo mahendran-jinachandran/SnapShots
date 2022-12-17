@@ -36,19 +36,19 @@ class FeedsCustomCell: UITableViewCell {
     }()
     
     private lazy var profilePhoto: UIImageView = {
-       let profileImage = UIImageView(frame: .zero)
-       profileImage.clipsToBounds = true
-       profileImage.contentMode = .scaleAspectFill
-       profileImage.translatesAutoresizingMaskIntoConstraints = false
-       profileImage.isUserInteractionEnabled = true
-       return profileImage
+        let profileImage = UIImageView(frame: .zero)
+        profileImage.clipsToBounds = true
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.translatesAutoresizingMaskIntoConstraints = false
+        profileImage.isUserInteractionEnabled = true
+        return profileImage
     }()
     
     private lazy var userNameLabel: UILabel = {
-       var userNameLabel = UILabel()
-       userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-       userNameLabel.font = UIFont.systemFont(ofSize:17)
-       return userNameLabel
+        var userNameLabel = UILabel()
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        userNameLabel.font = UIFont.systemFont(ofSize:17)
+        return userNameLabel
     }()
     
     private lazy var moreInfo: UIButton = {
@@ -61,13 +61,13 @@ class FeedsCustomCell: UITableViewCell {
     }()
     
     private lazy var post: UIImageView = {
-       let post = UIImageView()
-       post.clipsToBounds = true
-       post.contentMode = .scaleAspectFill
-       post.translatesAutoresizingMaskIntoConstraints = false
-       post.isUserInteractionEnabled = true
-       post.layer.cornerRadius = 15
-       return post
+        let post = UIImageView()
+        post.clipsToBounds = true
+        post.contentMode = .scaleAspectFill
+        post.translatesAutoresizingMaskIntoConstraints = false
+        post.isUserInteractionEnabled = true
+        post.layer.cornerRadius = 15
+        return post
     }()
     
     private lazy var like: UIButton = {
@@ -90,12 +90,12 @@ class FeedsCustomCell: UITableViewCell {
     }()
     
     private lazy var caption: UILabel = {
-       var caption = UILabel()
-       caption.translatesAutoresizingMaskIntoConstraints = false
-       caption.font = UIFont.systemFont(ofSize:15)
-       return caption
+        var caption = UILabel()
+        caption.translatesAutoresizingMaskIntoConstraints = false
+        caption.font = UIFont.systemFont(ofSize:15)
+        return caption
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -110,6 +110,7 @@ class FeedsCustomCell: UITableViewCell {
         setupButtonTargets()
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
+    
     }
     
     func configure(postUserID: Int,profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool) {
@@ -157,7 +158,7 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     @objc private func showOwnerMenu(_ sender: UIButton) {
-    
+        
         let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
@@ -171,8 +172,8 @@ class FeedsCustomCell: UITableViewCell {
             }
             moreInfo.addAction(deletePost)
         }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)    
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
         moreInfo.addAction(cancel)
         
         delegate?.controller().present(moreInfo, animated: true)
