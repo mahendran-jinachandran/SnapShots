@@ -38,11 +38,14 @@ class NewPostVC: UIViewController {
     
     private lazy var postImage: UIImageView = {
        let postImage = UIImageView(frame: .zero)
-        postImage.image = UIImage(named: "blankPhoto")
+        postImage.image = UIImage(systemName: "photo.on.rectangle.angled")
         postImage.clipsToBounds = true
-        postImage.contentMode = .scaleAspectFill
+        postImage.layer.borderWidth = 0.75
+        postImage.layer.borderColor = UIColor.lightGray.cgColor
+        postImage.contentMode = .scaleAspectFit
         postImage.translatesAutoresizingMaskIntoConstraints = false
         postImage.isUserInteractionEnabled = true
+        postImage.tintColor = .lightGray
        return postImage
     }()
     
@@ -68,7 +71,6 @@ class NewPostVC: UIViewController {
     private lazy var uploadLabel: UILabel = {
        let uploadLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
         uploadLabel.text = "Upload"
-        uploadLabel.textColor = .systemBlue
         uploadLabel.isUserInteractionEnabled = false
         uploadLabel.alpha = 0.5
         return uploadLabel
@@ -86,8 +88,12 @@ class NewPostVC: UIViewController {
     
     private func setupNavigationItems()  {
         view.backgroundColor = .systemBackground
+        
+        navigationItem.title = "Add Post"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
+        navigationController?.navigationBar.barTintColor = UIColor(named: "appTheme")
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: "Something Else", style: .plain, target: nil, action: nil)
     }
     
     private func setupTapGestures() {
@@ -134,7 +140,7 @@ class NewPostVC: UIViewController {
             
             postImage.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 30),
             postImage.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
-            postImage.widthAnchor.constraint(equalToConstant: 200),
+            postImage.widthAnchor.constraint(equalToConstant: 240),
             postImage.heightAnchor.constraint(equalToConstant: 200),
             
             captionLabel.topAnchor.constraint(equalTo: postImage.bottomAnchor,constant: 20),
@@ -153,7 +159,7 @@ class NewPostVC: UIViewController {
     
     @objc private func uploadPost(_ sender : UITapGestureRecognizer) {
         
-        if !newPostControls.addPost(caption: caption.text, image: postImage.image!) {
+        if !newPostControls.addPost(caption: caption.text!.trimmingCharacters(in: .whitespaces), image: postImage.image!) {
             showToast(message: Constants.toastFailureStatus)
             return
         }

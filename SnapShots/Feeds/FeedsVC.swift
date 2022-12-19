@@ -74,6 +74,8 @@ class FeedsVC: UIViewController {
     
     private func setNavigationItems() {
         view.backgroundColor = .systemBackground
+        
+        // LEFT BAR BUTTON ITEM
         let friendsAction = UIAction(
           title: "Friends",
           image: UIImage(systemName: "person.3.fill")) { _ in
@@ -85,11 +87,27 @@ class FeedsVC: UIViewController {
               self.navigationController?.pushViewController(friendsListVC, animated: true)
         }
         
-        
         friendsMenuButton.menu = UIMenu(title: "", image: nil, children: [friendsAction])
-
         let barButton = UIBarButtonItem(customView: friendsMenuButton)
         navigationItem.leftBarButtonItem = barButton
+        
+        // RIGHT BAR BUTTON ITEM
+        let addPost = UIBarButtonItem(image: UIImage(systemName: "plus.square"), style: .plain, target: self, action: #selector(uploadNewPost))
+        addPost.tintColor = UIColor(named: "appTheme")!
+        navigationItem.rightBarButtonItem = addPost
+        
+        // BACK BUTTON
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "appTheme")!
+    }
+    
+    @objc private func uploadNewPost() {
+        
+        let newPostControls = NewPostControls()
+        let newPostVC = NewPostVC(newPostControls: newPostControls)
+     
+        navigationController?.pushViewController(newPostVC, animated: true)
     }
     
     private func setupNotificationSubscription() {

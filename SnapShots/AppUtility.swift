@@ -125,7 +125,7 @@ class AppUtility {
     static func getCurrentTime() -> String {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS"
         return formatter.string(from: Date())
     }
 }

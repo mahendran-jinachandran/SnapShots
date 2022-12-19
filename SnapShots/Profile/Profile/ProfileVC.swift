@@ -169,7 +169,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             friendsCount: profileUser.profile.friendsList.count,
             postsCount: posts.count,
             bio: profileUser.profile.bio,
-            profileDP: profileUser.profile.photo, // profileControls.getProfileDP(userID: userID),
+            profileDP: profileUser.profile.photo,
             profileAccessibility: profileAccessibility
         )
         

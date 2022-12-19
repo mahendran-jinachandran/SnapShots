@@ -11,7 +11,7 @@ class SecurityViewController: UIViewController {
     
     private lazy var passwordView: UIView = {
         let accountsLabel = UILabel()
-        accountsLabel.text = "Password"
+        accountsLabel.text = "Reset Password"
         accountsLabel.font = UIFont.systemFont(ofSize: 18)
         accountsLabel.textColor = UIColor(named: "appTheme")
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false

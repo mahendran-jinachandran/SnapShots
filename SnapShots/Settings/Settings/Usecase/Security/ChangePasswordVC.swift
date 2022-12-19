@@ -103,7 +103,7 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     }
     
     private func setupNavigationItems() {
-        title = "Password"
+        title = "Reset Password"
         view.backgroundColor = .systemBackground
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
@@ -131,14 +131,13 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    
     private var isCurrentPasswordEntered: Bool = false
     private var isNewPasswordEntered: Bool = false
     private var isNewPasswordAgainEntered: Bool = false
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
         if textField == currentPassword {
-            if textField.text!.isEmpty || !SecurityController().isPasswordCorrect(password: textField.text!) {
+            if textField.text!.isEmpty || !SecurityController().isPasswordCorrect(password: textField.text!.trimmingCharacters(in: .whitespaces)) {
                 isCurrentPasswordEntered = false
                 invalidCurrentPasswordStatus(warningLabel: "Wrong password")
             } else {
@@ -179,7 +178,7 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     }
     
     @objc private func saveDetails() {
-        SecurityController().updatePassword(password: newPassword.text!)
+        SecurityController().updatePassword(password: newPassword.text!.trimmingCharacters(in: .whitespaces))
         navigationController?.popViewController(animated: true)
     }
     
@@ -252,7 +251,7 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     private func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
         
-        if password == rePassword {
+        if password?.trimmingCharacters(in: .whitespaces) == rePassword?.trimmingCharacters(in: .whitespaces) {
             newPasswordsMismatchLabel.isHidden = true
             return true
         }

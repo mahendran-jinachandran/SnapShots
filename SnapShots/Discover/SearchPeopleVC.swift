@@ -27,7 +27,7 @@ class SearchPeopleVC: UIViewController {
     
     private lazy var searchEmptyLabel: UILabel = {
        let searchEmptyLabel = UILabel()
-        searchEmptyLabel.text = "Search not found"
+        searchEmptyLabel.text = "User not found"
         searchEmptyLabel.textColor = .gray
         searchEmptyLabel.textAlignment = .center
         return searchEmptyLabel
