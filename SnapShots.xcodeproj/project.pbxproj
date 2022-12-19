@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15D4AF295047F50039853C /* UITabBarExtension.swift */; };
 		BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311691292F8CDF008BAA08 /* LikesVC.swift */; };
 		BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */; };
 		BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */; };
@@ -126,6 +127,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF15D4AF295047F50039853C /* UITabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtension.swift; sourceTree = "<group>"; };
 		BF311691292F8CDF008BAA08 /* LikesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesVC.swift; sourceTree = "<group>"; };
 		BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesCustomCell.swift; sourceTree = "<group>"; };
 		BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCustomCell.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				BFDF706B292D1651001A736F /* UIImageExtension.swift */,
 				BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */,
 				BFA959322949B03A00387440 /* UIButtonExtension.swift */,
+				BF15D4AF295047F50039853C /* UITabBarExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -845,6 +848,7 @@
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,
 				BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
+				BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */,
 				BFDF706C292D1651001A736F /* UIImageExtension.swift in Sources */,
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,

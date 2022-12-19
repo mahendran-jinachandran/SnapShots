@@ -125,6 +125,8 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
         let indexPath = friendRequestsCV.indexPath(for: sender)!
         
         if notificationControls.acceptFriendRequest(acceptingUserID: friendRequests[indexPath.row].userID) {
+            
+            tabBarController?.tabBar.changeBadgeValue(value: friendRequests.count - 1)
             NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             friendRequests.remove(at: indexPath.row)
@@ -136,6 +138,8 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
         let indexPath = friendRequestsCV.indexPath(for: sender)!
         
         if notificationControls.rejectFriendRequest(rejectingUserID: friendRequests[indexPath.row].userID) {
+            
+            tabBarController?.tabBar.changeBadgeValue(value: friendRequests.count - 1)
             friendRequests.remove(at: indexPath.row)
             friendRequestsCV.reloadData()
         }
