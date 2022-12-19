@@ -31,18 +31,31 @@ class CommentsVC: UIViewController {
         return comments
     }()
     
+    private lazy var postComment: UIButton = {
+        let postComment = UIButton()
+        postComment.setTitle("POST   ", for: .normal)
+        postComment.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        postComment.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        postComment.alpha = 0.5
+        postComment.isUserInteractionEnabled = false
+        return postComment
+    }()
+    
     private lazy var addCommentTextField: UITextField = {
         var addComments = UITextField()
         addComments.placeholder = "Add Comment"
         addComments.clearsOnBeginEditing = true
         addComments.translatesAutoresizingMaskIntoConstraints = false
         addComments.backgroundColor = .systemBackground
-        addComments.layer.borderColor = UIColor.gray.cgColor
+        addComments.layer.borderColor = UIColor(named: "appTheme")?.cgColor
         addComments.layer.borderWidth = 2
         addComments.layer.cornerRadius = 20
         addComments.textColor = UIColor(named: "appTheme")
+     
         addComments.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         addComments.leftViewMode = .always
+        addComments.rightView = postComment
+        addComments.rightViewMode = .always
         return addComments
     }()
     
@@ -52,7 +65,7 @@ class CommentsVC: UIViewController {
         emptyComments.font = UIFont.boldSystemFont(ofSize: 25)
         emptyComments.numberOfLines = 2
         emptyComments.textAlignment = .center
-        emptyComments.textColor = .gray
+        emptyComments.textColor = UIColor(named: "appTheme")
         return emptyComments
     }()
 
@@ -64,6 +77,15 @@ class CommentsVC: UIViewController {
         setupConstraints()
         getComments()
         addCommentTextField.delegate = self
+        postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if ((previousTraitCollection?.hasDifferentColorAppearance(comparedTo: traitCollection)) != nil) {
+            addCommentTextField.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+        }
     }
     
     private func setupNavigationItems() {
@@ -175,14 +197,16 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     }
 }
 
-extension CommentsVC : UITextFieldDelegate
-{
+extension CommentsVC : UITextFieldDelegate {
+    
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
-        if !textField.text!.isEmpty {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addComment))
+        if !textField.text!.isEmpty && !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty  {
+            postComment.alpha = 1.0
+            postComment.isUserInteractionEnabled = true
         } else {
-            navigationItem.rightBarButtonItem = nil
+            postComment.alpha = 0.5
+            postComment.isUserInteractionEnabled = false
         }
     }
 }

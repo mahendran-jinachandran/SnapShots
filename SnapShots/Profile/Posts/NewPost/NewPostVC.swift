@@ -40,8 +40,6 @@ class NewPostVC: UIViewController {
        let postImage = UIImageView(frame: .zero)
         postImage.image = UIImage(systemName: "photo.on.rectangle.angled")
         postImage.clipsToBounds = true
-        postImage.layer.borderWidth = 0.75
-        postImage.layer.borderColor = UIColor.lightGray.cgColor
         postImage.contentMode = .scaleAspectFit
         postImage.translatesAutoresizingMaskIntoConstraints = false
         postImage.isUserInteractionEnabled = true
