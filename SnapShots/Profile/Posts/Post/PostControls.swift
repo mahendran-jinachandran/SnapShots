@@ -13,6 +13,7 @@ class PostControls: PostControlsProtocol {
     private lazy var friendsDaoImplementation: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImplementation)
     private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
+    private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
     func deletePost(postID: Int) -> Bool {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
@@ -52,5 +53,13 @@ class PostControls: PostControlsProtocol {
     func isDeletionAllowed(userID: Int) -> Bool {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return loggedUserID == userID
+    }
+    
+    func getAllLikedUsers(postUserID: Int,postID: Int) -> Int {
+        return likesDaoImp.getAllLikesOfPost(userID: postUserID, postID: postID).count
+    }
+    
+    func getAllComments(postUserID: Int,postID: Int) -> Int {
+        return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID).count
     }
 }

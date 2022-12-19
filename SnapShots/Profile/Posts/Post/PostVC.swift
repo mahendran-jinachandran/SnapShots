@@ -97,6 +97,14 @@ class PostVC: UIViewController {
         return like
     }()
     
+    private lazy var likesCount: UILabel = {
+        let likesCount = UILabel()
+        likesCount.text = "0"
+        likesCount.translatesAutoresizingMaskIntoConstraints = false
+        likesCount.textColor = .red
+        return likesCount
+    }()
+    
     private lazy var comment: UIButton = {
         var comment = UIButton()
         comment.setBackgroundImage(UIImage(systemName: "ellipsis.message"), for: .normal)
@@ -104,6 +112,14 @@ class PostVC: UIViewController {
         comment.contentMode = .scaleAspectFill
         comment.isUserInteractionEnabled = true
         return comment
+    }()
+    
+    private lazy var commentsCount: UILabel = {
+        let commentsCount = UILabel()
+        commentsCount.text = "0"
+        commentsCount.translatesAutoresizingMaskIntoConstraints = false
+        commentsCount.textColor = .systemBlue
+        return commentsCount
     }()
     
     required init?(coder: NSCoder) {
@@ -142,7 +158,7 @@ class PostVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
         
-        [profilePhoto,userNameLabel,moreInfo,post,like,comment,caption].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount,caption].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -184,10 +200,20 @@ class PostVC: UIViewController {
             like.heightAnchor.constraint(equalToConstant: 33),
             like.widthAnchor.constraint(equalToConstant: 35),
             
-            comment.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 10),
+            likesCount.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 4),
+            likesCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
+            likesCount.heightAnchor.constraint(equalToConstant: 33),
+            likesCount.widthAnchor.constraint(equalToConstant: 50),
+            
+            comment.leadingAnchor.constraint(equalTo: likesCount.trailingAnchor,constant: 4),
             comment.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 6),
             comment.heightAnchor.constraint(equalToConstant: 30),
             comment.widthAnchor.constraint(equalToConstant: 35),
+            
+            commentsCount.leadingAnchor.constraint(equalTo: comment.trailingAnchor,constant: 4),
+            commentsCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
+            commentsCount.heightAnchor.constraint(equalToConstant: 33),
+            commentsCount.widthAnchor.constraint(equalToConstant: 55),
             
             caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
@@ -198,20 +224,26 @@ class PostVC: UIViewController {
     
     private func setLikeButton() {
         likeFlag = postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID)
+        
+        self.likesCount.text = String( Double(postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID)).shortStringRepresentation )
+        
+        self.commentsCount.text = String( Double(postControls.getAllComments(postUserID: userID, postID: postDetails.postID)).shortStringRepresentation )
+        
         setLikeHeartImage(isLiked: likeFlag)
     }
 
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
         
-        
         likeFlag = !likeFlag
         if likeFlag {
             setLikeHeartImage(isLiked: likeFlag)
+            likesCount.text = String( Int(likesCount.text!)! + 1)
             if !postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID) {
                 showToast(message: Constants.toastFailureStatus)
             }
         } else {
             setLikeHeartImage(isLiked: likeFlag)
+            likesCount.text = String( Int(likesCount.text!)! - 1)
             if !postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID) {
                 showToast(message: Constants.toastFailureStatus)
             }

@@ -102,13 +102,7 @@ class FeedsVC: UIViewController {
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "appTheme")!
     }
     
-    @objc private func uploadNewPost() {
-        
-        let newPostControls = NewPostControls()
-        let newPostVC = NewPostVC(newPostControls: newPostControls)
-     
-        navigationController?.pushViewController(newPostVC, animated: true)
-    }
+
     
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
@@ -134,6 +128,14 @@ class FeedsVC: UIViewController {
             feedsTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    @objc private func uploadNewPost() {
+        
+        let newPostControls = NewPostControls()
+        let newPostVC = NewPostVC(newPostControls: newPostControls)
+     
+        navigationController?.pushViewController(newPostVC, animated: true)
+    }
 }
 
 extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
@@ -153,12 +155,13 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             postID: feedPosts[indexPath.row].postDetails.postID)
         
         particularCell.configure(
-            postUserID: feedPosts[indexPath.row].userID,
             profilePhoto: profilePhoto,
             username: "\(feedPosts[indexPath.row].userName)",
             postPhoto: postPhoto,
             postCaption: feedPosts[indexPath.row].postDetails.caption,
-            isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row])
+            isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]),
+            likedUsersCount: feedsControls.getAllLikedUsers(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
+            commentedUsersCount: feedsControls.getAllComments(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID)
         )
         
         return particularCell

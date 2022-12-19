@@ -14,4 +14,6 @@ protocol FeedsControlsProtocol {
     func removeLikeFromThePost(postUserID: Int,postID: Int) -> Bool
     func isDeletionAllowed(userID: Int) -> Bool
     func deletePost(postID: Int) -> Bool
+    func getAllLikedUsers(postUserID: Int,postID: Int) -> Int
+    func getAllComments(postUserID: Int,postID: Int) -> Int
 }

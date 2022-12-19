@@ -13,6 +13,7 @@ class FeedsControls {
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
+    private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
     func getAllPosts() -> [FeedsDetails] {
         
@@ -53,5 +54,13 @@ class FeedsControls {
     func deletePost(postID: Int) -> Bool {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return postDaoImp.deletePost(userID: userID, postID: postID)
+    }
+    
+    func getAllLikedUsers(postUserID: Int,postID: Int) -> Int {
+        return likesDaoImp.getAllLikesOfPost(userID: postUserID, postID: postID).count
+    }
+    
+    func getAllComments(postUserID: Int,postID: Int) -> Int {
+        return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID).count
     }
 }

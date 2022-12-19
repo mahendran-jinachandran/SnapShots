@@ -22,7 +22,6 @@ class FeedsCustomCell: UITableViewCell {
     static let identifier = "FeedsCustomCell"
     private var likeFlag: Bool = false
     weak var delegate: FeedsCustomCellDelegate?
-    private var postUserID: Int!
     
     private lazy var postContainer: UIView = {
         var postContainer = UIView()
@@ -80,6 +79,14 @@ class FeedsCustomCell: UITableViewCell {
         return like
     }()
     
+    private lazy var likesCount: UILabel = {
+        let likesCount = UILabel()
+        likesCount.text = "0"
+        likesCount.translatesAutoresizingMaskIntoConstraints = false
+        likesCount.textColor = .red
+        return likesCount
+    }()
+    
     private lazy var comment: UIButton = {
         var comment = UIButton()
         comment.setBackgroundImage(UIImage(systemName: "ellipsis.message"), for: .normal)
@@ -87,6 +94,14 @@ class FeedsCustomCell: UITableViewCell {
         comment.contentMode = .scaleAspectFill
         comment.isUserInteractionEnabled = true
         return comment
+    }()
+    
+    private lazy var commentsCount: UILabel = {
+        let commentsCount = UILabel()
+        commentsCount.text = "0"
+        commentsCount.translatesAutoresizingMaskIntoConstraints = false
+        commentsCount.textColor = .systemBlue
+        return commentsCount
     }()
     
     private lazy var caption: UILabel = {
@@ -102,24 +117,22 @@ class FeedsCustomCell: UITableViewCell {
         contentView.backgroundColor = UIColor.systemBackground
         contentView.addSubview(postContainer)
         
-        [profilePhoto,userNameLabel,moreInfo,post,like,comment,caption].forEach {
-            postContainer.addSubview($0)
-        }
+
         
         setupConstraint()
         setupButtonTargets()
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
-    
     }
     
-    func configure(postUserID: Int,profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool) {
-        self.postUserID = postUserID
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int) {
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
         self.post.image = postPhoto
         self.caption.text = postCaption
         self.likeFlag = isAlreadyLiked
+        self.likesCount.text = String( Double(likedUsersCount).shortStringRepresentation )
+        self.commentsCount.text = String( Double(commentedUsersCount).shortStringRepresentation)
         setLikeHeartImage(isLiked: likeFlag)
     }
     
@@ -134,13 +147,15 @@ class FeedsCustomCell: UITableViewCell {
         
         if likeFlag {
             setLikeHeartImage(isLiked: likeFlag)
+            likesCount.text = String( Int(likesCount.text!)! + 1)
             delegate?.likeThePost(sender: self)
         } else {
             setLikeHeartImage(isLiked: likeFlag)
+            likesCount.text = String( Int(likesCount.text!)! - 1)
             delegate?.unLikeThePost(sender: self)
         }
     }
-    
+        
     private func setLikeHeartImage(isLiked: Bool) {
         if isLiked {
             like.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
@@ -201,6 +216,12 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     private func setupConstraint() {
+        
+        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount ,caption].forEach {
+            postContainer.addSubview($0)
+        }
+        
+        
         NSLayoutConstraint.activate([
             
             postContainer.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 6),
@@ -233,10 +254,20 @@ class FeedsCustomCell: UITableViewCell {
             like.heightAnchor.constraint(equalToConstant: 33),
             like.widthAnchor.constraint(equalToConstant: 35),
             
-            comment.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 10),
+            likesCount.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 4),
+            likesCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
+            likesCount.heightAnchor.constraint(equalToConstant: 33),
+            likesCount.widthAnchor.constraint(equalToConstant: 50),
+            
+            comment.leadingAnchor.constraint(equalTo: likesCount.trailingAnchor,constant: 4),
             comment.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 6),
             comment.heightAnchor.constraint(equalToConstant: 30),
             comment.widthAnchor.constraint(equalToConstant: 35),
+            
+            commentsCount.leadingAnchor.constraint(equalTo: comment.trailingAnchor,constant: 4),
+            commentsCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
+            commentsCount.heightAnchor.constraint(equalToConstant: 33),
+            commentsCount.widthAnchor.constraint(equalToConstant: 55),
             
             caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
@@ -245,3 +276,33 @@ class FeedsCustomCell: UITableViewCell {
         ])
     }
 }
+
+
+extension Double {
+    var shortStringRepresentation: String {
+        if self.isNaN {
+            return "NaN"
+        }
+        if self.isInfinite {
+            return "\(self < 0.0 ? "-" : "+")Infinity"
+        }
+        
+        if self == 0 {
+            return "0"
+        }
+        
+        let units = ["", "k", "M"]
+        var interval = self
+        var i = 0
+        while i < units.count - 1 {
+            if abs(interval) < 1000.0 {
+                break
+            }
+            i += 1
+            interval /= 1000.0
+        }
+
+        return "\(String(format: "%0.*g", Int(log10(abs(interval))) + 2, interval))\(units[i])"
+    }
+}
+
