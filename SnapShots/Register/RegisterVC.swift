@@ -26,9 +26,9 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     private lazy var registerLabel: UILabel = {
         let registerLabel = UILabel()
         registerLabel.text = "REGISTER"
-        registerLabel.font =  UIFont(name: "Copperplate", size: 50)
         registerLabel.textColor = UIColor(named: "appTheme")
         registerLabel.textAlignment = .center
+        registerLabel.font = UIFont.systemFont(ofSize: 40)
         registerLabel.translatesAutoresizingMaskIntoConstraints = false
         registerLabel.heightAnchor.constraint(equalToConstant: 180).isActive = true
         return registerLabel
@@ -222,38 +222,35 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     private func checkUsernameValidation(username: String) -> Bool {
         let usernameDetails = registerController.validateUsername(username: username)
         
-        if username.count >= Constants.miniumUsernameLength {
-            if usernameDetails == .success(true) {
-                validUserName()
-                return true
-            }
-            else if usernameDetails == .success(false) {
-                invalidUserName(warningLabel: UsernameError.alreadyTaken.description)
-            }
-            else if usernameDetails == .failure(.cannotBeEmpty) {
-                invalidUserName(warningLabel: UsernameError.cannotBeEmpty.description)
-            }
-            else if usernameDetails  == .failure(.invalidNumberOfCharacters) {
-                invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
-            }
+        if usernameDetails == .success(true) {
+            validUserName()
+            return true
         }
+        else if usernameDetails == .success(false) {
+            invalidUserName(warningLabel: UsernameError.alreadyTaken.description)
+        }
+        else if usernameDetails == .failure(.cannotBeEmpty) {
+            invalidUserName(warningLabel: UsernameError.cannotBeEmpty.description)
+        }
+        else if usernameDetails  == .failure(.invalidNumberOfCharacters) {
+            invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
+        }
+        
         return false
     }
     
     private func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
         let phoneNumberDetails = registerController.validatePhoneNumber(phoneNumber: phoneNumber)
 
-        if phoneNumber.count >= Constants.minimumPhoneNumberLength {
-            if phoneNumberDetails == .success(true) {
-                validPhoneNumber()
-                return true
-            } else if phoneNumberDetails == .failure(.cannotBeEmpty) {
-                invalidPhoneNumber(warningLabel: PhoneNumberError.cannotBeEmpty.description)
-            } else if phoneNumberDetails == .failure(.invalidFormat) {
-                invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
-            } else if phoneNumberDetails == .success(false) {
-                invalidPhoneNumber(warningLabel: PhoneNumberError.alreadyTaken.description)
-            }
+        if phoneNumberDetails == .success(true) {
+            validPhoneNumber()
+            return true
+        } else if phoneNumberDetails == .failure(.cannotBeEmpty) {
+            invalidPhoneNumber(warningLabel: PhoneNumberError.cannotBeEmpty.description)
+        } else if phoneNumberDetails == .failure(.invalidFormat) {
+            invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
+        } else if phoneNumberDetails == .success(false) {
+            invalidPhoneNumber(warningLabel: PhoneNumberError.alreadyTaken.description)
         }
         
         return false
@@ -261,7 +258,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     private func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {
         
-        if password == rePassword {
+        if password?.trimmingCharacters(in: .whitespaces) == rePassword?.trimmingCharacters(in: .whitespaces) {
             passwordNotMatchWarningLabel.isHidden = true
             return true
         }
@@ -273,18 +270,16 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     @objc private func registerValidation() {
         if !checkUsernameValidation(username: username.text!) {
-            invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
             return
         }
         
         if !checkPhoneNumberValidation(phoneNumber: phoneNumber.text!) {
-            invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
             return
         }
         
-        if password.text!.count < Constants.minimumPasswordLength || rePassword.text!.count < Constants.minimumPasswordLength {
-            passwordNotMatchWarningLabel.isHidden = false
-            passwordNotMatchWarningLabel.text = PasswordActionError.lessCharacters.description
+        if password.text!.trimmingCharacters(in: .whitespaces).count < Constants.minimumPasswordLength ||
+            rePassword.text!.trimmingCharacters(in: .whitespaces).count < Constants.minimumPasswordLength {
+            invalidPasswordStatus(warningLabel: PasswordActionError.lessCharacters.description)
             return
         }
         
@@ -297,7 +292,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
 
     @objc private func startOnboarding() {
         
-        if registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!) {
+        if registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!.trimmingCharacters(in: .whitespaces)) {
             navigationController?.pushViewController(OnboardingVC(), animated: true)
         } else {
             showToast(message: Constants.toastFailureStatus)

@@ -38,8 +38,8 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     private lazy var snapShots: UILabel = {
        let snapShots = UILabel()
-       snapShots.text = "SNAPSHOTS"
-       snapShots.font =  UIFont(name: "Billabong", size: 45)
+       snapShots.text = "Snapshots"
+       snapShots.font =  UIFont(name: "Billabong", size: 65)
        snapShots.textColor = UIColor(named: "appTheme")
        snapShots.textAlignment = .center
        snapShots.translatesAutoresizingMaskIntoConstraints = false

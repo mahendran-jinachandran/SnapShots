@@ -23,8 +23,8 @@ class OnboardingVC: UIViewController {
     
     private lazy var welcomeLabel: UILabel = {
        let welcomeLabel = UILabel()
-        welcomeLabel.text = "SNAPSHOTS"
-        welcomeLabel.font =  UIFont(name: "Papyrus", size: 45)
+        welcomeLabel.text = "Snapshots"
+        welcomeLabel.font =  UIFont(name: "Billabong", size: 65)
         welcomeLabel.textColor = UIColor(named: "appTheme")
         welcomeLabel.textAlignment = .center
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class OnboardingVC: UIViewController {
     private lazy var welcomeSubLabel: UILabel = {
        let welcomeSubLabel = UILabel()
         welcomeSubLabel.text = "A new world is rising. Discover it."
-        welcomeSubLabel.font =  UIFont(name: "Papyrus", size: 20)
+        welcomeSubLabel.font = UIFont.systemFont(ofSize: 20)
         welcomeSubLabel.textColor = UIColor(named: "appTheme")
         welcomeSubLabel.textAlignment = .center
         welcomeSubLabel.translatesAutoresizingMaskIntoConstraints = false
