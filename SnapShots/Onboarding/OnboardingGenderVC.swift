@@ -57,6 +57,16 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         gender.layer.borderColor = UIColor.gray.cgColor
         gender.translatesAutoresizingMaskIntoConstraints = false
         gender.textAlignment = .center
+        
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        
+        gender.rightView = toggleButton
+        gender.rightViewMode = .always
         return gender
     }()
     
@@ -99,7 +109,6 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
 
         genderTextField.inputView = pickerView
         genderTextField.inputAccessoryView = createToolBar()
-        genderTextField.tintColor = .clear
     }
     
     private func createToolBar() -> UIToolbar {

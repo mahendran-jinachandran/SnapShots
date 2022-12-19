@@ -56,6 +56,14 @@ class OnboardingBirthdayVC: UIViewController {
         dateOfBirth.layer.borderColor = UIColor.gray.cgColor
         dateOfBirth.translatesAutoresizingMaskIntoConstraints = false
         dateOfBirth.textAlignment = .center
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        dateOfBirth.rightView = toggleButton
+        dateOfBirth.rightViewMode = .always
         return dateOfBirth
     }()
     
@@ -134,7 +142,6 @@ class OnboardingBirthdayVC: UIViewController {
         
         dateOfBirth.inputView = datePicker
         dateOfBirth.inputAccessoryView = createToolBar()
-        datePicker.tintColor = .clear
     }
     
     private func createToolBar() -> UIToolbar {

@@ -108,6 +108,7 @@ class FeedsCustomCell: UITableViewCell {
         var caption = UILabel()
         caption.translatesAutoresizingMaskIntoConstraints = false
         caption.font = UIFont.systemFont(ofSize:15)
+        caption.numberOfLines = 0
         return caption
     }()
     

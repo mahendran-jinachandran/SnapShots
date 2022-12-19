@@ -126,15 +126,14 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     }
     
     @objc private func finishOnboarding() {
-        if let bioProfile = profileBioTextView.text {
+        let bioProfile = profileBioTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            if bioProfile.count == 0 {
-                profileBioTextView.layer.borderColor = UIColor.red.cgColor
-                return
-            } else if !onboardingControls.updateBio(bio: bioProfile) {
-                showToast(message: Constants.toastFailureStatus)
-                return
-            }
+        if bioProfile.count == 0 {
+            profileBioTextView.layer.borderColor = UIColor.red.cgColor
+            return
+        } else if !onboardingControls.updateBio(bio: bioProfile) {
+            showToast(message: Constants.toastFailureStatus)
+            return
         }
         
         goToHomePage()
@@ -197,6 +196,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         if newText.count < 70 && newText.count > 0 {
             profileBioTextView.layer.borderColor = UIColor(named: "appTheme")?.cgColor

@@ -136,7 +136,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
     
     @objc func updateProfileDetails() {
      
-        if !editProfileControls.updateProfileDetails(username: usernameTextField.text!, profileBio: profileBioTextView.text!) {
+        if !editProfileControls.updateProfileDetails(username: usernameTextField.text!, profileBio: profileBioTextView.text!.trimmingCharacters(in: .whitespacesAndNewlines)) {
             showToast(message: Constants.toastFailureStatus)
             return
         }
@@ -218,7 +218,9 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        
         if newText.count < 70 && newText.count >= 0 {
             profileBioTextView.layer.borderColor = UIColor(named: "appTheme")?.cgColor
             maximumBioLength.isHidden = true

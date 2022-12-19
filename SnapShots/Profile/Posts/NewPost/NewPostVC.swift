@@ -157,7 +157,9 @@ class NewPostVC: UIViewController {
     
     @objc private func uploadPost(_ sender : UITapGestureRecognizer) {
         
-        if !newPostControls.addPost(caption: caption.text!.trimmingCharacters(in: .whitespaces), image: postImage.image!) {
+        if !newPostControls.addPost(caption: caption.text!.trimmingCharacters(in: .whitespacesAndNewlines), image: postImage.image!) {
+            
+            
             showToast(message: Constants.toastFailureStatus)
             return
         }
@@ -238,7 +240,7 @@ extension NewPostVC: UIImagePickerControllerDelegate,UINavigationControllerDeleg
             imagePicker.addAction(
                 UIAlertAction(title: "Remove", style: .default) { _ in
                     self.isPhotoUploaded = false
-                    self.postImage.image = UIImage(named: "blankPhoto")
+                    self.postImage.image = UIImage(systemName: "photo.on.rectangle.angled")
                     self.uploadLabel.isUserInteractionEnabled = false
                     self.uploadLabel.alpha = 0.5
                 }

@@ -57,6 +57,15 @@ class DataOfBirthVC: UIViewController {
         dateOfBirthTextField.layer.borderColor = UIColor.gray.cgColor
         dateOfBirthTextField.translatesAutoresizingMaskIntoConstraints = false
         dateOfBirthTextField.textAlignment = .center
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        dateOfBirthTextField.rightView = toggleButton
+        dateOfBirthTextField.rightViewMode = .always
+        
         return dateOfBirthTextField
     }()
     
@@ -120,7 +129,6 @@ class DataOfBirthVC: UIViewController {
         
         dateOfBirthTextField.inputView = datePicker
         dateOfBirthTextField.inputAccessoryView = createToolBar()
-        dateOfBirthTextField.tintColor = .clear
     }
     
     private func createToolBar() -> UIToolbar {
