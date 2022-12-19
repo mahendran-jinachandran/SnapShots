@@ -76,18 +76,18 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         return maximumBioLength
     }()
     
-    private lazy var skipButton: UIButton = {
-        let skipButton = UIButton()
-        skipButton.setTitle("Skip", for: .normal)
-        skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
-        skipButton.layer.cornerRadius = 10
-        skipButton.translatesAutoresizingMaskIntoConstraints = false
-        skipButton.isEnabled = true
-        skipButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
-        skipButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        skipButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        skipButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        return skipButton
+    private lazy var nextButton: UIButton = {
+        let nextButton = UIButton()
+        nextButton.setTitle("Finish", for: .normal)
+        nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        nextButton.layer.cornerRadius = 10
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.isEnabled = true
+        nextButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
+        nextButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        nextButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        nextButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        return nextButton
     }()
 
     override func viewDidLoad() {
@@ -100,18 +100,18 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         setupTapGestures()
         
         profileBioTextView.delegate = self
-        skipButton.tintColor = UIColor(named: "appTheme")
+        nextButton.tintColor = UIColor(named: "appTheme")
     }
     
     private func setupNavigationItems() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Finish", style: .plain, target: self, action: #selector(finishOnboarding))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipProcess))
     }
     
     private func setupTapGestures() {
-        skipButton.addTarget(self, action: #selector(skipProcess), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(finishOnboarding), for: .touchUpInside)
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
     }
@@ -153,7 +153,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
-        [bioLogo,bioLabel,profileBioTextView,maximumBioLength,skipButton].forEach {
+        [bioLogo,bioLabel,profileBioTextView,maximumBioLength,nextButton].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -188,11 +188,11 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
             maximumBioLength.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 8),
             maximumBioLength.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            skipButton.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 20),
-            skipButton.widthAnchor.constraint(equalToConstant: 100),
-            skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
-            skipButton.heightAnchor.constraint(equalToConstant: 35),
-            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+            nextButton.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 20),
+            nextButton.widthAnchor.constraint(equalToConstant: 100),
+            nextButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
+            nextButton.heightAnchor.constraint(equalToConstant: 35),
+            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
     }
     

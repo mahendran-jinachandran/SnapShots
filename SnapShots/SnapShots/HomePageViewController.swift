@@ -52,16 +52,12 @@ class HomePageViewController: UITabBarController {
         
         ]
         
-        if let tabItems = tabBar.items {
-            // In this case we want to modify the badge number of the third tab:
-            let tabItem = tabItems[2]
-            var friendRequests = notificationControls.getAllFriendRequests()
 
-            if friendRequests.isEmpty {
-                tabBar.changeBadgeValue(value: 0)
-            } else {
-                tabBar.changeBadgeValue(value: friendRequests.count)
-            }
+        let friendRequests = notificationControls.getAllFriendRequests()
+        if friendRequests.isEmpty {
+            tabBar.changeBadgeValue(value: 0)
+        } else {
+            tabBar.changeBadgeValue(value: friendRequests.count)
         }
     }
     

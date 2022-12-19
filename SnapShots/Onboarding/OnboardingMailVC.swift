@@ -69,18 +69,18 @@ class OnboardingMailVC: UIViewController,UITextFieldDelegate {
         return email
     }()
     
-    private lazy var skipButton: UIButton = {
-        let skipButton = UIButton()
-        skipButton.setTitle("Skip", for: .normal)
-        skipButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
-        skipButton.layer.cornerRadius = 10
-        skipButton.translatesAutoresizingMaskIntoConstraints = false
-        skipButton.isEnabled = true
-        skipButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
-        skipButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        skipButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        skipButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        return skipButton
+    private lazy var nextButton: UIButton = {
+        let nextButton = UIButton()
+        nextButton.setTitle("Next", for: .normal)
+        nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        nextButton.layer.cornerRadius = 10
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.isEnabled = true
+        nextButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
+        nextButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        nextButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        nextButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+        return nextButton
     }()
 
     override func viewDidLoad() {
@@ -92,21 +92,21 @@ class OnboardingMailVC: UIViewController,UITextFieldDelegate {
         setupTapGestures()
 
         emailTextField.delegate = self
-        skipButton.tintColor = UIColor(named: "appTheme")
+        nextButton.tintColor = UIColor(named: "appTheme")
     }
     
     private func setupNavigationItems() {
         view.backgroundColor = .systemBackground
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(validateMail))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(navigateToNext))
     }
     
     private func setupTapGestures() {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
-        skipButton.addTarget(self, action: #selector(navigateToNext), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(validateMail), for: .touchUpInside)
     }
     
     private func setupNotficationCenter() {
@@ -148,7 +148,7 @@ class OnboardingMailVC: UIViewController,UITextFieldDelegate {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
-        [mailLogo,primaryLabel,emailTextField,skipButton].forEach {
+        [mailLogo,primaryLabel,emailTextField,nextButton].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -178,12 +178,12 @@ class OnboardingMailVC: UIViewController,UITextFieldDelegate {
             emailTextField.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             emailTextField.widthAnchor.constraint(equalToConstant: 350),
             emailTextField.heightAnchor.constraint(equalToConstant: 40),
-            
-            skipButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor,constant: 20),
-            skipButton.widthAnchor.constraint(equalToConstant: 100),
-            skipButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
-            skipButton.heightAnchor.constraint(equalToConstant: 35),
-            skipButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+          
+            nextButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor,constant: 20),
+            nextButton.widthAnchor.constraint(equalToConstant: 100),
+            nextButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
+            nextButton.heightAnchor.constraint(equalToConstant: 35),
+            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
         ])
     }
     
