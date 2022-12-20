@@ -88,6 +88,16 @@ class NotificationGridVC: UIViewController {
 }
 
 extension NotificationGridVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let profileVC = ProfileVC(userID: friendRequests[indexPath.row].userID,isVisiting: true)
+        let profileControls = ProfileControls()
+        profileVC.setController(profileControls)
+        
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if friendRequests.count > 0 {
