@@ -14,6 +14,7 @@ class PostVC: UIViewController {
     private var postControls: PostControlsProtocol
     private var userID: Int
     private var likeFlag: Bool!
+    private var refreshControl = UIRefreshControl()
     
     init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post) {
         self.postControls = postControls
@@ -28,6 +29,8 @@ class PostVC: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.decelerationRate = .fast
         scrollView.backgroundColor = .systemBackground
+        scrollView.isScrollEnabled = true
+        scrollView.isUserInteractionEnabled = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         return scrollView
@@ -42,7 +45,6 @@ class PostVC: UIViewController {
     
     private lazy var profilePhoto: UIImageView = {
         let profileImage = UIImageView(frame: .zero)
-        profileImage.image = postControls.getUserDP(userID: userID)
         profileImage.clipsToBounds = true
         profileImage.contentMode = .scaleAspectFill
         profileImage.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +56,6 @@ class PostVC: UIViewController {
         var userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.font = UIFont.systemFont(ofSize:17)
-        userNameLabel.text = postControls.getUsername(userID: userID)
         return userNameLabel
     }()
     
@@ -70,7 +71,6 @@ class PostVC: UIViewController {
     private lazy var post: UIImageView = {
        let post = UIImageView()
        post.clipsToBounds = true
-       post.image = postControls.getPostImage(postImageName: postDetails.photo)
        post.contentMode = .scaleAspectFill
        post.translatesAutoresizingMaskIntoConstraints = false
        post.isUserInteractionEnabled = true
@@ -81,9 +81,8 @@ class PostVC: UIViewController {
     private lazy var caption: UILabel = {
         var caption = UILabel()
         caption.translatesAutoresizingMaskIntoConstraints = false
-        caption.text = postDetails.caption
         caption.font = UIFont.systemFont(ofSize:15)
-        caption.numberOfLines = 10
+        caption.numberOfLines = 0
         return caption
     }()
     
@@ -133,7 +132,7 @@ class PostVC: UIViewController {
         setupNavigationItems()
         setupConstraints()
         setupTapGestures()
-        setLikeButton()
+        setupPostDetails()
         
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
@@ -143,6 +142,28 @@ class PostVC: UIViewController {
         like.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         comment.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
+        refreshControl.addTarget(self, action: #selector(refreshScreen), for: UIControl.Event.valueChanged)
+    }
+    
+    @objc private func refreshScreen() {
+        DispatchQueue.main.async {
+            self.setupPostDetails()
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    private func setupPostDetails() {
+        profilePhoto.image = postControls.getUserDP(userID: userID)
+        userNameLabel.text = postControls.getUsername(userID: userID)
+        
+        guard let postImage = UIImage().loadImageFromDiskWith(fileName: postDetails.photo) else {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        post.image = postImage
+        caption.text = postDetails.caption
+        setLikeButton()
     }
     
     private func setupNavigationItems() {
@@ -156,6 +177,7 @@ class PostVC: UIViewController {
     private func setupConstraints() {
         
         view.addSubview(scrollView)
+        scrollView.refreshControl = refreshControl
         scrollView.addSubview(scrollContainer)
         
         [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount,caption].forEach {

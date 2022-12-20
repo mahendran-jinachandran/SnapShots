@@ -89,7 +89,6 @@ class NewPostVC: UIViewController {
         
         navigationItem.title = "Add Post"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-        navigationController?.navigationBar.barTintColor = UIColor(named: "appTheme")
         navigationItem.backBarButtonItem = UIBarButtonItem(
             title: "Something Else", style: .plain, target: nil, action: nil)
     }

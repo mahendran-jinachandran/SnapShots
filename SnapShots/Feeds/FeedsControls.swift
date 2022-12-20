@@ -53,6 +53,7 @@ class FeedsControls {
     
     func deletePost(postID: Int) -> Bool {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        UIImage().deleteImage(imageName: "\(userID)\(Constants.postSavingFormat)\(postID)")
         return postDaoImp.deletePost(userID: userID, postID: postID)
     }
     

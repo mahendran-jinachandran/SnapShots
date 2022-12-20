@@ -17,6 +17,7 @@ class ProfileVC: UIViewController{
     private var userID: Int!
     private var profileAccessibility: ProfileAccess!
     private var isVisiting: Bool!
+    private var firstCell: CGPoint?
     
     public func setController(_ profileControls: ProfileControlsProtocols) {
         self.profileControls = profileControls
@@ -57,7 +58,7 @@ class ProfileVC: UIViewController{
         
         profileView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         profileView.showsVerticalScrollIndicator = false
-        
+        profileView.alwaysBounceVertical = true
         profileView.register(
             CustomCollectionViewCell.self,
             forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
@@ -182,7 +183,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as! CustomCollectionViewCell
-        
+
         
         let postPicture = AppUtility.getPostPicture(
             userID: userID,
@@ -202,6 +203,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             return CGSize(width: 0,height: 0)
         }
         
+        
         return CGSize(width: (collectionView.frame.width / 3) - 10,
                       height: ( collectionView.frame.width / 3) - 1)
     }
@@ -212,6 +214,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         let indexPath = IndexPath(row: 0, section: section)
         let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
         
+        print("Section: \(section)")
         return headerView.intrinsicContentSize
     }
     
@@ -302,6 +305,15 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
             showToast(message: "DP Removed")
         } else {
             showToast(message: Constants.toastFailureStatus)
+        }
+    }
+    
+    func showPosts() {
+        
+       let ip = IndexPath(row: 0, section: 0)
+        if profileView.indexPathsForVisibleItems.contains(ip)
+        {
+            profileView.scrollToItem(at: ip, at: .top, animated: true)
         }
     }
 }

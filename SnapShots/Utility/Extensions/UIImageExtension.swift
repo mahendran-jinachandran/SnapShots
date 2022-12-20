@@ -10,21 +10,18 @@ import UIKit
 
 extension UIImage {
     
-    func saveImage(imageName: String, image: UIImage) {
-
-     guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-
+    private func getDocumentsDirectory(imageName: String) -> URL {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
         let fileName = imageName
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        guard let data = image.jpegData(compressionQuality: 1) else { return }
+        return fileURL
+    }
+    
+    func saveImage(imageName: String, image: UIImage) {
 
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            do {
-                try FileManager.default.removeItem(atPath: fileURL.path)
-            } catch let removeError {
-                print("couldn't remove file at path", removeError)
-            }
-        }
+        let fileURL = getDocumentsDirectory(imageName: imageName)
+        guard let data = image.jpegData(compressionQuality: 1) else { return }
 
         do {
             try data.write(to: fileURL)
@@ -35,10 +32,7 @@ extension UIImage {
     
     func deleteImage(imageName: String) {
         
-        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-
-           let fileName = imageName
-           let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        let fileURL = getDocumentsDirectory(imageName: imageName)
         
         do {
             try FileManager.default.removeItem(atPath: fileURL.path)

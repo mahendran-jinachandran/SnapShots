@@ -16,6 +16,7 @@ protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
     func cancelFriendRequest()
     func unFriendAnUser()
     func editProfile()
+    func showPosts()
 }
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
@@ -34,11 +35,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileStack.spacing = 10
         return profileStack
     }()
-    
-    
-//    override var intrinsicContentSize: CGSize {
-//        return CGSize(width: 10, height: 10)
-//    }
     
     private var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
@@ -187,6 +183,10 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let openFriendsTap = UITapGestureRecognizer(target: self, action: #selector(showFriends(_:)))
         friendsContainer.addGestureRecognizer(openFriendsTap)
+        
+        let showPostsTap = UITapGestureRecognizer(target: self, action: #selector(showPosts(_:)))
+        postContainer.addGestureRecognizer(showPostsTap)
+        
     }
     
     private func setupStackView() {
@@ -283,6 +283,10 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         if profileAccessibility == .owner || profileAccessibility == .friend {
             delegate?.getFriendsList()
         }
+    }
+    
+    @objc private func showPosts(_ sender: UITapGestureRecognizer) {
+        delegate?.showPosts()
     }
 }
 

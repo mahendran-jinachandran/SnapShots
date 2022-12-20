@@ -23,7 +23,6 @@ class NewPostControls: NewPostControlProtocol {
         let imageName = "\(userID)\(Constants.postSavingFormat)\(postID)"
         image.saveImage(imageName: imageName, image: image)
         
-        print("C: \(caption.count)")
        return postDaoImp.uploadPost(postID: postID,photo: imageName,caption: caption, userID: userID)
 
     }
