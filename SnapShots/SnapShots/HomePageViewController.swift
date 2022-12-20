@@ -27,9 +27,8 @@ class HomePageViewController: UITabBarController {
         
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         
-        let profileVC = ProfileVC(userID: userID,isVisiting: false)
-        let profileControls = ProfileControls()        
-        profileVC.setController(profileControls)
+        let profileControls = ProfileControls()
+        let profileVC = ProfileVC(profileControls: profileControls,userID: userID,isVisiting: false)
         
         let notificationVC = NotificationGridVC()
         let notificationControls = NotificationControls()

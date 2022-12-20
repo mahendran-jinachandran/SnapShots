@@ -145,12 +145,11 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
      
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let profileControls = ProfileControls()
         let profileVC = ProfileVC(
+            profileControls: profileControls,
             userID: commentDetails[indexPath.row].commentUserID,
             isVisiting: true)
-        
-        let profileControls = ProfileControls()
-        profileVC.setController(profileControls)
         
         navigationController?.pushViewController(profileVC, animated: true)
     }

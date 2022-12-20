@@ -103,11 +103,14 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
         return 60
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
-        let profileVC = ProfileVC(userID: dupPeople[indexPath.row].userID,isVisiting: true)
-        let profileControls = ProfileControls()
-        profileVC.setController(profileControls)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let profileControls = ProfileControls()
+        let profileVC = ProfileVC(
+            profileControls: profileControls,
+            userID: dupPeople[indexPath.row].userID,
+            isVisiting: true)
+
         navigationController?.pushViewController(profileVC, animated: true)
     }
 

@@ -99,12 +99,11 @@ extension FriendsListVC: UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let profileControls = ProfileControls()
         let profileVC = ProfileVC(
+            profileControls: profileControls,
             userID: friends[indexPath.row].userID,
             isVisiting: true)
-        
-        let profileControls = ProfileControls()
-        profileVC.setController(profileControls)
         
         navigationController?.pushViewController(profileVC, animated: true)
     }

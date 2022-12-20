@@ -169,7 +169,7 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
 }
 
 extension FeedsVC: FeedsCustomCellDelegate {
-    
+
     func controller() -> FeedsVC {
         return self
     }
@@ -227,5 +227,18 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         _ = feedsControls.deletePost(postID: postID)
+    }
+    
+    func goToProfile(sender: FeedsCustomCell) {
+        
+        let indexPath = feedsTable.indexPath(for: sender)!
+        
+        let profileControls = ProfileControls()
+        let profileVC = ProfileVC(
+            profileControls: profileControls,
+            userID: feedPosts[indexPath.row].userID,
+            isVisiting: true)
+        
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }

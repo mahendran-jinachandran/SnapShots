@@ -91,12 +91,12 @@ extension LikesVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        let profileVC = ProfileVC(
-            userID: likedUsers[indexPath.row].userID,
-            isVisiting: true)
         
         let profileControls = ProfileControls()
-        profileVC.setController(profileControls)
+        let profileVC = ProfileVC(
+            profileControls: profileControls,
+            userID: likedUsers[indexPath.row].userID,
+            isVisiting: true)
         
         navigationController?.pushViewController(profileVC, animated: true)
     }

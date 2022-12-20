@@ -15,6 +15,7 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func showComments(sender: FeedsCustomCell)
     func isDeletionAllowed(sender: FeedsCustomCell) -> Bool
     func deletePost(sender: FeedsCustomCell)
+    func goToProfile(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -47,6 +48,7 @@ class FeedsCustomCell: UITableViewCell {
         var userNameLabel = UILabel()
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.font = UIFont.systemFont(ofSize:17)
+        userNameLabel.isUserInteractionEnabled = true
         return userNameLabel
     }()
     
@@ -118,8 +120,6 @@ class FeedsCustomCell: UITableViewCell {
         contentView.backgroundColor = UIColor.systemBackground
         contentView.addSubview(postContainer)
         
-
-        
         setupConstraint()
         setupButtonTargets()
         profilePhoto.layer.cornerRadius = 40/2
@@ -127,6 +127,7 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int) {
+        
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
         self.post.image = postPhoto
@@ -141,6 +142,12 @@ class FeedsCustomCell: UITableViewCell {
         like.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
+        
+        let profilePhotoTap = UITapGestureRecognizer(target: self, action: #selector(goToProfile))
+        profilePhoto.addGestureRecognizer(profilePhotoTap)
+        
+        let usernameTap = UITapGestureRecognizer(target: self, action: #selector(goToProfile))
+        userNameLabel.addGestureRecognizer(usernameTap)
     }
     
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
@@ -171,6 +178,10 @@ class FeedsCustomCell: UITableViewCell {
     
     @objc private func gotToComments() {
         delegate?.showComments(sender: self)
+    }
+    
+    @objc private func goToProfile() {
+        delegate?.goToProfile(sender: self)
     }
     
     @objc private func showOwnerMenu(_ sender: UIButton) {

@@ -18,16 +18,13 @@ class ProfileVC: UIViewController{
     private var profileAccessibility: ProfileAccess!
     private var isVisiting: Bool!
     private var firstCell: CGPoint?
-    
-    public func setController(_ profileControls: ProfileControlsProtocols) {
-        self.profileControls = profileControls
-    }
-    
+        
     private lazy var profileHeader: UILabel = {
         return UILabel()
     }()
 
-    init(userID: Int,isVisiting: Bool) {
+    init(profileControls: ProfileControlsProtocols,userID: Int,isVisiting: Bool) {
+        self.profileControls = profileControls
         self.userID = userID
         self.isVisiting = isVisiting
         super.init(nibName: nil, bundle: nil)
@@ -214,7 +211,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         let indexPath = IndexPath(row: 0, section: section)
         let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
         
-        print("Section: \(section)")
         return headerView.intrinsicContentSize
     }
     
