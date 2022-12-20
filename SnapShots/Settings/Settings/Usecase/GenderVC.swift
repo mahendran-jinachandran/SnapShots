@@ -50,6 +50,15 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         return genderImage
     }()
     
+    private lazy var pickerButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        return toggleButton
+    }()
+    
     private lazy var genderTextField: CustomTextField = {
         let genderTextField = CustomTextField()
         genderTextField.text = gender
@@ -58,14 +67,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         genderTextField.layer.borderColor = UIColor.gray.cgColor
         genderTextField.translatesAutoresizingMaskIntoConstraints = false
         genderTextField.textAlignment = .center
-        
-        var configButton = UIButton.Configuration.borderless()
-        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
-        
-        let toggleButton = UIButton(configuration: configButton)
-        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
-        
-        genderTextField.rightView = toggleButton
+        genderTextField.rightView = pickerButton
         genderTextField.rightViewMode = .always
         return genderTextField
     }()
@@ -123,6 +125,13 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
+        
+        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
+    }
+    
+    
+   @objc private func openKeyboard() {
+        genderTextField.becomeFirstResponder()
     }
     
     private func setupNotificationCenter() {

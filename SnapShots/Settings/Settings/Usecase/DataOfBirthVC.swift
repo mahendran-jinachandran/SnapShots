@@ -48,6 +48,15 @@ class DataOfBirthVC: UIViewController {
         birthdayLogo.tintColor = UIColor(named: "appTheme")
         return birthdayLogo
     }()
+    
+    private lazy var pickerButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        return toggleButton
+    }()
 
     private lazy var dateOfBirthTextField: CustomTextField = {
         let dateOfBirthTextField = CustomTextField()
@@ -57,13 +66,7 @@ class DataOfBirthVC: UIViewController {
         dateOfBirthTextField.layer.borderColor = UIColor.gray.cgColor
         dateOfBirthTextField.translatesAutoresizingMaskIntoConstraints = false
         dateOfBirthTextField.textAlignment = .center
-        
-        var configButton = UIButton.Configuration.borderless()
-        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
-        
-        let toggleButton = UIButton(configuration: configButton)
-        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
-        dateOfBirthTextField.rightView = toggleButton
+        dateOfBirthTextField.rightView = pickerButton
         dateOfBirthTextField.rightViewMode = .always
         
         return dateOfBirthTextField
@@ -85,6 +88,7 @@ class DataOfBirthVC: UIViewController {
         setupDatePicker()
         setupTapGestures()
         setupNotificationCenter()
+        
     }
     
     private func setupNavigationItems() {
@@ -108,6 +112,12 @@ class DataOfBirthVC: UIViewController {
         
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
+        
+        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
+    }
+    
+   @objc private func openKeyboard() {
+        dateOfBirthTextField.becomeFirstResponder()
     }
     
     @objc private func updateBirthday(_ sender: UITapGestureRecognizer) {

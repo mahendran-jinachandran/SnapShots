@@ -49,6 +49,15 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         return genderImage
     }()
     
+    private lazy var pickerButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        return toggleButton
+    }()
+    
     private lazy var genderTextField: CustomTextField = {
         let gender = CustomTextField()
         gender.placeholder = "Gender"
@@ -57,15 +66,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         gender.layer.borderColor = UIColor.gray.cgColor
         gender.translatesAutoresizingMaskIntoConstraints = false
         gender.textAlignment = .center
-        
-        
-        var configButton = UIButton.Configuration.borderless()
-        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
-        
-        let toggleButton = UIButton(configuration: configButton)
-        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
-        
-        gender.rightView = toggleButton
+        gender.rightView = pickerButton
         gender.rightViewMode = .always
         return gender
     }()
@@ -131,7 +132,12 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         view.addGestureRecognizer(screenTap)
         
         nextButton.addTarget(self, action: #selector(updateGender), for: .touchUpInside)
+        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
     }
+    
+    @objc private func openKeyboard() {
+         genderTextField.becomeFirstResponder()
+     }
     
     private func setupNotficationCenter() {
         

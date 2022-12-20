@@ -47,6 +47,15 @@ class OnboardingBirthdayVC: UIViewController {
         birthdayLogo.tintColor = UIColor(named: "appTheme")
         return birthdayLogo
     }()
+    
+    private lazy var pickerButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        return toggleButton
+    }()
 
     private lazy var dateOfBirth: CustomTextField = {
         let dateOfBirth = CustomTextField()
@@ -56,13 +65,7 @@ class OnboardingBirthdayVC: UIViewController {
         dateOfBirth.layer.borderColor = UIColor.gray.cgColor
         dateOfBirth.translatesAutoresizingMaskIntoConstraints = false
         dateOfBirth.textAlignment = .center
-        
-        var configButton = UIButton.Configuration.borderless()
-        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
-        
-        let toggleButton = UIButton(configuration: configButton)
-        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
-        dateOfBirth.rightView = toggleButton
+        dateOfBirth.rightView = pickerButton
         dateOfBirth.rightViewMode = .always
         return dateOfBirth
     }()
@@ -101,11 +104,17 @@ class OnboardingBirthdayVC: UIViewController {
     }
     
     private func setupTapGestures() {
-        nextButton.addTarget(self, action: #selector(updateBirthday), for: .touchUpInside)
-        
+
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
+        
+        nextButton.addTarget(self, action: #selector(updateBirthday), for: .touchUpInside)
+        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
     }
+    
+    @objc private func openKeyboard() {
+        dateOfBirth.becomeFirstResponder()
+     }
     
     private func setupNotficationCenter() {
         
