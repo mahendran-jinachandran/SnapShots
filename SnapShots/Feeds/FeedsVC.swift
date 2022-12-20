@@ -133,8 +133,10 @@ class FeedsVC: UIViewController {
         
         let newPostControls = NewPostControls()
         let newPostVC = NewPostVC(newPostControls: newPostControls)
-     
-        navigationController?.pushViewController(newPostVC, animated: true)
+        let postNavigation = UINavigationController(rootViewController: newPostVC)
+        postNavigation.modalPresentationStyle = .fullScreen
+
+        present(postNavigation, animated: true)
     }
 }
 

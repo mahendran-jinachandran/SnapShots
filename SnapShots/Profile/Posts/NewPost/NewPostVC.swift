@@ -7,9 +7,10 @@
 
 import UIKit
 
-class NewPostVC: UIViewController {
+class NewPostVC: UIViewController,UITextViewDelegate {
     
     private var isPhotoUploaded: Bool = false
+    private var isCaptionGiven: Bool = false
     private var newPostControls: NewPostControlProtocol
     
     init(newPostControls: NewPostControlProtocol) {
@@ -82,6 +83,16 @@ class NewPostVC: UIViewController {
         setupTapGestures()
         setupProfileConstraints()
         setupNotificationCenter()
+        
+        caption.delegate = self
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        if textView == caption,!caption.text.isEmpty {
+            isCaptionGiven = true
+        } else {
+            isCaptionGiven = false
+        }
     }
     
     private func setupNavigationItems()  {
@@ -89,8 +100,30 @@ class NewPostVC: UIViewController {
         
         navigationItem.title = "Add Post"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uploadLabel)
-        navigationItem.backBarButtonItem = UIBarButtonItem(
-            title: "Something Else", style: .plain, target: nil, action: nil)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(named: "appTheme")
+    }
+    
+    @objc private func goBack() {
+        
+        if isPhotoUploaded || isCaptionGiven {
+            let abortPostUpload = UIAlertController(title: "Unsaved changes", message: "Are you sure you want to cancel?", preferredStyle: .alert)
+            
+            abortPostUpload.addAction(
+                UIAlertAction(title: "Yes", style: .default) { _ in
+                    self.dismiss(animated: true)
+                }
+            )
+            
+            abortPostUpload.addAction(
+                UIAlertAction(title: "No", style: .cancel)
+            )
+            
+            present(abortPostUpload, animated: true)
+        } else {
+            self.dismiss(animated: true)
+        }
     }
     
     private func setupTapGestures() {

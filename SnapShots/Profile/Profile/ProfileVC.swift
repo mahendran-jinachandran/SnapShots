@@ -82,12 +82,15 @@ class ProfileVC: UIViewController{
         
         if isVisiting {
             title = profileUser.userName
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         } else {
             setupOwnerNavigationItems()
         }
         
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+    }
+    
+    @objc private func goBack() {
+        print("Done")
     }
     
     private func setupOwnerNavigationItems() {
@@ -123,11 +126,14 @@ class ProfileVC: UIViewController{
     }
     
     @objc private func uploadNewPost() {
-        
+
         let newPostControls = NewPostControls()
         let newPostVC = NewPostVC(newPostControls: newPostControls)
-     
-        navigationController?.pushViewController(newPostVC, animated: true)
+        let postNavigation = UINavigationController(rootViewController: newPostVC)
+        postNavigation.modalPresentationStyle = .fullScreen
+
+        present(postNavigation, animated: true)
+
     }
 }
 
