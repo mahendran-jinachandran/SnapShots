@@ -197,7 +197,7 @@ class NewPostVC: UIViewController,UITextViewDelegate {
         }
         
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
     
     @objc private func handleKeyboard(_ notification: Notification) {

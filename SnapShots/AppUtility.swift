@@ -111,7 +111,7 @@ class AppUtility {
     
     static func validateUsername(username: String) -> Result<Bool,UsernameError> {
         
-        let isValidUsername = AppUtility.isValidUsername(username: username)
+        let isValidUsername = AppUtility.isValidUsername(username: username.trimmingCharacters(in: .whitespacesAndNewlines))
         
         guard let _ = try? isValidUsername.get() else {
             return isValidUsername

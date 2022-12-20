@@ -20,6 +20,6 @@ class EditProfileControls: EditProfileControlsProtocol {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         let profileBio = profileBio.count > 0 ? profileBio : Constants.noUserBioDefault
 
-        return userDaoImp.updateUsername(username: username, userID: loggedUserID) && userDaoImp.updateBio(profileBio: profileBio, userID: loggedUserID)
+        return userDaoImp.updateUsername(username: username.trimmingCharacters(in: .whitespacesAndNewlines), userID: loggedUserID) && userDaoImp.updateBio(profileBio: profileBio, userID: loggedUserID)
     }
 }

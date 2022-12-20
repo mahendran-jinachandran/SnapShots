@@ -292,7 +292,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
 
     @objc private func startOnboarding() {
         
-        if registerController.executeRegistrationProcess(username: username.text!, phoneNumber: phoneNumber.text!, password: password.text!.trimmingCharacters(in: .whitespaces)) {
+        if registerController.executeRegistrationProcess(username: username.text!.trimmingCharacters(in: .whitespacesAndNewlines), phoneNumber: phoneNumber.text!, password: password.text!.trimmingCharacters(in: .whitespaces)) {
             navigationController?.pushViewController(OnboardingVC(), animated: true)
         } else {
             showToast(message: Constants.toastFailureStatus)
