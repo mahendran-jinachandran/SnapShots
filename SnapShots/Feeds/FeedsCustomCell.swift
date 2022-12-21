@@ -114,6 +114,14 @@ class FeedsCustomCell: UITableViewCell {
         return caption
     }()
     
+    private lazy var postCreatedTime: UILabel = {
+        var postCreatedTime = UILabel()
+        postCreatedTime.translatesAutoresizingMaskIntoConstraints = false
+        postCreatedTime.font = UIFont.systemFont(ofSize: 10)
+        postCreatedTime.textAlignment = .left
+        return postCreatedTime
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -126,7 +134,7 @@ class FeedsCustomCell: UITableViewCell {
         moreInfo.layer.cornerRadius = 15
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int) {
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int,postCreatedTime: String) {
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
@@ -135,6 +143,7 @@ class FeedsCustomCell: UITableViewCell {
         self.likeFlag = isAlreadyLiked
         self.likesCount.text = String( Double(likedUsersCount).shortStringRepresentation )
         self.commentsCount.text = String( Double(commentedUsersCount).shortStringRepresentation)
+        self.postCreatedTime.text = String(AppUtility.getDate(date: postCreatedTime))
         setLikeHeartImage(isLiked: likeFlag)
     }
     
@@ -229,7 +238,7 @@ class FeedsCustomCell: UITableViewCell {
     
     private func setupConstraint() {
         
-        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount ,caption].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount ,caption,postCreatedTime].forEach {
             postContainer.addSubview($0)
         }
         
@@ -284,7 +293,11 @@ class FeedsCustomCell: UITableViewCell {
             caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
             caption.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
-            caption.bottomAnchor.constraint(equalTo: postContainer.bottomAnchor,constant: -8)
+            
+            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 8),
+            postCreatedTime.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            postCreatedTime.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -8),
+            postCreatedTime.bottomAnchor.constraint(equalTo: postContainer.bottomAnchor,constant: -10)
         ])
     }
 }
