@@ -11,7 +11,7 @@ class AccountControls: AccountControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
-    func getuserDetails() -> User {
+    func getUserDetails() -> User {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return userDaoImp.getUserDetails(userID: loggedUserID)!
     }

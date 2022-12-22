@@ -9,7 +9,7 @@ import Foundation
 
 
 protocol AccountControlsProtocol {
-    func getuserDetails() -> User
+    func getUserDetails() -> User
     func updateEmail(email: String) -> Bool
     func updateGender(gender: String) -> Bool
     func updateBirthday(birthday: String) -> Bool

@@ -126,6 +126,15 @@ class PersonalInformationVC: UIViewController {
         return dateOfBirth
     }()
     
+    private lazy var accountCreatedDate: UILabel = {
+        var accountCreatedDate = UILabel()
+        accountCreatedDate.translatesAutoresizingMaskIntoConstraints = false
+        accountCreatedDate.font = UIFont.systemFont(ofSize: 10)
+        accountCreatedDate.textAlignment = .center
+        accountCreatedDate.text = "Account created on "
+        return accountCreatedDate
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -141,11 +150,12 @@ class PersonalInformationVC: UIViewController {
     }
     
    @objc func updatePersonalInformation() {
-       let user = accountControls.getuserDetails()
+       let user = accountControls.getUserDetails()
        email.text = user.mail == "-1" ? Constants.EMPTY : user.mail
        phone.text = user.phoneNumber
        gender.text = user.gender == .preferNotSay ? Constants.EMPTY : user.gender == .male ? Constants.MALE : Constants.FEMALE
        dateOfBirth.text = user.age == "-1" ? Constants.EMPTY : user.age
+       accountCreatedDate.text! +=  String(AppUtility.getDate(date: user.accountCreatedDate))
     }
     
     private func setupNavigationItems() {
@@ -189,7 +199,7 @@ class PersonalInformationVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
         
-        [infoLabel,safetyWarningLabel,emailLabel,email,phoneLabel,phone,genderLabel,gender,dateOfBirthLabel,dateOfBirth].forEach {
+        [infoLabel,safetyWarningLabel,emailLabel,email,phoneLabel,phone,genderLabel,gender,dateOfBirthLabel,dateOfBirth,accountCreatedDate].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -255,7 +265,11 @@ class PersonalInformationVC: UIViewController {
             dateOfBirth.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: 10),
             dateOfBirth.leadingAnchor.constraint(equalTo: dateOfBirthLabel.trailingAnchor),
             dateOfBirth.heightAnchor.constraint(equalToConstant: 40),
-            dateOfBirth.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -2)
+
+            accountCreatedDate.topAnchor.constraint(equalTo: dateOfBirth.bottomAnchor,constant: 24),
+            accountCreatedDate.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 10),
+            accountCreatedDate.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -10),
+            accountCreatedDate.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -5),
         ])
     }
 }

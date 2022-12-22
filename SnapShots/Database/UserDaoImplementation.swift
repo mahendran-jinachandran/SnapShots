@@ -120,7 +120,6 @@ class UserDaoImplementation: UserDao {
         """
         
         return sqliteDatabase.execute(query: updateUserProfileQuery)
-        
     }
     
     func updatePassword(password: String,phoneNumber: String) -> Bool {
