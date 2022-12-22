@@ -102,8 +102,6 @@ class FeedsVC: UIViewController {
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "appTheme")!
     }
     
-
-    
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
@@ -243,5 +241,16 @@ extension FeedsVC: FeedsCustomCellDelegate {
             isVisiting: true)
         
         navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    func executeArchivingProcess(sender: FeedsCustomCell) {
+        
+        let indexPath = feedsTable.indexPath(for: sender)!
+        
+        if !feedsControls.addToArchives(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID) {
+            showToast(message: Constants.toastFailureStatus)
+        }
+        
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
 }

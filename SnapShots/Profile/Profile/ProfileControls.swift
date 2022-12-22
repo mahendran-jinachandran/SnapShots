@@ -49,11 +49,16 @@ class ProfileControls: ProfileControlsProtocols {
     func getAllPosts(userID: Int) -> [Post] {
        var posts = postDaoImp.getAllPosts(userID: userID)
         
-        posts = posts.sorted(by: {
+        var feeds: [Post] = []
+        for feed in posts where feed.isArchived == false {
+            feeds.append(feed)
+        }
+        
+        feeds = feeds.sorted(by: {
             $0.postCreatedDate.compare($1.postCreatedDate) == .orderedAscending
         })
         
-       return posts
+       return feeds
     }
     
     func sendFriendRequest(profileRequestedUser: Int) -> Bool {

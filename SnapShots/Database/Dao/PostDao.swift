@@ -11,4 +11,5 @@ protocol PostDao{
     func getAllPosts(userID: Int) ->[Post]
     func getAllFriendPosts(userID: Int) -> [FeedsDetails]
     func deletePost(userID: Int,postID: Int) -> Bool
+    func archiveThePost(userID: Int,postID: Int) -> Bool
 }

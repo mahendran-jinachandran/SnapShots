@@ -33,7 +33,7 @@ struct UserInstance {
         }
         
         let getAllPostQuery = """
-        SELECT Post_id,Photo,Caption,Created_time FROM POST
+        SELECT Post_id,Photo,Caption,Created_time,isArchived FROM POST
         WHERE User_id = \(user!.userID);
         """
     
@@ -42,7 +42,8 @@ struct UserInstance {
             allPosts[Int(post[0])!] = Post(postID: Int(post[0])!,
                                            photo: post[1],
                                         caption: post[2],
-                                        postCreatedDate: post[3])
+                                        postCreatedDate: post[3],
+                                           isArchived: post[4] == "1" ? true:false)
             
         }
         

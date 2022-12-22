@@ -51,7 +51,7 @@ class PostControls: PostControlsProtocol {
         return AppUtility.getDisplayPicture(userID: userID)
     }
     
-    func isDeletionAllowed(userID: Int) -> Bool {
+    func hasSpecialPermissions(userID: Int) -> Bool {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return loggedUserID == userID
     }
@@ -62,5 +62,9 @@ class PostControls: PostControlsProtocol {
     
     func getAllComments(postUserID: Int,postID: Int) -> Int {
         return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID).count
+    }
+    
+    func addToArchives(postUserID: Int,postID: Int) -> Bool {
+        return postDaoImp.archiveThePost(userID: postUserID, postID: postID)
     }
 }

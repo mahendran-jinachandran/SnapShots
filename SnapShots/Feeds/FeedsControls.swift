@@ -19,13 +19,18 @@ class FeedsControls {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         
-        let posts = postDaoImp.getAllFriendPosts(userID: loggedUserID)
+        var posts = postDaoImp.getAllFriendPosts(userID: loggedUserID)
         
         let feeds = posts.sorted(by: {
             $0.postDetails.postCreatedDate.compare($1.postDetails.postCreatedDate) == .orderedDescending
         })
         
-        return feeds
+        posts = []
+        for feed in feeds where feed.postDetails.isArchived == false {
+            posts.append(feed)
+        }
+        
+        return posts
     }
     
     func isAlreadyLikedThePost(postDetails: FeedsDetails) -> Bool {
@@ -63,5 +68,9 @@ class FeedsControls {
     
     func getAllComments(postUserID: Int,postID: Int) -> Int {
         return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID).count
+    }
+    
+    func addToArchives(postUserID: Int,postID: Int) -> Bool {
+        return postDaoImp.archiveThePost(userID: postUserID, postID: postID)
     }
 }

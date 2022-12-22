@@ -16,6 +16,7 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func isDeletionAllowed(sender: FeedsCustomCell) -> Bool
     func deletePost(sender: FeedsCustomCell)
     func goToProfile(sender: FeedsCustomCell)
+    func executeArchivingProcess(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -203,6 +204,11 @@ class FeedsCustomCell: UITableViewCell {
         moreInfo.addAction(allLikes)
         
         if (delegate?.isDeletionAllowed(sender: self)) == true {
+            
+            moreInfo.addAction(UIAlertAction(title: "Archive", style: .default) { _ in
+                self.delegate?.executeArchivingProcess(sender: self)
+            })
+            
             let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
                 self.confirmDeletion()
             }
@@ -215,6 +221,8 @@ class FeedsCustomCell: UITableViewCell {
         delegate?.controller().present(moreInfo, animated: true)
         
     }
+    
+
     
     private func confirmDeletion() {
         let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)

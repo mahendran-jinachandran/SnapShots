@@ -309,23 +309,38 @@ class PostVC: UIViewController {
     @objc private func showOwnerMenu(_ sender: UIButton) {
     
         let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
-            self.goToLikes()
-        }
+       
         
-        if postControls.isDeletionAllowed(userID: userID) {
-            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
+        moreInfo.addAction(UIAlertAction(title: "All Likes", style: .default) { _ in
+            self.goToLikes()
+        })
+        
+        if postControls.hasSpecialPermissions(userID: userID) {
+            
+            moreInfo.addAction(UIAlertAction(title: "Archive", style: .default) { _ in
+                self.executeArchivingProcess()
+            })
+            
+            let deletePost = UIAlertAction(title: "Delete", style: .destructive) { _ in
                 self.confirmDeletion()
             }
             moreInfo.addAction(deletePost)
         }
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-
-        moreInfo.addAction(allLikes)
         moreInfo.addAction(cancel)
         
         present(moreInfo, animated: true)
+    }
+    
+    private func executeArchivingProcess() {
+        if !postControls.addToArchives(postUserID: userID, postID: postDetails.postID) {
+            showToast(message: Constants.toastFailureStatus)
+        }
+        
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        self.navigationController?.popViewController(animated: true)
+    
     }
     
     private func confirmDeletion() {

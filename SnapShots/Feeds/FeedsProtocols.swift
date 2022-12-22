@@ -16,4 +16,5 @@ protocol FeedsControlsProtocol {
     func deletePost(postID: Int) -> Bool
     func getAllLikedUsers(postUserID: Int,postID: Int) -> Int
     func getAllComments(postUserID: Int,postID: Int) -> Int
+    func addToArchives(postUserID: Int,postID: Int) -> Bool
 }

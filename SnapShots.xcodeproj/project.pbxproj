@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15D4AF295047F50039853C /* UITabBarExtension.swift */; };
 		BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2560132954159500187E18 /* ResetPasswordProtocol.swift */; };
+		BF256018295458C600187E18 /* BottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF256017295458C600187E18 /* BottomSheetVC.swift */; };
+		BF25601A2954595800187E18 /* BottomSheetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2560192954595800187E18 /* BottomSheetsTableViewCell.swift */; };
+		BF25601C29545C5E00187E18 /* BottomSheetDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25601B29545C5E00187E18 /* BottomSheetDetails.swift */; };
 		BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311691292F8CDF008BAA08 /* LikesVC.swift */; };
 		BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */; };
 		BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */; };
@@ -130,6 +133,9 @@
 /* Begin PBXFileReference section */
 		BF15D4AF295047F50039853C /* UITabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtension.swift; sourceTree = "<group>"; };
 		BF2560132954159500187E18 /* ResetPasswordProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordProtocol.swift; sourceTree = "<group>"; };
+		BF256017295458C600187E18 /* BottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetVC.swift; sourceTree = "<group>"; };
+		BF2560192954595800187E18 /* BottomSheetsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsTableViewCell.swift; sourceTree = "<group>"; };
+		BF25601B29545C5E00187E18 /* BottomSheetDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDetails.swift; sourceTree = "<group>"; };
 		BF311691292F8CDF008BAA08 /* LikesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesVC.swift; sourceTree = "<group>"; };
 		BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesCustomCell.swift; sourceTree = "<group>"; };
 		BF311696292FA2C1008BAA08 /* CommentsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCustomCell.swift; sourceTree = "<group>"; };
@@ -269,6 +275,16 @@
 				BFC9BAB82939FE6100EE1D42 /* ResetPasswordControls.swift */,
 			);
 			path = ResetPassword;
+			sourceTree = "<group>";
+		};
+		BF2560162954589C00187E18 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				BF256017295458C600187E18 /* BottomSheetVC.swift */,
+				BF2560192954595800187E18 /* BottomSheetsTableViewCell.swift */,
+				BF25601B29545C5E00187E18 /* BottomSheetDetails.swift */,
+			);
+			path = BottomSheet;
 			sourceTree = "<group>";
 		};
 		BF31168D292F8C54008BAA08 /* Posts */ = {
@@ -563,6 +579,7 @@
 		BFA5600A2924EF5C00A948B4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				BF2560162954589C00187E18 /* BottomSheet */,
 				BFAE19C7294181C000D7A012 /* EditProfile */,
 				BFA55FDB2922433200A948B4 /* ProfileVC.swift */,
 				BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */,
@@ -806,6 +823,7 @@
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
+				BF256018295458C600187E18 /* BottomSheetVC.swift in Sources */,
 				BFB3E4D3294049FE00A266D9 /* FeedsProtocols.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
 				BFB3E4CF29403D0200A266D9 /* NotificationProtocols.swift in Sources */,
@@ -865,6 +883,7 @@
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,
 				BFB3E4D529404E2100A266D9 /* LikesProtocols.swift in Sources */,
+				BF25601C29545C5E00187E18 /* BottomSheetDetails.swift in Sources */,
 				BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */,
 				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
 				BFAE19D12942E9CB00D7A012 /* FeedsDetails.swift in Sources */,
@@ -881,6 +900,7 @@
 				BFA5600F29251A6B00A948B4 /* FriendsListCustomTVCell.swift in Sources */,
 				BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */,
 				BF5A13F72935FA7C0051FC8D /* OnboardingBioVC.swift in Sources */,
+				BF25601A2954595800187E18 /* BottomSheetsTableViewCell.swift in Sources */,
 				BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */,
 				BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,

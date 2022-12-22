@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileVC: UIViewController{
+class ProfileVC: UIViewController {
     
     private var profileView: UICollectionView!
     private var layout = UICollectionViewFlowLayout()
@@ -122,7 +122,12 @@ class ProfileVC: UIViewController{
     }
     
     @objc private func openSettings() {
-        navigationController?.pushViewController(SettingsViewController(), animated: true)
+        
+        let bottomSheetVC = BottomSheetVC()
+        bottomSheetVC.modalPresentationStyle = .overCurrentContext
+        if let rootViewController = view.window?.rootViewController {
+            rootViewController.present(bottomSheetVC, animated: true)
+        }
     }
     
     @objc private func uploadNewPost() {
@@ -133,7 +138,6 @@ class ProfileVC: UIViewController{
         postNavigation.modalPresentationStyle = .fullScreen
 
         present(postNavigation, animated: true)
-
     }
 }
 
@@ -336,5 +340,6 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         navigationController?.pushViewController(postVC,animated: true)
     }
 }
+
 
 
