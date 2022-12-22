@@ -158,10 +158,10 @@ class OnboardingProfilePhotoVC: UIViewController {
             primaryLabel.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor,constant: 30),
             primaryLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             
-            secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
+            secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor,constant: 10),
             secondaryLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             
-            warningLabel.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor),
+            warningLabel.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor,constant: 10),
             warningLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             
             nextButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor),
