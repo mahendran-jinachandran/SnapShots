@@ -128,7 +128,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
 
-        let toggleButton = UIButton(configuration: configButton )
+        let toggleButton = UIButton(configuration: configButton)
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         toggleButton.addTarget(self, action: #selector(repasswordVisibility), for: .touchUpInside)
@@ -233,6 +233,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
             _ =  checkUsernameValidation(username: textField.text!)
         }
     }
+    
 
     private func checkUsernameValidation(username: String) -> Bool {
         let usernameDetails = registerController.validateUsername(username: username)
@@ -321,6 +322,10 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
         if textField == phoneNumber {
             return AppUtility.textLimit(existingText: textField.text,newText: string,limit: 15)
+        } else if textField == password {
+            return AppUtility.textLimit(existingText: textField.text, newText: string, limit: 30)
+        } else if textField == rePassword {
+            return AppUtility.textLimit(existingText: textField.text, newText: string, limit: 30)
         }
         return true
     }

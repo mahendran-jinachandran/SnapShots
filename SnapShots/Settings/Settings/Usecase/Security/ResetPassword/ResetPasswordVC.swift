@@ -224,6 +224,17 @@ class ResetPasswordVC: UIViewController,UITextFieldDelegate {
         }
     }
     
+    func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
+        if textField == currentPassword {
+            return AppUtility.textLimit(existingText: textField.text,newText: string,limit: 15)
+        } else if textField == newPassword {
+            return AppUtility.textLimit(existingText: textField.text, newText: string, limit: 30)
+        } else if textField == againNewPassword {
+            return AppUtility.textLimit(existingText: textField.text, newText: string, limit: 30)
+        }
+        return true
+    }
+    
     @objc private func saveDetails() {
         
         if  !resetPasswordControls.isPasswordCorrect(password: currentPassword.text!.trimmingCharacters(in: .whitespaces)) {
