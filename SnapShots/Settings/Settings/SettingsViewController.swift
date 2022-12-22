@@ -160,7 +160,7 @@ class SettingsViewController: UIViewController {
     }
     
     @objc private func openSecurity(sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(SecurityViewController(), animated: true)
+        navigationController?.pushViewController(SecurityVC(), animated: true)
     }
     
     @objc private func openAccount(sender: UITapGestureRecognizer) {

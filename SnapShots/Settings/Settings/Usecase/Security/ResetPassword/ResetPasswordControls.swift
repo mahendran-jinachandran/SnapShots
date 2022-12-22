@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SecurityController {
+class ResetPasswordControls: ResetPasswordProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     

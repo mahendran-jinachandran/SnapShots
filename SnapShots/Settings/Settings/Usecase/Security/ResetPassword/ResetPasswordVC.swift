@@ -7,7 +7,17 @@
 
 import UIKit
 
-class ChangePasswordVC: UIViewController,UITextFieldDelegate {
+class ResetPasswordVC: UIViewController,UITextFieldDelegate {
+    
+    private let resetPasswordControls: ResetPasswordProtocol
+    init(resetPasswordControls: ResetPasswordProtocol) {
+        self.resetPasswordControls = resetPasswordControls
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -179,14 +189,9 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         
         if textField == currentPassword {
-            if textField.text!.isEmpty || !SecurityController().isPasswordCorrect(password: textField.text!.trimmingCharacters(in: .whitespaces)) {
-                isCurrentPasswordEntered = false
-                invalidCurrentPasswordStatus(warningLabel: "Wrong password")
-            } else {
-                isCurrentPasswordEntered = true
-                validCurrentPasswordStatus()
-                currentPasswordIncorrectLabel.isHidden = true
-            }
+     
+            isCurrentPasswordEntered = textField.text!.isEmpty ? false : true
+            validCurrentPasswordStatus()
         }
         
         if textField == newPassword {
@@ -195,8 +200,8 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
                 isNewPasswordEntered = false
                 invalidPasswordStatus(warningLabel: PasswordActionError.lessCharacters.description)
             } else {
-                validPasswordStatus()
                 isNewPasswordEntered = true
+                validPasswordStatus()
             }
         }
         
@@ -220,7 +225,13 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     }
     
     @objc private func saveDetails() {
-        SecurityController().updatePassword(password: newPassword.text!.trimmingCharacters(in: .whitespaces))
+        
+        if  !resetPasswordControls.isPasswordCorrect(password: currentPassword.text!.trimmingCharacters(in: .whitespaces)) {
+                  invalidCurrentPasswordStatus(warningLabel: "Current password is wrong")
+            return
+        }
+        
+        resetPasswordControls.updatePassword(password: newPassword.text!.trimmingCharacters(in: .whitespaces))
         navigationController?.popViewController(animated: true)
     }
     

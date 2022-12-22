@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SecurityViewController: UIViewController {
+class SecurityVC: UIViewController {
     
     private lazy var passwordView: UIView = {
         let accountsLabel = UILabel()
@@ -72,6 +72,10 @@ class SecurityViewController: UIViewController {
     }
     
    @objc private func startChangePasswordProcess() {
-       navigationController?.pushViewController(ChangePasswordVC(), animated: true)
+       
+       let resetPasswordControls = ResetPasswordControls()
+       let resetPasswordVC = ResetPasswordVC(resetPasswordControls: resetPasswordControls)
+       
+       navigationController?.pushViewController(resetPasswordVC, animated: true)
     }
 }
