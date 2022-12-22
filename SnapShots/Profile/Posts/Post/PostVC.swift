@@ -121,6 +121,14 @@ class PostVC: UIViewController {
         return commentsCount
     }()
     
+    private lazy var postCreatedTime: UILabel = {
+        var postCreatedTime = UILabel()
+        postCreatedTime.translatesAutoresizingMaskIntoConstraints = false
+        postCreatedTime.font = UIFont.systemFont(ofSize: 10)
+        postCreatedTime.textAlignment = .left
+        return postCreatedTime
+    }()
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -163,6 +171,7 @@ class PostVC: UIViewController {
         
         post.image = postImage
         caption.text = postDetails.caption
+        postCreatedTime.text = String(AppUtility.getDate(date: postDetails.postCreatedDate))
         setLikeButton()
     }
     
@@ -180,7 +189,7 @@ class PostVC: UIViewController {
         scrollView.refreshControl = refreshControl
         scrollView.addSubview(scrollContainer)
         
-        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount,caption].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount,caption,postCreatedTime].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -240,7 +249,11 @@ class PostVC: UIViewController {
             caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
             caption.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -12),
-            caption.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+            
+            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 8),
+            postCreatedTime.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
+            postCreatedTime.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -8),
+            postCreatedTime.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -10)
         ])
     }
     
