@@ -11,21 +11,21 @@ import UIKit
 extension UITextField {
     
     
-    func setImageInTextFieldOnLeft(image: UIImage,afterText: Bool = false) {
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        self.leftViewMode = .always
-        self.rightViewMode = .always
-        
-        if afterText {
-            imageView.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
-            self.setRightView(imageView, padding: 50)
-        } else {
-            imageView.frame = CGRect(x: 0, y: 0, width: 45, height: 25)
-            self.setLeftView(imageView, padding: 10)
-        }
-      
-    }
+//    func setImageInTextFieldOnLeft(image: UIImage,afterText: Bool = false) {
+//        let imageView = UIImageView(image: image)
+//        imageView.contentMode = .scaleAspectFit
+//        self.leftViewMode = .always
+//        self.rightViewMode = .always
+//        
+//        if afterText {
+//            imageView.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
+//            self.setRightView(imageView, padding: 50)
+//        } else {
+//            imageView.frame = CGRect(x: 0, y: 0, width: 45, height: 25)
+//            self.setLeftView(imageView, padding: 10)
+//        }
+//      
+//    }
     
     func setImageInTextFieldOnLeft(imageName: String) {
         let imageView = UIImageView(image: UIImage(named: imageName)?.withTintColor(UIColor(named: "appTheme")!))

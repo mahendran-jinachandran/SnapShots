@@ -93,7 +93,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         password.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         password.setImageInTextFieldOnLeft(imageName: "password.png")
         password.isSecureTextEntry = true
-        password.rightViewMode = .whileEditing
+        password.rightViewMode = .always
         password.rightView = passwordVisibilityToggleButton
         return password
     }()
@@ -107,17 +107,31 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         rePassword.translatesAutoresizingMaskIntoConstraints = false
         rePassword.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         rePassword.setImageInTextFieldOnLeft(imageName: "password.png")
+        rePassword.isSecureTextEntry = true
+        rePassword.rightViewMode = .always
+        rePassword.rightView = repasswordVisibilityToggleButton
         return rePassword
     }()
     
     private lazy var passwordVisibilityToggleButton: UIButton = {
-       
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
 
         let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
+        return toggleButton
+    }()
+    
+    private lazy var repasswordVisibilityToggleButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+
+        let toggleButton = UIButton(configuration: configButton )
+        toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.addTarget(self, action: #selector(repasswordVisibility), for: .touchUpInside)
         return toggleButton
     }()
     
@@ -169,7 +183,8 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         view.addGestureRecognizer(screenTap)
         
         registerButton.addTarget(self, action: #selector(registerValidation), for: .touchUpInside)
-        passwordVisibilityToggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
+ 
+
     }
         
     private func createRegisterStackView() {
@@ -386,6 +401,16 @@ extension RegisterVC {
         }else{
             password.isSecureTextEntry = true
             passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }
+    }
+    
+    @objc private func repasswordVisibility(_ sender : UIButton) {
+        if(rePassword.isSecureTextEntry){
+            rePassword.isSecureTextEntry = false
+            repasswordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }else{
+            rePassword.isSecureTextEntry = true
+            repasswordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }
     }
 }

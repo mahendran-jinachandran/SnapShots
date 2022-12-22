@@ -24,6 +24,18 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         return scrollContainer
     }()
     
+    private lazy var currentPasswordVisibilityToggleButton: UIButton = {
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.addTarget(self, action: #selector(currentPasswordVisibility), for: .touchUpInside)
+        return toggleButton
+    }()
+    
     private lazy var currentPassword: UITextField = {
         let currentPassword = UITextField()
         currentPassword.placeholder = "Current Password"
@@ -34,6 +46,8 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         currentPassword.isSecureTextEntry = true
         currentPassword.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: currentPassword.frame.height))
         currentPassword.leftViewMode = .always
+        currentPassword.rightView = currentPasswordVisibilityToggleButton
+        currentPassword.rightViewMode = .always
         return currentPassword
     }()
     
@@ -47,6 +61,18 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
        return oldPasswordIncorrect
     }()
     
+    private lazy var newPasswordVisibilityToggleButton: UIButton = {
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.addTarget(self, action: #selector(newPasswordVisibility), for: .touchUpInside)
+        return toggleButton
+    }()
+    
     private lazy var newPassword: UITextField = {
         let newPassword = UITextField()
         newPassword.placeholder = "New Password"
@@ -57,7 +83,21 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         newPassword.isSecureTextEntry = true
         newPassword.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: newPassword.frame.height))
         newPassword.leftViewMode = .always
+        newPassword.rightView = newPasswordVisibilityToggleButton
+        newPassword.rightViewMode = .always
         return newPassword
+    }()
+    
+    private lazy var againNewPasswordVisibilityToggleButton: UIButton = {
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let toggleButton = UIButton(configuration: configButton)
+        toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.addTarget(self, action: #selector(againNewPasswordVisibility), for: .touchUpInside)
+        return toggleButton
     }()
     
     private lazy var againNewPassword: UITextField = {
@@ -70,6 +110,8 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
         againNewPassword.isSecureTextEntry = true
         againNewPassword.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: againNewPassword.frame.height))
         againNewPassword.leftViewMode = .always
+        againNewPassword.rightView = againNewPasswordVisibilityToggleButton
+        againNewPassword.rightViewMode = .always
         return againNewPassword
     }()
     
@@ -247,6 +289,36 @@ class ChangePasswordVC: UIViewController,UITextFieldDelegate {
     
     private func validCurrentPasswordStatus() {
         currentPasswordIncorrectLabel.isHidden = true
+    }
+    
+    @objc private func currentPasswordVisibility(_ sender : UIButton) {
+        if(currentPassword.isSecureTextEntry){
+            currentPassword.isSecureTextEntry = false
+            currentPasswordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }else{
+            currentPassword.isSecureTextEntry = true
+            currentPasswordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }
+    }
+    
+    @objc private func newPasswordVisibility(_ sender : UIButton) {
+        if(newPassword.isSecureTextEntry){
+            newPassword.isSecureTextEntry = false
+            newPasswordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }else{
+            newPassword.isSecureTextEntry = true
+            newPasswordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }
+    }
+    
+    @objc private func againNewPasswordVisibility(_ sender : UIButton) {
+        if(againNewPassword.isSecureTextEntry){
+            againNewPassword.isSecureTextEntry = false
+            againNewPasswordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }else{
+            againNewPassword.isSecureTextEntry = true
+            againNewPasswordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        }
     }
     
     private func checkForPasswordMatch(password: String?,rePassword: String?) -> Bool {

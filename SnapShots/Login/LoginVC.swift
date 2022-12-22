@@ -94,7 +94,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         
         let toggleButton = UIButton(configuration: configButton)
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
         return toggleButton
     }()
@@ -262,10 +262,10 @@ extension LoginVC {
     @objc private func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }else{
             password.isSecureTextEntry = true
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
         }
     }
 
