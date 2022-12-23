@@ -27,9 +27,18 @@ extension UITextField {
 //      
 //    }
     
-    func setImageInTextFieldOnLeft(imageName: String) {
-        let imageView = UIImageView(image: UIImage(named: imageName)?.withTintColor(UIColor(named: "appTheme")!))
+    func setImageInTextFieldOnLeft(imageName: String,isSystemDefined: Bool = false) {
+        let imageView: UIImageView!
+
+        if isSystemDefined {
+            imageView = UIImageView(image: UIImage(systemName: imageName))
+        } else {
+           imageView = UIImageView(image: UIImage(named: imageName))
+        }
+        
         imageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        imageView.tintColor = UIColor(named:"appTheme")
+        imageView.alpha = 0.7
         self.leftViewMode = .always
         self.setLeftView(imageView, padding: 10)
     }
@@ -57,26 +66,26 @@ extension UITextField {
         self.leftView = imageContainer
     }
     
-    func setRightView(_ view: UIView, padding: CGFloat) {
-        view.translatesAutoresizingMaskIntoConstraints = true
-
-        let imageContainer = UIView()
-        imageContainer.translatesAutoresizingMaskIntoConstraints = false
-        imageContainer.addSubview(view)
-
-        imageContainer.frame = CGRect(
-            origin: .zero,
-            size: CGSize(
-                width: view.frame.size.width + padding,
-                height: view.frame.size.height + padding
-            )
-        )
-
-        view.center = CGPoint(
-            x: imageContainer.bounds.size.width / 2,
-            y: imageContainer.bounds.size.height / 2
-        )
-
-        self.rightView = imageContainer
-    }
+//    func setRightView(_ view: UIView, padding: CGFloat) {
+//        view.translatesAutoresizingMaskIntoConstraints = true
+//
+//        let imageContainer = UIView()
+//        imageContainer.translatesAutoresizingMaskIntoConstraints = false
+//        imageContainer.addSubview(view)
+//
+//        imageContainer.frame = CGRect(
+//            origin: .zero,
+//            size: CGSize(
+//                width: view.frame.size.width + padding,
+//                height: view.frame.size.height + padding
+//            )
+//        )
+//
+//        view.center = CGPoint(
+//            x: imageContainer.bounds.size.width / 2,
+//            y: imageContainer.bounds.size.height / 2
+//        )
+//
+//        self.rightView = imageContainer
+//    }
 }

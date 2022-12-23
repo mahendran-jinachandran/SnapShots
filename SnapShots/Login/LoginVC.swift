@@ -57,7 +57,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         phoneNumber.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         phoneNumber.clearButtonMode = .whileEditing
         phoneNumber.keyboardType = .numberPad
-        phoneNumber.setImageInTextFieldOnLeft(imageName: "smartPhone.png")
+        phoneNumber.setImageInTextFieldOnLeft(imageName: "iphone.smartbatterycase.gen2", isSystemDefined: true)
         return phoneNumber
     }()
     
@@ -80,7 +80,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         password.layer.borderColor = UIColor.lightGray.cgColor
         password.translatesAutoresizingMaskIntoConstraints = false
         password.heightAnchor.constraint(equalToConstant: 50).isActive  = true
-        password.setImageInTextFieldOnLeft(imageName: "password.png")
+        password.setImageInTextFieldOnLeft(imageName: "lock", isSystemDefined: true)
         password.isSecureTextEntry = true
         password.rightViewMode = .whileEditing
         password.rightView = passwordVisibilityToggleButton

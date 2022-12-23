@@ -44,7 +44,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         username.translatesAutoresizingMaskIntoConstraints = false
         username.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         username.clearButtonMode = .whileEditing
-        username.setImageInTextFieldOnLeft(imageName: "personIcon")
+        username.setImageInTextFieldOnLeft(imageName: "person.circle", isSystemDefined: true)
         return username
     }()
     
@@ -69,7 +69,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         phoneNumber.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         phoneNumber.clearButtonMode = .whileEditing
         phoneNumber.keyboardType = .numberPad
-        phoneNumber.setImageInTextFieldOnLeft(imageName: "smartPhone.png")
+        phoneNumber.setImageInTextFieldOnLeft(imageName: "iphone.smartbatterycase.gen2", isSystemDefined: true)
         return phoneNumber
     }()
     
@@ -91,7 +91,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         password.layer.borderColor = UIColor.lightGray.cgColor
         password.translatesAutoresizingMaskIntoConstraints = false
         password.heightAnchor.constraint(equalToConstant: 50).isActive  = true
-        password.setImageInTextFieldOnLeft(imageName: "password.png")
+        password.setImageInTextFieldOnLeft(imageName: "lock", isSystemDefined: true)
         password.isSecureTextEntry = true
         password.rightViewMode = .always
         password.rightView = passwordVisibilityToggleButton
@@ -106,7 +106,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         rePassword.layer.borderColor = UIColor.lightGray.cgColor
         rePassword.translatesAutoresizingMaskIntoConstraints = false
         rePassword.heightAnchor.constraint(equalToConstant: 50).isActive  = true
-        rePassword.setImageInTextFieldOnLeft(imageName: "password.png")
+        rePassword.setImageInTextFieldOnLeft(imageName: "lock", isSystemDefined: true)
         rePassword.isSecureTextEntry = true
         rePassword.rightViewMode = .always
         rePassword.rightView = repasswordVisibilityToggleButton
@@ -119,7 +119,10 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
 
         let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        
+        toggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
+        toggleButton.tintColor = UIColor(named: "appTheme")
+        
         toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
         return toggleButton
     }()
@@ -130,7 +133,8 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
 
         let toggleButton = UIButton(configuration: configButton)
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        toggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
+        toggleButton.tintColor = UIColor(named: "appTheme")
         toggleButton.addTarget(self, action: #selector(repasswordVisibility), for: .touchUpInside)
         return toggleButton
     }()
@@ -402,20 +406,20 @@ extension RegisterVC {
     @objc private func passwordVisibility(_ sender : UIButton) {
         if(password.isSecureTextEntry){
             password.isSecureTextEntry = false
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(systemName: "eye.slash.circle.fill"), for: .normal)
         }else{
             password.isSecureTextEntry = true
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+            passwordVisibilityToggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
         }
     }
     
     @objc private func repasswordVisibility(_ sender : UIButton) {
         if(rePassword.isSecureTextEntry){
             rePassword.isSecureTextEntry = false
-            repasswordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+            repasswordVisibilityToggleButton.setImage(UIImage(systemName: "eye.slash.circle.fill"), for: .normal)
         }else{
             rePassword.isSecureTextEntry = true
-            repasswordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+            repasswordVisibilityToggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
         }
     }
 }
