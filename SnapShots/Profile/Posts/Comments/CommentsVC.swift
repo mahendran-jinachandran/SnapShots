@@ -169,10 +169,6 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
         
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        cell.selectedBackgroundView = view
-        
         let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
         cell.configure(
             userDP: profilePicture,

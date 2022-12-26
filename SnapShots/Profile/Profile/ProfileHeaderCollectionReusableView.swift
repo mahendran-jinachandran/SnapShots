@@ -22,9 +22,10 @@ protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     static let identifier = "ProfileHeaderCollectionReusableView"
+    weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
+    
     private var portraitConstraint = [NSLayoutConstraint]()
     private var profileAccessibility: ProfileAccess!
-    weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
     private var isPhotoAvailable: Bool = false
     
     private lazy var profileStack : UIStackView = {

@@ -180,7 +180,7 @@ class FeedsCustomCell: UITableViewCell {
             likesButton.tintColor = .red
         } else {
             likesButton.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-            likesButton.tintColor = .white
+            likesButton.tintColor = UIColor(named: "appTheme")
         }
     }
     
@@ -274,12 +274,12 @@ class FeedsCustomCell: UITableViewCell {
             
             likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
             likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
-            likesButton.widthAnchor.constraint(equalToConstant: 50),
+            likesButton.widthAnchor.constraint(equalToConstant: 100),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
             commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 15),
-            commentButton.widthAnchor.constraint(equalToConstant: 50),
+            commentButton.widthAnchor.constraint(equalToConstant: 100),
             commentButton.heightAnchor.constraint(equalToConstant: 30),
             
             caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),

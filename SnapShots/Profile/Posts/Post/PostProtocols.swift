@@ -18,4 +18,6 @@ protocol PostControlsProtocol {
     func isDeletionAllowed(userID: Int) -> Bool
     func getAllLikedUsers(postUserID: Int,postID: Int) -> Int
     func getAllComments(postUserID: Int,postID: Int) -> Int
+    func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails]
+    func addComment(postUserID: Int,postID: Int,comment: String) -> Bool
 }

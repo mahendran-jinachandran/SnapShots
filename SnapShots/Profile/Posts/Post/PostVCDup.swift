@@ -1,0 +1,249 @@
+//
+//  PostVCDup.swift
+//  SnapShots
+//
+//  Created by mahendran-14703 on 26/12/22.
+//
+
+import UIKit
+
+class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+
+    private var postImage: UIImage
+    private var postDetails: Post
+    private var postControls: PostControlsProtocol
+    private var userID: Int
+    private var likeFlag: Bool!
+    private var commentDetails: [CommentDetails] = []
+    private var refreshControl = UIRefreshControl()
+    
+    init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post) {
+        self.postControls = postControls
+        self.userID = userID
+        self.postImage = postImage
+        self.postDetails = postDetails
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private lazy var postTable: UITableView = {
+        let postTable = UITableView(frame: .zero, style: .grouped)
+        postTable.translatesAutoresizingMaskIntoConstraints = false
+        return postTable
+    }()
+    
+    private lazy var postComment: UIButton = {
+        let postComment = UIButton()
+        postComment.setTitle("POST   ", for: .normal)
+        postComment.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        postComment.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        postComment.alpha = 0.5
+        postComment.isUserInteractionEnabled = false
+        return postComment
+    }()
+    
+    private lazy var addCommentTextField: UITextField = {
+        var addComments = UITextField()
+        addComments.placeholder = "Add Comment"
+        addComments.clearsOnBeginEditing = true
+        addComments.translatesAutoresizingMaskIntoConstraints = false
+        addComments.backgroundColor = .systemBackground
+        addComments.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+        addComments.layer.borderWidth = 2
+        addComments.layer.cornerRadius = 20
+        addComments.textColor = UIColor(named: "appTheme")
+     
+        addComments.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        addComments.leftViewMode = .always
+        addComments.rightView = postComment
+        addComments.rightViewMode = .always
+        return addComments
+    }()
+    
+    private lazy var snapShotsLogo: UIImageView = {
+        let snapShotsLogo = UIImageView()
+        snapShotsLogo.image = UIImage(named: "SnapShotsLogo")
+        snapShotsLogo.contentMode = .scaleAspectFit
+        snapShotsLogo.isUserInteractionEnabled = true
+        return snapShotsLogo
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .systemBackground
+        postTable.backgroundColor = .systemBackground
+        view.keyboardLayoutGuide.followsUndockedKeyboard = true
+        navigationItem.titleView = snapShotsLogo
+        setupPostTable()
+        getComments()
+        setupPostTableConstraints()
+        
+        addCommentTextField.delegate = self
+        postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop))
+//        snapShotsLogo.addGestureRecognizer(tap)
+        
+        let registerPage = UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop))
+        snapShotsLogo.addGestureRecognizer(registerPage)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if ((previousTraitCollection?.hasDifferentColorAppearance(comparedTo: traitCollection)) != nil) {
+            addCommentTextField.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+        }
+    }
+    
+    private func setupPostTable() {
+        
+        postTable.register(PostVCHeader.self, forHeaderFooterViewReuseIdentifier: PostVCHeader.identifier)
+        
+        postTable.register(CommentsCustomCell.self, forCellReuseIdentifier: CommentsCustomCell.identifier)
+        
+        postTable.delegate = self
+        postTable.dataSource = self
+    }
+    
+    private func getComments() {
+        commentDetails = postControls.getAllComments(postUserID: userID, postID: postDetails.postID)
+        postTable.reloadData()
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostVCHeader.identifier) as! PostVCHeader
+  
+        headerView.delegate = self
+        headerView.configure(
+            profilePhoto: postControls.getUserDP(userID: userID),
+            username: postControls.getUsername(userID: userID),
+            postPhoto: postImage,
+            caption: postDetails.caption,
+            postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
+            likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
+            commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
+            isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID))
+        return headerView
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if velocity.y > 2 || velocity.y < -2 {
+            self.view.endEditing(true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return commentDetails.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
+                
+        let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
+        cell.configure(
+            userDP: profilePicture,
+            username: commentDetails[indexPath.row].username,
+            comment: commentDetails[indexPath.row].comment)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 44
+    }
+    
+    private func setupPostTableConstraints() {
+        [postTable,addCommentTextField].forEach {
+            view.addSubview($0)
+        }
+        
+        NSLayoutConstraint.activate([
+            
+            addCommentTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            addCommentTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
+            addCommentTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            postTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            postTable.bottomAnchor.constraint(equalTo: addCommentTextField.topAnchor),
+            postTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            postTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        let textFieldOnKeyboard = view.keyboardLayoutGuide.topAnchor.constraint(equalTo: addCommentTextField.bottomAnchor,constant: 10)
+        view.keyboardLayoutGuide.setConstraints([textFieldOnKeyboard], activeWhenAwayFrom: .top)
+    }
+    
+    @objc func addComment() {
+
+        if !postControls.addComment(postUserID: userID, postID: postDetails.postID, comment: addCommentTextField.text!) {
+            showToast(message: Constants.toastFailureStatus)
+            return
+        }
+        
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        addCommentTextField.text = nil
+        getComments()
+    }
+    
+    @objc func scrollToScreenTop() {
+        
+       let ip = IndexPath(row: 0, section: 0)
+       
+        if postTable.indexPathsForVisibleRows!.contains(ip)
+        {
+           postTable.scrollToRow(at: ip, at: .top, animated: true)
+            
+        }
+    }
+
+}
+
+extension PostVC: PostVCHeaderDelegate {
+    
+    func likeThePost(sender: PostVCHeader) {
+        _ = postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID)
+    }
+    
+    func unLikeThePost(sender: PostVCHeader) {
+        _ = postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID)
+    }
+    
+    
+    // MARK: NOT WORKING
+    func showComments() {
+        
+       let ip = IndexPath(row: 0, section: 0)
+       
+        if postTable.indexPathsForVisibleRows!.contains(ip)
+        {
+           postTable.scrollToRow(at: ip, at: .top, animated: true)
+            
+//            let frame = postTable.rectForRow(at: ip)
+//            postTable.scrollRectToVisible(frame, animated: true)
+        }
+    }
+}
+
+extension PostVC : UITextFieldDelegate {
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        
+        if !textField.text!.isEmpty && !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty  {
+            postComment.alpha = 1.0
+            postComment.isUserInteractionEnabled = true
+        } else {
+            postComment.alpha = 0.5
+            postComment.isUserInteractionEnabled = false
+        }
+    }
+}

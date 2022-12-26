@@ -64,6 +64,8 @@
 		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
 		BF816BA42929D3E90097421D /* SecurityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityVC.swift */; };
 		BF816BA62929D3F30097421D /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountVC.swift */; };
+		BF8F8F5C29595A770028C688 /* PostVCDup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8F8F5B29595A770028C688 /* PostVCDup.swift */; };
+		BF8F8F5E29595BE80028C688 /* PostVCHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8F8F5D29595BE80028C688 /* PostVCHeader.swift */; };
 		BFA0627B2930A9F40016739A /* Carnevalee.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA0627A2930A9F40016739A /* Carnevalee.ttf */; };
 		BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3867129311AFE00815E31 /* NotificationGridVC.swift */; };
 		BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */; };
@@ -186,6 +188,8 @@
 		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		BF816BA32929D3E90097421D /* SecurityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityVC.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
+		BF8F8F5B29595A770028C688 /* PostVCDup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVCDup.swift; sourceTree = "<group>"; };
+		BF8F8F5D29595BE80028C688 /* PostVCHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVCHeader.swift; sourceTree = "<group>"; };
 		BFA0627A2930A9F40016739A /* Carnevalee.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carnevalee.ttf; sourceTree = "<group>"; };
 		BFA3867129311AFE00815E31 /* NotificationGridVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationGridVC.swift; sourceTree = "<group>"; };
 		BFA3867329311C5800815E31 /* NotificiationGridCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificiationGridCVCell.swift; sourceTree = "<group>"; };
@@ -694,6 +698,8 @@
 				BFDF7075292F33D3001A736F /* PostVC.swift */,
 				BFDF7078292F375D001A736F /* PostControls.swift */,
 				BFB3E4DC2940ABE300A266D9 /* PostProtocols.swift */,
+				BF8F8F5B29595A770028C688 /* PostVCDup.swift */,
+				BF8F8F5D29595BE80028C688 /* PostVCHeader.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -815,6 +821,7 @@
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
 				BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */,
 				BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */,
+				BF8F8F5E29595BE80028C688 /* PostVCHeader.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
 				BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */,
 				BFDF7079292F375D001A736F /* PostControls.swift in Sources */,
@@ -834,6 +841,7 @@
 				BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */,
 				BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */,
 				BF4542AE291A31CB00BAC4B2 /* User.swift in Sources */,
+				BF8F8F5C29595A770028C688 /* PostVCDup.swift in Sources */,
 				BFDD55D42937379D00DC8D68 /* AuthManager.swift in Sources */,
 				BF4542B2291A31DC00BAC4B2 /* Post.swift in Sources */,
 				BFA95935294B07F300387440 /* SubClass.swift in Sources */,

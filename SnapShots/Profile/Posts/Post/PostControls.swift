@@ -63,4 +63,14 @@ class PostControls: PostControlsProtocol {
     func getAllComments(postUserID: Int,postID: Int) -> Int {
         return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID).count
     }
+    
+    func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails] {
+        return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID)
+    }
+    
+    func addComment(postUserID: Int,postID: Int,comment: String) -> Bool {
+        
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return commentsDaoImp.addCommentToThePost(visitingUserID: postUserID, postID: postID, comment: comment, loggedUserID: loggedUserID)
+    }
 }

@@ -89,10 +89,6 @@ class ProfileVC: UIViewController{
         navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
     }
     
-    @objc private func goBack() {
-        print("Done")
-    }
-    
     private func setupOwnerNavigationItems() {
         
         profileHeader.attributedText = NSAttributedString(string: profileUser.userName,attributes: [
@@ -320,6 +316,7 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     }
 }
 
+// MARK: CHECK FOR ALTERNATIVE DIDSELECTROW AT
 extension ProfileVC: CustomCollectionViewCellDelegate {
     
     func openPost(sender: CustomCollectionViewCell) {
