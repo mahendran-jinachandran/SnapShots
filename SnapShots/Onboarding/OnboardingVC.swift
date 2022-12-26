@@ -56,15 +56,13 @@ class OnboardingVC: UIViewController {
     
     private lazy var nextButton: UIButton = {
         let nextButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
-        nextButton.setTitle("Next", for: .normal)
+        nextButton.setTitle("Continue", for: .normal)
         nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         nextButton.backgroundColor = .systemBlue
         nextButton.layer.cornerRadius = 10
         nextButton.layer.borderWidth = 2
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        nextButton.isEnabled = true
-        nextButton.alpha = 1.0
         return nextButton
     }()
 

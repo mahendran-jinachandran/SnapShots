@@ -76,18 +76,15 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         return maximumBioLength
     }()
     
-    private lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
-        nextButton.setTitle("Finish", for: .normal)
-        nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
-        nextButton.layer.cornerRadius = 10
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.isEnabled = true
-        nextButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
-        nextButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        nextButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        nextButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        return nextButton
+    private lazy var finishButton: UIButton = {
+        let finishButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
+        finishButton.setTitle("Finish", for: .normal)
+        finishButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        finishButton.backgroundColor = .systemBlue
+        finishButton.layer.cornerRadius = 10
+        finishButton.layer.borderWidth = 2
+        finishButton.translatesAutoresizingMaskIntoConstraints = false
+        return finishButton
     }()
 
     override func viewDidLoad() {
@@ -100,7 +97,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         setupTapGestures()
         
         profileBioTextView.delegate = self
-        nextButton.tintColor = UIColor(named: "appTheme")
+        finishButton.tintColor = UIColor(named: "appTheme")
     }
     
     private func setupNavigationItems() {
@@ -111,7 +108,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     }
     
     private func setupTapGestures() {
-        nextButton.addTarget(self, action: #selector(finishOnboarding), for: .touchUpInside)
+        finishButton.addTarget(self, action: #selector(finishOnboarding), for: .touchUpInside)
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
     }
@@ -152,7 +149,7 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
-        [bioLogo,bioLabel,profileBioTextView,maximumBioLength,nextButton].forEach {
+        [bioLogo,bioLabel,profileBioTextView,maximumBioLength,finishButton].forEach {
             scrollContainer.addSubview($0)
         }
         
@@ -187,11 +184,11 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
             maximumBioLength.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 8),
             maximumBioLength.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            nextButton.topAnchor.constraint(equalTo: profileBioTextView.bottomAnchor,constant: 20),
-            nextButton.widthAnchor.constraint(equalToConstant: 100),
-            nextButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
-            nextButton.heightAnchor.constraint(equalToConstant: 35),
-            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+            finishButton.topAnchor.constraint(equalTo: maximumBioLength.bottomAnchor,constant: 10),
+            finishButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            finishButton.heightAnchor.constraint(equalToConstant: 50),
+            finishButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -30),
+            finishButton.widthAnchor.constraint(equalTo: scrollContainer.widthAnchor, multiplier: 0.7)
         ])
     }
     

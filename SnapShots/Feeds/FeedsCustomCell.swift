@@ -70,40 +70,35 @@ class FeedsCustomCell: UITableViewCell {
         post.layer.cornerRadius = 15
         return post
     }()
-    
-    private lazy var like: UIButton = {
-        var like = UIButton()
-        like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
-        like.translatesAutoresizingMaskIntoConstraints = false
-        like.contentMode = .scaleAspectFill
-        like.isUserInteractionEnabled = true
-        like.tintColor = .red
-        return like
+
+    private lazy var likesButton: UIButton = {
+        
+        var configButton = UIButton.Configuration.borderless()
+        configButton.imagePadding = 6
+        
+        let button = UIButton(configuration: configButton)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        button.setImage(UIImage(systemName: "suit.heart"), for: .normal)
+        button.tintColor = UIColor(named: "appTheme")!
+        button.imageView?.contentMode = .scaleAspectFill
+ 
+        return button
     }()
     
-    private lazy var likesCount: UILabel = {
-        let likesCount = UILabel()
-        likesCount.text = "0"
-        likesCount.translatesAutoresizingMaskIntoConstraints = false
-        likesCount.textColor = .red
-        return likesCount
-    }()
-    
-    private lazy var comment: UIButton = {
-        var comment = UIButton()
-        comment.setBackgroundImage(UIImage(systemName: "ellipsis.message"), for: .normal)
-        comment.translatesAutoresizingMaskIntoConstraints = false
-        comment.contentMode = .scaleAspectFill
-        comment.isUserInteractionEnabled = true
-        return comment
-    }()
-    
-    private lazy var commentsCount: UILabel = {
-        let commentsCount = UILabel()
-        commentsCount.text = "0"
-        commentsCount.translatesAutoresizingMaskIntoConstraints = false
-        commentsCount.textColor = .systemBlue
-        return commentsCount
+    private lazy var commentButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.imagePadding = 6
+        configButton.contentInsets = .zero
+                
+        let button = UIButton(configuration: configButton)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        button.setImage(UIImage(systemName: "ellipsis.message"), for: .normal)
+        button.tintColor = UIColor(named: "appTheme")!
+      //  button.clipsToBounds = true
+
+        return button
     }()
     
     private lazy var caption: UILabel = {
@@ -141,16 +136,18 @@ class FeedsCustomCell: UITableViewCell {
         self.post.image = postPhoto
         self.caption.text = postCaption
         self.likeFlag = isAlreadyLiked
-        self.likesCount.text = String( Double(likedUsersCount).shortStringRepresentation )
-        self.commentsCount.text = String( Double(commentedUsersCount).shortStringRepresentation)
+        
+        self.likesButton.setTitle(String( Double(likedUsersCount).shortStringRepresentation ), for: .normal)
+        self.commentButton.setTitle(String( Double(commentedUsersCount).shortStringRepresentation), for: .normal)
+            
         self.postCreatedTime.text = String(AppUtility.getDate(date: postCreatedTime))
         setLikeHeartImage(isLiked: likeFlag)
     }
     
     private func setupButtonTargets() {
-        like.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
+        likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
-        comment.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
+        commentButton.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
         
         let profilePhotoTap = UITapGestureRecognizer(target: self, action: #selector(goToProfile))
         profilePhoto.addGestureRecognizer(profilePhotoTap)
@@ -161,23 +158,29 @@ class FeedsCustomCell: UITableViewCell {
     
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
         likeFlag = !likeFlag
-        
+
         if likeFlag {
             setLikeHeartImage(isLiked: likeFlag)
-            likesCount.text = String( Int(likesCount.text!)! + 1)
+            self.likesButton.setTitle(
+                String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
+                for: .normal)
             delegate?.likeThePost(sender: self)
         } else {
             setLikeHeartImage(isLiked: likeFlag)
-            likesCount.text = String( Int(likesCount.text!)! - 1)
+            self.likesButton.setTitle(
+                String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
+                for: .normal)
             delegate?.unLikeThePost(sender: self)
         }
     }
         
     private func setLikeHeartImage(isLiked: Bool) {
         if isLiked {
-            like.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
+            likesButton.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
+            likesButton.tintColor = .red
         } else {
-            like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
+            likesButton.setImage(UIImage(systemName: "suit.heart"), for: .normal)
+            likesButton.tintColor = .white
         }
     }
     
@@ -238,10 +241,9 @@ class FeedsCustomCell: UITableViewCell {
     
     private func setupConstraint() {
         
-        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount ,caption,postCreatedTime].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton ,caption,postCreatedTime].forEach {
             postContainer.addSubview($0)
         }
-        
         
         NSLayoutConstraint.activate([
             
@@ -270,27 +272,17 @@ class FeedsCustomCell: UITableViewCell {
             post.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -12),
             post.heightAnchor.constraint(equalToConstant: 350),
             
-            like.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
-            like.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
-            like.heightAnchor.constraint(equalToConstant: 33),
-            like.widthAnchor.constraint(equalToConstant: 35),
+            likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
+            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            likesButton.widthAnchor.constraint(equalToConstant: 50),
+            likesButton.heightAnchor.constraint(equalToConstant: 30),
             
-            likesCount.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 4),
-            likesCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
-            likesCount.heightAnchor.constraint(equalToConstant: 33),
-            likesCount.widthAnchor.constraint(equalToConstant: 50),
+            commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
+            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 15),
+            commentButton.widthAnchor.constraint(equalToConstant: 50),
+            commentButton.heightAnchor.constraint(equalToConstant: 30),
             
-            comment.leadingAnchor.constraint(equalTo: likesCount.trailingAnchor,constant: 4),
-            comment.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 6),
-            comment.heightAnchor.constraint(equalToConstant: 30),
-            comment.widthAnchor.constraint(equalToConstant: 35),
-            
-            commentsCount.leadingAnchor.constraint(equalTo: comment.trailingAnchor,constant: 4),
-            commentsCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
-            commentsCount.heightAnchor.constraint(equalToConstant: 33),
-            commentsCount.widthAnchor.constraint(equalToConstant: 55),
-            
-            caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
+            caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
             caption.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
             

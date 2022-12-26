@@ -79,16 +79,13 @@ class OnboardingProfilePhotoVC: UIViewController {
     }()
     
     private lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
-        nextButton.setTitle("Next", for: .normal)
+        let nextButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
+        nextButton.setTitle("Continue", for: .normal)
         nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        nextButton.backgroundColor = .systemBlue
         nextButton.layer.cornerRadius = 10
+        nextButton.layer.borderWidth = 2
         nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.isEnabled = true
-        nextButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
-        nextButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        nextButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        nextButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         return nextButton
     }()
 
@@ -164,11 +161,11 @@ class OnboardingProfilePhotoVC: UIViewController {
             warningLabel.topAnchor.constraint(equalTo: secondaryLabel.bottomAnchor,constant: 10),
             warningLabel.centerXAnchor.constraint(equalTo: scrollContainer.centerXAnchor),
             
-            nextButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor),
-            nextButton.widthAnchor.constraint(equalToConstant: 100),
-            nextButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -25),
-            nextButton.heightAnchor.constraint(equalToConstant: 35),
-            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -30)
+            nextButton.topAnchor.constraint(equalTo: warningLabel.bottomAnchor,constant: 10),
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: 50),
+            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -30),
+            nextButton.widthAnchor.constraint(equalTo: scrollContainer.widthAnchor, multiplier: 0.7)
         ])
     }
 }

@@ -72,16 +72,13 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }()
     
     private lazy var nextButton: UIButton = {
-        let nextButton = UIButton()
-        nextButton.setTitle("Next", for: .normal)
+        let nextButton = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
+        nextButton.setTitle("Continue", for: .normal)
         nextButton.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        nextButton.backgroundColor = .systemBlue
         nextButton.layer.cornerRadius = 10
+        nextButton.layer.borderWidth = 2
         nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.isEnabled = true
-        nextButton.setImage(UIImage(systemName: "chevron.right")!, for: .normal)
-        nextButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        nextButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        nextButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
         return nextButton
     }()
 
@@ -198,11 +195,11 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
             genderTextField.widthAnchor.constraint(equalToConstant: 350),
             genderTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            nextButton.topAnchor.constraint(equalTo: genderTextField.bottomAnchor,constant: 20),
-            nextButton.widthAnchor.constraint(equalToConstant: 100),
-            nextButton.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -15),
-            nextButton.heightAnchor.constraint(equalToConstant: 35),
-            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor)
+            nextButton.topAnchor.constraint(equalTo: genderTextField.bottomAnchor,constant: 10),
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: 50),
+            nextButton.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -30),
+            nextButton.widthAnchor.constraint(equalTo: scrollContainer.widthAnchor, multiplier: 0.7)
         ])
     }
     
