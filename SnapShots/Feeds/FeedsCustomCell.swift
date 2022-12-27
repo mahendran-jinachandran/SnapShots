@@ -273,21 +273,21 @@ class FeedsCustomCell: UITableViewCell {
             post.heightAnchor.constraint(equalToConstant: 350),
             
             likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: -15),
             likesButton.widthAnchor.constraint(equalToConstant: 100),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 15),
+            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor),
             commentButton.widthAnchor.constraint(equalToConstant: 100),
             commentButton.heightAnchor.constraint(equalToConstant: 30),
             
             caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),
-            caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 15),
             caption.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor),
             
             postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 8),
-            postCreatedTime.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 12),
+            postCreatedTime.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 15),
             postCreatedTime.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -8),
             postCreatedTime.bottomAnchor.constraint(equalTo: postContainer.bottomAnchor,constant: -10)
         ])

@@ -8,9 +8,13 @@
 import UIKit
 
 protocol PostVCHeaderDelegate: AnyObject {
+    func controller() -> PostVC
     func likeThePost(sender: PostVCHeader)
     func unLikeThePost(sender: PostVCHeader)
-    func showComments()
+    func deletePost() -> Bool
+    func hasSpecialPermissions() -> Bool
+    func displayAllLikesUsers()
+    func openCommentBox()
 }
 
 class PostVCHeader: UITableViewHeaderFooterView {
@@ -62,9 +66,9 @@ class PostVCHeader: UITableViewHeaderFooterView {
         
         let button = UIButton(configuration: configButton)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("0", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-     //   button.tintColor = UIColor(named: "appTheme")!
         button.imageView?.contentMode = .scaleAspectFill
  
         return button
@@ -73,15 +77,21 @@ class PostVCHeader: UITableViewHeaderFooterView {
     private lazy var commentButton: UIButton = {
         var configButton = UIButton.Configuration.borderless()
         configButton.imagePadding = 6
-        configButton.contentInsets = .zero
                 
         let button = UIButton(configuration: configButton)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setImage(UIImage(systemName: "ellipsis.message"), for: .normal)
         button.tintColor = UIColor(named: "appTheme")!
 
         return button
+    }()
+    
+    private lazy var viewAllLikes: UILabel = {
+        var viewAllLikes = UILabel()
+        viewAllLikes.translatesAutoresizingMaskIntoConstraints = false
+        viewAllLikes.font = UIFont.systemFont(ofSize:17)
+        viewAllLikes.isUserInteractionEnabled = true
+        return viewAllLikes
     }()
     
     private lazy var caption: UILabel = {
@@ -122,18 +132,25 @@ class PostVCHeader: UITableViewHeaderFooterView {
         self.caption.text = caption
         self.postCreatedTime.text = postCreatedTime
         self.likesButton.setTitle(String( Double(likeCount).shortStringRepresentation ), for: .normal)
-        self.commentButton.setTitle(String( Double(commentsCount).shortStringRepresentation), for: .normal)
         self.likeFlag = isAlreadyLiked
         setLikeHeartImage(isLiked: likeFlag)
+        
+        if likeCount > 0 {
+            self.viewAllLikes.text = "View \(Double(likeCount).shortStringRepresentation) Likes"
+            viewAllLikes.isHidden = false
+            setupViewLikesCount()
+        } else {
+            viewAllLikes.isHidden = true
+        }
     }
     
     private func setupTapGestures() {
         likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
-      //  moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
-
+        moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
+        
+        viewAllLikes.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getAllLikedUsers)))
     }
-    
     
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
         likeFlag = !likeFlag
@@ -143,13 +160,27 @@ class PostVCHeader: UITableViewHeaderFooterView {
             self.likesButton.setTitle(
                 String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
                 for: .normal)
+            setupViewLikesCount()
             delegate?.likeThePost(sender: self)
         } else {
             setLikeHeartImage(isLiked: likeFlag)
             self.likesButton.setTitle(
                 String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
                 for: .normal)
+            
+            setupViewLikesCount()
             delegate?.unLikeThePost(sender: self)
+        }
+        
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    }
+    
+    @objc func setupViewLikesCount() {
+        
+        if likeFlag {
+            self.viewAllLikes.text = "View \(Int((self.likesButton.titleLabel?.text!)!)! + 1) Likes"
+        } else {
+            self.viewAllLikes.text = "View \(Int((self.likesButton.titleLabel?.text!)!)! - 1) Likes"
         }
     }
     
@@ -164,12 +195,59 @@ class PostVCHeader: UITableViewHeaderFooterView {
     }
     
     @objc private func goToComments() {
-        delegate?.showComments()
+        delegate?.openCommentBox()
+    }
+    
+    @objc private func showOwnerMenu(_ sender: UIButton) {
+
+        let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+
+        if delegate!.hasSpecialPermissions() {
+            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
+                self.confirmDeletion()
+            }
+            moreInfo.addAction(deletePost)
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+
+        moreInfo.addAction(cancel)
+
+        delegate?.controller().present(moreInfo, animated: true)
+    }
+    
+    private func confirmDeletion() {
+
+        let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
+
+        confirmDeletion.addAction(
+            UIAlertAction(title: "Delete", style: .destructive) { _ in
+
+                if !self.delegate!.deletePost() {
+                    self.delegate?.controller().showToast(message: Constants.toastFailureStatus)
+                    return
+                }
+
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                self.delegate?.controller().navigationController?.popViewController(animated: true)
+            }
+        )
+
+        confirmDeletion.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel)
+        )
+
+        delegate?.controller().present(confirmDeletion, animated: true)
+    }
+    
+    @objc func getAllLikedUsers() {
+        delegate?.displayAllLikesUsers()
     }
     
     private func setupConstraint() {
         
-        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton ,caption,postCreatedTime].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton,viewAllLikes ,caption,postCreatedTime].forEach {
             contentView.addSubview($0)
         }
         
@@ -196,24 +274,27 @@ class PostVCHeader: UITableViewHeaderFooterView {
             post.heightAnchor.constraint(equalToConstant: 350),
             
             likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            likesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 12),
+            likesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             likesButton.widthAnchor.constraint(equalToConstant: 100),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 15),
+            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor),
             commentButton.widthAnchor.constraint(equalToConstant: 100),
             commentButton.heightAnchor.constraint(equalToConstant: 30),
             
-            caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),
-            caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 12),
+            viewAllLikes.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 4),
+            viewAllLikes.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            viewAllLikes.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            caption.topAnchor.constraint(equalTo: viewAllLikes.bottomAnchor,constant: 8),
+            caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
             caption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 8),
-            postCreatedTime.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 12),
+            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 4),
+            postCreatedTime.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
             postCreatedTime.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -8),
             postCreatedTime.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
         ])
     }
-    
 }

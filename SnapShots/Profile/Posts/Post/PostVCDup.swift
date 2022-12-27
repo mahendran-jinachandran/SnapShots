@@ -37,7 +37,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     private lazy var postComment: UIButton = {
         let postComment = UIButton()
-        postComment.setTitle("POST   ", for: .normal)
+        postComment.setTitle(" POST   ", for: .normal)
         postComment.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         postComment.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         postComment.alpha = 0.5
@@ -50,13 +50,12 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         addComments.placeholder = "Add Comment"
         addComments.clearsOnBeginEditing = true
         addComments.translatesAutoresizingMaskIntoConstraints = false
-        addComments.backgroundColor = .systemBackground
         addComments.layer.borderColor = UIColor(named: "appTheme")?.cgColor
         addComments.layer.borderWidth = 2
         addComments.layer.cornerRadius = 20
         addComments.textColor = UIColor(named: "appTheme")
      
-        addComments.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        addComments.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 0))
         addComments.leftViewMode = .always
         addComments.rightView = postComment
         addComments.rightViewMode = .always
@@ -85,11 +84,9 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         addCommentTextField.delegate = self
         postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
         
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop))
-//        snapShotsLogo.addGestureRecognizer(tap)
+        snapShotsLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop)))
         
-        let registerPage = UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop))
-        snapShotsLogo.addGestureRecognizer(registerPage)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -125,7 +122,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             postPhoto: postImage,
             caption: postDetails.caption,
             postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
-            likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
+            likeCount: 99999, //postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
             commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
             isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID))
         return headerView
@@ -171,7 +168,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             
             addCommentTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
             addCommentTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
-            addCommentTextField.heightAnchor.constraint(equalToConstant: 50),
+            addCommentTextField.heightAnchor.constraint(equalToConstant: 40),
             
             postTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             postTable.bottomAnchor.constraint(equalTo: addCommentTextField.topAnchor),
@@ -179,7 +176,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             postTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
-        let textFieldOnKeyboard = view.keyboardLayoutGuide.topAnchor.constraint(equalTo: addCommentTextField.bottomAnchor,constant: 10)
+        let textFieldOnKeyboard = view.keyboardLayoutGuide.topAnchor.constraint(equalTo: addCommentTextField.bottomAnchor,constant: 8)
         view.keyboardLayoutGuide.setConstraints([textFieldOnKeyboard], activeWhenAwayFrom: .top)
     }
     
@@ -193,6 +190,8 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         addCommentTextField.text = nil
         getComments()
+        postTable.scrollToRow(at: IndexPath(item:commentDetails.count-1, section: 0), at: .bottom, animated: true)
+        
     }
     
     @objc func scrollToScreenTop() {
@@ -205,32 +204,48 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             
         }
     }
+    
+    @objc func refreshPostSection() {
+        getComments()
+        postTable.reloadData()
+    }
 
 }
 
 extension PostVC: PostVCHeaderDelegate {
+
+    func controller() -> PostVC {
+        return self
+    }
     
     func likeThePost(sender: PostVCHeader) {
         _ = postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     func unLikeThePost(sender: PostVCHeader) {
         _ = postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
+    func deletePost() -> Bool {
+        return postControls.deletePost(postID: postDetails.postID)
+    }
     
-    // MARK: NOT WORKING
-    func showComments() {
+    func hasSpecialPermissions() -> Bool {
+        return postControls.isDeletionAllowed(userID: userID)
+    }
+    
+    func displayAllLikesUsers() {
         
-       let ip = IndexPath(row: 0, section: 0)
-       
-        if postTable.indexPathsForVisibleRows!.contains(ip)
-        {
-           postTable.scrollToRow(at: ip, at: .top, animated: true)
-            
-//            let frame = postTable.rectForRow(at: ip)
-//            postTable.scrollRectToVisible(frame, animated: true)
-        }
+        let likesControls = LikesControls()
+        let likesVC = LikesVC(likesControls: likesControls, postUserID: userID, postID: postDetails.postID)
+        
+        navigationController?.pushViewController(likesVC, animated: true)
+    }
+    
+    func openCommentBox() {
+        addCommentTextField.becomeFirstResponder()
     }
 }
 
