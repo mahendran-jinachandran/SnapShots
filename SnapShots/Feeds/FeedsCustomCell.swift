@@ -13,7 +13,6 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func unLikeThePost(sender: FeedsCustomCell)
     func showLikes(sender: FeedsCustomCell)
     func showComments(sender: FeedsCustomCell)
-    func isDeletionAllowed(sender: FeedsCustomCell) -> Bool
     func deletePost(sender: FeedsCustomCell)
     func goToProfile(sender: FeedsCustomCell)
 }
@@ -23,6 +22,7 @@ class FeedsCustomCell: UITableViewCell {
     static let identifier = "FeedsCustomCell"
     private var likeFlag: Bool = false
     weak var delegate: FeedsCustomCellDelegate?
+    private var isDeletionAllowed: Bool = false
     
     private lazy var postContainer: UIView = {
         var postContainer = UIView()
@@ -127,9 +127,43 @@ class FeedsCustomCell: UITableViewCell {
         setupButtonTargets()
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
+  
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int,postCreatedTime: String) {
+    func setupMoreInfoButtonActions(isDeletionAllowed: Bool) {
+        let deletePost = UIAction(
+          title: "Delete",
+          image: UIImage(systemName: "trash"),
+          attributes: .destructive) { _ in
+              
+            // MARK: DELETE THE POST FUNCTIONALITY - ADD UIALERT ACTION
+            // self.confirmDeletion()
+        }
+        
+        
+        let unfollowUser = UIAction(
+          title: "Unfollow User",
+          image: UIImage(systemName: "person.badge.minus")) { _ in
+              
+            // MARK: UNFOLLOW THE USER
+        }
+        
+
+        
+        moreInfo.showsMenuAsPrimaryAction = true
+        
+        let moreInfoMenu: UIMenu!
+        
+        if isDeletionAllowed {
+           moreInfoMenu = UIMenu(title: "", image: nil,children: [deletePost])
+        } else {
+            moreInfoMenu = UIMenu(title: "", image: nil,children: [unfollowUser])
+        }
+    
+        moreInfo.menu = moreInfoMenu
+    }
+    
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int,postCreatedTime: String,isDeletionAllowed: Bool) {
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
@@ -141,12 +175,13 @@ class FeedsCustomCell: UITableViewCell {
         self.commentButton.setTitle(String( Double(commentedUsersCount).shortStringRepresentation), for: .normal)
             
         self.postCreatedTime.text = String(AppUtility.getDate(date: postCreatedTime))
+        
         setLikeHeartImage(isLiked: likeFlag)
+        setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed)
     }
     
     private func setupButtonTargets() {
         likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
-        moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
         
         let profilePhotoTap = UITapGestureRecognizer(target: self, action: #selector(goToProfile))
@@ -164,6 +199,7 @@ class FeedsCustomCell: UITableViewCell {
             self.likesButton.setTitle(
                 String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
                 for: .normal)
+            
             delegate?.likeThePost(sender: self)
         } else {
             setLikeHeartImage(isLiked: likeFlag)
@@ -194,29 +230,6 @@ class FeedsCustomCell: UITableViewCell {
     
     @objc private func goToProfile() {
         delegate?.goToProfile(sender: self)
-    }
-    
-    @objc private func showOwnerMenu(_ sender: UIButton) {
-        
-        let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
-            self.goToLikes()
-        }
-        moreInfo.addAction(allLikes)
-        
-        if (delegate?.isDeletionAllowed(sender: self)) == true {
-            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
-                self.confirmDeletion()
-            }
-            moreInfo.addAction(deletePost)
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-        moreInfo.addAction(cancel)
-        
-        delegate?.controller().present(moreInfo, animated: true)
-        
     }
     
     private func confirmDeletion() {

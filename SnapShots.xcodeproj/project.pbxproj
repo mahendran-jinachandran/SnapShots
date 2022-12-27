@@ -80,7 +80,6 @@
 		BFA5601529262FEF00A948B4 /* LoginControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601429262FEF00A948B4 /* LoginControls.swift */; };
 		BFA56018292647E900A948B4 /* RegisterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA56017292647E900A948B4 /* RegisterProtocols.swift */; };
 		BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA5601C29267D1C00A948B4 /* NewPostVC.swift */; };
-		BFA959332949B03A00387440 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA959322949B03A00387440 /* UIButtonExtension.swift */; };
 		BFA95935294B07F300387440 /* SubClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA95934294B07F300387440 /* SubClass.swift */; };
 		BFAA8ABE295477A200FF0778 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFAA8ABD295477A200FF0778 /* GoogleService-Info.plist */; };
 		BFAE19CB2941820F00D7A012 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */; };
@@ -204,7 +203,6 @@
 		BFA5601429262FEF00A948B4 /* LoginControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControls.swift; sourceTree = "<group>"; };
 		BFA56017292647E900A948B4 /* RegisterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProtocols.swift; sourceTree = "<group>"; };
 		BFA5601C29267D1C00A948B4 /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
-		BFA959322949B03A00387440 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		BFA95934294B07F300387440 /* SubClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubClass.swift; sourceTree = "<group>"; };
 		BFAA8ABD295477A200FF0778 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BFAE19CA2941820F00D7A012 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
@@ -392,7 +390,6 @@
 				BFDF705F292B7A25001A736F /* UIViewControllerExtension.swift */,
 				BFDF706B292D1651001A736F /* UIImageExtension.swift */,
 				BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */,
-				BFA959322949B03A00387440 /* UIButtonExtension.swift */,
 				BF15D4AF295047F50039853C /* UITabBarExtension.swift */,
 			);
 			path = Extensions;
@@ -799,7 +796,6 @@
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */,
-				BFA959332949B03A00387440 /* UIButtonExtension.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
 				BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */,
 				BF34662B29347FA9006FF9FE /* SearchControls.swift in Sources */,

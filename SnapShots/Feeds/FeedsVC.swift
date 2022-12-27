@@ -88,6 +88,7 @@ class FeedsVC: UIViewController {
         }
         
         friendsMenuButton.menu = UIMenu(title: "", image: nil, children: [friendsAction])
+       
         let barButton = UIBarButtonItem(customView: friendsMenuButton)
         navigationItem.leftBarButtonItem = barButton
         
@@ -180,7 +181,8 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]),
             likedUsersCount: feedsControls.getAllLikedUsers(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
             commentedUsersCount: feedsControls.getAllComments(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
-            postCreatedTime: feedPosts[indexPath.row].postDetails.postCreatedDate
+            postCreatedTime: feedPosts[indexPath.row].postDetails.postCreatedDate,
+            isDeletionAllowed: feedsControls.isDeletionAllowed(userID: feedPosts[indexPath.row].userID)
         )
         
         return particularCell
@@ -231,14 +233,6 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let commentsVC = CommentsVC(commentsControls: commentControls, postUserID: postUserID, postID: postID)
         
         navigationController?.pushViewController(commentsVC, animated: true)
-    }
-    
-    func isDeletionAllowed(sender: FeedsCustomCell) -> Bool {
-        
-        let indexPath = feedsTable.indexPath(for: sender)!
-        let postUserID = feedPosts[indexPath.row].userID
-        
-        return feedsControls.isDeletionAllowed(userID: postUserID)
     }
     
     func deletePost(sender: FeedsCustomCell) {
