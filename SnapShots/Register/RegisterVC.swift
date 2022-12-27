@@ -239,7 +239,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
     
 
-    private func checkUsernameValidation(username: String) -> Bool {
+    private func checkUsernameValidation(username: String,isLiveCheck: Bool = true) -> Bool {
         let usernameDetails = registerController.validateUsername(username: username)
         
         if usernameDetails == .success(true) {
@@ -252,14 +252,19 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
         else if usernameDetails == .failure(.cannotBeEmpty) {
             invalidUserName(warningLabel: UsernameError.cannotBeEmpty.description)
         }
-        else if usernameDetails  == .failure(.invalidNumberOfCharacters) {
-            invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
-        }
         
+        else if !isLiveCheck {
+            if usernameDetails  == .failure(.invalidNumberOfCharacters) {
+                invalidUserName(warningLabel: UsernameError.invalidNumberOfCharacters.description)
+            }
+        } else {
+            validUserName()
+        }
+
         return false
     }
     
-    private func checkPhoneNumberValidation(phoneNumber: String) -> Bool {
+    private func checkPhoneNumberValidation(phoneNumber: String,isLiveCheck: Bool = true) -> Bool {
         let phoneNumberDetails = registerController.validatePhoneNumber(phoneNumber: phoneNumber)
 
         if phoneNumberDetails == .success(true) {
@@ -267,10 +272,16 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
             return true
         } else if phoneNumberDetails == .failure(.cannotBeEmpty) {
             invalidPhoneNumber(warningLabel: PhoneNumberError.cannotBeEmpty.description)
-        } else if phoneNumberDetails == .failure(.invalidFormat) {
-            invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
         } else if phoneNumberDetails == .success(false) {
             invalidPhoneNumber(warningLabel: PhoneNumberError.alreadyTaken.description)
+        }
+        
+        else if !isLiveCheck {
+           if phoneNumberDetails == .failure(.invalidFormat) {
+               invalidPhoneNumber(warningLabel: PhoneNumberError.invalidFormat.description)
+           }
+        } else {
+            validPhoneNumber()
         }
         
         return false
@@ -289,11 +300,11 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
     
     @objc private func registerValidation() {
-        if !checkUsernameValidation(username: username.text!) {
+        if !checkUsernameValidation(username: username.text!,isLiveCheck: false) {
             return
         }
         
-        if !checkPhoneNumberValidation(phoneNumber: phoneNumber.text!) {
+        if !checkPhoneNumberValidation(phoneNumber: phoneNumber.text!,isLiveCheck: false) {
             return
         }
         

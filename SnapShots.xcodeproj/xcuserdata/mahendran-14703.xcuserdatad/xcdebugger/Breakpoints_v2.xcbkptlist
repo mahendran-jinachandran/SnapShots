@@ -7,112 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C8B44C76-98D5-460D-A75C-434E86EDE502"
+            uuid = "3DB45A59-559F-40B3-888E-B5C8E21A5773"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SnapShots/Onboarding/OnboardingGenderVC.swift"
+            filePath = "SnapShots/Register/RegisterVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "updateGender()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C8B44C76-98D5-460D-A75C-434E86EDE502 - 3ab20e351b7a707c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SnapShots.OnboardingGenderVC.updateGender() -&gt; ()"
-                  moduleName = "SnapShots"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mahendran-14703/Documents/Real%20UIKit/SnapShots/SnapShots/Onboarding/OnboardingGenderVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "C8B44C76-98D5-460D-A75C-434E86EDE502 - 3ab20e351b7a707c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SnapShots.OnboardingGenderVC.updateGender() -&gt; ()"
-                  moduleName = "SnapShots"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mahendran-14703/Documents/Real%20UIKit/SnapShots/SnapShots/Onboarding/OnboardingGenderVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "100">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A1BAE461-F6E3-4F3F-A1DD-74DDA4CA3571"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SnapShots/Onboarding/OnboardingControls.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "updateGender(gender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E09257B1-486F-43B8-9747-EAD64B0F05E2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SnapShots/AppUtility.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "updateGender(gender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5864E379-A980-4B3E-BA11-AEBAD2422870"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SnapShots/Database/UserDaoImplementation.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
-            landmarkName = "updateGender(gender:userID:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E90BA125-AE15-4727-A4B5-5436E3A292EA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SnapShots/Onboarding/OnboardingGenderVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "skipProcess()"
+            startingLineNumber = "269"
+            endingLineNumber = "269"
+            landmarkName = "checkPhoneNumberValidation(phoneNumber:isLiveCheck:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

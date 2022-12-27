@@ -122,7 +122,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             postPhoto: postImage,
             caption: postDetails.caption,
             postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
-            likeCount: 99999, //postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
+            likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
             commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
             isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID))
         return headerView
