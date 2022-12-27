@@ -125,6 +125,7 @@ class OnboardingMailVC: UIViewController,UITextFieldDelegate {
                 return
             }
             else if !onboardingControls.updateEmail(email: usermail) {
+                emailTextField.layer.borderColor = UIColor.red.cgColor
                 showToast(message: Constants.toastFailureStatus)
                 return
             } 

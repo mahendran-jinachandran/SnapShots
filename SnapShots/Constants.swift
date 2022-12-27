@@ -47,4 +47,6 @@ struct Constants {
     static let FEMALE = "Female"
     static let PREFER_NOT_SAY = "Prefer Not Say"
     static let EMPTY = "Yet to fill"
+    
+    static let genders = [Constants.MALE,Constants.FEMALE,Constants.PREFER_NOT_SAY]
 }

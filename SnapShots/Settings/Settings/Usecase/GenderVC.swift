@@ -9,7 +9,6 @@ import UIKit
 
 class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 
-    private let gendersList = ["Male","Female"]
     private var pickerView = UIPickerView()
     
     private var gender: String!
@@ -55,7 +54,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
         
         let toggleButton = UIButton(configuration: configButton)
-        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        toggleButton.setImage( UIImage(systemName: "chevron.down"), for: .normal)
         return toggleButton
     }()
     
@@ -115,7 +114,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     }
     
     @objc private func addGender() {
-        genderTextField.text = gendersList[pickerView.selectedRow(inComponent: 0)]
+        genderTextField.text = Constants.genders[pickerView.selectedRow(inComponent: 0)]
         genderTextField.resignFirstResponder()
     }
     
@@ -195,11 +194,11 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return gendersList.count
+        return  Constants.genders.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return gendersList[row]
+        return  Constants.genders[row]
     }
 
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {

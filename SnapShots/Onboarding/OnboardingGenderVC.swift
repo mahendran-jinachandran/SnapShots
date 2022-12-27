@@ -10,7 +10,7 @@ import Firebase
 
 class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 
-    let genders = [Constants.MALE,Constants.FEMALE]
+
     var pickerView = UIPickerView()
     
     private var onboardingControls: OnboardingProtocol
@@ -54,13 +54,13 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
         
         let toggleButton = UIButton(configuration: configButton)
-        toggleButton.setImage( UIImage(systemName: "arrowtriangle.down.square.fill"), for: .normal)
+        toggleButton.setImage( UIImage(systemName: "chevron.down"), for: .normal)
         return toggleButton
     }()
     
     private lazy var genderTextField: CustomTextField = {
         let gender = CustomTextField()
-        gender.placeholder = "Gender"
+        gender.text = Gender.preferNotSay.description
         gender.layer.cornerRadius = 5
         gender.layer.borderWidth = 2
         gender.layer.borderColor = UIColor.gray.cgColor
@@ -98,7 +98,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         view.backgroundColor = .systemBackground
         navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(navigateToNext))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipProcess))
     }
     
     private func setupDelegates() {
@@ -120,7 +120,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     
     @objc private func addGender() {
-        genderTextField.text = genders[pickerView.selectedRow(inComponent: 0)]
+        genderTextField.text =  Constants.genders[pickerView.selectedRow(inComponent: 0)]
         genderTextField.resignFirstResponder()
     }
     
@@ -158,6 +158,11 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
             }
         }
         
+        navigateToNext()
+    }
+    
+    @objc func skipProcess() {
+       _ = onboardingControls.updateGender(gender: genderTextField.text!)
         navigateToNext()
     }
     
@@ -208,11 +213,11 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return genders.count
+        return Constants.genders.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return genders[row]
+        return Constants.genders[row]
     }
     
     private var contentInsetBackstore: UIEdgeInsets = .zero

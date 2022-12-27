@@ -131,7 +131,6 @@ class PersonalInformationVC: UIViewController {
         accountCreatedDate.translatesAutoresizingMaskIntoConstraints = false
         accountCreatedDate.font = UIFont.systemFont(ofSize: 10)
         accountCreatedDate.textAlignment = .center
-        accountCreatedDate.text = "Account created on "
         return accountCreatedDate
     }()
     
@@ -153,9 +152,9 @@ class PersonalInformationVC: UIViewController {
        let user = accountControls.getUserDetails()
        email.text = user.mail == "-1" ? Constants.EMPTY : user.mail
        phone.text = user.phoneNumber
-       gender.text = user.gender == .preferNotSay ? Constants.EMPTY : user.gender == .male ? Constants.MALE : Constants.FEMALE
+       gender.text = user.gender == .preferNotSay ? Gender.preferNotSay.description : user.gender == .male ? Gender.male.description : Gender.female.description
        dateOfBirth.text = user.age == "-1" ? Constants.EMPTY : user.age
-       accountCreatedDate.text! +=  String(AppUtility.getDate(date: user.accountCreatedDate))
+       accountCreatedDate.text = "Account created on \(String(AppUtility.getDate(date: user.accountCreatedDate)))"
     }
     
     private func setupNavigationItems() {
