@@ -54,7 +54,7 @@ class SQLiteDatabase: DatabaseProtocol {
         if !isDBReferenceExist(){
             print("Error in connecting Database.Connecting...")
             getDatabaseReady()
-        }
+        } 
         
         if sqlite3_prepare_v2(dbPointer, "PRAGMA foreign_keys = ON", -1, &statement, nil) != SQLITE_OK {
             let err = String(cString: sqlite3_errmsg(dbPointer))
@@ -121,9 +121,9 @@ class SQLiteDatabase: DatabaseProtocol {
                 Post_id INT,
                 LikedUser_id INT,
                 Liked_time TEXT,
-                FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE
-                FOREIGN KEY (LikedUser_id) REFERENCES User(User_id) ON DELETE CASCADE
-                UNIQUE(User_id,LikedUser_id)
+                FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE,
+                FOREIGN KEY (LikedUser_id) REFERENCES User(User_id) ON DELETE CASCADE,
+                FOREIGN KEY (Post_id,User_id) REFERENCES Post(Post_id,User_id) ON DELETE CASCADE
             );
         """
 
@@ -134,8 +134,9 @@ class SQLiteDatabase: DatabaseProtocol {
                 Comment CHAR(255),
                 CommentUser_id INT,
                 Commented_time TEXT,
-                FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE
-                FOREIGN KEY (CommentUser_id) REFERENCES User(User_id) ON DELETE CASCADE
+                FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE,
+                FOREIGN KEY (CommentUser_id) REFERENCES User(User_id) ON DELETE CASCADE,
+                FOREIGN KEY (Post_id,User_id) REFERENCES Post(Post_id,User_id) ON DELETE CASCADE
             );
         """
         
