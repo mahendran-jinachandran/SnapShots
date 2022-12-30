@@ -15,6 +15,7 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func showComments(sender: FeedsCustomCell)
     func deletePost(sender: FeedsCustomCell)
     func goToProfile(sender: FeedsCustomCell)
+    func unfollowUser(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -96,7 +97,6 @@ class FeedsCustomCell: UITableViewCell {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setImage(UIImage(systemName: "ellipsis.message"), for: .normal)
         button.tintColor = UIColor(named: "appTheme")!
-      //  button.clipsToBounds = true
 
         return button
     }()
@@ -136,8 +136,7 @@ class FeedsCustomCell: UITableViewCell {
           image: UIImage(systemName: "trash"),
           attributes: .destructive) { _ in
               
-            // MARK: DELETE THE POST FUNCTIONALITY - ADD UIALERT ACTION
-            // self.confirmDeletion()
+            self.confirmDeletion()
         }
         
         
@@ -146,6 +145,9 @@ class FeedsCustomCell: UITableViewCell {
           image: UIImage(systemName: "person.badge.minus")) { _ in
               
             // MARK: UNFOLLOW THE USER
+              print("Unfollowed")
+              self.delegate?.unfollowUser(sender: self)
+              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         }
         
 

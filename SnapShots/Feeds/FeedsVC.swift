@@ -103,8 +103,6 @@ class FeedsVC: UIViewController {
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "appTheme")!
     }
     
-
-    
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
@@ -253,5 +251,15 @@ extension FeedsVC: FeedsCustomCellDelegate {
             isVisiting: true)
         
         navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    func unfollowUser(sender: FeedsCustomCell) {
+        let indexPath = feedsTable.indexPath(for: sender)!
+        let userID = feedPosts[indexPath.row].userID
+        
+        if !feedsControls.removeFriend(profileRequestedUser: userID) {
+            showToast(message: Constants.toastFailureStatus)
+        }
+        
     }
 }

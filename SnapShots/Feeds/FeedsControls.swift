@@ -64,4 +64,10 @@ class FeedsControls {
     func getAllComments(postUserID: Int,postID: Int) -> Int {
         return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID).count
     }
+    
+    func removeFriend(profileRequestedUser: Int) -> Bool {
+        
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return friendsDaoImp.removeFriend(loggedUserID: userID, removingUserID: profileRequestedUser)
+    }
 }
