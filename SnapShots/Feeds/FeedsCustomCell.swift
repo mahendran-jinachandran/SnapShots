@@ -158,10 +158,10 @@ class FeedsCustomCell: UITableViewCell {
     
     private func changeLikesButtonState(isLikesCountHidden: Bool,likeCount: Int) {
         if isLikesCountHidden {
-          //  likesButton.titleLabel?.layer.opacity = 0.0
+            likesButton.titleLabel?.layer.opacity = 0.0
         } else {
             self.likesButton.setTitle(String( Double(likeCount).shortStringRepresentation ), for: .normal)
-         //   likesButton.titleLabel?.layer.opacity = 1.0
+            likesButton.titleLabel?.layer.opacity = 1.0
         }
     }
     
@@ -183,8 +183,7 @@ class FeedsCustomCell: UITableViewCell {
             setLikeHeartImage(isLiked: likeFlag)
             if !isLikesHidden {
                 self.likesButton.setTitle(
-                 
-                    String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
+                    String(Int((self.likesButton.titleLabel?.text!)!)! + 1),
                     for: .normal)
             }
     
