@@ -1,355 +1,264 @@
-////
-////  PostViewController.swift
-////  SnapShots
-////
-////  Created by mahendran-14703 on 24/11/22.
-////
 //
-//import UIKit
-//
-//class PostVC: UIViewController {
-//
-//    private var postImage: UIImage
-//    private var postDetails: Post
-//    private var postControls: PostControlsProtocol
-//    private var userID: Int
-//    private var likeFlag: Bool!
-//    private var refreshControl = UIRefreshControl()
-//
-//    init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post) {
-//        self.postControls = postControls
-//        self.userID = userID
-//        self.postImage = postImage
-//        self.postDetails = postDetails
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    private lazy var scrollView: UIScrollView = {
-//        let scrollView = UIScrollView()
-//        scrollView.translatesAutoresizingMaskIntoConstraints = false
-//        scrollView.decelerationRate = .fast
-//        scrollView.backgroundColor = .systemBackground
-//        scrollView.isScrollEnabled = true
-//        scrollView.isUserInteractionEnabled = true
-//        scrollView.showsVerticalScrollIndicator = false
-//        scrollView.showsHorizontalScrollIndicator = false
-//        return scrollView
-//    }()
-//
-//    private lazy var scrollContainer: UIView = {
-//        let scrollContainer = UIView()
-//        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
-//        scrollContainer.backgroundColor = .systemBackground
-//        return scrollContainer
-//    }()
-//
-//    private lazy var profilePhoto: UIImageView = {
-//        let profileImage = UIImageView(frame: .zero)
-//        profileImage.clipsToBounds = true
-//        profileImage.contentMode = .scaleAspectFill
-//        profileImage.translatesAutoresizingMaskIntoConstraints = false
-//        profileImage.isUserInteractionEnabled = true
-//        return profileImage
-//    }()
-//
-//    private lazy var userNameLabel: UILabel = {
-//        var userNameLabel = UILabel()
-//        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-//        userNameLabel.font = UIFont.systemFont(ofSize:17)
-//        return userNameLabel
-//    }()
-//
-//    private lazy var moreInfo: UIButton = {
-//        var moreInfo = UIButton(type: .custom)
-//        moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-//        moreInfo.translatesAutoresizingMaskIntoConstraints = false
-//        moreInfo.tintColor = UIColor(named: "appTheme")
-//        moreInfo.backgroundColor = UIColor(named: "moreInfo_bg_color")
-//        return moreInfo
-//    }()
-//
-//    private lazy var post: UIImageView = {
-//       let post = UIImageView()
-//       post.clipsToBounds = true
-//       post.contentMode = .scaleAspectFill
-//       post.translatesAutoresizingMaskIntoConstraints = false
-//       post.isUserInteractionEnabled = true
-//       post.layer.cornerRadius = 15
-//       return post
-//    }()
-//
-//    private lazy var caption: UILabel = {
-//        var caption = UILabel()
-//        caption.translatesAutoresizingMaskIntoConstraints = false
-//        caption.font = UIFont.systemFont(ofSize:15)
-//        caption.numberOfLines = 0
-//        return caption
-//    }()
-//
-//    private lazy var like: UIButton = {
-//        var like = UIButton()
-//        like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
-//        like.translatesAutoresizingMaskIntoConstraints = false
-//        like.contentMode = .scaleAspectFill
-//        like.isUserInteractionEnabled = true
-//        like.tintColor = .red
-//        return like
-//    }()
-//
-//    private lazy var likesCount: UILabel = {
-//        let likesCount = UILabel()
-//        likesCount.text = "0"
-//        likesCount.translatesAutoresizingMaskIntoConstraints = false
-//        likesCount.textColor = .red
-//        return likesCount
-//    }()
-//
-//    private lazy var comment: UIButton = {
-//        var comment = UIButton()
-//        comment.setBackgroundImage(UIImage(systemName: "ellipsis.message"), for: .normal)
-//        comment.translatesAutoresizingMaskIntoConstraints = false
-//        comment.contentMode = .scaleAspectFill
-//        comment.isUserInteractionEnabled = true
-//        return comment
-//    }()
-//
-//    private lazy var commentsCount: UILabel = {
-//        let commentsCount = UILabel()
-//        commentsCount.text = "0"
-//        commentsCount.translatesAutoresizingMaskIntoConstraints = false
-//        commentsCount.textColor = .systemBlue
-//        return commentsCount
-//    }()
-//
-//    private lazy var postCreatedTime: UILabel = {
-//        var postCreatedTime = UILabel()
-//        postCreatedTime.translatesAutoresizingMaskIntoConstraints = false
-//        postCreatedTime.font = UIFont.systemFont(ofSize: 10)
-//        postCreatedTime.textAlignment = .left
-//        return postCreatedTime
-//    }()
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//
-//        setupNavigationItems()
-//        setupConstraints()
-//        setupTapGestures()
-//        setupPostDetails()
-//
-//        profilePhoto.layer.cornerRadius = 40/2
-//        moreInfo.layer.cornerRadius = 15
-//    }
-//
-//    private func setupTapGestures() {
-//        like.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
-//        comment.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
-//        moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
-//        refreshControl.addTarget(self, action: #selector(refreshScreen), for: UIControl.Event.valueChanged)
-//    }
-//
-//    @objc private func refreshScreen() {
-//        DispatchQueue.main.async {
-//            self.setupPostDetails()
-//            self.refreshControl.endRefreshing()
-//        }
-//    }
-//
-//    private func setupPostDetails() {
-//        profilePhoto.image = postControls.getUserDP(userID: userID)
-//        userNameLabel.text = postControls.getUsername(userID: userID)
-//
-//        guard let postImage = UIImage().loadImageFromDiskWith(fileName: postDetails.photo) else {
-//            navigationController?.popViewController(animated: true)
-//            return
-//        }
-//
-//        post.image = postImage
-//        caption.text = postDetails.caption
-//        postCreatedTime.text = String(AppUtility.getDate(date: postDetails.postCreatedDate))
-//        setLikeButton()
-//    }
-//
-//    private func setupNavigationItems() {
-//        title = "Posts"
-//        view.backgroundColor = .systemBackground
-//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
-//        navigationController?.navigationBar.isOpaque = true
-//    }
-//
-//    private func setupConstraints() {
-//
-//        view.addSubview(scrollView)
-//        scrollView.refreshControl = refreshControl
-//        scrollView.addSubview(scrollContainer)
-//
-//        [profilePhoto,userNameLabel,moreInfo,post,like,likesCount,comment,commentsCount,caption,postCreatedTime].forEach {
-//            scrollContainer.addSubview($0)
-//        }
-//
-//        NSLayoutConstraint.activate([
-//
-//            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//
-//            scrollContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
-//            scrollContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-//            scrollContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-//            scrollContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-//            scrollContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//
-//            profilePhoto.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 4),
-//            profilePhoto.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
-//            profilePhoto.heightAnchor.constraint(equalToConstant: 40),
-//            profilePhoto.widthAnchor.constraint(equalToConstant: 40),
-//
-//            moreInfo.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 10),
-//            moreInfo.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -12),
-//            moreInfo.heightAnchor.constraint(equalToConstant: 30),
-//            moreInfo.widthAnchor.constraint(equalToConstant: 30),
-//
-//            userNameLabel.topAnchor.constraint(equalTo: scrollContainer.topAnchor,constant: 4),
-//            userNameLabel.leadingAnchor.constraint(equalTo: profilePhoto.trailingAnchor,constant: 8),
-//            userNameLabel.trailingAnchor.constraint(equalTo: moreInfo.leadingAnchor),
-//            userNameLabel.heightAnchor.constraint(equalToConstant: 40),
-//
-//            post.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 8),
-//            post.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
-//            post.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -12),
-//            post.heightAnchor.constraint(equalToConstant: 350),
-//
-//            like.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
-//            like.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
-//            like.heightAnchor.constraint(equalToConstant: 33),
-//            like.widthAnchor.constraint(equalToConstant: 35),
-//
-//            likesCount.leadingAnchor.constraint(equalTo: like.trailingAnchor,constant: 4),
-//            likesCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
-//            likesCount.heightAnchor.constraint(equalToConstant: 33),
-//            likesCount.widthAnchor.constraint(equalToConstant: 50),
-//
-//            comment.leadingAnchor.constraint(equalTo: likesCount.trailingAnchor,constant: 4),
-//            comment.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 6),
-//            comment.heightAnchor.constraint(equalToConstant: 30),
-//            comment.widthAnchor.constraint(equalToConstant: 35),
-//
-//            commentsCount.leadingAnchor.constraint(equalTo: comment.trailingAnchor,constant: 4),
-//            commentsCount.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 4),
-//            commentsCount.heightAnchor.constraint(equalToConstant: 33),
-//            commentsCount.widthAnchor.constraint(equalToConstant: 55),
-//
-//            caption.topAnchor.constraint(equalTo: like.bottomAnchor,constant: 8),
-//            caption.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
-//            caption.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -12),
-//
-//            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 8),
-//            postCreatedTime.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor,constant: 12),
-//            postCreatedTime.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor,constant: -8),
-//            postCreatedTime.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor,constant: -10)
-//        ])
-//    }
-//
-//    private func setLikeButton() {
-//        likeFlag = postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID)
-//
-//        self.likesCount.text = String( Double(postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID)).shortStringRepresentation )
-//
-//        self.commentsCount.text = String( Double(postControls.getAllComments(postUserID: userID, postID: postDetails.postID)).shortStringRepresentation )
-//
-//        setLikeHeartImage(isLiked: likeFlag)
-//    }
-//
-//    @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
-//
-//        likeFlag = !likeFlag
-//        if likeFlag {
-//            setLikeHeartImage(isLiked: likeFlag)
-//            likesCount.text = String( Int(likesCount.text!)! + 1)
-//            if !postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID) {
-//                showToast(message: Constants.toastFailureStatus)
-//            }
-//        } else {
-//            setLikeHeartImage(isLiked: likeFlag)
-//            likesCount.text = String( Int(likesCount.text!)! - 1)
-//            if !postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID) {
-//                showToast(message: Constants.toastFailureStatus)
-//            }
-//        }
-//
-//        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-//    }
-//
-//    private func setLikeHeartImage(isLiked: Bool) {
-//        if isLiked {
-//            like.setBackgroundImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        } else {
-//            like.setBackgroundImage(UIImage(systemName: "heart"), for: .normal)
-//        }
-//    }
-//
-//    @objc private func goToLikes() {
-//        let likesControl = LikesControls()
-//        self.navigationController?.pushViewController(LikesVC(likesControls: likesControl, postUserID: userID, postID: postDetails.postID), animated: true)
-//    }
-//
-//    @objc private func goToComments() {
-//
-//        let commentsControl = CommentsControls()
-//        self.navigationController?.pushViewController(CommentsVC(commentsControls: commentsControl, postUserID: userID, postID: postDetails.postID), animated: true)
-//    }
-//
-//    @objc private func showOwnerMenu(_ sender: UIButton) {
-//
-//        let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        let allLikes = UIAlertAction(title: "All Likes", style: .default) { _ in
-//            self.goToLikes()
-//        }
-//
-//        if postControls.isDeletionAllowed(userID: userID) {
-//            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
-//                self.confirmDeletion()
-//            }
-//            moreInfo.addAction(deletePost)
-//        }
-//
-//        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-//
-//        moreInfo.addAction(allLikes)
-//        moreInfo.addAction(cancel)
-//
-//        present(moreInfo, animated: true)
-//    }
-//
-//    private func confirmDeletion() {
-//
-//        let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
-//
-//        confirmDeletion.addAction(
-//            UIAlertAction(title: "Delete", style: .destructive) { _ in
-//
-//                if !self.postControls.deletePost(postID: self.postDetails.postID) {
-//                    self.showToast(message: Constants.toastFailureStatus)
-//                    return
-//                }
-//
-//                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-//                self.navigationController?.popViewController(animated: true)
-//            }
-//        )
-//
-//        confirmDeletion.addAction(
-//            UIAlertAction(title: "Cancel", style: .cancel)
-//        )
-//
-//        present(confirmDeletion, animated: true)
-//
-//    }
-//}
+//  PostVCDup.swift
+//  SnapShots
+//
+//  Created by mahendran-14703 on 26/12/22.
+//
+
+import UIKit
+
+class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+
+    private var postImage: UIImage
+    private var postDetails: Post
+    private var postControls: PostControlsProtocol
+    private var userID: Int
+    private var likeFlag: Bool!
+    private var commentDetails: [CommentDetails] = []
+    private var refreshControl = UIRefreshControl()
+
+    init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post) {
+        self.postControls = postControls
+        self.userID = userID
+        self.postImage = postImage
+        self.postDetails = postDetails
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private lazy var postTable: UITableView = {
+        let postTable = UITableView(frame: .zero, style: .grouped)
+        postTable.translatesAutoresizingMaskIntoConstraints = false
+        return postTable
+    }()
+
+    private lazy var postComment: UIButton = {
+        let postComment = UIButton()
+        postComment.setTitle(" POST   ", for: .normal)
+        postComment.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        postComment.setTitleColor(UIColor(named: "appTheme"), for: .normal)
+        postComment.alpha = 0.5
+        postComment.isUserInteractionEnabled = false
+        return postComment
+    }()
+
+    private lazy var addCommentTextField: UITextField = {
+        var addComments = UITextField()
+        addComments.placeholder = "Add Comment"
+        addComments.clearsOnBeginEditing = true
+        addComments.translatesAutoresizingMaskIntoConstraints = false
+        addComments.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+        addComments.layer.borderWidth = 2
+        addComments.layer.cornerRadius = 20
+        addComments.textColor = UIColor(named: "appTheme")
+
+        addComments.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 0))
+        addComments.leftViewMode = .always
+        addComments.rightView = postComment
+        addComments.rightViewMode = .always
+        return addComments
+    }()
+
+    private lazy var snapShotsLogo: UIImageView = {
+        let snapShotsLogo = UIImageView()
+        snapShotsLogo.image = UIImage(named: "SnapShotsLogo")
+        snapShotsLogo.contentMode = .scaleAspectFit
+        snapShotsLogo.isUserInteractionEnabled = true
+        return snapShotsLogo
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .systemBackground
+        postTable.backgroundColor = .systemBackground
+        view.keyboardLayoutGuide.followsUndockedKeyboard = true
+        navigationItem.titleView = snapShotsLogo
+        setupPostTable()
+        getComments()
+        setupPostTableConstraints()
+
+        addCommentTextField.delegate = self
+        postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
+
+        snapShotsLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop)))
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if ((previousTraitCollection?.hasDifferentColorAppearance(comparedTo: traitCollection)) != nil) {
+            addCommentTextField.layer.borderColor = UIColor(named: "appTheme")?.cgColor
+        }
+    }
+
+    private func setupPostTable() {
+
+        postTable.register(PostVCHeader.self, forHeaderFooterViewReuseIdentifier: PostVCHeader.identifier)
+
+        postTable.register(CommentsCustomCell.self, forCellReuseIdentifier: CommentsCustomCell.identifier)
+
+        postTable.delegate = self
+        postTable.dataSource = self
+    }
+
+    private func getComments() {
+        commentDetails = postControls.getAllComments(postUserID: userID, postID: postDetails.postID)
+        postTable.reloadData()
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostVCHeader.identifier) as! PostVCHeader
+
+        headerView.delegate = self
+        headerView.configure(
+            profilePhoto: postControls.getUserDP(userID: userID),
+            username: postControls.getUsername(userID: userID),
+            postPhoto: postImage,
+            caption: postDetails.caption,
+            postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
+            likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
+            commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
+            isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID))
+        return headerView
+    }
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+        if velocity.y > 2 || velocity.y < -2 {
+            self.view.endEditing(true)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return commentDetails.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
+
+        let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
+        cell.configure(
+            userDP: profilePicture,
+            username: commentDetails[indexPath.row].username,
+            comment: commentDetails[indexPath.row].comment)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 44
+    }
+
+    private func setupPostTableConstraints() {
+        [postTable,addCommentTextField].forEach {
+            view.addSubview($0)
+        }
+
+        NSLayoutConstraint.activate([
+
+            addCommentTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+            addCommentTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -8),
+            addCommentTextField.heightAnchor.constraint(equalToConstant: 40),
+
+            postTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            postTable.bottomAnchor.constraint(equalTo: addCommentTextField.topAnchor),
+            postTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            postTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+
+        let textFieldOnKeyboard = view.keyboardLayoutGuide.topAnchor.constraint(equalTo: addCommentTextField.bottomAnchor,constant: 8)
+        view.keyboardLayoutGuide.setConstraints([textFieldOnKeyboard], activeWhenAwayFrom: .top)
+    }
+
+    @objc func addComment() {
+
+        if !postControls.addComment(postUserID: userID, postID: postDetails.postID, comment: addCommentTextField.text!) {
+            showToast(message: Constants.toastFailureStatus)
+            return
+        }
+
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        addCommentTextField.text = nil
+        getComments()
+        postTable.scrollToRow(at: IndexPath(item:commentDetails.count-1, section: 0), at: .bottom, animated: true)
+
+    }
+
+    @objc func scrollToScreenTop() {
+
+       let ip = IndexPath(row: 0, section: 0)
+
+        if postTable.indexPathsForVisibleRows!.contains(ip)
+        {
+           postTable.scrollToRow(at: ip, at: .top, animated: true)
+
+        }
+    }
+
+    @objc func refreshPostSection() {
+        getComments()
+        postTable.reloadData()
+    }
+
+}
+
+extension PostVC: PostVCHeaderDelegate {
+
+    func controller() -> PostVC {
+        return self
+    }
+
+    func likeThePost(sender: PostVCHeader) {
+        _ = postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    }
+
+    func unLikeThePost(sender: PostVCHeader) {
+        _ = postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    }
+
+    func deletePost() -> Bool {
+        return postControls.deletePost(postID: postDetails.postID)
+    }
+
+    func hasSpecialPermissions() -> Bool {
+        return postControls.isDeletionAllowed(userID: userID)
+    }
+
+    func displayAllLikesUsers() {
+
+        let likesControls = LikesControls()
+        let likesVC = LikesVC(likesControls: likesControls, postUserID: userID, postID: postDetails.postID)
+
+        navigationController?.pushViewController(likesVC, animated: true)
+    }
+
+    func openCommentBox() {
+        addCommentTextField.becomeFirstResponder()
+    }
+}
+
+extension PostVC : UITextFieldDelegate {
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+
+        if !textField.text!.isEmpty && !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty  {
+            postComment.alpha = 1.0
+            postComment.isUserInteractionEnabled = true
+        } else {
+            postComment.alpha = 0.5
+            postComment.isUserInteractionEnabled = false
+        }
+    }
+}
