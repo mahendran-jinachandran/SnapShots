@@ -309,13 +309,11 @@ class FeedsCustomCell: UITableViewCell {
             post.heightAnchor.constraint(equalToConstant: 350),
             
             likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: -24),
-            likesButton.widthAnchor.constraint(equalToConstant: 150),
+            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: -24),
-            commentButton.widthAnchor.constraint(equalToConstant: 100),
+            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 4),
             commentButton.heightAnchor.constraint(equalToConstant: 30),
             
             caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),

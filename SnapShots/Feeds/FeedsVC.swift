@@ -180,7 +180,7 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             postCaption: feedPosts[indexPath.row].postDetails.caption,
             isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]),
             likedUsersCount: feedsControls.getAllLikedUsers(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
-            commentedUsersCount: feedsControls.getAllComments(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
+           commentedUsersCount: feedsControls.getAllComments(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
             postCreatedTime: feedPosts[indexPath.row].postDetails.postCreatedDate,
             isDeletionAllowed: feedsControls.isDeletionAllowed(userID: feedPosts[indexPath.row].userID),
             isLikesHidden: feedPosts[indexPath.row].postDetails.isLikesHidden,

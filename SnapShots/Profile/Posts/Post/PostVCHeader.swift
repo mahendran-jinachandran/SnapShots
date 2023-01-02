@@ -343,12 +343,10 @@ class PostVCHeader: UITableViewHeaderFooterView {
             
             likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
             likesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            likesButton.widthAnchor.constraint(equalToConstant: 100),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor),
-            commentButton.widthAnchor.constraint(equalToConstant: 100),
+            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 4),
             commentButton.heightAnchor.constraint(equalToConstant: 30),
             
             viewAllLikes.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 4),
