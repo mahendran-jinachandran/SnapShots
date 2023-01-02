@@ -21,4 +21,10 @@ protocol PostControlsProtocol {
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails]
     func addComment(postUserID: Int,postID: Int,comment: String) -> Bool
     func removeFriend(profileRequestedUser: Int) -> Bool
+    func hideLikesCount(userID: Int,postID: Int)
+    func unhideLikesCount(userID: Int,postID: Int)
+    func getLikesButtonVisibilityState(userID: Int,postID: Int) -> Bool
+    func hideComments(userID: Int,postID: Int)
+    func unhideComments(userID: Int,postID: Int)
+    func getCommentsButtonVisibilityState(userID: Int,postID: Int) -> Bool
 }

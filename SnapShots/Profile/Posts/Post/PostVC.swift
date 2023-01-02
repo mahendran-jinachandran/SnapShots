@@ -94,7 +94,6 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         snapShotsLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop)))
     }
     
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -125,7 +124,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostVCHeader.identifier) as! PostVCHeader
 
         headerView.delegate = self
-        
+
         headerView.configure(
             profilePhoto: postControls.getUserDP(userID: userID),
             username: postControls.getUsername(userID: userID),
@@ -135,8 +134,11 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
             commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
             isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID),
-            isDeletionAllowed: postControls.isDeletionAllowed(userID: userID)
+            isDeletionAllowed: postControls.isDeletionAllowed(userID: userID),
+            isLikesCountHidden: postControls.getLikesButtonVisibilityState(userID: userID, postID: postDetails.postID),
+            isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID)
         )
+        
         
         return headerView
     }
@@ -149,6 +151,12 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID) {
+            addCommentTextField.isHidden = true
+            return 0
+        }
+        
+        addCommentTextField.isHidden = false
         return commentDetails.count
     }
 
@@ -167,6 +175,8 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+
 
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return 44
@@ -262,8 +272,26 @@ extension PostVC: PostVCHeaderDelegate {
         if !postControls.removeFriend(profileRequestedUser: userID) {
             showToast(message: Constants.toastFailureStatus)
         }
-        
     }
+    
+    func hideLikesCount() {
+        postControls.hideLikesCount(userID: userID, postID: postDetails.postID)
+        postDetails.isLikesHidden = true
+    }
+    
+    func unhideLikesCount() {
+        postControls.unhideLikesCount(userID: userID, postID: postDetails.postID)
+        postDetails.isLikesHidden = false
+    }
+    
+    func hideComments() {
+        postControls.hideComments(userID: userID, postID: postDetails.postID)
+    }
+    
+    func unhideComments() {
+        postControls.unhideComments(userID: userID, postID: postDetails.postID)
+    }
+
 }
 
 extension PostVC : UITextFieldDelegate {

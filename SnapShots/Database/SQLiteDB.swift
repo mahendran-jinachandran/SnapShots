@@ -92,6 +92,8 @@ class SQLiteDatabase: DatabaseProtocol {
             Caption CHAR(255),
             User_id INT NOT NULL,
             Created_time TEXT,
+            IsLikesHidden INT,
+            IsCommentsHidden INT,
             PRIMARY KEY(Post_id,User_id),
             FOREIGN KEY(User_id) REFERENCES User(User_id) ON DELETE CASCADE
             );

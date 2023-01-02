@@ -8,7 +8,7 @@
 import UIKit
 
 class PostControls: PostControlsProtocol {
-    
+
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
@@ -78,5 +78,29 @@ class PostControls: PostControlsProtocol {
         
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return friendsDaoImp.removeFriend(loggedUserID: userID, removingUserID: profileRequestedUser)
+    }
+    
+    func hideLikesCount(userID: Int, postID: Int) {
+        _ = postDaoImp.hideLikesInPost(userID: userID, postID: postID)
+    }
+    
+    func unhideLikesCount(userID: Int, postID: Int) {
+        _ = postDaoImp.unhideLikesInPost(userID: userID, postID: postID)
+    }
+    
+    func getLikesButtonVisibilityState(userID: Int,postID: Int) -> Bool {
+        return postDaoImp.getLikesButtonVisibilityState(userID: userID, postID: postID)
+    }
+    
+    func hideComments(userID: Int, postID: Int) {
+        _ = postDaoImp.hideCommentsInPost(userID: userID, postID: postID)
+    }
+    
+    func unhideComments(userID: Int, postID: Int) {
+        _ = postDaoImp.unhideCommentsInPost(userID: userID, postID: postID)
+    }
+    
+    func getCommentsButtonVisibilityState(userID: Int,postID: Int) -> Bool {
+        return postDaoImp.getCommentsButtonVisibilityState(userID: userID, postID: postID)
     }
 }

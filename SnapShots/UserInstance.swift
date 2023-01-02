@@ -33,7 +33,7 @@ struct UserInstance {
         }
         
         let getAllPostQuery = """
-        SELECT Post_id,Photo,Caption,Created_time FROM POST
+        SELECT Post_id,Photo,Caption,Created_time,isLikesHidden,isCommentsHidden FROM POST
         WHERE User_id = \(user!.userID);
         """
     
@@ -42,7 +42,10 @@ struct UserInstance {
             allPosts[Int(post[0])!] = Post(postID: Int(post[0])!,
                                            photo: post[1],
                                         caption: post[2],
-                                        postCreatedDate: post[3])
+                                        postCreatedDate: post[3],
+                                        isLikesHidden: Int(post[4]) == 0 ? false : true ,
+                                        isCommentsHidden: Int(post[5]) == 0 ? false : true
+            )
             
         }
         

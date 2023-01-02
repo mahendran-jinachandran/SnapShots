@@ -130,7 +130,9 @@ class FeedsCustomCell: UITableViewCell {
   
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int,postCreatedTime: String,isDeletionAllowed: Bool) {
+    private var isLikesHidden: Bool!
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int,postCreatedTime: String,isDeletionAllowed: Bool,isLikesHidden: Bool,isCommentsHidden: Bool) {
+        
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
@@ -138,13 +140,29 @@ class FeedsCustomCell: UITableViewCell {
         self.caption.text = postCaption
         self.likeFlag = isAlreadyLiked
         
-        self.likesButton.setTitle(String( Double(likedUsersCount).shortStringRepresentation ), for: .normal)
         self.commentButton.setTitle(String( Double(commentedUsersCount).shortStringRepresentation), for: .normal)
-            
         self.postCreatedTime.text = String(AppUtility.getDate(date: postCreatedTime))
         
         setLikeHeartImage(isLiked: likeFlag)
         setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed)
+        
+        self.isLikesHidden = isLikesHidden
+        changeLikesButtonState(isLikesCountHidden: isLikesHidden, likeCount: likedUsersCount)
+        
+        if isCommentsHidden {
+            commentButton.isHidden = true
+        } else {
+            commentButton.isHidden = false
+        }
+    }
+    
+    private func changeLikesButtonState(isLikesCountHidden: Bool,likeCount: Int) {
+        if isLikesCountHidden {
+          //  likesButton.titleLabel?.layer.opacity = 0.0
+        } else {
+            self.likesButton.setTitle(String( Double(likeCount).shortStringRepresentation ), for: .normal)
+         //   likesButton.titleLabel?.layer.opacity = 1.0
+        }
     }
     
     private func setupButtonTargets() {
@@ -163,16 +181,23 @@ class FeedsCustomCell: UITableViewCell {
 
         if likeFlag {
             setLikeHeartImage(isLiked: likeFlag)
-            self.likesButton.setTitle(
-                String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
-                for: .normal)
-            
+            if !isLikesHidden {
+                self.likesButton.setTitle(
+                 
+                    String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
+                    for: .normal)
+            }
+    
             delegate?.likeThePost(sender: self)
         } else {
             setLikeHeartImage(isLiked: likeFlag)
-            self.likesButton.setTitle(
-                String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
-                for: .normal)
+            if !isLikesHidden {
+                self.likesButton.setTitle(
+                 
+                    
+                    String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
+                    for: .normal)
+            }
             delegate?.unLikeThePost(sender: self)
         }
     }

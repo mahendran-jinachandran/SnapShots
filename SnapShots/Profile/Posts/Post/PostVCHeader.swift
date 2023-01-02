@@ -14,7 +14,12 @@ protocol PostVCHeaderDelegate: AnyObject {
     func deletePost() -> Bool
     func displayAllLikesUsers()
     func openCommentBox()
-    func unfollowUser() 
+    func unfollowUser()
+    func hideLikesCount()
+    func unhideLikesCount()
+    func hideComments()
+    func unhideComments()
+    
 }
 
 class PostVCHeader: UITableViewHeaderFooterView {
@@ -124,32 +129,50 @@ class PostVCHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool) {
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool) {
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
         self.post.image = postPhoto
         self.caption.text = caption
         self.postCreatedTime.text = postCreatedTime
-        self.likesButton.setTitle(String( Double(likeCount).shortStringRepresentation ), for: .normal)
         self.likeFlag = isAlreadyLiked
         setLikeHeartImage(isLiked: likeFlag)
         
-        if likeCount > 0 {
-            self.viewAllLikes.text = "View \(Double(likeCount).shortStringRepresentation) Likes"
-            viewAllLikes.isHidden = false
-            setupViewLikesCount()
+        setupLikes(isLikesCountHidden: isLikesCountHidden, likeCount: likeCount)
+        changeLikesButtonState(isLikesCountHidden: isLikesCountHidden, likeCount: likeCount)
+        changeCommentButtonState(isCommentsHidden: isCommentsHidden)
+        setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed,isLikesCountHidden: isLikesCountHidden,isCommentsHidden: isCommentsHidden)
+    }
+    
+    private func changeLikesButtonState(isLikesCountHidden: Bool,likeCount: Int) {
+        if isLikesCountHidden {
+            likesButton.titleLabel?.layer.opacity = 0.0
         } else {
-            viewAllLikes.isHidden = true
+            self.likesButton.setTitle(String( Double(likeCount).shortStringRepresentation ), for: .normal)
+            likesButton.titleLabel?.layer.opacity = 1.0
         }
-        
-        setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed)
+    }
+    
+    private func changeCommentButtonState(isCommentsHidden: Bool) {
+        if isCommentsHidden {
+            commentButton.isHidden = true
+        } else {
+            commentButton.isHidden = false
+        }
+    }
+    
+    private func setupLikes(isLikesCountHidden: Bool,likeCount: Int) {
+        if !isLikesCountHidden && likeCount > 0 {
+            self.viewAllLikes.text = "View \(Double(likeCount).shortStringRepresentation) Likes"
+        } else {
+            self.viewAllLikes.text = "View all Likes"
+        }
     }
     
     private func setupTapGestures() {
         likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
-     //   moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         
         viewAllLikes.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getAllLikedUsers)))
     }
@@ -162,7 +185,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
             self.likesButton.setTitle(
                 String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
                 for: .normal)
-            setupViewLikesCount()
+    
             delegate?.likeThePost(sender: self)
         } else {
             setLikeHeartImage(isLiked: likeFlag)
@@ -170,20 +193,10 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
                 for: .normal)
             
-            setupViewLikesCount()
             delegate?.unLikeThePost(sender: self)
         }
         
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-    }
-    
-    @objc func setupViewLikesCount() {
-        
-        if likeFlag {
-            self.viewAllLikes.text = "View \(Int((self.likesButton.titleLabel?.text!)!)! + 1) Likes"
-        } else {
-            self.viewAllLikes.text = "View \(Int((self.likesButton.titleLabel?.text!)!)! - 1) Likes"
-        }
     }
     
     private func setLikeHeartImage(isLiked: Bool) {
@@ -200,13 +213,53 @@ class PostVCHeader: UITableViewHeaderFooterView {
         delegate?.openCommentBox()
     }
     
-    func setupMoreInfoButtonActions(isDeletionAllowed: Bool) {
+    func setupMoreInfoButtonActions(isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool) {
         let deletePost = UIAction(
           title: "Delete",
           image: UIImage(systemName: "trash"),
           attributes: .destructive) { _ in
               
             self.confirmDeletion()
+        }
+        
+        var likesCountVisibility: UIAction!
+        var commentsVisibility: UIAction
+        
+        if isLikesCountHidden {
+            likesCountVisibility = UIAction(
+                title: "Unhide likes count",
+                image: UIImage(systemName: "heart")) { _ in
+                  
+                    self.delegate?.unhideLikesCount()
+                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            }
+        } else {
+            likesCountVisibility =  UIAction(
+                title: "Hide likes count",
+                image: UIImage(systemName: "heart.slash")) { _ in
+                
+                    self.delegate?.hideLikesCount()
+                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            }
+        }
+        
+        if isCommentsHidden {
+            commentsVisibility = UIAction(
+                title: "Unhide comments",
+                image: UIImage(systemName: "pencil")) { _ in
+                
+                    self.delegate?.unhideComments()
+     
+                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            }
+        } else {
+            commentsVisibility = UIAction(
+                title: "Hide comments",
+                image: UIImage(systemName: "pencil.slash")) { _ in
+                
+                    self.delegate?.hideComments()
+                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            }
         }
         
         
@@ -224,7 +277,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         let moreInfoMenu: UIMenu!
         
         if isDeletionAllowed {
-           moreInfoMenu = UIMenu(title: "", image: nil,children: [deletePost])
+           moreInfoMenu = UIMenu(title: "", image: nil,children: [likesCountVisibility,commentsVisibility,deletePost])
         } else {
             moreInfoMenu = UIMenu(title: "", image: nil,children: [unfollowUser])
         }
