@@ -51,7 +51,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         usernameTextField.layer.borderColor = UIColor.lightGray.cgColor
         usernameTextField.heightAnchor.constraint(equalToConstant: 50).isActive  = true
         usernameTextField.clearButtonMode = .whileEditing
-        usernameTextField.setImageInTextFieldOnLeft(imageName: "personIcon")
+        usernameTextField.setImageInTextFieldOnLeft(imageName: "person.circle", isSystemDefined: true)
         return usernameTextField
     }()
     
@@ -87,7 +87,6 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
         return maximumBioLength
     }()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         

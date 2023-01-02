@@ -67,6 +67,8 @@ class FeedsVC: UIViewController {
         feedsTable.dataSource = self
         feedsTable.estimatedRowHeight = 300
         feedsTable.rowHeight = UITableView.automaticDimension
+        feedsTable.showsVerticalScrollIndicator = false
+        feedsTable.showsHorizontalScrollIndicator = false
         
         feedsTable.backgroundView = noPostsLabel
         getEntireFeeds()

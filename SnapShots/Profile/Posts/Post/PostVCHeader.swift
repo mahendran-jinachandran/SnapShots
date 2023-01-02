@@ -12,9 +12,9 @@ protocol PostVCHeaderDelegate: AnyObject {
     func likeThePost(sender: PostVCHeader)
     func unLikeThePost(sender: PostVCHeader)
     func deletePost() -> Bool
-    func hasSpecialPermissions() -> Bool
     func displayAllLikesUsers()
     func openCommentBox()
+    func unfollowUser() 
 }
 
 class PostVCHeader: UITableViewHeaderFooterView {
@@ -124,7 +124,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool) {
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool) {
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
@@ -142,12 +142,14 @@ class PostVCHeader: UITableViewHeaderFooterView {
         } else {
             viewAllLikes.isHidden = true
         }
+        
+        setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed)
     }
     
     private func setupTapGestures() {
         likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
-        moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
+     //   moreInfo.addTarget(self, action: #selector(showOwnerMenu(_:)), for: .touchUpInside)
         
         viewAllLikes.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getAllLikedUsers)))
     }
@@ -198,23 +200,36 @@ class PostVCHeader: UITableViewHeaderFooterView {
         delegate?.openCommentBox()
     }
     
-    @objc private func showOwnerMenu(_ sender: UIButton) {
-
-        let moreInfo = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-
-        if delegate!.hasSpecialPermissions() {
-            let deletePost = UIAlertAction(title: "Delete", style: .default) { _ in
-                self.confirmDeletion()
-            }
-            moreInfo.addAction(deletePost)
+    func setupMoreInfoButtonActions(isDeletionAllowed: Bool) {
+        let deletePost = UIAction(
+          title: "Delete",
+          image: UIImage(systemName: "trash"),
+          attributes: .destructive) { _ in
+              
+            self.confirmDeletion()
         }
-
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-
-        moreInfo.addAction(cancel)
-
-        delegate?.controller().present(moreInfo, animated: true)
+        
+        
+        let unfollowUser = UIAction(
+          title: "Unfollow User",
+          image: UIImage(systemName: "person.badge.minus")) { _ in
+              
+              self.delegate?.unfollowUser()
+              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+              self.delegate?.controller().navigationController?.popViewController(animated: true)
+        }
+        
+        moreInfo.showsMenuAsPrimaryAction = true
+        
+        let moreInfoMenu: UIMenu!
+        
+        if isDeletionAllowed {
+           moreInfoMenu = UIMenu(title: "", image: nil,children: [deletePost])
+        } else {
+            moreInfoMenu = UIMenu(title: "", image: nil,children: [unfollowUser])
+        }
+    
+        moreInfo.menu = moreInfoMenu
     }
     
     private func confirmDeletion() {

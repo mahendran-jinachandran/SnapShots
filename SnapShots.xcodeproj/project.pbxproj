@@ -18,6 +18,7 @@
 		BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */; };
 		BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3466302934B8D8006FF9FE /* NotificationControls.swift */; };
 		BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3466342934D29D006FF9FE /* FriendsControls.swift */; };
+		BF37B8152962A6C2000291DE /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37B8142962A6C2000291DE /* DoubleExtension.swift */; };
 		BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425A2918C03100BAC4B2 /* AppDelegate.swift */; };
 		BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */; };
 		BF45425F2918C03100BAC4B2 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45425E2918C03100BAC4B2 /* LoginVC.swift */; };
@@ -139,6 +140,7 @@
 		BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAccess.swift; sourceTree = "<group>"; };
 		BF3466302934B8D8006FF9FE /* NotificationControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationControls.swift; sourceTree = "<group>"; };
 		BF3466342934D29D006FF9FE /* FriendsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsControls.swift; sourceTree = "<group>"; };
+		BF37B8142962A6C2000291DE /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		BF4542572918C03100BAC4B2 /* SnapShots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapShots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF45425A2918C03100BAC4B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF45425C2918C03100BAC4B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				BFDF706B292D1651001A736F /* UIImageExtension.swift */,
 				BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */,
 				BF15D4AF295047F50039853C /* UITabBarExtension.swift */,
+				BF37B8142962A6C2000291DE /* DoubleExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -865,6 +868,7 @@
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,
 				BFB3E4D529404E2100A266D9 /* LikesProtocols.swift in Sources */,
+				BF37B8152962A6C2000291DE /* DoubleExtension.swift in Sources */,
 				BF4542B9291A32B400BAC4B2 /* OnboardingVC.swift in Sources */,
 				BFDF7063292BA20A001A736F /* ProfileControls.swift in Sources */,
 				BFAE19D12942E9CB00D7A012 /* FeedsDetails.swift in Sources */,

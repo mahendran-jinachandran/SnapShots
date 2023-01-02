@@ -130,41 +130,6 @@ class FeedsCustomCell: UITableViewCell {
   
     }
     
-    func setupMoreInfoButtonActions(isDeletionAllowed: Bool) {
-        let deletePost = UIAction(
-          title: "Delete",
-          image: UIImage(systemName: "trash"),
-          attributes: .destructive) { _ in
-              
-            self.confirmDeletion()
-        }
-        
-        
-        let unfollowUser = UIAction(
-          title: "Unfollow User",
-          image: UIImage(systemName: "person.badge.minus")) { _ in
-              
-            // MARK: UNFOLLOW THE USER
-              print("Unfollowed")
-              self.delegate?.unfollowUser(sender: self)
-              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-        }
-        
-
-        
-        moreInfo.showsMenuAsPrimaryAction = true
-        
-        let moreInfoMenu: UIMenu!
-        
-        if isDeletionAllowed {
-           moreInfoMenu = UIMenu(title: "", image: nil,children: [deletePost])
-        } else {
-            moreInfoMenu = UIMenu(title: "", image: nil,children: [unfollowUser])
-        }
-    
-        moreInfo.menu = moreInfoMenu
-    }
-    
     func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,postCaption: String,isAlreadyLiked: Bool,likedUsersCount: Int,commentedUsersCount: Int,postCreatedTime: String,isDeletionAllowed: Bool) {
         
         self.profilePhoto.image = profilePhoto
@@ -234,6 +199,38 @@ class FeedsCustomCell: UITableViewCell {
         delegate?.goToProfile(sender: self)
     }
     
+    func setupMoreInfoButtonActions(isDeletionAllowed: Bool) {
+        let deletePost = UIAction(
+          title: "Delete",
+          image: UIImage(systemName: "trash"),
+          attributes: .destructive) { _ in
+              
+            self.confirmDeletion()
+        }
+        
+        
+        let unfollowUser = UIAction(
+          title: "Unfollow User",
+          image: UIImage(systemName: "person.badge.minus")) { _ in
+              
+              self.delegate?.unfollowUser(sender: self)
+              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+              self.delegate?.controller().navigationController?.popViewController(animated: true)
+        }
+        
+        moreInfo.showsMenuAsPrimaryAction = true
+        
+        let moreInfoMenu: UIMenu!
+        
+        if isDeletionAllowed {
+           moreInfoMenu = UIMenu(title: "", image: nil,children: [deletePost])
+        } else {
+            moreInfoMenu = UIMenu(title: "", image: nil,children: [unfollowUser])
+        }
+    
+        moreInfo.menu = moreInfoMenu
+    }
+    
     private func confirmDeletion() {
         let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
         
@@ -288,12 +285,12 @@ class FeedsCustomCell: UITableViewCell {
             post.heightAnchor.constraint(equalToConstant: 350),
             
             likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: -15),
-            likesButton.widthAnchor.constraint(equalToConstant: 100),
+            likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: -24),
+            likesButton.widthAnchor.constraint(equalToConstant: 150),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
-            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor),
+            commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: -24),
             commentButton.widthAnchor.constraint(equalToConstant: 100),
             commentButton.heightAnchor.constraint(equalToConstant: 30),
             
@@ -310,31 +307,5 @@ class FeedsCustomCell: UITableViewCell {
 }
 
 
-extension Double {
-    var shortStringRepresentation: String {
-        if self.isNaN {
-            return "NaN"
-        }
-        if self.isInfinite {
-            return "\(self < 0.0 ? "-" : "+")Infinity"
-        }
-        
-        if self == 0 {
-            return "0"
-        }
-        
-        let units = ["", "k", "M"]
-        var interval = self
-        var i = 0
-        while i < units.count - 1 {
-            if abs(interval) < 1000.0 {
-                break
-            }
-            i += 1
-            interval /= 1000.0
-        }
 
-        return "\(String(format: "%0.*g", Int(log10(abs(interval))) + 2, interval))\(units[i])"
-    }
-}
 

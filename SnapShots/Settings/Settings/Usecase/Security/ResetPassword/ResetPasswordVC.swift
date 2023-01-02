@@ -38,10 +38,13 @@ class ResetPasswordVC: UIViewController,UITextFieldDelegate {
         
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
-        let toggleButton = UIButton(configuration: configButton)
+
+        let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        
+        toggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
+        toggleButton.tintColor = UIColor(named: "appTheme")
+        
         toggleButton.addTarget(self, action: #selector(currentPasswordVisibility), for: .touchUpInside)
         return toggleButton
     }()
@@ -75,10 +78,13 @@ class ResetPasswordVC: UIViewController,UITextFieldDelegate {
         
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
-        let toggleButton = UIButton(configuration: configButton)
+
+        let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        
+        toggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
+        toggleButton.tintColor = UIColor(named: "appTheme")
+        
         toggleButton.addTarget(self, action: #selector(newPasswordVisibility), for: .touchUpInside)
         return toggleButton
     }()
@@ -102,10 +108,13 @@ class ResetPasswordVC: UIViewController,UITextFieldDelegate {
         
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
-        let toggleButton = UIButton(configuration: configButton)
+
+        let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        
+        toggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
+        toggleButton.tintColor = UIColor(named: "appTheme")
+        
         toggleButton.addTarget(self, action: #selector(againNewPasswordVisibility), for: .touchUpInside)
         return toggleButton
     }()

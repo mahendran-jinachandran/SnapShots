@@ -20,4 +20,5 @@ protocol PostControlsProtocol {
     func getAllComments(postUserID: Int,postID: Int) -> Int
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails]
     func addComment(postUserID: Int,postID: Int,comment: String) -> Bool
+    func removeFriend(profileRequestedUser: Int) -> Bool
 }

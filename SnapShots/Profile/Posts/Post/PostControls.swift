@@ -10,8 +10,8 @@ import UIKit
 class PostControls: PostControlsProtocol {
     
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
-    private lazy var friendsDaoImplementation: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
-    private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImplementation)
+    private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
+    private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
@@ -72,5 +72,11 @@ class PostControls: PostControlsProtocol {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return commentsDaoImp.addCommentToThePost(visitingUserID: postUserID, postID: postID, comment: comment, loggedUserID: loggedUserID)
+    }
+    
+    func removeFriend(profileRequestedUser: Int) -> Bool {
+        
+        let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return friendsDaoImp.removeFriend(loggedUserID: userID, removingUserID: profileRequestedUser)
     }
 }

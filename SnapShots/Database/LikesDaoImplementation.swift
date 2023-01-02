@@ -41,9 +41,7 @@ class LikesDaoImplementation: LikesDao {
         VALUES (\(visitingUserID),\(postID),\(loggedUserID),'\(AppUtility.getCurrentTime())');
         """
     
-        let isLiked = sqliteDatabase.execute(query: insertIntoDB)
-        print(isLiked)
-        return isLiked
+        return sqliteDatabase.execute(query: insertIntoDB)
     }
     
     func removeLikeFromThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {

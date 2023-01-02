@@ -64,7 +64,7 @@ class MailVC: UIViewController {
         email.layer.borderWidth = 2
         email.layer.borderColor = UIColor.gray.cgColor
         email.clearButtonMode = .whileEditing
-        email.setImageInTextFieldOnLeft(imageName: "mail.png")
+        email.setImageInTextFieldOnLeft(imageName: "envelope", isSystemDefined: true)
         email.translatesAutoresizingMaskIntoConstraints = false
         return email
     }()

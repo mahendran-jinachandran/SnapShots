@@ -73,21 +73,27 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setNavigationItems()
+        setupPostTable()
+        setupTapGestures()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+    }
+    
+    private func setNavigationItems() {
         view.backgroundColor = .systemBackground
         postTable.backgroundColor = .systemBackground
         view.keyboardLayoutGuide.followsUndockedKeyboard = true
         navigationItem.titleView = snapShotsLogo
-        setupPostTable()
-        getComments()
-        setupPostTableConstraints()
-
+        
         addCommentTextField.delegate = self
-        postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
-
-        snapShotsLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop)))
-
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
     }
+    
+    func setupTapGestures() {
+        postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
+        snapShotsLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scrollToScreenTop)))
+    }
+    
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -105,6 +111,9 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
         postTable.delegate = self
         postTable.dataSource = self
+        
+        setupPostTableConstraints()
+        getComments()
     }
 
     private func getComments() {
@@ -116,6 +125,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostVCHeader.identifier) as! PostVCHeader
 
         headerView.delegate = self
+        
         headerView.configure(
             profilePhoto: postControls.getUserDP(userID: userID),
             username: postControls.getUsername(userID: userID),
@@ -124,7 +134,10 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
             likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
             commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
-            isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID))
+            isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID),
+            isDeletionAllowed: postControls.isDeletionAllowed(userID: userID)
+        )
+        
         return headerView
     }
 
@@ -232,10 +245,6 @@ extension PostVC: PostVCHeaderDelegate {
         return postControls.deletePost(postID: postDetails.postID)
     }
 
-    func hasSpecialPermissions() -> Bool {
-        return postControls.isDeletionAllowed(userID: userID)
-    }
-
     func displayAllLikesUsers() {
 
         let likesControls = LikesControls()
@@ -246,6 +255,14 @@ extension PostVC: PostVCHeaderDelegate {
 
     func openCommentBox() {
         addCommentTextField.becomeFirstResponder()
+    }
+    
+    func unfollowUser() {
+        
+        if !postControls.removeFriend(profileRequestedUser: userID) {
+            showToast(message: Constants.toastFailureStatus)
+        }
+        
     }
 }
 
