@@ -389,8 +389,12 @@ extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,U
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
         if let selectedImage = info[.originalImage] as? UIImage {
+            
             let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-            selectedImage.saveImage(imageName: "\(Constants.dpSavingFormat)\(userID)", image: selectedImage)
+            
+            selectedImage.saveImage(imageName: AppUtility.getProfilePhotoSavingFormat(userID: userID),
+                image: selectedImage)
+            
             delegate?.uploadPhoto(image: selectedImage)
             NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)

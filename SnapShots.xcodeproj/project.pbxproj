@@ -126,6 +126,7 @@
 		BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */; };
 		BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7073292F28B6001A736F /* FeedsControls.swift */; };
 		BFDF7079292F375D001A736F /* PostControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF7078292F375D001A736F /* PostControls.swift */; };
+		BFE88C312963F6B700CB3CDA /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE88C302963F6B700CB3CDA /* UIButtonExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -248,6 +249,7 @@
 		BFDF7071292E46BA001A736F /* FeedsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsCustomCell.swift; sourceTree = "<group>"; };
 		BFDF7073292F28B6001A736F /* FeedsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsControls.swift; sourceTree = "<group>"; };
 		BFDF7078292F375D001A736F /* PostControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostControls.swift; sourceTree = "<group>"; };
+		BFE88C302963F6B700CB3CDA /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -392,6 +394,7 @@
 				BFC9BAB329384C0F00EE1D42 /* UITapGestureExtensions.swift */,
 				BF15D4AF295047F50039853C /* UITabBarExtension.swift */,
 				BF37B8142962A6C2000291DE /* DoubleExtension.swift */,
+				BFE88C302963F6B700CB3CDA /* UIButtonExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -786,6 +789,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */,
+				BFE88C312963F6B700CB3CDA /* UIButtonExtension.swift in Sources */,
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
 				BFDD55D829373FDE00DC8D68 /* OTPScreenVC.swift in Sources */,
 				BFDF705A292B4237001A736F /* PersonalInformationVC.swift in Sources */,

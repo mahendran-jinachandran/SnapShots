@@ -122,6 +122,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     @objc private func addGender() {
         genderTextField.text =  Constants.genders[pickerView.selectedRow(inComponent: 0)]
         genderTextField.resignFirstResponder()
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
     }
     
     private func setupTapGestures() {
@@ -129,12 +130,14 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
         view.addGestureRecognizer(screenTap)
         
         nextButton.addTarget(self, action: #selector(updateGender), for: .touchUpInside)
-        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
+        pickerButton.addTarget(self, action: #selector(openGenderPickerView), for: .touchUpInside)
     }
     
-    @objc private func openKeyboard() {
+    @objc private func openGenderPickerView() {
          genderTextField.becomeFirstResponder()
+         pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
      }
+
     
     private func setupNotficationCenter() {
         
@@ -144,6 +147,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
     }
     
     @objc private func updateGender() {

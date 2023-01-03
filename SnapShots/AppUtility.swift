@@ -131,12 +131,12 @@ class AppUtility {
     
     static func getDate(date: String) -> String {
         let dateFormatter = DateFormatter()
-        let tempLocale = dateFormatter.locale // save locale temporarily
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        let tempLocale = dateFormatter.locale
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS"
         let date = dateFormatter.date(from: date)!
         dateFormatter.dateFormat = "E dd MMM yyyy h:mm a"
-        dateFormatter.locale = tempLocale // reset the locale
+        dateFormatter.locale = tempLocale
         let dateString = dateFormatter.string(from: date)
 
         return dateString

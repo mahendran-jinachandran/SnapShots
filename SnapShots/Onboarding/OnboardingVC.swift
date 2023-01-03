@@ -28,7 +28,6 @@ class OnboardingVC: UIViewController {
         welcomeLabel.textColor = UIColor(named: "appTheme")
         welcomeLabel.textAlignment = .center
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
-        welcomeLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
        return welcomeLabel
     }()
     

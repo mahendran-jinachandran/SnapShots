@@ -99,6 +99,7 @@ class DataOfBirthVC: UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
     }
     
     private func setupNotificationCenter() {
@@ -113,11 +114,12 @@ class DataOfBirthVC: UIViewController {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
-        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
+        pickerButton.addTarget(self, action: #selector(openBirthdayPickerView), for: .touchUpInside)
     }
     
-   @objc private func openKeyboard() {
+   @objc private func openBirthdayPickerView() {
         dateOfBirthTextField.becomeFirstResponder()
+       pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
     }
     
     @objc private func updateBirthday(_ sender: UITapGestureRecognizer) {
@@ -159,6 +161,7 @@ class DataOfBirthVC: UIViewController {
         
         dateOfBirthTextField.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
     }
     
     private func setConstraints() {

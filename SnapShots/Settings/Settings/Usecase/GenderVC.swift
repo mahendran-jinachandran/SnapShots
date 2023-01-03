@@ -116,6 +116,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     @objc private func addGender() {
         genderTextField.text = Constants.genders[pickerView.selectedRow(inComponent: 0)]
         genderTextField.resignFirstResponder()
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
     }
     
     private func setupTapGestures() {
@@ -125,12 +126,13 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(screenTap)
         
-        pickerButton.addTarget(self, action: #selector(openKeyboard), for: .touchUpInside)
+        pickerButton.addTarget(self, action: #selector(openGenderPickerView), for: .touchUpInside)
     }
     
     
-   @objc private func openKeyboard() {
+   @objc private func openGenderPickerView() {
         genderTextField.becomeFirstResponder()
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
     }
     
     private func setupNotificationCenter() {
@@ -140,6 +142,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
     }
     
     @objc private func updateGender(_ sender: UITapGestureRecognizer) {
