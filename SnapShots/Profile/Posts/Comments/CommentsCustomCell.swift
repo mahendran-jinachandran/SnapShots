@@ -64,9 +64,7 @@ class CommentsCustomCell: UITableViewCell {
             let holdToDelete = UILongPressGestureRecognizer(target: self, action: #selector(longPressDelete(_:)))
             holdToDelete.minimumPressDuration = 1.00
             self.addGestureRecognizer(holdToDelete)
-        } else {
-            print("no special")
-        }
+        } 
     }
     
     @objc private func longPressDelete(_ sender: UILongPressGestureRecognizer) {

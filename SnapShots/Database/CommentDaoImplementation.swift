@@ -45,8 +45,6 @@ class CommentDaoImplementation: CommentDao {
         var commentsData: [(commentID: Int,comment: String,commentedUserID: Int,commentedTime: String)] = []
         for (_,commentDetails) in sqliteDatabase.retrievingQuery(query: getCommentsQuery) {
             
-            print(commentDetails)
-            
             commentsData.append(
                 (
                     Int(commentDetails[0])!,

@@ -51,7 +51,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     private lazy var pickerButton: UIButton = {
         var configButton = UIButton.Configuration.borderless()
-        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5)
+        configButton.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
         
         let toggleButton = UIButton(configuration: configButton)
         toggleButton.setImage( UIImage(systemName: "chevron.down"), for: .normal)
