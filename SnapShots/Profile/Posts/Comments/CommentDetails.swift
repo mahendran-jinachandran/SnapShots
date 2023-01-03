@@ -8,6 +8,7 @@
 import Foundation
 
 struct CommentDetails {
+    var commentID: Int
     var username: String
     var comment: String
     var commentUserID: Int

@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol CommentsCustomCellDelegate: AnyObject {
+    func controller() -> CommentsVC
+    func deleteComment(sender: CommentsCustomCell)
+}
+
+
 class CommentsCustomCell: UITableViewCell {
 
-  static let identifier = "CommentsCustomCell"
+    static let identifier = "CommentsCustomCell"
+    weak var delegate: CommentsCustomCellDelegate?
     
     private lazy var profilePhoto: UIImageView = {
        let profileImage = UIImageView(frame: .zero)
@@ -48,10 +55,36 @@ class CommentsCustomCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(userDP: UIImage,username: String,comment: String) {
+    func configure(userDP: UIImage,username: String,comment: String,hasSpecialPermission: Bool) {
         self.profilePhoto.image = userDP
         self.userNameLabel.text = username
         self.comment.text = comment
+        
+        if hasSpecialPermission {
+            let holdToDelete = UILongPressGestureRecognizer(target: self, action: #selector(longPressDelete(_:)))
+            holdToDelete.minimumPressDuration = 1.00
+            self.addGestureRecognizer(holdToDelete)
+        } else {
+            print("no special")
+        }
+    }
+    
+    @objc private func longPressDelete(_ sender: UILongPressGestureRecognizer) {
+        
+        contentView.backgroundColor = .lightGray
+        
+        let deleteCommentAlert = UIAlertController(title: "Delete Comment?", message: nil, preferredStyle: .alert)
+        
+        deleteCommentAlert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.delegate?.deleteComment(sender: self)
+            self.contentView.backgroundColor = .systemBackground
+        })
+        
+        deleteCommentAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            self.contentView.backgroundColor = .systemBackground
+        })
+        
+        self.delegate?.controller().present(deleteCommentAlert, animated: true)
     }
     
     func setupContraints() {

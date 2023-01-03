@@ -169,16 +169,21 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
         
+        cell.delegate = self
+        
         let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
+        
         cell.configure(
             userDP: profilePicture,
             username: commentDetails[indexPath.row].username,
-            comment: commentDetails[indexPath.row].comment)
+            comment: commentDetails[indexPath.row].comment,
+            hasSpecialPermission: commentsControls.hasSpecialPermissions(postUserID: postUserID)
+        )
         
+ 
         return cell
     }
-    
-    
+
     @objc func addComment() {
 
         if !commentsControls.addComment(postUserID: postUserID, postID: postID, comment: addCommentTextField.text!) {
@@ -203,5 +208,25 @@ extension CommentsVC : UITextFieldDelegate {
             postComment.alpha = 0.5
             postComment.isUserInteractionEnabled = false
         }
+    }
+}
+
+extension CommentsVC: CommentsCustomCellDelegate {
+    
+    func controller() -> CommentsVC {
+        return self
+    }
+    
+    func deleteComment(sender: CommentsCustomCell) {
+        
+        let indexPath = commentsTable.indexPath(for: sender)!
+        let commentID = commentDetails[indexPath.row].commentID
+        
+
+        commentsControls.deleteComment(userID: postUserID, postID: postID, commentID: commentID)
+                commentDetails.remove(at: indexPath.row)
+                commentsTable.reloadData()
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    
     }
 }

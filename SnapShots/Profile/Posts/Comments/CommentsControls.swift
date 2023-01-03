@@ -21,4 +21,13 @@ class CommentsControls: CommentsControlsProtocol {
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails] {
         return commentsDaoImp.getAllCommmentsOfPost(postUserID: postUserID, postID: postID)
     }
+    
+    func deleteComment(userID: Int,postID: Int,commentID: Int) {
+       _ = commentsDaoImp.deleteCommentFromThePost(userID: userID, postID: postID, commentID: commentID)
+    }
+    
+    func hasSpecialPermissions(postUserID: Int) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return loggedUserID == postUserID
+    }
 }

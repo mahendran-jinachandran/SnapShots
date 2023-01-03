@@ -131,6 +131,7 @@ class SQLiteDatabase: DatabaseProtocol {
 
         let createCommentsTable = """
         CREATE TABLE IF NOT EXISTS Comments (
+                CommentID Int,
                 User_id INT,
                 Post_id INT,
                 Comment CHAR(255),

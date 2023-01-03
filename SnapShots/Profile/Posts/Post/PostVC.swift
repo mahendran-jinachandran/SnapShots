@@ -167,7 +167,8 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         cell.configure(
             userDP: profilePicture,
             username: commentDetails[indexPath.row].username,
-            comment: commentDetails[indexPath.row].comment)
+            comment: commentDetails[indexPath.row].comment,
+            hasSpecialPermission: false)
 
         return cell
     }
