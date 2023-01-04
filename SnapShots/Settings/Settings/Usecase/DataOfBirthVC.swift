@@ -115,12 +115,22 @@ class DataOfBirthVC: UIViewController {
         view.addGestureRecognizer(screenTap)
         
         pickerButton.addTarget(self, action: #selector(openBirthdayPickerView), for: .touchUpInside)
+        dateOfBirthTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openBirthdayPickerView)))
     }
     
-   @objc private func openBirthdayPickerView() {
-        dateOfBirthTextField.becomeFirstResponder()
-       pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
-    }
+    var isOpened: Bool = false
+    @objc private func openBirthdayPickerView() {
+        
+        isOpened = !isOpened
+        
+        if isOpened {
+            dateOfBirthTextField.becomeFirstResponder()
+            pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
+        } else {
+            dateOfBirthTextField.resignFirstResponder()
+            pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
+        }
+     }
     
     @objc private func updateBirthday(_ sender: UITapGestureRecognizer) {
         

@@ -107,11 +107,21 @@ class OnboardingBirthdayVC: UIViewController {
         
         nextButton.addTarget(self, action: #selector(updateBirthday), for: .touchUpInside)
         pickerButton.addTarget(self, action: #selector(openBirthdayPickerView), for: .touchUpInside)
+        dateOfBirth.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openBirthdayPickerView)))
     }
     
+    var isOpened: Bool = false
     @objc private func openBirthdayPickerView() {
-        dateOfBirth.becomeFirstResponder()
-        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
+        
+        isOpened = !isOpened
+        
+        if isOpened {
+            dateOfBirth.becomeFirstResponder()
+            pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
+        } else {
+            dateOfBirth.resignFirstResponder()
+            pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
+        }
      }
     
     private func setupNotficationCenter() {

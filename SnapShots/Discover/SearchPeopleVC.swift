@@ -133,6 +133,8 @@ extension SearchPeopleVC: UITableViewDelegate,UITableViewDataSource {
 }
 
 extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
+    
+ 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
         if searchText.isEmpty {
@@ -153,10 +155,10 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         searchTable.reloadData()
     }
     
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         dupPeople = people
+        searchTable.backgroundView?.alpha = 0.0
         searchTable.reloadData()
     }
 }

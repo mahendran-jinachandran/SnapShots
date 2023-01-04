@@ -127,12 +127,21 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
         view.addGestureRecognizer(screenTap)
         
         pickerButton.addTarget(self, action: #selector(openGenderPickerView), for: .touchUpInside)
+        genderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openGenderPickerView)))
     }
     
-    
+   var isOpened: Bool = false
    @objc private func openGenderPickerView() {
-        genderTextField.becomeFirstResponder()
-        pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
+       
+       isOpened = !isOpened
+       
+       if isOpened {
+           genderTextField.becomeFirstResponder()
+           pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: false)
+       } else {
+           genderTextField.resignFirstResponder()
+           pickerButton.updateExpandAndCollapseStateAnimation(isExpanded: true)
+       }
     }
     
     private func setupNotificationCenter() {

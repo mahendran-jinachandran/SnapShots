@@ -60,6 +60,7 @@ class PersonalInformationVC: UIViewController {
         emailLabel.text = "Email"
         emailLabel.textColor = UIColor(named: "appTheme")
         emailLabel.font = UIFont.systemFont(ofSize: 18)
+        emailLabel.alpha = 0.75
         return emailLabel
     }()
     
@@ -78,6 +79,7 @@ class PersonalInformationVC: UIViewController {
         phoneLabel.text = "Phone"
         phoneLabel.textColor = UIColor(named: "appTheme")
         phoneLabel.font = UIFont.systemFont(ofSize: 18)
+        phoneLabel.alpha = 0.75
         return phoneLabel
     }()
     
@@ -96,6 +98,7 @@ class PersonalInformationVC: UIViewController {
         genderLabel.text = "Gender"
         genderLabel.textColor = UIColor(named: "appTheme")
         genderLabel.font = UIFont.systemFont(ofSize: 18)
+        genderLabel.alpha = 0.75
         return genderLabel
     }()
     
@@ -114,6 +117,7 @@ class PersonalInformationVC: UIViewController {
         dateOfBirthLabel.text = "Date of Birth"
         dateOfBirthLabel.textColor = UIColor(named: "appTheme")
         dateOfBirthLabel.font = UIFont.systemFont(ofSize: 18)
+        dateOfBirthLabel.alpha = 0.75
         return dateOfBirthLabel
     }()
     

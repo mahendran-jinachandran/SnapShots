@@ -12,6 +12,10 @@ class CustomTextField: UITextField {
         super.canPerformAction(action, withSender: sender)
         return false
     }
+    
+    override func caretRect(for position: UITextPosition) -> CGRect {
+        return CGRectZero
+    }
 }
 
 class CustomButton : UIButton
