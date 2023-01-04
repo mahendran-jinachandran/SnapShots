@@ -115,6 +115,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
             requestContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                       constant: -8),
             requestContainer.heightAnchor.constraint(equalToConstant: 160),
+       //     requestContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             profilePhoto.topAnchor.constraint(equalTo: requestContainer.topAnchor,constant: 8),
             profilePhoto.centerXAnchor.constraint(equalTo: requestContainer.centerXAnchor),

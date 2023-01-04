@@ -12,6 +12,13 @@ class SearchControls: SearchControlsProtocol {
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
     
     func getAllUsers() -> [User] {
-        return userDaoImp.getAllUsers()
+        
+        var users = userDaoImp.getAllUsers()
+        
+        users = users.sorted(by: {
+            $0.userName.compare($1.userName) == .orderedAscending
+        })
+        
+        return users
     }
 }

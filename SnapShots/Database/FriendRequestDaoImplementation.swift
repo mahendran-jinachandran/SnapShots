@@ -51,7 +51,9 @@ class FriendRequestDaoImplementation: FriendRequestDao {
         VALUES (\(loggedUserID),\(friendRequestedUser));
         """
         
-        return removeFriendRequest(removingUserID: loggedUserID, profileUserID: friendRequestedUser) && sqliteDatabase.execute(query: acceptFriendRequestForAcceptingUserQuery) && sqliteDatabase.execute(query: acceptFriendRequestForRequestedUserQuery)
+        return removeFriendRequest(removingUserID: loggedUserID, profileUserID: friendRequestedUser) &&
+        removeFriendRequest(removingUserID: friendRequestedUser, profileUserID: loggedUserID) &&
+        sqliteDatabase.execute(query: acceptFriendRequestForAcceptingUserQuery) && sqliteDatabase.execute(query: acceptFriendRequestForRequestedUserQuery)
     }
     
     func removeFriendRequest(removingUserID: Int,profileUserID: Int) -> Bool {

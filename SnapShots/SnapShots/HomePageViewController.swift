@@ -43,11 +43,11 @@ class HomePageViewController: UITabBarController {
         feedsVC.setController(feedsControls)
         
         viewControllers = [
-            createNavigationController(rootViewController: feedsVC, title: "Feeds", icon: UIImage(systemName: "newspaper")!),
-            createNavigationController(rootViewController: searchVC, title: "Search", icon: UIImage(systemName: "magnifyingglass")!),
+            createNavigationController(rootViewController: feedsVC, title: "Feeds", icon: UIImage(systemName: "newspaper")!,selectedIcon: UIImage(systemName: "newspaper.fill")!),
+            createNavigationController(rootViewController: searchVC, title: "Search", icon: UIImage(systemName: "magnifyingglass")!,selectedIcon: UIImage(systemName: "magnifyingglass.circle.fill")!),
             
-            createNavigationController(rootViewController: notificationVC, title: "Friends", icon: UIImage(systemName: "globe")!),
-            createNavigationController(rootViewController: profileVC, title: "Profile", icon: UIImage(systemName: "person")!),
+            createNavigationController(rootViewController: notificationVC, title: "Friends", icon: UIImage(systemName: "globe")!,selectedIcon: UIImage(systemName: "globe.asia.australia.fill")!),
+            createNavigationController(rootViewController: profileVC, title: "Profile", icon: UIImage(systemName: "person")!,selectedIcon: UIImage(systemName: "person.fill")!),
         
         ]
         
@@ -61,11 +61,10 @@ class HomePageViewController: UITabBarController {
     }
     
     fileprivate func createNavigationController(rootViewController: UIViewController,title: String,
-                                                icon: UIImage) -> UIViewController {
+                                                icon: UIImage,selectedIcon: UIImage) -> UIViewController {
          
         let navigationController = UINavigationController(rootViewController: rootViewController)
-        navigationController.tabBarItem.title = title
-        navigationController.tabBarItem.image = icon
+        navigationController.tabBarItem = UITabBarItem(title: title, image: icon, selectedImage: selectedIcon)
         return navigationController
         
     }
