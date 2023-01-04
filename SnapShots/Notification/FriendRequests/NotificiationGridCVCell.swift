@@ -16,6 +16,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
     
     static let identifier = "NotificiationGridCVCell"
     weak var notificationGridVCCellDelegate: NotificiationGridCVCellDelegate?
+    private var buttonStack: UIStackView!
     
     private lazy var requestContainer: UIView = {
         let requestContainer = UIView()
@@ -49,9 +50,9 @@ class NotificiationGridCVCell: UICollectionViewCell {
     public lazy var acceptRequest: CustomButton = {
         let acceptRequest = CustomButton(selectColour: .systemBlue, deselectColour: .systemBlue)
         acceptRequest.translatesAutoresizingMaskIntoConstraints = false
-        acceptRequest.setTitle("Accept", for: .normal)
         acceptRequest.clipsToBounds = true
         acceptRequest.backgroundColor = .systemBlue
+        acceptRequest.setTitle("Accept", for: .normal)
         acceptRequest.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         acceptRequest.setTitleColor(UIColor(named: "appTheme"), for: .normal)
         return acceptRequest
@@ -70,6 +71,12 @@ class NotificiationGridCVCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        buttonStack = UIStackView(arrangedSubviews: [acceptRequest,rejectRequest])
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
+        buttonStack.axis = .horizontal
+        buttonStack.distribution = .fillEqually
+        buttonStack.spacing = 5
 
         setConstraints()
         setupTapGestures()
@@ -77,6 +84,8 @@ class NotificiationGridCVCell: UICollectionViewCell {
         profilePhoto.layer.cornerRadius = 30
         acceptRequest.layer.cornerRadius = 13
         rejectRequest.layer.cornerRadius = 13
+        
+
     }
     
     func setupTapGestures() {
@@ -105,7 +114,7 @@ class NotificiationGridCVCell: UICollectionViewCell {
         
         contentView.addSubview(requestContainer)
         
-        [profilePhoto,userNameLabel,acceptRequest,rejectRequest].forEach{
+        [profilePhoto,userNameLabel,buttonStack].forEach{
             contentView.addSubview($0)
         }
         
@@ -115,7 +124,6 @@ class NotificiationGridCVCell: UICollectionViewCell {
             requestContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                       constant: -8),
             requestContainer.heightAnchor.constraint(equalToConstant: 160),
-       //     requestContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             profilePhoto.topAnchor.constraint(equalTo: requestContainer.topAnchor,constant: 8),
             profilePhoto.centerXAnchor.constraint(equalTo: requestContainer.centerXAnchor),
@@ -127,18 +135,10 @@ class NotificiationGridCVCell: UICollectionViewCell {
             userNameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: requestContainer.leadingAnchor,constant: 4),
             userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: requestContainer.trailingAnchor,constant: -4),
             
-            acceptRequest.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 6),
-            acceptRequest.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 8),
-            acceptRequest.heightAnchor.constraint(equalToConstant: 35),
-            acceptRequest.widthAnchor.constraint(equalTo: requestContainer.widthAnchor, multiplier: 0.45),
-            acceptRequest.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor),
-            
-            rejectRequest.leadingAnchor.constraint(equalTo: acceptRequest.trailingAnchor),
-            rejectRequest.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 8),
-            rejectRequest.heightAnchor.constraint(equalToConstant: 35),
-            rejectRequest.widthAnchor.constraint(equalTo: requestContainer.widthAnchor, multiplier: 0.45),
-            rejectRequest.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor, constant: -6),
-            
+            buttonStack.leadingAnchor.constraint(equalTo: requestContainer.leadingAnchor,constant: 6),
+            buttonStack.trailingAnchor.constraint(equalTo: requestContainer.trailingAnchor,constant: -6),
+            buttonStack.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 2),
+            buttonStack.bottomAnchor.constraint(equalTo:  requestContainer.bottomAnchor,constant: -6),
         ])
     }
 }

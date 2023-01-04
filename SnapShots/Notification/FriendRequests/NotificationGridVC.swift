@@ -126,8 +126,14 @@ extension NotificationGridVC: UICollectionViewDelegateFlowLayout,UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if UIDevice.current.orientation == .portrait || UIDevice.current.orientation == .unknown {
+            return CGSize(width: (collectionView.frame.width / 2) - 1,
+                          height: ( collectionView.frame.width / 2) - 1)
+        }
+        
         return CGSize(width: (collectionView.frame.width / 2) - 1,
-                      height: ( collectionView.frame.height / 3.75) - 1)
+                      height: ( collectionView.frame.height / 2) + 50)
     }
 }
 
