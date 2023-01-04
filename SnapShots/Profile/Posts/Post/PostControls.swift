@@ -103,4 +103,13 @@ class PostControls: PostControlsProtocol {
     func getCommentsButtonVisibilityState(userID: Int,postID: Int) -> Bool {
         return postDaoImp.getCommentsButtonVisibilityState(userID: userID, postID: postID)
     }
+    
+    func hasSpecialPermissions(postUserID: Int) -> Bool {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        return loggedUserID == postUserID
+    }
+    
+    func deleteComment(userID: Int,postID: Int,commentID: Int) {
+       _ = commentsDaoImp.deleteCommentFromThePost(userID: userID, postID: postID, commentID: commentID)
+    }
 }

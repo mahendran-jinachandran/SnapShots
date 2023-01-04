@@ -27,4 +27,6 @@ protocol PostControlsProtocol {
     func hideComments(userID: Int,postID: Int)
     func unhideComments(userID: Int,postID: Int)
     func getCommentsButtonVisibilityState(userID: Int,postID: Int) -> Bool
+    func hasSpecialPermissions(postUserID: Int) -> Bool
+    func deleteComment(userID: Int,postID: Int,commentID: Int)
 }

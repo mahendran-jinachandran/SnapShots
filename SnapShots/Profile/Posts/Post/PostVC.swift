@@ -164,11 +164,13 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCustomCell.identifier, for: indexPath) as! CommentsCustomCell
 
         let profilePicture = AppUtility.getDisplayPicture(userID: commentDetails[indexPath.row].commentUserID)
+        
+        cell.delegate = self
         cell.configure(
             userDP: profilePicture,
             username: commentDetails[indexPath.row].username,
             comment: commentDetails[indexPath.row].comment,
-            hasSpecialPermission: false)
+            hasSpecialPermission: postControls.hasSpecialPermissions(postUserID: postDetails.postID))
 
         return cell
     }
@@ -306,5 +308,38 @@ extension PostVC : UITextFieldDelegate {
             postComment.alpha = 0.5
             postComment.isUserInteractionEnabled = false
         }
+    }
+}
+
+
+extension PostVC: CommentsCustomCellDelegate {
+    
+    func deleteComment(sender: CommentsCustomCell) {
+        
+        let indexPath = postTable.indexPath(for: sender)!
+        let commentID = commentDetails[indexPath.row].commentID
+        
+        postControls.deleteComment(userID: userID, postID: postDetails.postID, commentID: commentID)
+        commentDetails.remove(at: indexPath.row)
+        postTable.reloadData()
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    
+    }
+    
+    func showCommentDeletionAlert(sender: CommentsCustomCell) {
+        sender.backgroundColor = .lightGray
+        
+        let deleteCommentAlert = UIAlertController(title: "Delete Comment?", message: nil, preferredStyle: .alert)
+        
+        deleteCommentAlert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deleteComment(sender: sender)
+            sender.backgroundColor = .systemBackground
+        })
+        
+        deleteCommentAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            sender.backgroundColor = .systemBackground
+        })
+        
+        self.present(deleteCommentAlert, animated: true)
     }
 }

@@ -8,10 +8,8 @@
 import UIKit
 
 protocol CommentsCustomCellDelegate: AnyObject {
-    func controller() -> CommentsVC
-    func deleteComment(sender: CommentsCustomCell)
+    func showCommentDeletionAlert(sender: CommentsCustomCell)
 }
-
 
 class CommentsCustomCell: UITableViewCell {
 
@@ -68,21 +66,7 @@ class CommentsCustomCell: UITableViewCell {
     }
     
     @objc private func longPressDelete(_ sender: UILongPressGestureRecognizer) {
-        
-        contentView.backgroundColor = .lightGray
-        
-        let deleteCommentAlert = UIAlertController(title: "Delete Comment?", message: nil, preferredStyle: .alert)
-        
-        deleteCommentAlert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.delegate?.deleteComment(sender: self)
-            self.contentView.backgroundColor = .systemBackground
-        })
-        
-        deleteCommentAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            self.contentView.backgroundColor = .systemBackground
-        })
-        
-        self.delegate?.controller().present(deleteCommentAlert, animated: true)
+        self.delegate?.showCommentDeletionAlert(sender: self)
     }
     
     func setupContraints() {

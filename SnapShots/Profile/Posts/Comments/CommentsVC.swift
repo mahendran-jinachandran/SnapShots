@@ -212,21 +212,33 @@ extension CommentsVC : UITextFieldDelegate {
 }
 
 extension CommentsVC: CommentsCustomCellDelegate {
-    
-    func controller() -> CommentsVC {
-        return self
-    }
-    
     func deleteComment(sender: CommentsCustomCell) {
         
         let indexPath = commentsTable.indexPath(for: sender)!
         let commentID = commentDetails[indexPath.row].commentID
         
-
         commentsControls.deleteComment(userID: postUserID, postID: postID, commentID: commentID)
-                commentDetails.remove(at: indexPath.row)
-                commentsTable.reloadData()
-                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        commentDetails.remove(at: indexPath.row)
+        commentsTable.reloadData()
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     
+    }
+    
+    func showCommentDeletionAlert(sender: CommentsCustomCell) {
+        
+        sender.backgroundColor = .lightGray
+        
+        let deleteCommentAlert = UIAlertController(title: "Delete Comment?", message: nil, preferredStyle: .alert)
+        
+        deleteCommentAlert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deleteComment(sender: sender)
+            sender.backgroundColor = .systemBackground
+        })
+        
+        deleteCommentAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            sender.backgroundColor = .systemBackground
+        })
+        
+        self.present(deleteCommentAlert, animated: true)
     }
 }
