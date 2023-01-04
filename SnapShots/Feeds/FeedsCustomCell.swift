@@ -186,6 +186,7 @@ class FeedsCustomCell: UITableViewCell {
     
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
        
+        
         likeFlag = !likeFlag
         setLikeHeartImage(isLiked: likeFlag)
 

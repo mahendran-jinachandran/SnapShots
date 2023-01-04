@@ -203,7 +203,8 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postUserID = feedPosts[indexPath.row].userID
         let postID = feedPosts[indexPath.row].postDetails.postID
         
-        _ = feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID) 
+        _ = feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     func unLikeThePost(sender: FeedsCustomCell) {
@@ -213,6 +214,7 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         _ = feedsControls.removeLikeFromThePost(postUserID: postUserID, postID: postID)
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     func showLikes(sender: FeedsCustomCell) {

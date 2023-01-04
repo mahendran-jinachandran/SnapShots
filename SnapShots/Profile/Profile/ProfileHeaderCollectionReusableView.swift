@@ -361,7 +361,6 @@ extension ProfileHeaderCollectionReusableView {
             
             userNameLabel.topAnchor.constraint(equalTo: profileStack.bottomAnchor,constant: 20),
             userNameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
-            userNameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,constant: -10),
             
             bioLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor,constant: 4),
             bioLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,constant: 10),
