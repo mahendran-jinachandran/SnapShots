@@ -7,8 +7,11 @@
 
 import Foundation
 import SQLite3
+import GRDB
 
 class SQLiteDatabase: DatabaseProtocol {
+    
+    
     private var dbPointer: OpaquePointer?
     
     static var shared: SQLiteDatabase = {
@@ -235,13 +238,22 @@ class SQLiteDatabase: DatabaseProtocol {
             return data
     }
     
+    
     func publisher() {
         
+        #if GRDB_SQLITE_ENABLE_PREUPDATE_HOOK
+        var test1: UnsafeMutableRawPointer?
+        print("test1")
         
+        installUpdateHook()
         
+        sqlite3_preupdate_hook(dbPointer, { v, s, i, i1, i2, s2, s3 in
+            print("Working")
+        }, test1)
+        #endif
         
         var test: UnsafeMutableRawPointer?
-       var da = sqlite3_update_hook(
+       var returnedPointer = sqlite3_update_hook(
             dbPointer, // MARK: DATABASE POINTER
                 { pointer1, // MARK: COPY OF THE THIRD ARGUMENT "&test"
                  operationPerformed, // MARK: DENOTES WHICH OPERATION HAPPENED
@@ -284,9 +296,6 @@ class SQLiteDatabase: DatabaseProtocol {
         
           DBPublisher().publish(operation: operation, tableName: tableAffected, rowID: Int(rowID))
         }, &test)
-        
-        print(da)
-
     }
 }
 

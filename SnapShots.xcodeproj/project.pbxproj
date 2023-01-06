@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C10924A4398FBA928EC0F7F /* Pods_SnapShots.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B526BD990F3C48F539CFDBD8 /* Pods_SnapShots.framework */; };
 		BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15D4AF295047F50039853C /* UITabBarExtension.swift */; };
 		BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2560132954159500187E18 /* ResetPasswordProtocol.swift */; };
 		BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311691292F8CDF008BAA08 /* LikesVC.swift */; };
@@ -131,6 +132,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7E3D40D98F05271268402E75 /* Pods-SnapShots.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapShots.debug.xcconfig"; path = "Target Support Files/Pods-SnapShots/Pods-SnapShots.debug.xcconfig"; sourceTree = "<group>"; };
+		B526BD990F3C48F539CFDBD8 /* Pods_SnapShots.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SnapShots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF15D4AF295047F50039853C /* UITabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtension.swift; sourceTree = "<group>"; };
 		BF2560132954159500187E18 /* ResetPasswordProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordProtocol.swift; sourceTree = "<group>"; };
 		BF311691292F8CDF008BAA08 /* LikesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesVC.swift; sourceTree = "<group>"; };
@@ -252,6 +255,7 @@
 		BFDF7073292F28B6001A736F /* FeedsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsControls.swift; sourceTree = "<group>"; };
 		BFDF7078292F375D001A736F /* PostControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostControls.swift; sourceTree = "<group>"; };
 		BFE88C302963F6B700CB3CDA /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
+		C761470C23C4A0D35C8C3240 /* Pods-SnapShots.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapShots.release.xcconfig"; path = "Target Support Files/Pods-SnapShots/Pods-SnapShots.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,12 +265,23 @@
 			files = (
 				BF45429F2918EC5600BAC4B2 /* Lottie in Frameworks */,
 				BFDD55D229372CF600DC8D68 /* FirebaseAuth in Frameworks */,
+				9C10924A4398FBA928EC0F7F /* Pods_SnapShots.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19708F969853EFE934A8FEDA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7E3D40D98F05271268402E75 /* Pods-SnapShots.debug.xcconfig */,
+				C761470C23C4A0D35C8C3240 /* Pods-SnapShots.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BF256015295415BD00187E18 /* ResetPassword */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +353,8 @@
 			children = (
 				BF4542592918C03100BAC4B2 /* SnapShots */,
 				BF4542582918C03100BAC4B2 /* Products */,
+				19708F969853EFE934A8FEDA /* Pods */,
+				F1D6E3447ADF0C4059A79601 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -707,6 +724,14 @@
 			path = Post;
 			sourceTree = "<group>";
 		};
+		F1D6E3447ADF0C4059A79601 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B526BD990F3C48F539CFDBD8 /* Pods_SnapShots.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -714,9 +739,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BF45426B2918C03200BAC4B2 /* Build configuration list for PBXNativeTarget "SnapShots" */;
 			buildPhases = (
+				D8C2261F3CB0EB72B3B85DB5 /* [CP] Check Pods Manifest.lock */,
 				BF4542532918C03100BAC4B2 /* Sources */,
 				BF4542542918C03100BAC4B2 /* Frameworks */,
 				BF4542552918C03100BAC4B2 /* Resources */,
+				F6B7BB55ED168A3B540C2C4B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -756,7 +783,7 @@
 			);
 			mainGroup = BF45424E2918C03100BAC4B2;
 			packageReferences = (
-				BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
 				BFDD55D029372CF600DC8D68 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = BF4542582918C03100BAC4B2 /* Products */;
@@ -785,6 +812,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D8C2261F3CB0EB72B3B85DB5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SnapShots-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6B7BB55ED168A3B540C2C4B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SnapShots/Pods-SnapShots-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SnapShots/Pods-SnapShots-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SnapShots/Pods-SnapShots-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BF4542532918C03100BAC4B2 /* Sources */ = {
@@ -1043,6 +1112,7 @@
 		};
 		BF45426C2918C03200BAC4B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E3D40D98F05271268402E75 /* Pods-SnapShots.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1073,6 +1143,7 @@
 		};
 		BF45426D2918C03200BAC4B2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C761470C23C4A0D35C8C3240 /* Pods-SnapShots.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1125,7 +1196,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -1146,7 +1217,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		BF45429E2918EC5600BAC4B2 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
 			productName = Lottie;
 		};
 		BFDD55D129372CF600DC8D68 /* FirebaseAuth */ = {
