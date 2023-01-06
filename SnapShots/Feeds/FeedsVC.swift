@@ -106,8 +106,21 @@ class FeedsVC: UIViewController {
     }
     
     private func setupNotificationSubscription() {
-        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(addPost(_:)), name: Constants.insertPostEvent, object: nil)
+        
+    }
+    
+    
+   @objc private func addPost(_ notification: NSNotification) {
+        
+       if let data = notification.userInfo?[1] as? [String] {
+           
+           feedPosts.insert(feedsControls.getPostDetails(data: data), at: 0)
+           feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+       }
     }
     
     @objc private func getEntireFeeds() {
@@ -148,6 +161,8 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print(indexPath)
         
         let postPhoto = AppUtility.getPostPicture(
             userID: feedPosts[indexPath.row].userID,

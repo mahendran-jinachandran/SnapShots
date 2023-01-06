@@ -52,7 +52,6 @@ class LikesDaoImplementation: LikesDao {
         AND \(LIKEDUSER_ID) = \(loggedUserID)
         """
         
-        
         return sqliteDatabase.execute(query: removeFromDB)
     }
     
@@ -82,5 +81,17 @@ class LikesDaoImplementation: LikesDao {
         }
         
         return likedUsers
+    }
+    
+    func getDetails(rowID: Int) {
+        
+        var getRowQuery = """
+        SELECT * FROM \(TABLE_NAME)
+        WHERE rowid = \(rowID);
+        """
+        
+        print(sqliteDatabase.retrievingQuery(query: getRowQuery))
+        
+        
     }
 }

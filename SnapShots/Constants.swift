@@ -49,4 +49,9 @@ struct Constants {
     static let EMPTY = "Yet to fill"
     
     static let genders = [Constants.MALE,Constants.FEMALE,Constants.PREFER_NOT_SAY]
+    
+    
+    
+    // REACTIVITY
+    static let insertPostEvent = Notification.Name("Insert_Post")
 }

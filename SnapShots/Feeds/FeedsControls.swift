@@ -70,4 +70,19 @@ class FeedsControls {
         let userID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return friendsDaoImp.removeFriend(loggedUserID: userID, removingUserID: profileRequestedUser)
     }
+    
+    func getPostDetails(data: [String]) -> FeedsDetails {
+        
+       return FeedsDetails(
+            userID: Int(data[3])!,
+            userName: userDaoImp.getUsername(userID: Int(data[3])!),
+            postDetails: Post(
+                postID:Int(data[0])!,
+                photo: data[1],
+                caption: data[2],
+                postCreatedDate: data[4],
+                isLikesHidden: data[5] == "0" ? false : true,
+                isCommentsHidden: data[6] == "0" ? false : true)
+        )
+    }
 }

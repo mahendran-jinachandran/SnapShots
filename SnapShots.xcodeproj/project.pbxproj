@@ -62,6 +62,7 @@
 		BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F42935FA4C0051FC8D /* OnboardingBirthdayVC.swift */; };
 		BF5A13F72935FA7C0051FC8D /* OnboardingBioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F62935FA7C0051FC8D /* OnboardingBioVC.swift */; };
 		BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */; };
+		BF6A41A32965C34C006B75C1 /* DBPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6A41A22965C34C006B75C1 /* DBPublisher.swift */; };
 		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
 		BF816BA42929D3E90097421D /* SecurityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityVC.swift */; };
 		BF816BA62929D3F30097421D /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountVC.swift */; };
@@ -186,6 +187,7 @@
 		BF5A13F42935FA4C0051FC8D /* OnboardingBirthdayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthdayVC.swift; sourceTree = "<group>"; };
 		BF5A13F62935FA7C0051FC8D /* OnboardingBioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBioVC.swift; sourceTree = "<group>"; };
 		BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingControls.swift; sourceTree = "<group>"; };
+		BF6A41A22965C34C006B75C1 /* DBPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPublisher.swift; sourceTree = "<group>"; };
 		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		BF816BA32929D3E90097421D /* SecurityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityVC.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				BF4542C9291B4A5900BAC4B2 /* DaoImplmplementation */,
 				BF4542E4291B4B9500BAC4B2 /* SQLiteDB.swift */,
 				BF4542E6291B4BA400BAC4B2 /* DatabaseProtocol.swift */,
+				BF6A41A22965C34C006B75C1 /* DBPublisher.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
 				BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */,
 				BFDF706C292D1651001A736F /* UIImageExtension.swift in Sources */,
+				BF6A41A32965C34C006B75C1 /* DBPublisher.swift in Sources */,
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,
 				BF4542C1291A873300BAC4B2 /* HomePageViewController.swift in Sources */,
 				BFB3E4D529404E2100A266D9 /* LikesProtocols.swift in Sources */,
@@ -1058,6 +1062,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = mahendran.SnapShots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1087,6 +1092,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = mahendran.SnapShots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

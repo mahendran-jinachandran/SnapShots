@@ -225,9 +225,30 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
 
     func setupNotificationSubscription() {
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshUserDetails), name: Constants.userDetailsEvent, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(refreshUserDetails), name: Constants.userDetailsEvent, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(addPost(_:)), name: Constants.insertPostEvent, object: nil)
     }
+    
+    @objc private func addPost(_ notification: NSNotification) {
+         
+        if let data = notification.userInfo?[1] as? [String] {
+            
+            posts.insert(
+                Post(
+                    postID: Int(data[0])!,
+                    photo: data[1],
+                    caption:  data[2],
+                    postCreatedDate: data[4],
+                    isLikesHidden: data[5] == "0" ? false : true,
+                    isCommentsHidden: data[6] == "0" ? false : true),
+                at: 0
+            )
+            
+            profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
+        }
+     }
     
     @objc func refreshPostSection() {
         posts = profileControls.getAllPosts(userID: userID)

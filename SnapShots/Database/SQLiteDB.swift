@@ -37,6 +37,7 @@ class SQLiteDatabase: DatabaseProtocol {
 
         if sqlite3_open(DBPath, &dbPointer) == SQLITE_OK {
             print("Database connected")
+            publisher()
         } else {
             print("Not connected")
         }
@@ -60,6 +61,15 @@ class SQLiteDatabase: DatabaseProtocol {
             let err = String(cString: sqlite3_errmsg(dbPointer))
             print("error building statement: \(err)")
         }
+        
+        if sqlite3_prepare_v2(dbPointer, "PRAGMA preupdate_hook = ON", -1, &statement, nil) != SQLITE_OK {
+            let err = String(cString: sqlite3_errmsg(dbPointer))
+            print("error building statement: \(err)")
+        } else {
+            print("Success")
+        }
+        
+
         sqlite3_finalize(statement)
     }
     
@@ -222,7 +232,76 @@ class SQLiteDatabase: DatabaseProtocol {
             rowCount = rowCount + 1
         }
         
-        return data
+            return data
     }
+    
+    func publisher() {
+        
+        
+        
+        
+        var test: UnsafeMutableRawPointer?
+       var da = sqlite3_update_hook(
+            dbPointer, // MARK: DATABASE POINTER
+                { pointer1, // MARK: COPY OF THE THIRD ARGUMENT "&test"
+                 operationPerformed, // MARK: DENOTES WHICH OPERATION HAPPENED
+                     char1, // MARK: POINTER TO THE DATABASE
+                tableName, // MARK: TABLE NAME AFFECTING THE ROW
+                   rowID  // MARK: ROW ID AFFECTED
+                    in
+                    
+                    print(pointer1!.self)
+                    print(operationPerformed)
+                    print(char1!.self)
+                    print(tableName!.self)
+                    print(rowID)
+                    
+                    var operation: Operations!
+                    var tableAffected: TableName!
+                    let tableName = String(cString: tableName!)
+                    
+                    if operationPerformed == SQLITE_INSERT {
+                        operation = .insert
+                    } else if operationPerformed == SQLITE_UPDATE {
+                        operation = .update
+                    } else if operationPerformed == SQLITE_DELETE {
+                        operation = .delete
+                    }
+                    
+                    if tableName == "User" {
+                        tableAffected = .user
+                    } else if tableName == "Post" {
+                        tableAffected = .post
+                    } else if tableName == "Likes" {
+                        tableAffected = .likes
+                    } else if tableName == "Friends" {
+                        tableAffected = .friends
+                    } else if tableName == "FriendRequest" {
+                        tableAffected = .friendRequest
+                    } else if tableName == "Comments" {
+                        tableAffected = .comments
+                    }
+        
+          DBPublisher().publish(operation: operation, tableName: tableAffected, rowID: Int(rowID))
+        }, &test)
+        
+        print(da)
+
+    }
+}
+
+enum Operations {
+    case insert
+    case update
+    case delete
+}
+
+enum TableName {
+    case user
+    case post
+    case likes
+    case friendRequest
+    case friends
+    case comments
 }
 

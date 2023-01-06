@@ -141,7 +141,7 @@ class PostDaoImplementation: PostDao {
         let deletePostQuery = """
         DELETE FROM \(POST_TABLE_NAME)
         WHERE \(USER_ID) = \(userID)
-        AND \(POST_ID) = \(postID);
+        AND \(POST_ID) = \(postID)
         """
         
         return sqliteDatabase.execute(query: deletePostQuery)
@@ -224,6 +224,17 @@ class PostDaoImplementation: PostDao {
         }
         
         return isCommentsHidden
+    }
+    
+    func getPostDetails(rowID: Int) -> [Int : [String]] {
+        
+        var getRowQuery = """
+        SELECT * FROM \(POST_TABLE_NAME)
+        WHERE rowid = \(rowID);
+        """
+        
+        let data = sqliteDatabase.retrievingQuery(query: getRowQuery)
+        return data
     }
 }
 

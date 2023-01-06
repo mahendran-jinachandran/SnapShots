@@ -17,4 +17,5 @@ protocol PostDao{
     func hideCommentsInPost(userID: Int,postID: Int) -> Bool
     func unhideCommentsInPost(userID: Int,postID: Int) -> Bool
     func getCommentsButtonVisibilityState(userID: Int, postID: Int) -> Bool
+    func getPostDetails(rowID: Int) -> [Int : [String]]
 }
