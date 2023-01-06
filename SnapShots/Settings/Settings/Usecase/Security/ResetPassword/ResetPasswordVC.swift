@@ -184,8 +184,10 @@ class ResetPasswordVC: UIViewController,UITextFieldDelegate {
     private func setupTapGestures() {
         saveButton.addTarget(self, action: #selector(saveDetails), for: .touchUpInside)
         
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
     }
     
     @objc private func dismissKeyboard() {

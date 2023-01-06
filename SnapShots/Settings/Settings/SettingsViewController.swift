@@ -95,14 +95,18 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupTapGestures() {
-        let accountsViewTap = UITapGestureRecognizer(target: self, action: #selector(openAccount))
-        accountsView.addGestureRecognizer(accountsViewTap)
+  
+        accountsView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(openAccount))
+        )
         
-        let securityViewTap = UITapGestureRecognizer(target: self, action: #selector(openSecurity))
-        securityView.addGestureRecognizer(securityViewTap)
+        securityView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(openSecurity))
+        )
         
-        let aboutLabelTap = UITapGestureRecognizer(target: self, action: #selector(showAboutApp))
-        aboutView.addGestureRecognizer(aboutLabelTap)
+        aboutView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(showAboutApp))
+        )
         
         logoutButton.addTarget(self, action: #selector(startLogoutProcess), for: .touchUpInside)
     }

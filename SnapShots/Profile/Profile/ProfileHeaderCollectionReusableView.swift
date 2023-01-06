@@ -179,14 +179,18 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func setupTapGestures() {
-        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(uploadPhoto(_:)))
-        profilePhoto.addGestureRecognizer(imagePicker)
         
-        let openFriendsTap = UITapGestureRecognizer(target: self, action: #selector(showFriends(_:)))
-        friendsContainer.addGestureRecognizer(openFriendsTap)
+        profilePhoto.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(uploadPhoto(_:)))
+        )
+    
+        friendsContainer.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(showFriends(_:)))
+        )
         
-        let showPostsTap = UITapGestureRecognizer(target: self, action: #selector(showPosts(_:)))
-        postContainer.addGestureRecognizer(showPostsTap)
+        postContainer.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(showPosts(_:)))
+        )
         
     }
     

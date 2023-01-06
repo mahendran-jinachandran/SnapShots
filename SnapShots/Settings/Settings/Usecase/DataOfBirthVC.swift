@@ -108,11 +108,14 @@ class DataOfBirthVC: UIViewController {
     }
     
     private func setupTapGestures() {
-        let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(updateBirthday(_:)))
-        uploadLabel.addGestureRecognizer(uploadLabelTap)
         
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        uploadLabel.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(updateBirthday(_:)))
+        )
+        
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
         
         pickerButton.addTarget(self, action: #selector(openBirthdayPickerView), for: .touchUpInside)
         dateOfBirthTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openBirthdayPickerView)))

@@ -102,8 +102,9 @@ class OnboardingBirthdayVC: UIViewController {
     
     private func setupTapGestures() {
 
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
         
         nextButton.addTarget(self, action: #selector(updateBirthday), for: .touchUpInside)
         pickerButton.addTarget(self, action: #selector(openBirthdayPickerView), for: .touchUpInside)

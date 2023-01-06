@@ -51,8 +51,10 @@ class SecurityVC: UIViewController {
     }
     
     private func setupTapGestures() {
-        let passwordLabelTap = UITapGestureRecognizer(target: self, action: #selector(startChangePasswordProcess))
-        passwordView.addGestureRecognizer(passwordLabelTap)
+     
+        passwordView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(startChangePasswordProcess))
+        )
     }
     
     private func setConstraints() {

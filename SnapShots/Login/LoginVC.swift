@@ -167,14 +167,18 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     }
     
     private func setupTapGestures() {
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
         
-        let registerPage = UITapGestureRecognizer(target: self, action: #selector(executeRegistrationProcess))
-        registerLink.addGestureRecognizer(registerPage)
+        registerLink.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(executeRegistrationProcess))
+        )
         
-        let forgotPassword = UITapGestureRecognizer(target: self, action: #selector(executeForgotPasswordProcess))
-        forgotPasswordLabel.addGestureRecognizer(forgotPassword)
+        forgotPasswordLabel.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(executeForgotPasswordProcess))
+        )
         
         loginButton.addTarget(self, action: #selector(validateUserCredentials(_:)), for: .touchUpInside)
     }

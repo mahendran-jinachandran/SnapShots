@@ -98,11 +98,10 @@ class MailVC: UIViewController {
     }
     
     private func setupTapGestures() {
-        let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(validateMail(_:)))
-        uploadLabel.addGestureRecognizer(uploadLabelTap)
+
+        uploadLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(validateMail(_:))))
         
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
     }
     
     @objc private func dismissKeyboard() {

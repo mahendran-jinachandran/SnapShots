@@ -65,11 +65,14 @@ class AboutViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupTapGestures() {
-        let privacyPolicyTap = UITapGestureRecognizer(target: self, action: #selector(showPrivacyPolicies))
-        privacyView.addGestureRecognizer(privacyPolicyTap)
+
+        privacyView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(showPrivacyPolicies))
+        )
         
-        let termsViewTap = UITapGestureRecognizer(target: self, action: #selector(showTermsAndConditions))
-        termsView.addGestureRecognizer(termsViewTap)
+        termsView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(showTermsAndConditions))
+        )
     }
     
     private func setAboutConstraints() {

@@ -120,11 +120,14 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     }
     
     private func setupTapGestures() {
-        let uploadLabelTap = UITapGestureRecognizer(target: self, action: #selector(updateGender(_:)))
-        uploadLabel.addGestureRecognizer(uploadLabelTap)
+     
+        uploadLabel.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(updateGender(_:)))
+        )
         
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
         
         pickerButton.addTarget(self, action: #selector(openGenderPickerView), for: .touchUpInside)
         genderTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openGenderPickerView)))

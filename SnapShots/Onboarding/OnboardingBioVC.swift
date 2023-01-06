@@ -109,8 +109,10 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     
     private func setupTapGestures() {
         finishButton.addTarget(self, action: #selector(finishOnboarding), for: .touchUpInside)
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
     }
     
     private func setupNotficationCenter() {

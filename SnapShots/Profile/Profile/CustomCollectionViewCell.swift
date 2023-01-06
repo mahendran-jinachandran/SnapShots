@@ -35,8 +35,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     func setupTapGestures() {
-        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
-        postImage.addGestureRecognizer(imagePicker)
+        postImage.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(openPost(_:)))
+        )
     }
     
     required init?(coder: NSCoder) {

@@ -126,8 +126,10 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     }
     
     private func setupTapGestures() {
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+    
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
         
         nextButton.addTarget(self, action: #selector(updateGender), for: .touchUpInside)
         pickerButton.addTarget(self, action: #selector(openGenderPickerView), for: .touchUpInside)

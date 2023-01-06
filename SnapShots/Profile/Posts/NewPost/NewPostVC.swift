@@ -127,14 +127,17 @@ class NewPostVC: UIViewController,UITextViewDelegate {
     }
     
     private func setupTapGestures() {
-        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
-        postImage.addGestureRecognizer(imagePicker)
+        postImage.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
+        )
         
-        let uploadTap = UITapGestureRecognizer(target: self, action: #selector(uploadPost(_:)))
-        uploadLabel.addGestureRecognizer(uploadTap)
+        uploadLabel.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(uploadPost(_:)))
+        )
         
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
     }
     
     @objc private func dismissKeyboard() {

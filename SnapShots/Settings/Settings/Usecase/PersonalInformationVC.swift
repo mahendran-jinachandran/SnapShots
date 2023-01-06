@@ -168,17 +168,22 @@ class PersonalInformationVC: UIViewController {
     }
 
     private func setupTapGestures() {
-        let emailTap = UITapGestureRecognizer(target: self, action: #selector(editMail(_:)))
-        email.addGestureRecognizer(emailTap)
+ 
+        email.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(editMail(_:)))
+        )
+
+        gender.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(editGender(_:)))
+        )
         
-        let genderTap = UITapGestureRecognizer(target: self, action: #selector(editGender(_:)))
-        gender.addGestureRecognizer(genderTap)
+        dateOfBirth.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(editDateOfBirth(_:)))
+        )
         
-        let dateOfBirthTap = UITapGestureRecognizer(target: self, action: #selector(editDateOfBirth(_:)))
-        dateOfBirth.addGestureRecognizer(dateOfBirthTap)
-        
-        let phoneNumberTap = UITapGestureRecognizer(target: self, action: #selector(editPhoneNumber(_:)))
-        phone.addGestureRecognizer(phoneNumberTap)
+        phone.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(editPhoneNumber(_:)))
+        )
     }
 
     @objc private func editMail(_ sender: UITapGestureRecognizer) {

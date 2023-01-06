@@ -83,8 +83,9 @@ class PhoneNumberVC: UIViewController {
     }
     
     private func setupTapGestures() {
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
     }
     
     @objc private func dismissKeyboard() {

@@ -183,11 +183,12 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     }
     
     private func setupTapGestures() {
-        let screenTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(screenTap)
+        
+        view.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        )
         
         registerButton.addTarget(self, action: #selector(registerValidation), for: .touchUpInside)
- 
 
     }
         

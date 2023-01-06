@@ -101,10 +101,12 @@ class OnboardingProfilePhotoVC: UIViewController {
     }
     
     private func setupTapGestures() {
+        
         nextButton.addTarget(self, action: #selector(uploadPhoto), for: .touchUpInside)
         
-        let imagePicker = UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
-        profilePhoto.addGestureRecognizer(imagePicker)
+        profilePhoto.addGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(imagePress(_:)))
+        )
     }
     
     private func setupNavigationItems() {
