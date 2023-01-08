@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF0F0FBE2969343000C9B58A /* FaceRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0F0FBD2969343000C9B58A /* FaceRecognitionViewController.swift */; };
 		BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15D4AF295047F50039853C /* UITabBarExtension.swift */; };
 		BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2560132954159500187E18 /* ResetPasswordProtocol.swift */; };
 		BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311691292F8CDF008BAA08 /* LikesVC.swift */; };
@@ -130,6 +131,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF0F0FBD2969343000C9B58A /* FaceRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionViewController.swift; sourceTree = "<group>"; };
 		BF15D4AF295047F50039853C /* UITabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtension.swift; sourceTree = "<group>"; };
 		BF2560132954159500187E18 /* ResetPasswordProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordProtocol.swift; sourceTree = "<group>"; };
 		BF311691292F8CDF008BAA08 /* LikesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesVC.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 		BF4542592918C03100BAC4B2 /* SnapShots */ = {
 			isa = PBXGroup;
 			children = (
+				BF0F0FBD2969343000C9B58A /* FaceRecognitionViewController.swift */,
 				BF4542EC291B8A4A00BAC4B2 /* LaunchScreen */,
 				BF4542952918D72300BAC4B2 /* Login */,
 				BF4542A9291A0F1700BAC4B2 /* Register */,
@@ -865,6 +868,7 @@
 				BF4542DA291B4B3B00BAC4B2 /* UserDao.swift in Sources */,
 				BFB3E4DB2940593000A266D9 /* NewPostProtocols.swift in Sources */,
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,
+				BF0F0FBE2969343000C9B58A /* FaceRecognitionViewController.swift in Sources */,
 				BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
 				BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */,
