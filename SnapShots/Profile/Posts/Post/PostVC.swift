@@ -179,8 +179,6 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
-
-
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }
@@ -224,10 +222,8 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
        let ip = IndexPath(row: 0, section: 0)
 
-        if postTable.indexPathsForVisibleRows!.contains(ip)
-        {
+        if postTable.indexPathsForVisibleRows!.contains(ip){
            postTable.scrollToRow(at: ip, at: .top, animated: true)
-
         }
     }
 

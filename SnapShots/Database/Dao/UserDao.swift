@@ -36,4 +36,7 @@ protocol UserDao {
     func getBio(userID: Int) -> String
     
     func deleteAccount(userID: Int) -> Bool
+    
+    
+    func blockUser(loggedUserID: Int,userID: Int) -> Bool
 }

@@ -144,12 +144,21 @@ class SQLiteDatabase: DatabaseProtocol {
             );
         """
         
+        let blockedUsersTable = """
+        CREATE TABLE IF NOT EXISTS BlockedUsers (
+                User_id INT,
+                BlockedUser_id INT,
+                UNIQUE(User_id,BlockedUser_id)
+        );
+        """
+        
         createTable(createTableString: createUserTable)
         createTable(createTableString: createPostTable)
         createTable(createTableString: createFriendsTable)
         createTable(createTableString: createLikesTable)
         createTable(createTableString: createCommentsTable)
         createTable(createTableString: createFriendRequestTable)
+        createTable(createTableString: blockedUsersTable)
     }
     
     

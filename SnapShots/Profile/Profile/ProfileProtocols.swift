@@ -17,4 +17,5 @@ protocol ProfileControlsProtocols {
     func removeFrined(profileRequestedUser: Int) -> Bool
     func updateProfilePhoto(profilePhoto: UIImage) -> Bool
     func removeProfilePhoto() -> Bool
+    func blockTheUser(userID: Int)
 }

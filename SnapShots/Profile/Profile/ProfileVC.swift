@@ -22,6 +22,13 @@ class ProfileVC: UIViewController{
     private lazy var profileHeader: UILabel = {
         return UILabel()
     }()
+    
+    private lazy var moreInfo: UIButton = {
+        var moreInfo = UIButton(frame: .zero)
+        moreInfo.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        moreInfo.tintColor = UIColor(named: "appTheme")
+        return moreInfo
+    }()
 
     init(profileControls: ProfileControlsProtocols,userID: Int,isVisiting: Bool) {
         self.profileControls = profileControls
@@ -44,8 +51,7 @@ class ProfileVC: UIViewController{
     }
     
     private func setupProfileView() {
-        
-        
+    
         profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
         self.profileUser = profileControls.getUserDetails(userID: userID)
         posts = profileControls.getAllPosts(userID: userID)
@@ -79,14 +85,38 @@ class ProfileVC: UIViewController{
     private func setNavigationItems() {
         navigationItem.title = ""
         view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
         
         if isVisiting {
-            title = profileUser.userName
+            setupVisitingNavigationItems()
         } else {
             setupOwnerNavigationItems()
         }
+    }
+    
+    private func setupVisitingNavigationItems() {
         
-        navigationController?.navigationBar.tintColor = UIColor(named: "appTheme")
+        title = profileUser.userName
+        
+        if profileAccessibility == .owner {
+            return
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: moreInfo)
+        
+        let blockUser = UIAction(title: "Block User",image: UIImage(systemName: "nosign")) { _ in
+            print("Blocked user")
+            self.profileControls.blockTheUser(userID: self.userID)
+        }
+        
+        let addToFavourite = UIAction(title: "Add to favourites", image: UIImage(systemName: "star")) { _ in
+            print("Added to favourites")
+        }
+        
+        moreInfo.showsMenuAsPrimaryAction = true
+        let moreInfoMenu = UIMenu(title: "",children: [blockUser,addToFavourite])
+        moreInfo.menu = moreInfoMenu
+        
     }
     
     private func setupOwnerNavigationItems() {
@@ -280,7 +310,6 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
             NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
-            
             profileAccessibility = .unknown
             profileView.reloadData()
 

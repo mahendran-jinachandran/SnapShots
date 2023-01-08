@@ -10,7 +10,8 @@ import SQLite3
 
 class UserDaoImplementation: UserDao {
 
-    private let TABLE_NAME = "User"
+    private let USER_TABLE_NAME = "User"
+    private let BLOCKED_USERS_TABLE_NAME = "BlockedUsers"
     private let USER_ID = "User_id"
     private let USERNAME = "Username"
     private let PASSWORD = "Password"
@@ -21,6 +22,7 @@ class UserDaoImplementation: UserDao {
     private let PHOTO = "Photo"
     private let BIO = "Bio"
     private let CREATED = "Account_Created"
+    private let BLOCKED_USER_ID = "BlockedUser_id"
     
     private let sqliteDatabase: DatabaseProtocol
     init(sqliteDatabase: DatabaseProtocol) {
@@ -30,7 +32,7 @@ class UserDaoImplementation: UserDao {
     func isPhoneNumberAlreadyExist(phoneNumber: String) -> Bool {
      
         let isPhoneNumberExistQuery =  """
-        SELECT * FROM \(TABLE_NAME)
+        SELECT * FROM \(USER_TABLE_NAME)
         WHERE \(PHONE) = '\(phoneNumber)';
         """
         
@@ -39,7 +41,7 @@ class UserDaoImplementation: UserDao {
     
     func isUsernameAlreadyExist(username: String) -> Bool {
         let isUsernamePresentQuery = """
-        SELECT * FROM \(TABLE_NAME)
+        SELECT * FROM \(USER_TABLE_NAME)
         WHERE \(USERNAME) = '\(username)';
         """
         
@@ -48,7 +50,7 @@ class UserDaoImplementation: UserDao {
     
     func getUserDetails(phoneNumber: String,password: String) -> User? {
         let getUserQuery = """
-        SELECT * FROM \(TABLE_NAME)
+        SELECT * FROM \(USER_TABLE_NAME)
         WHERE \(PHONE) = '\(phoneNumber)'
         AND \(PASSWORD) = '\(password)'
         """
@@ -57,7 +59,7 @@ class UserDaoImplementation: UserDao {
     
     func getUserDetails(phoneNumber: String) -> User? {
         let checkPhoneNumberExistQuery = """
-        SELECT * FROM \(TABLE_NAME)
+        SELECT * FROM \(USER_TABLE_NAME)
         WHERE \(PHONE) = '\(phoneNumber)'
         """
         return UserInstance.getUserInstance(dbQuery: checkPhoneNumberExistQuery)
@@ -65,7 +67,7 @@ class UserDaoImplementation: UserDao {
     
     func getUserDetails(userID: Int) -> User? {
         let getParticularUserQuery = """
-        SELECT * FROM \(TABLE_NAME)
+        SELECT * FROM \(USER_TABLE_NAME)
         WHERE \(USER_ID) = \(userID)
         """
         
@@ -73,20 +75,49 @@ class UserDaoImplementation: UserDao {
     }
     
     func getAllUsers() -> [User] {
-        let getAllUsers = "SELECT * FROM \(TABLE_NAME)"
-        var allUsers: [User] = []
         
-        for user in sqliteDatabase.retrievingQuery(query: getAllUsers) {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+
+        let getAllUsers = """
+        SELECT \(USER_ID)
+        FROM \(USER_TABLE_NAME)
+        WHERE \(USER_ID) NOT IN
+        (SELECT \(BLOCKED_USER_ID) FROM \(BLOCKED_USERS_TABLE_NAME) WHERE \(USER_ID) = \(loggedUserID))
+        """
+    
+        // RETRIEVING ALL THE BLOCKED ID'S OF THE USER
+        var loggedUserBlockedIDs = [Int]()
+        for id in sqliteDatabase.retrievingQuery(query: getAllUsers) {
+            loggedUserBlockedIDs.append(Int(id.value[0])!)
+        }
+        
+        // REMOVING THE ACCOUNTS FROM SEARCH WHO HAS BLOCKED YOU
+        for userID in loggedUserBlockedIDs {
+            let getUsers = """
+            SELECT \(USER_ID)
+            FROM \(BLOCKED_USERS_TABLE_NAME)
+            WHERE \(BLOCKED_USER_ID) = \(loggedUserID) AND
+            \(USER_ID) = \(userID)
+            """
+            
+            if !sqliteDatabase.retrievingQuery(query: getUsers).isEmpty {
+                loggedUserBlockedIDs = loggedUserBlockedIDs.filter {$0 != userID}
+            }
+        }
+        
+        var allUsers: [User] = []
+        for userID in loggedUserBlockedIDs {
             allUsers.append(
-                getUserDetails(userID: Int(user.value[0])!)!
+                getUserDetails(userID: userID)!
             )
         }
+    
         return allUsers
     }
     
     func getUserID(phoneNumber: String,password: String) -> Int? {
         let getUserQuery = """
-        SELECT \(USER_ID) FROM \(TABLE_NAME)
+        SELECT \(USER_ID) FROM \(USER_TABLE_NAME)
         WHERE \(PHONE) = '\(phoneNumber)'
         AND \(PASSWORD) = '\(password)'
         """
@@ -100,7 +131,7 @@ class UserDaoImplementation: UserDao {
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool {
         let insertUserTableQuery = """
-        INSERT INTO \(TABLE_NAME) (\(USERNAME),\(PASSWORD),\(PHONE),\(PHOTO),\(CREATED))
+        INSERT INTO \(USER_TABLE_NAME) (\(USERNAME),\(PASSWORD),\(PHONE),\(PHOTO),\(CREATED))
         VALUES
         ('\(userName)','\(password)','\(phoneNumber)','Default', '\(AppUtility.getCurrentTime())');
         """
@@ -111,7 +142,7 @@ class UserDaoImplementation: UserDao {
     func completeUserProfile(userID: Int, photo: String,gender: Gender,mailID: String,age: String) -> Bool {
         
         let updateUserProfileQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(PHOTO) = \(photo),
             \(GENDER) = '\(gender)',
             \(MAIL) = '\(mailID)',
@@ -124,7 +155,7 @@ class UserDaoImplementation: UserDao {
     
     func updatePassword(password: String,phoneNumber: String) -> Bool {
         let updatePasswordQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(PASSWORD) = '\(password)'
         WHERE \(PHONE) = '\(phoneNumber)';
         """
@@ -134,7 +165,7 @@ class UserDaoImplementation: UserDao {
     
     func updatePassword(password: String,userID: Int) -> Bool {
         let updatePasswordQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(PASSWORD) = '\(password)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -144,7 +175,7 @@ class UserDaoImplementation: UserDao {
 
     func updateUsername(username: String,userID: Int) -> Bool {
         let updateUsernameQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(USERNAME) = '\(username)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -154,7 +185,7 @@ class UserDaoImplementation: UserDao {
     
     func updatePhoneNumber(phoneNumber: String,userID: Int) -> Bool {
         let updatePhoneNumberQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(PHONE) = '\(phoneNumber)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -164,7 +195,7 @@ class UserDaoImplementation: UserDao {
     
     func updateMail(mailID: String,userID: Int) -> Bool {
         let updateMailQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(MAIL) = '\(mailID)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -174,7 +205,7 @@ class UserDaoImplementation: UserDao {
     
     func updateGender(gender: String,userID: Int) -> Bool {
         let updateGenderQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(GENDER) = '\(gender)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -184,7 +215,7 @@ class UserDaoImplementation: UserDao {
     
     func updateAge(age: String,userID: Int) -> Bool {
         let updateAgeQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(AGE) = '\(age)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -194,7 +225,7 @@ class UserDaoImplementation: UserDao {
     
     func updatePhoto(photo: String,userID: Int) -> Bool {
         let updatePhotoQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(PHOTO) = '\(photo)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -204,7 +235,7 @@ class UserDaoImplementation: UserDao {
     
     func updateBio(profileBio: String,userID: Int) -> Bool {
         let updateProfileBioQuery = """
-        UPDATE \(TABLE_NAME)
+        UPDATE \(USER_TABLE_NAME)
         SET \(BIO) = '\(profileBio)'
         WHERE \(USER_ID) = \(userID);
         """
@@ -215,7 +246,7 @@ class UserDaoImplementation: UserDao {
     func getUserBasedOnSearch(userName: String) -> [(userID: Int, userName: String)] {
         let searchUserQuery = """
         SELECT \(USER_ID),\(USERNAME)
-        FROM \(TABLE_NAME)
+        FROM \(USER_TABLE_NAME)
         Where \(USERNAME)
         LIKE '%\(userName)%';
         """
@@ -231,7 +262,7 @@ class UserDaoImplementation: UserDao {
     func isPhotoPresent(userID: Int) -> Bool {
         let isPhotoPresentQuery = """
         SELECT \(PHOTO)
-        FROM \(TABLE_NAME)
+        FROM \(USER_TABLE_NAME)
         WHERE \(USER_ID) = \(userID);
         """
         
@@ -242,7 +273,7 @@ class UserDaoImplementation: UserDao {
     func getUsername(userID: Int) -> String {
         let getMyFriendsDetailsQuery = """
         SELECT \(USERNAME)
-        FROM \(TABLE_NAME)
+        FROM \(USER_TABLE_NAME)
         WHERE \(USER_ID) = \(userID);
         """
         
@@ -253,7 +284,7 @@ class UserDaoImplementation: UserDao {
     func getBio(userID: Int) -> String {
         let getMyFriendsDetailsQuery = """
         SELECT \(BIO)
-        FROM \(TABLE_NAME)
+        FROM \(USER_TABLE_NAME)
         WHERE \(USER_ID) = \(userID);
         """
         
@@ -263,12 +294,21 @@ class UserDaoImplementation: UserDao {
     
     func deleteAccount(userID: Int) -> Bool {
         let deleteUserQuery = """
-        DELETE FROM \(TABLE_NAME)
+        DELETE FROM \(USER_TABLE_NAME)
         WHERE \(USER_ID) = \(userID)
         """
         
         return sqliteDatabase.execute(query: deleteUserQuery)
-
+    }
+    
+    func blockUser(loggedUserID: Int,userID: Int) -> Bool {
+        
+        let blockUser = """
+        INSERT INTO \(BLOCKED_USERS_TABLE_NAME)
+        VALUES (\(loggedUserID),\(userID));
+        """
+        
+        return sqliteDatabase.execute(query: blockUser)
     }
 }
 

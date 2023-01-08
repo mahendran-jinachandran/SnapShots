@@ -88,4 +88,9 @@ class ProfileControls: ProfileControlsProtocols {
         
         return userDaoImp.updatePhoto(photo: Constants.noDPSavingFormat, userID: loggedUserID)
     }
+    
+    func blockTheUser(userID: Int) {
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        _ = userDaoImp.blockUser(loggedUserID: loggedUserID, userID: userID)
+    }
 }
