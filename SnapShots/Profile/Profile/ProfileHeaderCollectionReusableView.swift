@@ -226,6 +226,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             setupFriendProfile()
         } else if self.profileAccessibility == .requested {
             setupRequestedUserProfile()
+        } else if self.profileAccessibility == .blocked {
+            setupBlockedUserProfile()
         } else {
             setupUnknownUserProfile()
         }
@@ -262,6 +264,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 
     private func setupUnknownUserProfile() {
         profileAccessButton.setTitle("Follow", for: .normal)
+    }
+    
+    private func setupBlockedUserProfile() {
+        profileAccessButton.setTitle("Blocked", for: .normal)
+        profileAccessButton.isUserInteractionEnabled = false
     }
 
     @objc private func editProfile() {

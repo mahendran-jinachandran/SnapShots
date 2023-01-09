@@ -11,8 +11,11 @@ import UIKit
 class FriendsDaoImplementation: FriendsDao {
 
     private let TABLE_NAME = "Friends"
+    private let USER_TABLE_NAME = "User"
     private let USER_ID = "User_id"
     private let FRIENDS_ID = "Friends_id"
+    private let BLOCKED_USER_ID = "BlockedUser_id"
+    private let BLOCKED_USERS_TABLE_NAME = "BlockedUsers"
     
     private let sqliteDatabase: DatabaseProtocol
     private let userDaoImplementation: UserDao
@@ -37,14 +40,17 @@ class FriendsDaoImplementation: FriendsDao {
         let getFriendIDsQuery = """
         SELECT \(FRIENDS_ID)
         FROM \(TABLE_NAME)
-        WHERE \(USER_ID) = \(userID);
+        WHERE \(USER_ID) = \(userID) AND
+        \(FRIENDS_ID) NOT IN
+        (SELECT \(BLOCKED_USER_ID) FROM \(BLOCKED_USERS_TABLE_NAME) WHERE \(USER_ID) = \(userID))
+        ;
         """
         
         var myFriendIDs: [Int] = []
         for (_,userID) in sqliteDatabase.retrievingQuery(query: getFriendIDsQuery) {
             myFriendIDs.append(Int(userID[0])!)
         }
-        
+            
         return myFriendIDs
     }
     

@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if !self.visualEffectView.isDescendant(of: self.window!) {
         
-            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
             visualEffectView = UIVisualEffectView(effect: blurEffect)
             visualEffectView.frame = (self.window?.bounds)!
             visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

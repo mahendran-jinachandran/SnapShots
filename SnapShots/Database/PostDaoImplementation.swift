@@ -19,6 +19,8 @@ class PostDaoImplementation: PostDao {
     private let CREATED_TIME = "Created_time"
     private let IS_LIKES_HIDDEN = "IsLikesHidden"
     private let IS_COMMENTS_HIDDEN = "IsCommentsHidden"
+    private let BLOCKED_USERS_TABLE_NAME = "BlockedUsers"
+    private let BLOCKED_USER_ID = "BlockedUser_id"
     
     private let sqliteDatabase: DatabaseProtocol
     private let friendsDaoImplementation: FriendsDao
@@ -111,9 +113,12 @@ class PostDaoImplementation: PostDao {
             FROM
                 \(USER_TABLE_NAME)
                 INNER JOIN \(POST_TABLE_NAME) ON \(POST_TABLE_NAME).\(USER_ID) = \(friendID) AND
-                \(USER_TABLE_NAME).\(USER_ID) = \(POST_TABLE_NAME).\(USER_ID);
-
+                \(USER_TABLE_NAME).\(USER_ID) = \(POST_TABLE_NAME).\(USER_ID)
+            WHERE \(USER_TABLE_NAME).\(USER_ID) NOT IN
+            (SELECT \(BLOCKED_USER_ID) FROM \(BLOCKED_USERS_TABLE_NAME) WHERE \(USER_ID) = \(userID))
+            ;
             """
+            
 
             for (_,friend) in sqliteDatabase.retrievingQuery(query: getAllFriendsPostQuery) {
                 

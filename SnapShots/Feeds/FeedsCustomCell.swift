@@ -127,7 +127,6 @@ class FeedsCustomCell: UITableViewCell {
         setupButtonTargets()
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
-  
     }
     
     private var isLikesHidden: Bool!
@@ -198,6 +197,7 @@ class FeedsCustomCell: UITableViewCell {
             }
     
             delegate?.likeThePost(sender: self)
+            
         } else {
             if !isLikesHidden {
                 self.likesButton.setTitle(

@@ -40,6 +40,8 @@ class SearchPeopleVC: UIViewController {
         setupNavigationItems()
         setupSearchTable()
         setSearchTableConstraints()
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +63,7 @@ class SearchPeopleVC: UIViewController {
     }
     
     private func setupSearchTable() {
+    
         people = searchControls.getAllUsers()
         dupPeople = people
         
@@ -72,8 +75,16 @@ class SearchPeopleVC: UIViewController {
         searchTable.backgroundView?.alpha = 0.0
     }
     
+    @objc func setupData() {
+        people = searchControls.getAllUsers()
+        dupPeople = people
+        searchTable.reloadData()
+    }
+    
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshSearch), name: Constants.userDetailsEvent, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setupData), name: Constants.blockEvent, object: nil)
     }
     
     @objc private func refreshSearch() {

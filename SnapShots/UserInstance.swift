@@ -51,9 +51,15 @@ struct UserInstance {
         
         user?.profile.posts = allPosts
         
+        let BLOCKED_USERS_TABLE_NAME = "BlockedUsers"
+        let BLOCKED_USER_ID = "BlockedUser_id"
+        let USER_ID = "User_id"
+        
         
         let getFriendsQuery = """
         SELECT Friends_id FROM Friends WHERE User_id = \(user!.userID)
+                    AND Friends_id NOT IN
+                    (SELECT \(BLOCKED_USER_ID) FROM \(BLOCKED_USERS_TABLE_NAME) WHERE \(USER_ID) = \(user!.userID))
         """
         
         for (_,userID) in DBInstance.retrievingQuery(query: getFriendsQuery) {

@@ -108,7 +108,7 @@ extension BottomSheetVC: UITableViewDelegate,UITableViewDataSource {
         dismissBottomSheet()
         switch bottomSheetEntities[indexPath.row].entityName {
             case .settings:
-                print("Settings")
+                bottomSheetsDelegate?.presentANewViewController(VCName: .settings)
             case .archives:
                 print("Archive")
             case .blockedUsers:

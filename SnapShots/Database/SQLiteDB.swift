@@ -123,7 +123,7 @@ class SQLiteDatabase: DatabaseProtocol {
                 Post_id INT,
                 LikedUser_id INT,
                 Liked_time TEXT,
-                UNIQUE(User_id,Post_id),
+                UNIQUE(User_id,Post_id,LikedUser_id),
                 FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE,
                 FOREIGN KEY (LikedUser_id) REFERENCES User(User_id) ON DELETE CASCADE,
                 FOREIGN KEY (Post_id,User_id) REFERENCES Post(Post_id,User_id) ON DELETE CASCADE

@@ -67,6 +67,9 @@
 		BF75F8E1296BD8C600E108D1 /* ListTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E0296BD8C600E108D1 /* ListTableVC.swift */; };
 		BF75F8E3296BD8DA00E108D1 /* ListTableControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E2296BD8DA00E108D1 /* ListTableControls.swift */; };
 		BF75F8E5296BDAF200E108D1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E4296BDAF200E108D1 /* ListTableViewCell.swift */; };
+		BF75F8E7296BEE5A00E108D1 /* BlockedUserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E6296BEE5A00E108D1 /* BlockedUserDao.swift */; };
+		BF75F8E9296BEEA200E108D1 /* BlockedUserDaoImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E8296BEEA200E108D1 /* BlockedUserDaoImplementation.swift */; };
+		BF75F8EB296BF32600E108D1 /* ListTableProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8EA296BF32600E108D1 /* ListTableProtocols.swift */; };
 		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
 		BF816BA42929D3E90097421D /* SecurityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityVC.swift */; };
 		BF816BA62929D3F30097421D /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountVC.swift */; };
@@ -199,6 +202,9 @@
 		BF75F8E0296BD8C600E108D1 /* ListTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableVC.swift; sourceTree = "<group>"; };
 		BF75F8E2296BD8DA00E108D1 /* ListTableControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableControls.swift; sourceTree = "<group>"; };
 		BF75F8E4296BDAF200E108D1 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		BF75F8E6296BEE5A00E108D1 /* BlockedUserDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserDao.swift; sourceTree = "<group>"; };
+		BF75F8E8296BEEA200E108D1 /* BlockedUserDaoImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserDaoImplementation.swift; sourceTree = "<group>"; };
+		BF75F8EA296BF32600E108D1 /* ListTableProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableProtocols.swift; sourceTree = "<group>"; };
 		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		BF816BA32929D3E90097421D /* SecurityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityVC.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
@@ -511,6 +517,7 @@
 				BF4542D1291B4AC500BAC4B2 /* FriendsDaoImplementation.swift */,
 				BF4542D3291B4AD000BAC4B2 /* CommentDaoImplementation.swift */,
 				BF4542D5291B4ADC00BAC4B2 /* LikesDaoImplementation.swift */,
+				BF75F8E8296BEEA200E108D1 /* BlockedUserDaoImplementation.swift */,
 			);
 			name = DaoImplmplementation;
 			sourceTree = "<group>";
@@ -524,6 +531,7 @@
 				BF4542DD291B4B5300BAC4B2 /* FriendsDao.swift */,
 				BF4542E0291B4B6F00BAC4B2 /* CommentDao.swift */,
 				BF4542E2291B4B7E00BAC4B2 /* LikesDao.swift */,
+				BF75F8E6296BEE5A00E108D1 /* BlockedUserDao.swift */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -542,6 +550,7 @@
 				BF75F8E0296BD8C600E108D1 /* ListTableVC.swift */,
 				BF75F8E2296BD8DA00E108D1 /* ListTableControls.swift */,
 				BF75F8E4296BDAF200E108D1 /* ListTableViewCell.swift */,
+				BF75F8EA296BF32600E108D1 /* ListTableProtocols.swift */,
 			);
 			path = ListTable;
 			sourceTree = "<group>";
@@ -885,6 +894,7 @@
 				BF4542AE291A31CB00BAC4B2 /* User.swift in Sources */,
 				BF75F8E5296BDAF200E108D1 /* ListTableViewCell.swift in Sources */,
 				BF8F8F5C29595A770028C688 /* PostVC.swift in Sources */,
+				BF75F8E7296BEE5A00E108D1 /* BlockedUserDao.swift in Sources */,
 				BFDD55D42937379D00DC8D68 /* AuthManager.swift in Sources */,
 				BF4542B2291A31DC00BAC4B2 /* Post.swift in Sources */,
 				BFA95935294B07F300387440 /* SubClass.swift in Sources */,
@@ -914,6 +924,7 @@
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,
 				BF0F0FBE2969343000C9B58A /* FaceRecognitionViewController.swift in Sources */,
 				BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */,
+				BF75F8EB296BF32600E108D1 /* ListTableProtocols.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
 				BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */,
 				BFDF706C292D1651001A736F /* UIImageExtension.swift in Sources */,
@@ -929,6 +940,7 @@
 				BFDD55CF2937295E00DC8D68 /* OTPPhoneNumberVC.swift in Sources */,
 				BF4542AB291A0F3C00BAC4B2 /* RegisterVC.swift in Sources */,
 				BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */,
+				BF75F8E9296BEEA200E108D1 /* BlockedUserDaoImplementation.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,
 				BF4542D0291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift in Sources */,
 				BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */,

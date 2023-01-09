@@ -37,6 +37,7 @@ class FeedsControls {
     func addLikeToThePost(postUserID: Int,postID: Int) -> Bool {
         
         let loggedUser = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
         return likesDaoImp.addLikeToThePost(loggedUserID: loggedUser, visitingUserID: postUserID, postID: postID)
     }
     

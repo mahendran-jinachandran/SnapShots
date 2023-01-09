@@ -108,6 +108,8 @@ class FeedsVC: UIViewController {
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.blockEvent, object: nil)
+        
     }
     
     @objc private func getEntireFeeds() {
@@ -117,6 +119,7 @@ class FeedsVC: UIViewController {
         } else {
             feedsTable.backgroundView?.alpha = 1.0
         }
+        
         feedsTable.reloadData()
     }
 
@@ -204,6 +207,7 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         _ = feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID)
+        
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     

@@ -29,8 +29,11 @@ class ProfileFooterCollectionResuableView: UICollectionReusableView {
         setupConstraints()
     }
     
-    func configure(isFriend: Bool) {
-        if isFriend {
+    func configure(profileAccessibility: ProfileAccess) {
+        
+        if profileAccessibility == .blocked {
+            postsLabel.text = "Blocked Account"
+        } else if profileAccessibility == .friend || profileAccessibility == .owner {
             postsLabel.text = "No Posts yet"
         } else {
             postsLabel.text =  "Private Account"

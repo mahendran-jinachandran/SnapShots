@@ -300,16 +300,6 @@ class UserDaoImplementation: UserDao {
         
         return sqliteDatabase.execute(query: deleteUserQuery)
     }
-    
-    func blockUser(loggedUserID: Int,userID: Int) -> Bool {
-        
-        let blockUser = """
-        INSERT INTO \(BLOCKED_USERS_TABLE_NAME)
-        VALUES (\(loggedUserID),\(userID));
-        """
-        
-        return sqliteDatabase.execute(query: blockUser)
-    }
 }
 
 

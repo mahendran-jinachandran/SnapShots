@@ -12,6 +12,7 @@ enum ProfileAccess: Int {
     case friend
     case requested
     case unknown
+    case blocked
     
     var description: String {
         switch self {
@@ -19,6 +20,7 @@ enum ProfileAccess: Int {
         case .friend: return "Unfriend"
         case .requested: return "Requested"
         case .unknown: return "Request"
+        case .blocked: return "Blocked"
         }
     }
 }

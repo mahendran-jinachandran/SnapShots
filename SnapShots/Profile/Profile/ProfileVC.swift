@@ -52,9 +52,16 @@ class ProfileVC: UIViewController{
     
     private func setupProfileView() {
     
+        
         profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
         self.profileUser = profileControls.getUserDetails(userID: userID)
-        posts = profileControls.getAllPosts(userID: userID)
+        
+        if profileAccessibility != .blocked {
+            posts = profileControls.getAllPosts(userID: userID)
+        } else {
+            profileUser.profile.friendsList = []
+            profileUser.profile.posts = [:]
+        }
         
         layout.minimumLineSpacing = 15
         layout.minimumInteritemSpacing = 1
@@ -98,7 +105,7 @@ class ProfileVC: UIViewController{
         
         title = profileUser.userName
         
-        if profileAccessibility == .owner {
+        if profileAccessibility == .owner || profileAccessibility == .blocked {
             return
         }
         
@@ -107,6 +114,8 @@ class ProfileVC: UIViewController{
         let blockUser = UIAction(title: "Block User",image: UIImage(systemName: "nosign")) { _ in
             print("Blocked user")
             self.profileControls.blockTheUser(userID: self.userID)
+            NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
+            self.navigationController?.popViewController(animated: true)
         }
         
         let addToFavourite = UIAction(title: "Add to favourites", image: UIImage(systemName: "star")) { _ in
@@ -155,8 +164,6 @@ class ProfileVC: UIViewController{
         if let rootViewController = view.window?.rootViewController {
             rootViewController.present(bottomSheetVC, animated: true)
         }
-        
-      //  navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
     @objc private func uploadNewPost() {
@@ -187,11 +194,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileFooterCollectionResuableView.identifier, for: indexPath) as! ProfileFooterCollectionResuableView
             
-            if profileAccessibility == .friend || profileAccessibility == .owner {
-                footerView.configure(isFriend: true)
-            } else {
-                footerView.configure(isFriend: false)
-            }
+            footerView.configure(profileAccessibility: profileAccessibility)
             
             return footerView
         }
@@ -265,6 +268,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshUserDetails), name: Constants.userDetailsEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUserDetails), name: Constants.blockEvent, object: nil)
     }
     
     @objc func refreshPostSection() {
@@ -376,10 +380,14 @@ extension ProfileVC: BottomSheetsVCDelegate {
         switch VCName {
             case .settings:
                 print("Settings")
+                navigationController?.pushViewController(SettingsViewController(), animated: true)
             case .archives:
                 print("Archive")
             case .blockedUsers:
-            navigationController?.pushViewController(ListTableVC(), animated: true)
+    
+                let listTableVC = ListTableVC(listTableControls: ListTableControls())
+                navigationController?.pushViewController(listTableVC, animated: true)
+            
             case .saved:
                 print("Saved")
         }

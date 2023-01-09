@@ -38,6 +38,7 @@ struct Constants {
     static let publishPostEvent = Notification.Name("Publish_Post") // Changes in the Post
     static let userDetailsEvent = Notification.Name("UserDetails_Modify") // Changes in the user details
     static let profileDetailsEvent = Notification.Name("ProfileDetails_Modify") // Regarding Profile details
+    static let blockEvent = Notification.Name("blockPeople") // Blocking People
     
     // MARK: NO BIO CONSTANT
     static let noUserBioDefault = "Nothing to share!"

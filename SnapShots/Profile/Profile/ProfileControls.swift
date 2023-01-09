@@ -14,6 +14,7 @@ class ProfileControls: ProfileControlsProtocols {
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp)
     private lazy var friendRequestDapImp: FriendRequestDao = FriendRequestDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
+    private lazy var blockedUserDaoImp: BlockedUserDao = BlockedUserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared,userDaoImp: userDaoImp)
     
     func getProfileAccessibility(userID: Int) -> ProfileAccess {
         
@@ -21,6 +22,10 @@ class ProfileControls: ProfileControlsProtocols {
         
         if loggedUser == userID {
             return .owner
+        }
+        
+        if  blockedUserDaoImp.isBlocked(userID: userID, loggedUserID: loggedUser) {
+            return .blocked
         }
         
         var profileAccessibility = friendsDaoImp.isUserFriends(loggedUserID: loggedUser, visitingUserID: userID)
@@ -91,6 +96,6 @@ class ProfileControls: ProfileControlsProtocols {
     
     func blockTheUser(userID: Int) {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-        _ = userDaoImp.blockUser(loggedUserID: loggedUserID, userID: userID)
+        _ = blockedUserDaoImp.blockUser(loggedUserID: loggedUserID, userID: userID)
     }
 }
