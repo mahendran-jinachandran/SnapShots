@@ -63,6 +63,10 @@
 		BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F42935FA4C0051FC8D /* OnboardingBirthdayVC.swift */; };
 		BF5A13F72935FA7C0051FC8D /* OnboardingBioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F62935FA7C0051FC8D /* OnboardingBioVC.swift */; };
 		BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */; };
+		BF75F8DE296AEC3900E108D1 /* BottomSheetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8DD296AEC3900E108D1 /* BottomSheetEntity.swift */; };
+		BF75F8E1296BD8C600E108D1 /* ListTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E0296BD8C600E108D1 /* ListTableVC.swift */; };
+		BF75F8E3296BD8DA00E108D1 /* ListTableControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E2296BD8DA00E108D1 /* ListTableControls.swift */; };
+		BF75F8E5296BDAF200E108D1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75F8E4296BDAF200E108D1 /* ListTableViewCell.swift */; };
 		BF816BA02929C8D10097421D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816B9F2929C8D10097421D /* AboutViewController.swift */; };
 		BF816BA42929D3E90097421D /* SecurityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA32929D3E90097421D /* SecurityVC.swift */; };
 		BF816BA62929D3F30097421D /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF816BA52929D3F30097421D /* AccountVC.swift */; };
@@ -108,6 +112,9 @@
 		BFC9BAB92939FE6100EE1D42 /* ResetPasswordControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BAB82939FE6100EE1D42 /* ResetPasswordControls.swift */; };
 		BFC9BABB293A213B00EE1D42 /* PhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BABA293A213B00EE1D42 /* PhoneNumberVC.swift */; };
 		BFC9BABD293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9BABC293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift */; };
+		BFCA6983296ACBF200CE32DD /* BottomSheetsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA6982296ACBF200CE32DD /* BottomSheetsVC.swift */; };
+		BFCA6985296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA6984296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift */; };
+		BFCA6987296ACC2300CE32DD /* BottomSheetsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA6986296ACC2300CE32DD /* BottomSheetsDetails.swift */; };
 		BFDD55CF2937295E00DC8D68 /* OTPPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */; };
 		BFDD55D229372CF600DC8D68 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BFDD55D129372CF600DC8D68 /* FirebaseAuth */; };
 		BFDD55D42937379D00DC8D68 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55D32937379D00DC8D68 /* AuthManager.swift */; };
@@ -188,6 +195,10 @@
 		BF5A13F42935FA4C0051FC8D /* OnboardingBirthdayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBirthdayVC.swift; sourceTree = "<group>"; };
 		BF5A13F62935FA7C0051FC8D /* OnboardingBioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBioVC.swift; sourceTree = "<group>"; };
 		BF5A13F82935FB0E0051FC8D /* OnboardingControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingControls.swift; sourceTree = "<group>"; };
+		BF75F8DD296AEC3900E108D1 /* BottomSheetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetEntity.swift; sourceTree = "<group>"; };
+		BF75F8E0296BD8C600E108D1 /* ListTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableVC.swift; sourceTree = "<group>"; };
+		BF75F8E2296BD8DA00E108D1 /* ListTableControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableControls.swift; sourceTree = "<group>"; };
+		BF75F8E4296BDAF200E108D1 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		BF816B9F2929C8D10097421D /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		BF816BA32929D3E90097421D /* SecurityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityVC.swift; sourceTree = "<group>"; };
 		BF816BA52929D3F30097421D /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
@@ -233,6 +244,9 @@
 		BFC9BAB82939FE6100EE1D42 /* ResetPasswordControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordControls.swift; sourceTree = "<group>"; };
 		BFC9BABA293A213B00EE1D42 /* PhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberVC.swift; sourceTree = "<group>"; };
 		BFC9BABC293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFooterCollectionResuableView.swift; sourceTree = "<group>"; };
+		BFCA6982296ACBF200CE32DD /* BottomSheetsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsVC.swift; sourceTree = "<group>"; };
+		BFCA6984296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsTableViewCell.swift; sourceTree = "<group>"; };
+		BFCA6986296ACC2300CE32DD /* BottomSheetsDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsDetails.swift; sourceTree = "<group>"; };
 		BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPPhoneNumberVC.swift; sourceTree = "<group>"; };
 		BFDD55D32937379D00DC8D68 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BFDD55D529373A6400DC8D68 /* ForgotPasswordControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordControls.swift; sourceTree = "<group>"; };
@@ -364,6 +378,7 @@
 				BFA5600B2925197800A948B4 /* Notification */,
 				BFA560092924EF4C00A948B4 /* Profile */,
 				BFA560102925ED2D00A948B4 /* Settings */,
+				BF75F8DF296BD89D00E108D1 /* ListTable */,
 				BF4542AC291A31BA00BAC4B2 /* Entity */,
 				BFA560162926474400A948B4 /* Utility */,
 				BFC9BAB52938602600EE1D42 /* Enums */,
@@ -521,6 +536,16 @@
 			name = LaunchScreen;
 			sourceTree = "<group>";
 		};
+		BF75F8DF296BD89D00E108D1 /* ListTable */ = {
+			isa = PBXGroup;
+			children = (
+				BF75F8E0296BD8C600E108D1 /* ListTableVC.swift */,
+				BF75F8E2296BD8DA00E108D1 /* ListTableControls.swift */,
+				BF75F8E4296BDAF200E108D1 /* ListTableViewCell.swift */,
+			);
+			path = ListTable;
+			sourceTree = "<group>";
+		};
 		BF816B9D2929C8BC0097421D /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,6 +596,7 @@
 		BFA5600A2924EF5C00A948B4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				BFCA6981296ACBDB00CE32DD /* BottomSheets */,
 				BFAE19C7294181C000D7A012 /* EditProfile */,
 				BFA55FDB2922433200A948B4 /* ProfileVC.swift */,
 				BFA560062924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift */,
@@ -647,6 +673,17 @@
 				BF34662E2934ACE9006FF9FE /* ProfileAccess.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		BFCA6981296ACBDB00CE32DD /* BottomSheets */ = {
+			isa = PBXGroup;
+			children = (
+				BFCA6982296ACBF200CE32DD /* BottomSheetsVC.swift */,
+				BFCA6984296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift */,
+				BFCA6986296ACC2300CE32DD /* BottomSheetsDetails.swift */,
+				BF75F8DD296AEC3900E108D1 /* BottomSheetEntity.swift */,
+			);
+			path = BottomSheets;
 			sourceTree = "<group>";
 		};
 		BFDD55942937205C00DC8D68 /* ForgotPassword */ = {
@@ -800,6 +837,7 @@
 				BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */,
 				BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */,
 				BF4542D8291B4B3300BAC4B2 /* PostDao.swift in Sources */,
+				BF75F8E1296BD8C600E108D1 /* ListTableVC.swift in Sources */,
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */,
@@ -816,6 +854,7 @@
 				BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
 				BFB3E4D3294049FE00A266D9 /* FeedsProtocols.swift in Sources */,
+				BFCA6983296ACBF200CE32DD /* BottomSheetsVC.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
 				BFB3E4CF29403D0200A266D9 /* NotificationProtocols.swift in Sources */,
 				BFB3E4D12940493500A266D9 /* SearchProtocols.swift in Sources */,
@@ -826,6 +865,7 @@
 				BF8F8F5E29595BE80028C688 /* PostVCHeader.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
 				BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */,
+				BFCA6985296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift in Sources */,
 				BFDF7079292F375D001A736F /* PostControls.swift in Sources */,
 				BF34662F2934ACE9006FF9FE /* ProfileAccess.swift in Sources */,
 				BFDD55FF293795CA00DC8D68 /* GenderVC.swift in Sources */,
@@ -843,6 +883,7 @@
 				BF3466312934B8D8006FF9FE /* NotificationControls.swift in Sources */,
 				BF4542722918CE6E00BAC4B2 /* UITextFieldExtensions.swift in Sources */,
 				BF4542AE291A31CB00BAC4B2 /* User.swift in Sources */,
+				BF75F8E5296BDAF200E108D1 /* ListTableViewCell.swift in Sources */,
 				BF8F8F5C29595A770028C688 /* PostVC.swift in Sources */,
 				BFDD55D42937379D00DC8D68 /* AuthManager.swift in Sources */,
 				BF4542B2291A31DC00BAC4B2 /* Post.swift in Sources */,
@@ -857,14 +898,17 @@
 				BF4542CE291B4A9800BAC4B2 /* PostDaoImplementation.swift in Sources */,
 				BF34662D29348D98006FF9FE /* Constants.swift in Sources */,
 				BF45425B2918C03100BAC4B2 /* AppDelegate.swift in Sources */,
+				BF75F8E3296BD8DA00E108D1 /* ListTableControls.swift in Sources */,
 				BFB3E4D92940507E00A266D9 /* OnboardingProtocols.swift in Sources */,
 				BFB3E4DD2940ABE300A266D9 /* PostProtocols.swift in Sources */,
+				BF75F8DE296AEC3900E108D1 /* BottomSheetEntity.swift in Sources */,
 				BFC9BAB92939FE6100EE1D42 /* ResetPasswordControls.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
 				BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				BF816BA62929D3F30097421D /* AccountVC.swift in Sources */,
 				BF816BA42929D3E90097421D /* SecurityVC.swift in Sources */,
+				BFCA6987296ACC2300CE32DD /* BottomSheetsDetails.swift in Sources */,
 				BF4542DA291B4B3B00BAC4B2 /* UserDao.swift in Sources */,
 				BFB3E4DB2940593000A266D9 /* NewPostProtocols.swift in Sources */,
 				BF4542E7291B4BA400BAC4B2 /* DatabaseProtocol.swift in Sources */,

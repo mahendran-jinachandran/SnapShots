@@ -148,7 +148,15 @@ class ProfileVC: UIViewController{
     }
     
     @objc private func openSettings() {
-        navigationController?.pushViewController(SettingsViewController(), animated: true)
+        
+        let bottomSheetVC = BottomSheetVC()
+        bottomSheetVC.modalPresentationStyle = .overCurrentContext
+        bottomSheetVC.bottomSheetsDelegate = self
+        if let rootViewController = view.window?.rootViewController {
+            rootViewController.present(bottomSheetVC, animated: true)
+        }
+        
+      //  navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
     @objc private func uploadNewPost() {
@@ -359,6 +367,22 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: posts[indexPath.row])
     
         navigationController?.pushViewController(postVC,animated: true)
+    }
+}
+
+extension ProfileVC: BottomSheetsVCDelegate {
+    func presentANewViewController(VCName: BottomSheetEntity) {
+        
+        switch VCName {
+            case .settings:
+                print("Settings")
+            case .archives:
+                print("Archive")
+            case .blockedUsers:
+            navigationController?.pushViewController(ListTableVC(), animated: true)
+            case .saved:
+                print("Saved")
+        }
     }
 }
 
