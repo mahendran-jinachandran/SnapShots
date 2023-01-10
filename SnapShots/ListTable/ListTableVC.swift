@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 class ListTableVC: UIViewController {
     
     private var blockedUsers = [User]()
@@ -17,6 +15,14 @@ class ListTableVC: UIViewController {
         let listTable = UITableView(frame: .zero)
         listTable.translatesAutoresizingMaskIntoConstraints = false
         return listTable
+    }()
+    
+    private lazy var emptyLabel: UILabel = {
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Empty"
+        emptyLabel.textColor = .gray
+        emptyLabel.textAlignment = .center
+        return emptyLabel
     }()
     
     
@@ -48,6 +54,7 @@ class ListTableVC: UIViewController {
         listTable.separatorStyle = .none
         listTable.delegate = self
         listTable.dataSource = self
+      
         
         view.addSubview(listTable)
         
@@ -57,12 +64,21 @@ class ListTableVC: UIViewController {
             listTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             listTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        
+        listTable.backgroundView = emptyLabel
     }
 }
 
 extension ListTableVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return blockedUsers.count
+        
+        if blockedUsers.count > 0 {
+            listTable.backgroundView?.alpha = 0.0
+            return blockedUsers.count
+        }
+        
+        listTable.backgroundView?.alpha = 1.0
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

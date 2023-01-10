@@ -382,12 +382,11 @@ extension ProfileVC: BottomSheetsVCDelegate {
                 print("Settings")
                 navigationController?.pushViewController(SettingsViewController(), animated: true)
             case .archives:
-                print("Archive")
+                let listCollectionVC = ListCollectionVC(listCollectionControls: ListCollectionControls())
+                navigationController?.pushViewController(listCollectionVC, animated: true)
             case .blockedUsers:
-    
                 let listTableVC = ListTableVC(listTableControls: ListTableControls())
                 navigationController?.pushViewController(listTableVC, animated: true)
-            
             case .saved:
                 print("Saved")
         }

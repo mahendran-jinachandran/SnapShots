@@ -17,4 +17,7 @@ protocol PostDao{
     func hideCommentsInPost(userID: Int,postID: Int) -> Bool
     func unhideCommentsInPost(userID: Int,postID: Int) -> Bool
     func getCommentsButtonVisibilityState(userID: Int, postID: Int) -> Bool
+    func archiveThePost(userID: Int,postID: Int) -> Bool
+    func unarchiveThePost(userID: Int,postID: Int) -> Bool
+    func getAllArchivedPosts() -> [ListCollectionDetails]
 }

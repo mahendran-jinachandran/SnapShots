@@ -136,9 +136,9 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID),
             isDeletionAllowed: postControls.isDeletionAllowed(userID: userID),
             isLikesCountHidden: postControls.getLikesButtonVisibilityState(userID: userID, postID: postDetails.postID),
-            isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID)
+            isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID),
+            isArchived: postDetails.isArchived
         )
-        
         
         return headerView
     }
@@ -236,6 +236,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
 extension PostVC: PostVCHeaderDelegate {
 
+
     func controller() -> PostVC {
         return self
     }
@@ -290,7 +291,20 @@ extension PostVC: PostVCHeaderDelegate {
     func unhideComments() {
         postControls.unhideComments(userID: userID, postID: postDetails.postID)
     }
-
+    
+    func archiveThePost() {
+      _ = postControls.archiveThePost(
+            userID: userID,
+            postID: postDetails.postID
+        )
+    }
+    
+    func unarchiveThePost() {
+        _ = postControls.unarchiveThePost(
+            userID: userID,
+            postID: postDetails.postID
+         )
+    }
 }
 
 extension PostVC : UITextFieldDelegate {

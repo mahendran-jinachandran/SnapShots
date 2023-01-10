@@ -21,6 +21,7 @@ class PostDaoImplementation: PostDao {
     private let IS_COMMENTS_HIDDEN = "IsCommentsHidden"
     private let BLOCKED_USERS_TABLE_NAME = "BlockedUsers"
     private let BLOCKED_USER_ID = "BlockedUser_id"
+    private let IS_ARCHIVED = "isArchived"
     
     private let sqliteDatabase: DatabaseProtocol
     private let friendsDaoImplementation: FriendsDao
@@ -38,6 +39,7 @@ class PostDaoImplementation: PostDao {
             '\(caption)',
             \(userID),
             '\(AppUtility.getCurrentTime())',
+            \(0),
             \(0),
             \(0)
         )
@@ -70,9 +72,10 @@ class PostDaoImplementation: PostDao {
     
     func getAllPosts(userID: Int) -> [Post] {
         let getAllPostQuery = """
-        SELECT \(POST_ID),\(PHOTO),\(CAPTION),\(CREATED_TIME),\(IS_LIKES_HIDDEN),\(IS_COMMENTS_HIDDEN)
+        SELECT \(POST_ID),\(PHOTO),\(CAPTION),\(CREATED_TIME),\(IS_LIKES_HIDDEN),\(IS_COMMENTS_HIDDEN),\(IS_ARCHIVED)
         FROM \(POST_TABLE_NAME)
-        WHERE \(USER_ID) = \(userID);
+        WHERE \(USER_ID) = \(userID) AND
+        \(IS_ARCHIVED) = \(0);
         """
         
         var allPosts: [Post] = []
@@ -83,7 +86,8 @@ class PostDaoImplementation: PostDao {
                      caption: post[2],
                      postCreatedDate: post[3],
                      isLikesHidden: Int(post[4]) == 0 ? false : true ,
-                     isCommentsHidden: Int(post[5]) == 0 ? false : true
+                     isCommentsHidden: Int(post[5]) == 0 ? false : true,
+                     isArchived: Int(post[6]) == 0 ? false : true
                     )
              )
         }
@@ -109,17 +113,17 @@ class PostDaoImplementation: PostDao {
                 \(CAPTION),
                 \(CREATED_TIME),
                 \(IS_LIKES_HIDDEN),
-                \(IS_COMMENTS_HIDDEN)
+                \(IS_COMMENTS_HIDDEN),
+                \(IS_ARCHIVED)
             FROM
                 \(USER_TABLE_NAME)
                 INNER JOIN \(POST_TABLE_NAME) ON \(POST_TABLE_NAME).\(USER_ID) = \(friendID) AND
                 \(USER_TABLE_NAME).\(USER_ID) = \(POST_TABLE_NAME).\(USER_ID)
-            WHERE \(USER_TABLE_NAME).\(USER_ID) NOT IN
+            WHERE \(IS_ARCHIVED) = \(0) AND \(USER_TABLE_NAME).\(USER_ID) NOT IN
             (SELECT \(BLOCKED_USER_ID) FROM \(BLOCKED_USERS_TABLE_NAME) WHERE \(USER_ID) = \(userID))
             ;
             """
             
-
             for (_,friend) in sqliteDatabase.retrievingQuery(query: getAllFriendsPostQuery) {
                 
                 feedPosts.append(
@@ -132,7 +136,8 @@ class PostDaoImplementation: PostDao {
                             caption: friend[4],
                             postCreatedDate: friend[5],
                             isLikesHidden: Int(friend[6]) == 0 ? false : true ,
-                            isCommentsHidden: Int(friend[7]) == 0 ? false : true
+                            isCommentsHidden: Int(friend[7]) == 0 ? false : true,
+                            isArchived: Int(friend[8]) == 0 ? false : true
                         )
                     )
                 )
@@ -229,6 +234,59 @@ class PostDaoImplementation: PostDao {
         }
         
         return isCommentsHidden
+    }
+    
+    func archiveThePost(userID: Int,postID: Int) -> Bool {
+        let archivePostQuery = """
+        UPDATE \(POST_TABLE_NAME)
+        SET \(IS_ARCHIVED) = \(1)
+        WHERE \(USER_ID) = \(userID) AND
+        \(POST_ID) = \(postID)
+        """
+        
+        return sqliteDatabase.execute(query: archivePostQuery)
+    }
+    
+    func unarchiveThePost(userID: Int,postID: Int) -> Bool {
+        let unarchivePostQuery = """
+        UPDATE \(POST_TABLE_NAME)
+        SET \(IS_ARCHIVED) = \(0)
+        WHERE \(USER_ID) = \(userID) AND
+        \(POST_ID) = \(postID)
+        """
+        
+        return sqliteDatabase.execute(query: unarchivePostQuery)
+    }
+    
+    func getAllArchivedPosts() -> [ListCollectionDetails] {
+        
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
+        let getArchivedPostsQuery = """
+        SELECT * FROM \(POST_TABLE_NAME)
+        WHERE \(USER_ID) = \(loggedUserID) AND
+        \(IS_ARCHIVED) = \(1)
+        """
+        
+        var posts = [ListCollectionDetails]()
+        for (_,post) in sqliteDatabase.retrievingQuery(query: getArchivedPostsQuery) {
+            posts.append(
+                ListCollectionDetails(
+                    userID: Int(post[3])!,
+                    postDetails: Post(
+                        postID: Int(post[0])!,
+                        photo: post[1],
+                        caption: post[2],
+                        postCreatedDate: post[4],
+                        isLikesHidden: Int(post[5]) == 0 ? false : true,
+                        isCommentsHidden: Int(post[6]) == 0 ? false : true,
+                        isArchived: Int(post[7]) == 0 ? false : true
+                    )
+                )
+            )
+        }
+        
+        return posts
     }
 }
 

@@ -16,21 +16,16 @@ class Post {
     var comments: [(Int, String, String)] = []
     var isLikesHidden: Bool = false
     var isCommentsHidden: Bool = false
-
-//    init(photo: String, caption: String,isLikesHidden: Bool,isCommentsHidden: Bool) {
-//        self.photo = photo
-//        self.caption = caption
-//        self.isLikesHidden = isLikesHidden
-//        self.isCommentsHidden = isCommentsHidden
-//
-//    }
+    var isArchived: Bool = false
     
-    init(postID: Int,photo: String, caption: String,postCreatedDate: String,isLikesHidden: Bool,isCommentsHidden: Bool) {
+    
+    init(postID: Int,photo: String, caption: String,postCreatedDate: String,isLikesHidden: Bool,isCommentsHidden: Bool,isArchived: Bool) {
         self.postID = postID
         self.photo = photo
         self.caption = caption
         self.postCreatedDate = postCreatedDate
         self.isLikesHidden = isLikesHidden
         self.isCommentsHidden = isCommentsHidden
+        self.isArchived = isArchived
     }
 }

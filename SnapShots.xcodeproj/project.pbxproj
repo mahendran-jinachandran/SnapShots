@@ -99,6 +99,11 @@
 		BFAE19D5294324ED00D7A012 /* CommentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D4294324ED00D7A012 /* CommentDetails.swift */; };
 		BFAE19D72946EBCF00D7A012 /* OTPChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */; };
 		BFAE19D92947697100D7A012 /* AccountControlProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAE19D82947697100D7A012 /* AccountControlProtocols.swift */; };
+		BFB08148296D1EE700D75D28 /* ListCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB08147296D1EE700D75D28 /* ListCollectionVC.swift */; };
+		BFB0814A296D1EF300D75D28 /* ListCollectionControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB08149296D1EF300D75D28 /* ListCollectionControls.swift */; };
+		BFB0814C296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0814B296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift */; };
+		BFB0814E296D1F2600D75D28 /* ListCollectionCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0814D296D1F2600D75D28 /* ListCollectionCustomCell.swift */; };
+		BFB08150296D2D2F00D75D28 /* ListCollectionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0814F296D2D2F00D75D28 /* ListCollectionDetails.swift */; };
 		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
 		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
 		BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */; };
@@ -234,6 +239,11 @@
 		BFAE19D4294324ED00D7A012 /* CommentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDetails.swift; sourceTree = "<group>"; };
 		BFAE19D62946EBCF00D7A012 /* OTPChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPChangePasswordVC.swift; sourceTree = "<group>"; };
 		BFAE19D82947697100D7A012 /* AccountControlProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControlProtocols.swift; sourceTree = "<group>"; };
+		BFB08147296D1EE700D75D28 /* ListCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionVC.swift; sourceTree = "<group>"; };
+		BFB08149296D1EF300D75D28 /* ListCollectionControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionControls.swift; sourceTree = "<group>"; };
+		BFB0814B296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionControlsProtocol.swift; sourceTree = "<group>"; };
+		BFB0814D296D1F2600D75D28 /* ListCollectionCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionCustomCell.swift; sourceTree = "<group>"; };
+		BFB0814F296D2D2F00D75D28 /* ListCollectionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionDetails.swift; sourceTree = "<group>"; };
 		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
 		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
 		BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
@@ -385,6 +395,7 @@
 				BFA560092924EF4C00A948B4 /* Profile */,
 				BFA560102925ED2D00A948B4 /* Settings */,
 				BF75F8DF296BD89D00E108D1 /* ListTable */,
+				BFB08146296D1EC600D75D28 /* ListCollections */,
 				BF4542AC291A31BA00BAC4B2 /* Entity */,
 				BFA560162926474400A948B4 /* Utility */,
 				BFC9BAB52938602600EE1D42 /* Enums */,
@@ -674,6 +685,18 @@
 			path = EditProfile;
 			sourceTree = "<group>";
 		};
+		BFB08146296D1EC600D75D28 /* ListCollections */ = {
+			isa = PBXGroup;
+			children = (
+				BFB08147296D1EE700D75D28 /* ListCollectionVC.swift */,
+				BFB08149296D1EF300D75D28 /* ListCollectionControls.swift */,
+				BFB0814B296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift */,
+				BFB0814D296D1F2600D75D28 /* ListCollectionCustomCell.swift */,
+				BFB0814F296D2D2F00D75D28 /* ListCollectionDetails.swift */,
+			);
+			path = ListCollections;
+			sourceTree = "<group>";
+		};
 		BFC9BAB52938602600EE1D42 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,6 +862,7 @@
 			files = (
 				BFA3867429311C5800815E31 /* NotificiationGridCVCell.swift in Sources */,
 				BFE88C312963F6B700CB3CDA /* UIButtonExtension.swift in Sources */,
+				BFB08150296D2D2F00D75D28 /* ListCollectionDetails.swift in Sources */,
 				BF4542D2291B4AC500BAC4B2 /* FriendsDaoImplementation.swift in Sources */,
 				BFDD55D829373FDE00DC8D68 /* OTPScreenVC.swift in Sources */,
 				BFDF705A292B4237001A736F /* PersonalInformationVC.swift in Sources */,
@@ -866,6 +890,7 @@
 				BFCA6983296ACBF200CE32DD /* BottomSheetsVC.swift in Sources */,
 				BF4542E3291B4B7E00BAC4B2 /* LikesDao.swift in Sources */,
 				BFB3E4CF29403D0200A266D9 /* NotificationProtocols.swift in Sources */,
+				BFB0814C296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift in Sources */,
 				BFB3E4D12940493500A266D9 /* SearchProtocols.swift in Sources */,
 				BFAE19CD2941823E00D7A012 /* EditProfileControls.swift in Sources */,
 				BFA55FDF29236C8000A948B4 /* CustomCollectionViewCell.swift in Sources */,
@@ -953,11 +978,14 @@
 				BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
 				BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */,
+				BFB08148296D1EE700D75D28 /* ListCollectionVC.swift in Sources */,
 				BF311697292FA2C1008BAA08 /* CommentsCustomCell.swift in Sources */,
+				BFB0814E296D1F2600D75D28 /* ListCollectionCustomCell.swift in Sources */,
 				BFDD55FA29376AD700DC8D68 /* AccountControls.swift in Sources */,
 				BF4542CC291B4A8A00BAC4B2 /* UserDaoImplementation.swift in Sources */,
 				BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */,
 				BFDF7058292A3E13001A736F /* ResetPasswordVC.swift in Sources */,
+				BFB0814A296D1EF300D75D28 /* ListCollectionControls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,8 @@ protocol PostVCHeaderDelegate: AnyObject {
     func unhideLikesCount()
     func hideComments()
     func unhideComments()
-    
+    func archiveThePost()
+    func unarchiveThePost()
 }
 
 class PostVCHeader: UITableViewHeaderFooterView {
@@ -129,7 +130,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool) {
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool,isArchived: Bool) {
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
@@ -142,7 +143,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         setupLikes(isLikesCountHidden: isLikesCountHidden, likeCount: likeCount)
         changeLikesButtonState(isLikesCountHidden: isLikesCountHidden, likeCount: likeCount)
         changeCommentButtonState(isCommentsHidden: isCommentsHidden)
-        setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed,isLikesCountHidden: isLikesCountHidden,isCommentsHidden: isCommentsHidden)
+        setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed,isLikesCountHidden: isLikesCountHidden,isCommentsHidden: isCommentsHidden,isArchived: isArchived)
     }
     
     private func changeLikesButtonState(isLikesCountHidden: Bool,likeCount: Int) {
@@ -213,7 +214,8 @@ class PostVCHeader: UITableViewHeaderFooterView {
         delegate?.openCommentBox()
     }
     
-    func setupMoreInfoButtonActions(isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool) {
+    func setupMoreInfoButtonActions(isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool,isArchived: Bool) {
+        
         let deletePost = UIAction(
           title: "Delete",
           image: UIImage(systemName: "trash"),
@@ -222,8 +224,35 @@ class PostVCHeader: UITableViewHeaderFooterView {
             self.confirmDeletion()
         }
         
-        var likesCountVisibility: UIAction!
+        let unfollowUser = UIAction(
+          title: "Unfollow User",
+          image: UIImage(systemName: "person.badge.minus")) { _ in
+              
+              self.delegate?.unfollowUser()
+              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+              self.delegate?.controller().navigationController?.popViewController(animated: true)
+        }
+        
+        var likesCountVisibility: UIAction
         var commentsVisibility: UIAction
+        var archivedAction: UIAction
+        
+        if !isArchived {
+            archivedAction = UIAction(title: "Archive", image: UIImage(systemName: "archivebox.fill")) { _ in
+                
+                self.delegate?.archiveThePost()
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                self.delegate?.controller().navigationController?.popViewController(animated: true)
+                print("Archive")
+            }
+        } else {
+            archivedAction = UIAction(title: "Unarchive", image: UIImage(systemName: "archivebox.fill")) { _ in
+                
+                self.delegate?.unarchiveThePost()
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                self.delegate?.controller().navigationController?.popViewController(animated: true)
+            }
+        }
         
         if isLikesCountHidden {
             likesCountVisibility = UIAction(
@@ -262,22 +291,12 @@ class PostVCHeader: UITableViewHeaderFooterView {
             }
         }
         
-        
-        let unfollowUser = UIAction(
-          title: "Unfollow User",
-          image: UIImage(systemName: "person.badge.minus")) { _ in
-              
-              self.delegate?.unfollowUser()
-              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-              self.delegate?.controller().navigationController?.popViewController(animated: true)
-        }
-        
         moreInfo.showsMenuAsPrimaryAction = true
         
         let moreInfoMenu: UIMenu!
         
         if isDeletionAllowed {
-           moreInfoMenu = UIMenu(title: "", image: nil,children: [likesCountVisibility,commentsVisibility,deletePost])
+           moreInfoMenu = UIMenu(title: "", image: nil,children: [likesCountVisibility,commentsVisibility,archivedAction,deletePost])
         } else {
             moreInfoMenu = UIMenu(title: "", image: nil,children: [unfollowUser])
         }

@@ -152,7 +152,6 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
             dupPeople = people
             searchTable.backgroundView?.alpha = 0.0
             searchTable.reloadData()
-            
             return
         }
 
@@ -161,7 +160,6 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         })
 
         searchTable.backgroundView?.alpha = data.isEmpty ? 1.0 : 0.0
-
         dupPeople = data
         searchTable.reloadData()
     }

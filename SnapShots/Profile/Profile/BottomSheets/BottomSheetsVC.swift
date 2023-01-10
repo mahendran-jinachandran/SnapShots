@@ -94,7 +94,7 @@ class BottomSheetVC: UIViewController {
       
         bottomSheetEntities.append(contentsOf: [
             BottomSheetDetails(imageIcon: settingsImage.image!, entityName: .settings),
-            BottomSheetDetails(imageIcon: UIImage(systemName: "archivebox.circle.fill")!, entityName: .archives),
+            BottomSheetDetails(imageIcon: UIImage(systemName: "archivebox.fill")!, entityName: .archives),
             BottomSheetDetails(imageIcon: UIImage(systemName: "nosign")!, entityName: .blockedUsers),
             BottomSheetDetails(imageIcon: UIImage(systemName: "bookmark")!, entityName: .saved)
         ])
@@ -110,7 +110,7 @@ extension BottomSheetVC: UITableViewDelegate,UITableViewDataSource {
             case .settings:
                 bottomSheetsDelegate?.presentANewViewController(VCName: .settings)
             case .archives:
-                print("Archive")
+                bottomSheetsDelegate?.presentANewViewController(VCName: .archives)
             case .blockedUsers:
                 bottomSheetsDelegate?.presentANewViewController(VCName: .blockedUsers)
             case .saved:

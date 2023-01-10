@@ -112,4 +112,12 @@ class PostControls: PostControlsProtocol {
     func deleteComment(userID: Int,postID: Int,commentID: Int) {
        _ = commentsDaoImp.deleteCommentFromThePost(userID: userID, postID: postID, commentID: commentID)
     }
+    
+    func archiveThePost(userID: Int,postID: Int) -> Bool {
+        return postDaoImp.archiveThePost(userID: userID, postID: postID)
+    }
+    
+    func unarchiveThePost(userID: Int,postID: Int) -> Bool {
+        return postDaoImp.unarchiveThePost(userID: userID, postID: postID)
+    }
 }
