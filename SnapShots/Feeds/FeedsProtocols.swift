@@ -17,4 +17,6 @@ protocol FeedsControlsProtocol {
     func getAllLikedUsers(postUserID: Int,postID: Int) -> Int
     func getAllComments(postUserID: Int,postID: Int) -> Int
     func removeFriend(profileRequestedUser: Int) -> Bool
+    func addPostToSaved(postUserID: Int,postID: Int) -> Bool
+    func removePostFromSaved(postUserID: Int,postID: Int) -> Bool
 }

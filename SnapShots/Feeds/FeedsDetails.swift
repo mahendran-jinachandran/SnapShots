@@ -11,4 +11,5 @@ struct FeedsDetails {
     var userID: Int
     var userName: String
     var postDetails: Post
+    var isSaved: Bool
 }

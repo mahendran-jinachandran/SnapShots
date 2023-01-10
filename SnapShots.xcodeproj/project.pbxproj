@@ -104,6 +104,9 @@
 		BFB0814C296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0814B296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift */; };
 		BFB0814E296D1F2600D75D28 /* ListCollectionCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0814D296D1F2600D75D28 /* ListCollectionCustomCell.swift */; };
 		BFB08150296D2D2F00D75D28 /* ListCollectionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB0814F296D2D2F00D75D28 /* ListCollectionDetails.swift */; };
+		BFB08152296D673100D75D28 /* SavedPostsDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB08151296D673100D75D28 /* SavedPostsDao.swift */; };
+		BFB08154296D674800D75D28 /* SavedPostDaoImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB08153296D674800D75D28 /* SavedPostDaoImplementation.swift */; };
+		BFB08156296D79CB00D75D28 /* ListCollectionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB08155296D79CB00D75D28 /* ListCollectionEntity.swift */; };
 		BFB3E4C9293EFCC100A266D9 /* CommentsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */; };
 		BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */; };
 		BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */; };
@@ -244,6 +247,9 @@
 		BFB0814B296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionControlsProtocol.swift; sourceTree = "<group>"; };
 		BFB0814D296D1F2600D75D28 /* ListCollectionCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionCustomCell.swift; sourceTree = "<group>"; };
 		BFB0814F296D2D2F00D75D28 /* ListCollectionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionDetails.swift; sourceTree = "<group>"; };
+		BFB08151296D673100D75D28 /* SavedPostsDao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostsDao.swift; sourceTree = "<group>"; };
+		BFB08153296D674800D75D28 /* SavedPostDaoImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPostDaoImplementation.swift; sourceTree = "<group>"; };
+		BFB08155296D79CB00D75D28 /* ListCollectionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionEntity.swift; sourceTree = "<group>"; };
 		BFB3E4C8293EFCC100A266D9 /* CommentsControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsControls.swift; sourceTree = "<group>"; };
 		BFB3E4CA293EFCC900A266D9 /* LikesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesControls.swift; sourceTree = "<group>"; };
 		BFB3E4CC293FA27700A266D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
@@ -529,6 +535,7 @@
 				BF4542D3291B4AD000BAC4B2 /* CommentDaoImplementation.swift */,
 				BF4542D5291B4ADC00BAC4B2 /* LikesDaoImplementation.swift */,
 				BF75F8E8296BEEA200E108D1 /* BlockedUserDaoImplementation.swift */,
+				BFB08153296D674800D75D28 /* SavedPostDaoImplementation.swift */,
 			);
 			name = DaoImplmplementation;
 			sourceTree = "<group>";
@@ -543,6 +550,7 @@
 				BF4542E0291B4B6F00BAC4B2 /* CommentDao.swift */,
 				BF4542E2291B4B7E00BAC4B2 /* LikesDao.swift */,
 				BF75F8E6296BEE5A00E108D1 /* BlockedUserDao.swift */,
+				BFB08151296D673100D75D28 /* SavedPostsDao.swift */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -693,6 +701,7 @@
 				BFB0814B296D1EFF00D75D28 /* ListCollectionControlsProtocol.swift */,
 				BFB0814D296D1F2600D75D28 /* ListCollectionCustomCell.swift */,
 				BFB0814F296D2D2F00D75D28 /* ListCollectionDetails.swift */,
+				BFB08155296D79CB00D75D28 /* ListCollectionEntity.swift */,
 			);
 			path = ListCollections;
 			sourceTree = "<group>";
@@ -897,6 +906,7 @@
 				BFA5601D29267D1C00A948B4 /* NewPostVC.swift in Sources */,
 				BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */,
 				BF8F8F5E29595BE80028C688 /* PostVCHeader.swift in Sources */,
+				BFB08152296D673100D75D28 /* SavedPostsDao.swift in Sources */,
 				BF4542D6291B4ADC00BAC4B2 /* LikesDaoImplementation.swift in Sources */,
 				BF5A13F92935FB0E0051FC8D /* OnboardingControls.swift in Sources */,
 				BFCA6985296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift in Sources */,
@@ -939,6 +949,7 @@
 				BF75F8DE296AEC3900E108D1 /* BottomSheetEntity.swift in Sources */,
 				BFC9BAB92939FE6100EE1D42 /* ResetPasswordControls.swift in Sources */,
 				BFDF7072292E46BA001A736F /* FeedsCustomCell.swift in Sources */,
+				BFB08156296D79CB00D75D28 /* ListCollectionEntity.swift in Sources */,
 				BF4542C7291AB47500BAC4B2 /* RegisterControls.swift in Sources */,
 				BFA560072924BA4400A948B4 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				BF816BA62929D3F30097421D /* AccountVC.swift in Sources */,
@@ -951,6 +962,7 @@
 				BFDF706E292D16B0001A736F /* NewPostControls.swift in Sources */,
 				BF75F8EB296BF32600E108D1 /* ListTableProtocols.swift in Sources */,
 				BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */,
+				BFB08154296D674800D75D28 /* SavedPostDaoImplementation.swift in Sources */,
 				BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */,
 				BFDF706C292D1651001A736F /* UIImageExtension.swift in Sources */,
 				BF4542B6291A325600BAC4B2 /* Gender.swift in Sources */,

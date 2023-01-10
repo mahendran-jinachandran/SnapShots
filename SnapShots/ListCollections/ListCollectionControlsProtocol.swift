@@ -9,4 +9,6 @@ import Foundation
 
 protocol ListCollectionControlsProtocol {
     func getAllArchivedPosts() -> [ListCollectionDetails]
+    func getAllSavedCollections() -> [ListCollectionDetails]
+    func getPostDetails(userID: Int,postID: Int) -> Post
 }

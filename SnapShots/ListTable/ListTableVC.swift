@@ -25,7 +25,6 @@ class ListTableVC: UIViewController {
         return emptyLabel
     }()
     
-    
     init(listTableControls: ListTableProtocol) {
         self.listTableControls = listTableControls
         super.init(nibName: nil, bundle: nil)
@@ -55,7 +54,6 @@ class ListTableVC: UIViewController {
         listTable.delegate = self
         listTable.dataSource = self
       
-        
         view.addSubview(listTable)
         
         NSLayoutConstraint.activate([

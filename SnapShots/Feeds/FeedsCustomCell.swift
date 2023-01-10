@@ -16,14 +16,18 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func deletePost(sender: FeedsCustomCell)
     func goToProfile(sender: FeedsCustomCell)
     func unfollowUser(sender: FeedsCustomCell)
+    func addPostToSaved(sender: FeedsCustomCell)
+    func removePostFromSaved(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
     
     static let identifier = "FeedsCustomCell"
     private var likeFlag: Bool = false
+    private var isSaved: Bool = false
     weak var delegate: FeedsCustomCellDelegate?
     private var isDeletionAllowed: Bool = false
+    private var isLikesHidden: Bool!
     
     private lazy var postContainer: UIView = {
         var postContainer = UIView()
@@ -117,6 +121,19 @@ class FeedsCustomCell: UITableViewCell {
         return postCreatedTime
     }()
     
+    private lazy var saveButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.imagePadding = 6
+        configButton.contentInsets = .zero
+                
+        let saveButton = UIButton(configuration: configButton)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        saveButton.tintColor = UIColor(named: "appTheme")!
+
+        return saveButton
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -129,8 +146,6 @@ class FeedsCustomCell: UITableViewCell {
         moreInfo.layer.cornerRadius = 15
     }
     
-    private var isLikesHidden: Bool!
-    
     func configure(
         profilePhoto: UIImage,
         username: String,
@@ -142,7 +157,8 @@ class FeedsCustomCell: UITableViewCell {
         postCreatedTime: String,
         isDeletionAllowed: Bool,
         isLikesHidden: Bool,
-        isCommentsHidden: Bool) {
+        isCommentsHidden: Bool,
+        isSaved: Bool) {
         
         
         self.profilePhoto.image = profilePhoto
@@ -153,9 +169,11 @@ class FeedsCustomCell: UITableViewCell {
         self.postCreatedTime.text = String(AppUtility.getDate(date: postCreatedTime))
         self.isLikesHidden = isLikesHidden
         self.commentButton.setTitle(String( Double(commentedUsersCount).shortStringRepresentation), for: .normal)
-            self.commentButton.isHidden = isCommentsHidden ? true : false
-        
+        self.commentButton.isHidden = isCommentsHidden ? true : false
+        self.isSaved = isSaved
+            
         setLikeHeartImage(isLiked: likeFlag)
+        setSavedCollectionImage(isSaved: isSaved)
         setupMoreInfoButtonActions(isDeletionAllowed: isDeletionAllowed)
         changeLikesButtonState(isLikesCountHidden: isLikesHidden, likeCount: likedUsersCount)
     }
@@ -173,6 +191,7 @@ class FeedsCustomCell: UITableViewCell {
     private func setupButtonTargets() {
         likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(savePost), for: .touchUpInside)
         
         profilePhoto.addGestureRecognizer(
             UITapGestureRecognizer(target: self, action: #selector(goToProfile))
@@ -181,6 +200,27 @@ class FeedsCustomCell: UITableViewCell {
         userNameLabel.addGestureRecognizer(
             UITapGestureRecognizer(target: self, action: #selector(goToProfile))
         )
+    }
+    
+    @objc private func savePost() {
+        
+        isSaved = !isSaved
+        setSavedCollectionImage(isSaved: isSaved)
+        if isSaved {
+           print("Saving")
+            delegate?.addPostToSaved(sender: self)
+        } else {
+            print("Unsaving")
+            delegate?.removePostFromSaved(sender: self)
+        }
+    }
+    
+    private func setSavedCollectionImage(isSaved: Bool) {
+        let image = isSaved ? UIImage(systemName: "bookmark.fill") : UIImage(systemName: "bookmark")
+        let imageColor = UIColor(named: "appTheme")
+        
+        saveButton.setImage(image, for: .normal)
+        saveButton.tintColor = imageColor
     }
     
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
@@ -210,10 +250,10 @@ class FeedsCustomCell: UITableViewCell {
         
     private func setLikeHeartImage(isLiked: Bool) {
         
-        let imageName = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
+        let image = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
         let imageColour = isLiked ? UIColor.red : UIColor(named: "appTheme")
         
-        likesButton.setImage(imageName, for: .normal)
+        likesButton.setImage(image, for: .normal)
         likesButton.tintColor = imageColour
     }
     
@@ -283,7 +323,7 @@ class FeedsCustomCell: UITableViewCell {
     
     private func setupConstraint() {
         
-        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton ,caption,postCreatedTime].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton ,caption,postCreatedTime,saveButton].forEach {
             postContainer.addSubview($0)
         }
         
@@ -320,7 +360,9 @@ class FeedsCustomCell: UITableViewCell {
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
             commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 4),
-            commentButton.heightAnchor.constraint(equalToConstant: 30),
+
+            saveButton.trailingAnchor.constraint(equalTo: post.trailingAnchor),
+            saveButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 12),
             
             caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor,constant: 15),

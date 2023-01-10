@@ -187,7 +187,8 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             postCreatedTime: feedPosts[indexPath.row].postDetails.postCreatedDate,
             isDeletionAllowed: feedsControls.isDeletionAllowed(userID: feedPosts[indexPath.row].userID),
             isLikesHidden: feedPosts[indexPath.row].postDetails.isLikesHidden,
-            isCommentsHidden: feedPosts[indexPath.row].postDetails.isCommentsHidden
+            isCommentsHidden: feedPosts[indexPath.row].postDetails.isCommentsHidden,
+            isSaved: feedPosts[indexPath.row].isSaved
         )
         
         return particularCell
@@ -195,7 +196,6 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
 }
 
 extension FeedsVC: FeedsCustomCellDelegate {
-
     func controller() -> FeedsVC {
         return self
     }
@@ -271,5 +271,30 @@ extension FeedsVC: FeedsCustomCellDelegate {
             showToast(message: Constants.toastFailureStatus)
         }
         
+    }
+    
+    func addPostToSaved(sender: FeedsCustomCell) {
+        let indexPath = feedsTable.indexPath(for: sender)!
+        
+        if feedsControls.addPostToSaved(
+            postUserID: feedPosts[indexPath.row].userID,
+            postID: feedPosts[indexPath.row].postDetails.postID) {
+            print("Saved")
+        } else {
+            print("Couldnt save")
+        }
+    }
+    
+    func removePostFromSaved(sender: FeedsCustomCell) {
+        
+        let indexPath = feedsTable.indexPath(for: sender)!
+        if feedsControls.removePostFromSaved(
+            postUserID: feedPosts[indexPath.row].userID,
+            postID: feedPosts[indexPath.row].postDetails.postID) {
+            
+            print("Removed")
+        } else {
+            print("Couldnt Remove")
+        }
     }
 }

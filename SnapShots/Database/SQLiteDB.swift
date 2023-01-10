@@ -153,6 +153,17 @@ class SQLiteDatabase: DatabaseProtocol {
         );
         """
         
+        let savedPostsTable = """
+        CREATE TABLE IF NOT EXISTS SavedPosts (
+            User_id INT,
+            PostUser_id INT,
+            Post_id INT,
+            FOREIGN KEY (User_id) REFERENCES User(User_id) ON DELETE CASCADE,
+            FOREIGN KEY (PostUser_id) REFERENCES User(User_id) ON DELETE CASCADE,
+            FOREIGN KEY (Post_id,User_id) REFERENCES Post(Post_id,User_id) ON DELETE CASCADE
+        );
+        """
+        
         createTable(createTableString: createUserTable)
         createTable(createTableString: createPostTable)
         createTable(createTableString: createFriendsTable)
@@ -160,6 +171,7 @@ class SQLiteDatabase: DatabaseProtocol {
         createTable(createTableString: createCommentsTable)
         createTable(createTableString: createFriendRequestTable)
         createTable(createTableString: blockedUsersTable)
+        createTable(createTableString: savedPostsTable)
     }
     
     

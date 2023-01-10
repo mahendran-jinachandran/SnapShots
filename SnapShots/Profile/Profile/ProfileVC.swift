@@ -379,16 +379,19 @@ extension ProfileVC: BottomSheetsVCDelegate {
         
         switch VCName {
             case .settings:
-                print("Settings")
                 navigationController?.pushViewController(SettingsViewController(), animated: true)
+            
             case .archives:
-                let listCollectionVC = ListCollectionVC(listCollectionControls: ListCollectionControls())
+                let listCollectionVC = ListCollectionVC(listCollectionControls: ListCollectionControls(),listCollectionEntity: .archive)
                 navigationController?.pushViewController(listCollectionVC, animated: true)
+            
             case .blockedUsers:
                 let listTableVC = ListTableVC(listTableControls: ListTableControls())
                 navigationController?.pushViewController(listTableVC, animated: true)
+            
             case .saved:
-                print("Saved")
+                let listCollectionVC = ListCollectionVC(listCollectionControls: ListCollectionControls(), listCollectionEntity: .savedCollection)
+                navigationController?.pushViewController(listCollectionVC, animated: true)
         }
     }
 }

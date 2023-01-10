@@ -9,5 +9,5 @@ import Foundation
 
 struct ListCollectionDetails {
     var userID: Int
-    var postDetails: Post
+    var postID: Int
 }

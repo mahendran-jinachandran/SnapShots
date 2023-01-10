@@ -11,6 +11,7 @@ class PostDaoImplementation: PostDao {
 
     private let USER_TABLE_NAME = "User"
     private let POST_TABLE_NAME = "Post"
+    private let SAVED_POSTS_TABLE_NAME = "SavedPosts"
     private let POST_ID = "Post_id"
     private let PHOTO = "Photo"
     private let CAPTION = "Caption"
@@ -22,6 +23,8 @@ class PostDaoImplementation: PostDao {
     private let BLOCKED_USERS_TABLE_NAME = "BlockedUsers"
     private let BLOCKED_USER_ID = "BlockedUser_id"
     private let IS_ARCHIVED = "isArchived"
+    private let POST_USER_ID = "PostUser_id"
+    
     
     private let sqliteDatabase: DatabaseProtocol
     private let friendsDaoImplementation: FriendsDao
@@ -124,7 +127,18 @@ class PostDaoImplementation: PostDao {
             ;
             """
             
+            let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+            
             for (_,friend) in sqliteDatabase.retrievingQuery(query: getAllFriendsPostQuery) {
+                
+                let isSavedQuery = """
+                SELECT * FROM \(SAVED_POSTS_TABLE_NAME)
+                WHERE \(USER_ID) = \(loggedUserID) AND
+                \(POST_USER_ID) = \(Int(friend[0])!) AND
+                \(POST_ID) = \(Int(friend[2])!)
+                """
+                
+                let isSaved = sqliteDatabase.retrievingQuery(query: isSavedQuery).isEmpty ? false : true
                 
                 feedPosts.append(
                     FeedsDetails(
@@ -138,7 +152,8 @@ class PostDaoImplementation: PostDao {
                             isLikesHidden: Int(friend[6]) == 0 ? false : true ,
                             isCommentsHidden: Int(friend[7]) == 0 ? false : true,
                             isArchived: Int(friend[8]) == 0 ? false : true
-                        )
+                        ),
+                        isSaved: isSaved
                     )
                 )
             }
@@ -263,7 +278,7 @@ class PostDaoImplementation: PostDao {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         
         let getArchivedPostsQuery = """
-        SELECT * FROM \(POST_TABLE_NAME)
+        SELECT \(USER_ID),\(POST_ID) FROM \(POST_TABLE_NAME)
         WHERE \(USER_ID) = \(loggedUserID) AND
         \(IS_ARCHIVED) = \(1)
         """
@@ -272,21 +287,38 @@ class PostDaoImplementation: PostDao {
         for (_,post) in sqliteDatabase.retrievingQuery(query: getArchivedPostsQuery) {
             posts.append(
                 ListCollectionDetails(
-                    userID: Int(post[3])!,
-                    postDetails: Post(
-                        postID: Int(post[0])!,
-                        photo: post[1],
-                        caption: post[2],
-                        postCreatedDate: post[4],
-                        isLikesHidden: Int(post[5]) == 0 ? false : true,
-                        isCommentsHidden: Int(post[6]) == 0 ? false : true,
-                        isArchived: Int(post[7]) == 0 ? false : true
-                    )
+                    userID: Int(post[0])!,
+                    postID: Int(post[1])!
                 )
             )
         }
         
         return posts
+    }
+    
+    func getPostDetails(userID: Int,postID: Int) -> Post {
+        
+        let getPostQuery = """
+        SELECT \(POST_ID),\(PHOTO),\(CAPTION),\(CREATED_TIME),\(IS_LIKES_HIDDEN),\(IS_COMMENTS_HIDDEN),\(IS_ARCHIVED)
+        FROM \(POST_TABLE_NAME)
+        WHERE \(USER_ID) = \(userID) AND
+        \(POST_ID) = \(postID);
+        """
+        
+        var postDetail: Post!
+        for (_,post) in sqliteDatabase.retrievingQuery(query: getPostQuery) {
+            postDetail = Post(
+                postID: Int(post[0])!,
+                photo: post[1],
+                caption: post[2],
+                postCreatedDate: post[3],
+                isLikesHidden: Int(post[4]) == 0 ? false : true ,
+                isCommentsHidden: Int(post[5]) == 0 ? false : true,
+                isArchived: Int(post[6]) == 0 ? false : true
+            )
+        }
+        
+        return postDetail
     }
 }
 

@@ -12,6 +12,7 @@ class ListCollectionVC: UIViewController {
     private lazy var layout = UICollectionViewFlowLayout()
     private var listCollectionControls: ListCollectionControlsProtocol
     private var posts = [ListCollectionDetails]()
+    private var collectionEntity: ListCollectionEntity
     
     private lazy var listCollection: UICollectionView = {
         var listCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -28,8 +29,9 @@ class ListCollectionVC: UIViewController {
         return emptyLabel
     }()
     
-    init(listCollectionControls: ListCollectionControlsProtocol) {
+    init(listCollectionControls: ListCollectionControlsProtocol,listCollectionEntity: ListCollectionEntity) {
         self.listCollectionControls = listCollectionControls
+        self.collectionEntity = listCollectionEntity
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,7 +42,12 @@ class ListCollectionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Archive"
+        if collectionEntity == .archive {
+            title = "Archive"
+        } else {
+            title = "Saved Collection"
+        }
+   
         view.backgroundColor = .systemBackground
         setupListCollections()
         
@@ -69,14 +76,20 @@ class ListCollectionVC: UIViewController {
             listCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        posts = listCollectionControls.getAllArchivedPosts()
-        if posts.isEmpty {
-            listCollection.backgroundView?.alpha = 1.0
+        if collectionEntity == .archive {
+            posts = listCollectionControls.getAllArchivedPosts()
+        } else {
+            posts = listCollectionControls.getAllSavedCollections()
         }
     }
     
     @objc func setupData() {
-        posts = listCollectionControls.getAllArchivedPosts()
+        if collectionEntity == .archive {
+            posts = listCollectionControls.getAllArchivedPosts()
+        } else {
+            posts = listCollectionControls.getAllSavedCollections()
+        }
+        
         listCollection.reloadData()
     }
 }
@@ -108,7 +121,7 @@ extension ListCollectionVC: UICollectionViewDelegateFlowLayout,UICollectionViewD
         
         let postPicture = AppUtility.getPostPicture(
             userID: posts[indexPath.row].userID,
-            postID: posts[indexPath.row].postDetails.postID)
+            postID: posts[indexPath.row].postID)
         
         cell.configure(postImage: postPicture)
         cell.delegate = self
@@ -129,10 +142,13 @@ extension ListCollectionVC: ListCollectionCustomCellDelegate {
         
         let postPicture = AppUtility.getPostPicture(
             userID: posts[indexPath.row].userID,
-            postID: posts[indexPath.row].postDetails.postID)
+            postID: posts[indexPath.row].postID)
         
+        let postDetails = listCollectionControls.getPostDetails(userID: posts[indexPath.row].userID,
+                                                                postID: posts[indexPath.row].postID)
         let postControls = PostControls()
-        let postVC = PostVC(postControls: postControls,userID: posts[indexPath.row].userID,postImage: postPicture, postDetails: posts[indexPath.row].postDetails)
+        let postVC = PostVC(postControls: postControls,userID: posts[indexPath.row].userID,postImage: postPicture, postDetails:
+                                postDetails)
     
         navigationController?.pushViewController(postVC,animated: true)
     }
