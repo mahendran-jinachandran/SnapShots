@@ -269,6 +269,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
               
               self.delegate?.unfollowUser()
               NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+              NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
               self.delegate?.controller().navigationController?.popViewController(animated: true)
         }
         
