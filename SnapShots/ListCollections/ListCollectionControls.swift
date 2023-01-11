@@ -20,11 +20,14 @@ class ListCollectionControls: ListCollectionControlsProtocol {
     }
     
     func getAllSavedCollections() -> [ListCollectionDetails] {
-        
         return savedDaoImp.getAllSavedPosts()
     }
     
     func getPostDetails(userID: Int,postID: Int) -> Post {
         return postDaoImp.getPostDetails(userID: userID, postID: postID)
+    }
+    
+    func isSavedPost(userID: Int,postID: Int) -> Bool {
+        return savedDaoImp.isPostSaved(postUserID: userID, postID: postID)
     }
 }

@@ -146,9 +146,15 @@ extension ListCollectionVC: ListCollectionCustomCellDelegate {
         
         let postDetails = listCollectionControls.getPostDetails(userID: posts[indexPath.row].userID,
                                                                 postID: posts[indexPath.row].postID)
+        
+        let isSaved = listCollectionControls.isSavedPost(userID: posts[indexPath.row].userID,
+                                                         postID: posts[indexPath.row].postID)
         let postControls = PostControls()
-        let postVC = PostVC(postControls: postControls,userID: posts[indexPath.row].userID,postImage: postPicture, postDetails:
-                                postDetails)
+        let postVC = PostVC(
+            postControls: postControls,
+            userID: posts[indexPath.row].userID,
+            postImage: postPicture,
+            postDetails: postDetails,isSaved: isSaved)
     
         navigationController?.pushViewController(postVC,animated: true)
     }

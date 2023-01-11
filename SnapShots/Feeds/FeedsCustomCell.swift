@@ -207,12 +207,12 @@ class FeedsCustomCell: UITableViewCell {
         isSaved = !isSaved
         setSavedCollectionImage(isSaved: isSaved)
         if isSaved {
-           print("Saving")
             delegate?.addPostToSaved(sender: self)
         } else {
-            print("Unsaving")
             delegate?.removePostFromSaved(sender: self)
         }
+        
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     private func setSavedCollectionImage(isSaved: Bool) {

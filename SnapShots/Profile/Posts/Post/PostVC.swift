@@ -14,14 +14,16 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     private var postControls: PostControlsProtocol
     private var userID: Int
     private var likeFlag: Bool!
+    private var isSaved: Bool
     private var commentDetails: [CommentDetails] = []
     private var refreshControl = UIRefreshControl()
 
-    init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post) {
+    init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post,isSaved: Bool) {
         self.postControls = postControls
         self.userID = userID
         self.postImage = postImage
         self.postDetails = postDetails
+        self.isSaved = isSaved
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -137,7 +139,8 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             isDeletionAllowed: postControls.isDeletionAllowed(userID: userID),
             isLikesCountHidden: postControls.getLikesButtonVisibilityState(userID: userID, postID: postDetails.postID),
             isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID),
-            isArchived: postDetails.isArchived
+            isArchived: postDetails.isArchived,
+            isSaved: isSaved
         )
         
         return headerView
@@ -236,17 +239,16 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
 extension PostVC: PostVCHeaderDelegate {
 
-
     func controller() -> PostVC {
         return self
     }
 
-    func likeThePost(sender: PostVCHeader) {
+    func likeThePost() {
         _ = postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID)
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
 
-    func unLikeThePost(sender: PostVCHeader) {
+    func unLikeThePost() {
         _ = postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID)
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
@@ -293,18 +295,25 @@ extension PostVC: PostVCHeaderDelegate {
     }
     
     func archiveThePost() {
-      _ = postControls.archiveThePost(
-            userID: userID,
-            postID: postDetails.postID
-        )
+      _ = postControls.archiveThePost(userID: userID,postID: postDetails.postID)
     }
     
     func unarchiveThePost() {
-        _ = postControls.unarchiveThePost(
-            userID: userID,
-            postID: postDetails.postID
-         )
+        _ = postControls.unarchiveThePost(userID: userID,postID: postDetails.postID)
     }
+    
+    func addPostToSaved() {
+        _ = postControls.addPostToSaved(postUserID: userID, postID: postDetails.postID)
+        self.isSaved = true
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    }
+    
+    func removePostFromSaved() {
+        _ = postControls.removePostFromSaved(postUserID: userID, postID: postDetails.postID)
+        self.isSaved = false
+        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    }
+    
 }
 
 extension PostVC : UITextFieldDelegate {

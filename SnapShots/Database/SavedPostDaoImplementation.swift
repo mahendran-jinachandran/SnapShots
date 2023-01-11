@@ -70,4 +70,19 @@ class SavedPostDaoImplementation: SavedPostsDao {
         
         return posts
     }
+    
+    func isPostSaved(postUserID: Int,postID: Int) -> Bool {
+        
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        
+        let getAllSavedPosts = """
+          SELECT * FROM \(SAVED_POSTS_TABLE_NAME)
+          WHERE \(USER_ID) = \(loggedUserID) AND
+          \(POST_USER_ID) = \(postUserID) AND
+          \(POST_ID) = \(postID)
+        """
+        
+        let isSaved = sqliteDatabase.booleanQuery(query: getAllSavedPosts)
+        return isSaved
+    }
 }

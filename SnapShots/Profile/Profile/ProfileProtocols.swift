@@ -18,4 +18,5 @@ protocol ProfileControlsProtocols {
     func updateProfilePhoto(profilePhoto: UIImage) -> Bool
     func removeProfilePhoto() -> Bool
     func blockTheUser(userID: Int)
+    func isPostSaved(postUserID: Int,postID: Int) -> Bool
 }

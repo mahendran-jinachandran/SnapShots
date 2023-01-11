@@ -10,5 +10,6 @@ import Foundation
 protocol SavedPostsDao {
     func addPostToSaved(postUserID: Int,postID: Int) -> Bool
     func removePostFromSaved(postUserID: Int,postID: Int) -> Bool
-    func getAllSavedPosts() -> [ListCollectionDetails] 
+    func getAllSavedPosts() -> [ListCollectionDetails]
+    func isPostSaved(postUserID: Int,postID: Int) -> Bool
 }

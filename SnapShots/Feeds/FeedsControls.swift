@@ -74,7 +74,6 @@ class FeedsControls {
     }
     
     func addPostToSaved(postUserID: Int,postID: Int) -> Bool {
-        
         return savedPostDaoImp.addPostToSaved(postUserID: postUserID, postID: postID)
     }
     

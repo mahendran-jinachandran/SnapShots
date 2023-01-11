@@ -31,4 +31,6 @@ protocol PostControlsProtocol {
     func deleteComment(userID: Int,postID: Int,commentID: Int)
     func archiveThePost(userID: Int,postID: Int) -> Bool
     func unarchiveThePost(userID: Int,postID: Int) -> Bool
+    func addPostToSaved(postUserID: Int,postID: Int) -> Bool
+    func removePostFromSaved(postUserID: Int,postID: Int) -> Bool
 }

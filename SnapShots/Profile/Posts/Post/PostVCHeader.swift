@@ -9,8 +9,8 @@ import UIKit
 
 protocol PostVCHeaderDelegate: AnyObject {
     func controller() -> PostVC
-    func likeThePost(sender: PostVCHeader)
-    func unLikeThePost(sender: PostVCHeader)
+    func likeThePost()
+    func unLikeThePost()
     func deletePost() -> Bool
     func displayAllLikesUsers()
     func openCommentBox()
@@ -21,6 +21,8 @@ protocol PostVCHeaderDelegate: AnyObject {
     func unhideComments()
     func archiveThePost()
     func unarchiveThePost()
+    func addPostToSaved()
+    func removePostFromSaved()
 }
 
 class PostVCHeader: UITableViewHeaderFooterView {
@@ -28,6 +30,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
     static let identifier = "PostVCHeader"
     weak var delegate: PostVCHeaderDelegate?
     private var likeFlag: Bool!
+    private var isSaved: Bool = false
     
     private lazy var profilePhoto: UIImageView = {
         let profileImage = UIImageView(frame: .zero)
@@ -115,6 +118,19 @@ class PostVCHeader: UITableViewHeaderFooterView {
         postCreatedTime.textAlignment = .left
         return postCreatedTime
     }()
+    
+    private lazy var saveButton: UIButton = {
+        var configButton = UIButton.Configuration.borderless()
+        configButton.imagePadding = 6
+        configButton.contentInsets = .zero
+                
+        let saveButton = UIButton(configuration: configButton)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        saveButton.tintColor = UIColor(named: "appTheme")!
+
+        return saveButton
+    }()
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -130,7 +146,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool,isArchived: Bool) {
+    func configure(profilePhoto: UIImage,username: String,postPhoto: UIImage,caption: String,postCreatedTime: String,likeCount: Int,commentsCount: Int,isAlreadyLiked: Bool,isDeletionAllowed: Bool,isLikesCountHidden: Bool,isCommentsHidden: Bool,isArchived: Bool,isSaved: Bool) {
         
         self.profilePhoto.image = profilePhoto
         self.userNameLabel.text = username
@@ -138,7 +154,10 @@ class PostVCHeader: UITableViewHeaderFooterView {
         self.caption.text = caption
         self.postCreatedTime.text = postCreatedTime
         self.likeFlag = isAlreadyLiked
+        self.isSaved = isSaved
+        
         setLikeHeartImage(isLiked: likeFlag)
+        setSavedCollectionImage(isSaved: isSaved)
         
         setupLikes(isLikesCountHidden: isLikesCountHidden, likeCount: likeCount)
         changeLikesButtonState(isLikesCountHidden: isLikesCountHidden, likeCount: likeCount)
@@ -174,8 +193,28 @@ class PostVCHeader: UITableViewHeaderFooterView {
     private func setupTapGestures() {
         likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(goToComments), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(savePost), for: .touchUpInside)
         
         viewAllLikes.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getAllLikedUsers)))
+    }
+    
+    @objc private func savePost() {
+        
+        isSaved = !isSaved
+        setSavedCollectionImage(isSaved: isSaved)
+        if isSaved {
+            delegate?.addPostToSaved()
+        } else {
+            delegate?.removePostFromSaved()
+        }
+    }
+    
+    private func setSavedCollectionImage(isSaved: Bool) {
+        let image = isSaved ? UIImage(systemName: "bookmark.fill") : UIImage(systemName: "bookmark")
+        let imageColor = UIColor(named: "appTheme")
+        
+        saveButton.setImage(image, for: .normal)
+        saveButton.tintColor = imageColor
     }
     
     @objc private func reactToThePost(_ sender : UITapGestureRecognizer) {
@@ -187,14 +226,14 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 String( Int((self.likesButton.titleLabel?.text!)!)! + 1),
                 for: .normal)
     
-            delegate?.likeThePost(sender: self)
+            delegate?.likeThePost()
         } else {
             setLikeHeartImage(isLiked: likeFlag)
             self.likesButton.setTitle(
                 String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
                 for: .normal)
             
-            delegate?.unLikeThePost(sender: self)
+            delegate?.unLikeThePost()
         }
         
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
@@ -334,7 +373,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
     
     private func setupConstraint() {
         
-        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton,viewAllLikes ,caption,postCreatedTime].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton,viewAllLikes ,caption,postCreatedTime,saveButton].forEach {
             contentView.addSubview($0)
         }
         
@@ -366,7 +405,9 @@ class PostVCHeader: UITableViewHeaderFooterView {
             
             commentButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
             commentButton.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor,constant: 4),
-            commentButton.heightAnchor.constraint(equalToConstant: 30),
+           
+            saveButton.trailingAnchor.constraint(equalTo: post.trailingAnchor),
+            saveButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 12),
             
             viewAllLikes.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 4),
             viewAllLikes.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),

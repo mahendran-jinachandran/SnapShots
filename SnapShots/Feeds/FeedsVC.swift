@@ -161,7 +161,8 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             postControls: postControls,
             userID: feedPosts[indexPath.row].userID,
             postImage: postPhoto,
-            postDetails: feedPosts[indexPath.row].postDetails)
+            postDetails: feedPosts[indexPath.row].postDetails,
+            isSaved: feedPosts[indexPath.row].isSaved)
         
         navigationController?.pushViewController(postVC, animated: true)
     }
