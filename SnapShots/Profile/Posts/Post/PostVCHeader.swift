@@ -99,6 +99,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         var viewAllLikes = UILabel()
         viewAllLikes.translatesAutoresizingMaskIntoConstraints = false
         viewAllLikes.font = UIFont.systemFont(ofSize:17)
+        viewAllLikes.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         viewAllLikes.isUserInteractionEnabled = true
         return viewAllLikes
     }()
@@ -131,6 +132,9 @@ class PostVCHeader: UITableViewHeaderFooterView {
 
         return saveButton
     }()
+    
+    var withViewLikes = [NSLayoutConstraint]()
+    var withoutViewLikes = [NSLayoutConstraint]()
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -138,6 +142,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
         contentView.backgroundColor = .systemBackground
         setupConstraint()
         setupTapGestures()
+        setupViewLikesConstraints()
         profilePhoto.layer.cornerRadius = 40/2
         moreInfo.layer.cornerRadius = 15
     }
@@ -183,11 +188,50 @@ class PostVCHeader: UITableViewHeaderFooterView {
     }
     
     private func setupLikes(isLikesCountHidden: Bool,likeCount: Int) {
+        
+     
         if !isLikesCountHidden && likeCount > 0 {
             self.viewAllLikes.text = "View \(Double(likeCount).shortStringRepresentation) Likes"
+            NSLayoutConstraint.deactivate(withoutViewLikes)
+            NSLayoutConstraint.activate(withViewLikes)
+
         } else {
-            self.viewAllLikes.text = "View all Likes"
+            self.viewAllLikes.text = "View 0 Likes"
+            NSLayoutConstraint.deactivate(withViewLikes)
+            NSLayoutConstraint.activate(withoutViewLikes)
         }
+        
+        layoutIfNeeded()
+    }
+
+    func setupViewLikesConstraints() {
+        
+         withViewLikes = [
+            viewAllLikes.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 4),
+            viewAllLikes.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            viewAllLikes.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            caption.topAnchor.constraint(equalTo: viewAllLikes.bottomAnchor,constant: 28),
+            caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            caption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 4),
+            postCreatedTime.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            postCreatedTime.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -8),
+            postCreatedTime.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
+         ]
+        
+        withoutViewLikes = [
+            
+            caption.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 8),
+            caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            caption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 4),
+            postCreatedTime.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            postCreatedTime.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -8),
+            postCreatedTime.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
+        ]
     }
     
     private func setupTapGestures() {
@@ -357,7 +401,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
     
     private func setupConstraint() {
         
-        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton,viewAllLikes ,caption,postCreatedTime,saveButton].forEach {
+        [profilePhoto,userNameLabel,moreInfo,post,likesButton,commentButton,saveButton,viewAllLikes,caption,postCreatedTime].forEach {
             contentView.addSubview($0)
         }
         
@@ -396,11 +440,11 @@ class PostVCHeader: UITableViewHeaderFooterView {
             viewAllLikes.topAnchor.constraint(equalTo: likesButton.bottomAnchor,constant: 4),
             viewAllLikes.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
             viewAllLikes.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
+
             caption.topAnchor.constraint(equalTo: viewAllLikes.bottomAnchor,constant: 8),
             caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
             caption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
+
             postCreatedTime.topAnchor.constraint(equalTo: caption.bottomAnchor,constant: 4),
             postCreatedTime.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
             postCreatedTime.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -8),
