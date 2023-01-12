@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class NewPostVC: UIViewController,UITextViewDelegate {
     
@@ -200,7 +201,38 @@ class NewPostVC: UIViewController,UITextViewDelegate {
         }
         
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        sendLocalNotifications()
         self.dismiss(animated: true)
+    }
+    
+    func sendLocalNotifications() {
+        
+        let center = UNUserNotificationCenter.current()
+        
+       
+        center.requestAuthorization(options: [.alert,.badge,.sound]) { (granted,error) in
+            if error == nil {
+                print("User permission is granted: \(granted)")
+            } else {
+                print("Not granted")
+            }
+        }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Snapshots"
+        content.body = "Uploaded a new post"
+        
+        let date = Date().addingTimeInterval(10)
+        let dateComponent = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+        
+        let uuid = UUID().uuidString
+        let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
+        
+        center.add(request) { (error) in
+            print("Error")
+        }
     }
     
     @objc private func handleKeyboard(_ notification: Notification) {

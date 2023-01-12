@@ -112,18 +112,13 @@ class ProfileVC: UIViewController{
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: moreInfo)
         
         let blockUser = UIAction(title: "Block User",image: UIImage(systemName: "nosign")) { _ in
-            print("Blocked user")
             self.profileControls.blockTheUser(userID: self.userID)
             NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
             self.navigationController?.popViewController(animated: true)
         }
         
-        let addToFavourite = UIAction(title: "Add to favourites", image: UIImage(systemName: "star")) { _ in
-            print("Added to favourites")
-        }
-        
         moreInfo.showsMenuAsPrimaryAction = true
-        let moreInfoMenu = UIMenu(title: "",children: [blockUser,addToFavourite])
+        let moreInfoMenu = UIMenu(title: "",children: [blockUser])
         moreInfo.menu = moreInfoMenu
         
     }

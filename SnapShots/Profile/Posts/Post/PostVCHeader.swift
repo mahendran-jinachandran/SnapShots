@@ -8,10 +8,10 @@
 import UIKit
 
 protocol PostVCHeaderDelegate: AnyObject {
-    func controller() -> PostVC
+    func popAViewController()
+    func confirmDeletion()
     func likeThePost()
     func unLikeThePost()
-    func deletePost() -> Bool
     func displayAllLikesUsers()
     func openCommentBox()
     func unfollowUser()
@@ -270,7 +270,8 @@ class PostVCHeader: UITableViewHeaderFooterView {
               self.delegate?.unfollowUser()
               NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
               NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
-              self.delegate?.controller().navigationController?.popViewController(animated: true)
+              // MARK: CHECK
+              self.delegate?.popAViewController()
         }
         
         var likesCountVisibility: UIAction
@@ -282,15 +283,17 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 
                 self.delegate?.archiveThePost()
                 NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-                self.delegate?.controller().navigationController?.popViewController(animated: true)
-                print("Archive")
+                // MARK: CHECK
+                self.delegate?.popAViewController()
             }
         } else {
             archivedAction = UIAction(title: "Unarchive", image: UIImage(systemName: "archivebox.fill")) { _ in
                 
                 self.delegate?.unarchiveThePost()
                 NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-                self.delegate?.controller().navigationController?.popViewController(animated: true)
+                
+                // MARK: CHECK
+                self.delegate?.popAViewController()
             }
         }
         
@@ -345,27 +348,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
     }
     
     private func confirmDeletion() {
-
-        let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
-
-        confirmDeletion.addAction(
-            UIAlertAction(title: "Delete", style: .destructive) { _ in
-
-                if !self.delegate!.deletePost() {
-                    self.delegate?.controller().showToast(message: Constants.toastFailureStatus)
-                    return
-                }
-
-                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-                self.delegate?.controller().navigationController?.popViewController(animated: true)
-            }
-        )
-
-        confirmDeletion.addAction(
-            UIAlertAction(title: "Cancel", style: .cancel)
-        )
-
-        delegate?.controller().present(confirmDeletion, animated: true)
+        self.delegate?.confirmDeletion()
     }
     
     @objc func getAllLikedUsers() {

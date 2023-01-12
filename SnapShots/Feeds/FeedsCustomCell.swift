@@ -8,7 +8,6 @@
 import UIKit
 
 protocol FeedsCustomCellDelegate: AnyObject {
-    func controller() -> FeedsVC
     func likeThePost(sender: FeedsCustomCell)
     func unLikeThePost(sender: FeedsCustomCell)
     func showLikes(sender: FeedsCustomCell)
@@ -18,6 +17,8 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func unfollowUser(sender: FeedsCustomCell)
     func addPostToSaved(sender: FeedsCustomCell)
     func removePostFromSaved(sender: FeedsCustomCell)
+    func popAViewController()
+    func confirmDeletion(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -286,7 +287,9 @@ class FeedsCustomCell: UITableViewCell {
               self.delegate?.unfollowUser(sender: self)
               NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
               NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
-              self.delegate?.controller().navigationController?.popViewController(animated: true)
+              
+              // MARK: CHECK THIS              
+              self.delegate?.popAViewController()
         }
         
         moreInfo.showsMenuAsPrimaryAction = true
@@ -303,19 +306,9 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     private func confirmDeletion() {
-        let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
         
-        let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.delegate?.deletePost(sender: self)
-            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        confirmDeletion.addAction(confirm)
-        confirmDeletion.addAction(cancel)
-        
-        delegate?.controller().present(confirmDeletion, animated: true)
+        // MARK: CHECK THIS
+        self.delegate?.confirmDeletion(sender: self)
     }
     
     required init?(coder: NSCoder) {

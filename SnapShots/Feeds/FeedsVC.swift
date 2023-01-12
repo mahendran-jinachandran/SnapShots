@@ -197,9 +197,28 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
 }
 
 extension FeedsVC: FeedsCustomCellDelegate {
-    func controller() -> FeedsVC {
-        return self
+    
+    func popAViewController() {
+        navigationController?.popViewController(animated: true)
     }
+    
+    func confirmDeletion(sender: FeedsCustomCell) {
+        
+        let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
+        
+        let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deletePost(sender: sender)
+            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        confirmDeletion.addAction(confirm)
+        confirmDeletion.addAction(cancel)
+        
+        present(confirmDeletion, animated: true)
+    }
+    
     
     func likeThePost(sender: FeedsCustomCell) {
         

@@ -238,9 +238,33 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 }
 
 extension PostVC: PostVCHeaderDelegate {
+    
+    func popAViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func confirmDeletion() {
+        
+        let confirmDeletion = UIAlertController(title: "Confirm Delete?", message: "You won't be able to retrieve it later.", preferredStyle: .alert)
 
-    func controller() -> PostVC {
-        return self
+        confirmDeletion.addAction(
+            UIAlertAction(title: "Delete", style: .destructive) { _ in
+
+                if self.deletePost() {
+                    self.showToast(message: Constants.toastFailureStatus)
+                    return
+                }
+
+                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                self.navigationController?.popViewController(animated: true)
+            }
+        )
+
+        confirmDeletion.addAction(
+            UIAlertAction(title: "Cancel", style: .cancel)
+        )
+
+        present(confirmDeletion, animated: true)
     }
 
     func likeThePost() {
