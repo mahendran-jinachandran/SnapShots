@@ -54,7 +54,6 @@ class ListCollectionVC: UIViewController {
     }
     
     func setupNotificationCenters() {
-     //   NotificationCenter.default.addObserver(self, selector: #selector(setupData), name: Constants.publishPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
     }
     

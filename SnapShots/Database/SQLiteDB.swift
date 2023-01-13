@@ -261,12 +261,7 @@ class SQLiteDatabase: DatabaseProtocol {
                    rowID  // MARK: ROW ID AFFECTED
                     in
                     
-                    print(pointer1!.self)
-                    print(operationPerformed)
-                    print(char1!.self)
-                    print(tableName!.self)
-                    print(rowID)
-                    
+         
                     var operation: Operations!
                     var tableAffected: TableName!
                     let tableName = String(cString: tableName!)
@@ -278,9 +273,6 @@ class SQLiteDatabase: DatabaseProtocol {
                     } else {
                         return
                     }
-                    
-                    print(tableName)
-                    
                     
                     if tableName == "User" {
                         tableAffected = .user

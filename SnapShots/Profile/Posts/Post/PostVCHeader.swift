@@ -189,7 +189,6 @@ class PostVCHeader: UITableViewHeaderFooterView {
     
     private func setupLikes(isLikesCountHidden: Bool,likeCount: Int) {
         
-     
         if !isLikesCountHidden && likeCount > 0 {
             self.viewAllLikes.text = "View \(Double(likeCount).shortStringRepresentation) Likes"
             NSLayoutConstraint.deactivate(withoutViewLikes)

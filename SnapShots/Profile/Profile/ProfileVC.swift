@@ -262,10 +262,66 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     }
 
     func setupNotificationSubscription() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(createPost(_:)), name: Constants.createPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
-       // NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.likePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
+    }
+    
+    
+    @objc private func updatePost(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
+            
+            var isPostArchivingChanged: Bool = false
+            
+            for post in posts where post.postID == data.postDetails.postID {
+                isPostArchivingChanged = post.isArchived != data.postDetails.isArchived
+            }
+            
+            if isPostArchivingChanged || posts.isEmpty {
+                if data.postDetails.isArchived {
+                    for (index,post) in posts.enumerated() where post.postID == data.postDetails.postID {
+                                        
+                        posts.remove(at: index)
+                        profileView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+                        profileView.deleteItems(at: [IndexPath(row: index, section: 0)])
+                        
+                        let headerView =  profileView.dequeueReusableSupplementaryView(
+                            ofKind: "UICollectionElementKindSectionHeader",
+                            withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
+                            for: IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+                        
+                        headerView.setData(
+                            username: profileUser.userName,
+                            friendsCount: profileUser.profile.friendsList.count,
+                            postsCount: posts.count,
+                            bio: profileUser.profile.bio,
+                            profileDP: profileUser.profile.photo,
+                            profileAccessibility: profileAccessibility
+                        )
+                    }
+                    
+                } else {
+                    
+                    posts.insert(data.postDetails, at: 0)
+                    profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
+                    
+                    let headerView =  profileView.dequeueReusableSupplementaryView(
+                        ofKind: "UICollectionElementKindSectionHeader",
+                        withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
+                        for: IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+                    
+                    headerView.setData(
+                        username: profileUser.userName,
+                        friendsCount: profileUser.profile.friendsList.count,
+                        postsCount: posts.count,
+                        bio: profileUser.profile.bio,
+                        profileDP: profileUser.profile.photo,
+                        profileAccessibility: profileAccessibility
+                    )
+                }
+                
+            }
+        }
     }
     
     @objc private func createPost(_ notification: NSNotification) {

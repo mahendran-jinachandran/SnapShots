@@ -107,8 +107,9 @@ class FeedsVC: UIViewController {
     
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(createPost(_:)), name: Constants.createPostEvent, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
+      
     }
     
     @objc private func createPost(_ notification: NSNotification) {
@@ -116,6 +117,41 @@ class FeedsVC: UIViewController {
             feedPosts.insert(data, at: 0)
             feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
             
+        }
+    }
+    
+    @objc private func updatePost(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
+            
+            var isPhotoArchivingChanged: Bool = false
+            for (_,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
+                isPhotoArchivingChanged = feedPost.postDetails.isArchived != data.postDetails.isArchived
+            }
+        
+            
+            if isPhotoArchivingChanged || feedPosts.isEmpty {
+                if data.postDetails.isArchived {
+                    for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
+                        
+                        feedPosts.remove(at: index)
+                        
+                        feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                        feedsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+                        shouldBackgroundBeChanged()
+                    }
+                } else if !data.postDetails.isArchived {
+                    feedPosts.insert(data, at: 0)
+                    feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+                }
+            }
+    
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
+                
+                feedPosts[index] = data
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+                shouldBackgroundBeChanged()
+            }
         }
     }
     
@@ -129,35 +165,38 @@ class FeedsVC: UIViewController {
                 
                 feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
                 feedsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+                shouldBackgroundBeChanged()
             }
         }
     }
     
-    @objc private func likePost(_ notification: NSNotification) {
+//    @objc private func likePost(_ notification: NSNotification) {
+//
+//        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
+//
+//            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == Int(data[0])! && feedPost.postDetails.postID == Int(data[1])!  {
+//
+//                feedPosts[index].postDetails.likes.insert(Int(data[2])!)
+//
+//                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+//                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+//            }
+//        }
+//     }
         
-        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
-            
-            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == Int(data[0])! && feedPost.postDetails.postID == Int(data[1])!  {
-                
-                feedPosts[index].postDetails.likes.insert(Int(data[2])!)
-                
-                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
-                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
-            }
-        }
-     }
-    
-
-    
     @objc private func getEntireFeeds() {
+    
+        shouldBackgroundBeChanged()
+      //  feedsTable.reloadData()
+    }
+    
+    private func shouldBackgroundBeChanged() {
         feedPosts = feedsControls.getAllPosts()
         if feedPosts.count > 0 {
             feedsTable.backgroundView?.alpha = 0.0
         } else {
             feedsTable.backgroundView?.alpha = 1.0
         }
-        
-        feedsTable.reloadData()
     }
 
     private func setConstraints() {
@@ -205,6 +244,7 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let particularCell = tableView.dequeueReusableCell(withIdentifier: FeedsCustomCell.identifier, for: indexPath) as! FeedsCustomCell
         
         particularCell.delegate = self

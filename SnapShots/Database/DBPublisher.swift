@@ -29,18 +29,21 @@ class DBPublisher {
             }
             
         } else if tableName == .post {
+            
+            guard let postData = postDaoImp.getPostDetails(rowID: rowID) else {
+                return
+            }
+            
             if operation == .insert {
-       
-                guard let postData = postDaoImp.getPostDetails(rowID: rowID) else {
-                    return
-                }
-                
+    
                 NotificationCenter.default.post(name: Constants.createPostEvent, object: nil,
                                                 userInfo: [Constants.notificationCenterKeyName : postData])
                 
             } else if operation == .update {
                 // MARK: YET TO DO
+                
+                NotificationCenter.default.post(name: Constants.updatePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName : postData])
             }
-       }
+        }
     }
 }

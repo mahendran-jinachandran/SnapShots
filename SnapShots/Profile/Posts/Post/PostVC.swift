@@ -85,19 +85,47 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
     }
     
-    @objc private func likePost(_ notification: NSNotification) {
-        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
-
+    @objc private func updatePost(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             
+            if postDetails.isArchived != data.postDetails.isArchived {
+                if data.postDetails.isArchived {
+                    navigationController?.popViewController(animated: true)
+                }
+            }
+            
+            let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+            
+            if data.postDetails.isCommentsHidden {
+                addCommentTextField.isHidden = true
+                postTable.reloadData()
+            } else {
+                addCommentTextField.isHidden = false
+                postTable.reloadData()
+            }
+            
+            headerView.configure(
+                profilePhoto: postControls.getUserDP(userID: userID),
+                username: postControls.getUsername(userID: userID),
+                postPhoto: postImage,
+                caption: postDetails.caption,
+                postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
+                likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
+                commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
+                isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID),
+                isDeletionAllowed: postControls.isDeletionAllowed(userID: userID),
+                isLikesCountHidden: postControls.getLikesButtonVisibilityState(userID: userID, postID: postDetails.postID),
+                isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID),
+                isArchived: postDetails.isArchived,
+                isSaved: isSaved
+            )
         }
-        
-        let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
-        setHeaderData(headerView)
-     }
+    }
     
     @objc private func deletePost(_ notification: NSNotification) {
         navigationController?.popViewController(animated: true)
@@ -280,7 +308,6 @@ extension PostVC: PostVCHeaderDelegate {
                     return
                 }
 
-               // NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
                 NotificationCenter.default.post(name: Constants.deletePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: ListCollectionDetails(userID: self.userID, postID: self.postDetails.postID)])
                 
                 self.navigationController?.popViewController(animated: true)
@@ -346,7 +373,7 @@ extension PostVC: PostVCHeaderDelegate {
     }
     
     func archiveThePost() {
-      _ = postControls.archiveThePost(userID: userID,postID: postDetails.postID)
+        _ = postControls.archiveThePost(userID: userID,postID: postDetails.postID) 
     }
     
     func unarchiveThePost() {
