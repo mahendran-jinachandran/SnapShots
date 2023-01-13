@@ -12,4 +12,5 @@ protocol LikesDao {
     func addLikeToThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool
     func removeLikeFromThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool
     func getAllLikesOfPost(userID: Int,postID: Int) -> [User]
+    func getPostID(rowID: Int) -> [Int: [String]]
 }

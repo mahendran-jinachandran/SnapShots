@@ -28,9 +28,14 @@ class PostDaoImplementation: PostDao {
     
     private let sqliteDatabase: DatabaseProtocol
     private let friendsDaoImplementation: FriendsDao
-    init(sqliteDatabase: DatabaseProtocol,friendsDaoImplementation: FriendsDao) {
+    private let userDaoImp: UserDao
+    private let savedPostsDaoImp: SavedPostsDao
+    
+    init(sqliteDatabase: DatabaseProtocol,friendsDaoImplementation: FriendsDao,userDaoImp: UserDao,savedPostDaoImp: SavedPostsDao) {
         self.sqliteDatabase = sqliteDatabase
         self.friendsDaoImplementation = friendsDaoImplementation
+        self.userDaoImp = userDaoImp
+        self.savedPostsDaoImp = savedPostDaoImp
     }
     
     func uploadPost(postID: Int,photo: String,caption: String,userID: Int) -> Bool {
@@ -319,6 +324,38 @@ class PostDaoImplementation: PostDao {
         }
         
         return postDetail
+    }
+    
+    func getPostDetails(rowID: Int) -> FeedsDetails? {
+        
+        var getRowQuery = """
+        SELECT * FROM \(POST_TABLE_NAME)
+        WHERE rowid = \(rowID);
+        """
+        
+        var feedsDetails: FeedsDetails?
+        if let data = sqliteDatabase.retrievingQuery(query: getRowQuery)[1] {
+           let post = Post(
+                postID: Int(data[0])!,
+                photo: data[1],
+                caption:  data[2],
+                postCreatedDate: data[4],
+                isLikesHidden: data[5] == "0" ? false : true,
+                isCommentsHidden: data[6] == "0" ? false : true,
+                isArchived: data[7] == "0" ? false : true
+            )
+            
+            feedsDetails = FeedsDetails(
+                userID: Int(data[3])!,
+                userName: userDaoImp.getUsername(userID: Int(data[3])!),
+                postDetails: post,
+                isSaved: savedPostsDaoImp.isPostSaved(
+                    postUserID: Int(data[3])!,
+                    postID: Int(data[0])!)
+            )
+        }
+        
+        return feedsDetails
     }
 }
 

@@ -78,9 +78,30 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         setNavigationItems()
         setupPostTable()
         setupTapGestures()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+        setupNotificationCenter()
     }
+    
+    private func setupNotificationCenter() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
+    }
+    
+    @objc private func likePost(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
+
+            
+        }
+        
+        let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+        setHeaderData(headerView)
+     }
+    
+    @objc private func deletePost(_ notification: NSNotification) {
+        navigationController?.popViewController(animated: true)
+     }
     
     private func setNavigationItems() {
         view.backgroundColor = .systemBackground
@@ -122,11 +143,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         postTable.reloadData()
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostVCHeader.identifier) as! PostVCHeader
-
-        headerView.delegate = self
-
+    private func setHeaderData(_ headerView: PostVCHeader) {
         headerView.configure(
             profilePhoto: postControls.getUserDP(userID: userID),
             username: postControls.getUsername(userID: userID),
@@ -142,6 +159,14 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             isArchived: postDetails.isArchived,
             isSaved: isSaved
         )
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostVCHeader.identifier) as! PostVCHeader
+
+        headerView.delegate = self
+
+        setHeaderData(headerView)
         
         return headerView
     }
@@ -250,12 +275,14 @@ extension PostVC: PostVCHeaderDelegate {
         confirmDeletion.addAction(
             UIAlertAction(title: "Delete", style: .destructive) { _ in
 
-                if self.deletePost() {
+                if !self.deletePost() {
                     self.showToast(message: Constants.toastFailureStatus)
                     return
                 }
 
-                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+               // NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                NotificationCenter.default.post(name: Constants.deletePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: ListCollectionDetails(userID: self.userID, postID: self.postDetails.postID)])
+                
                 self.navigationController?.popViewController(animated: true)
             }
         )

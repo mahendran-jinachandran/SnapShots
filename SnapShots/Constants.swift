@@ -50,4 +50,11 @@ struct Constants {
     static let EMPTY = "Yet to fill"
     
     static let genders = [Constants.MALE,Constants.FEMALE,Constants.PREFER_NOT_SAY]
+    static let notificationCenterKeyName = "Data"
+    
+    // MARK:  NOTIFICATION CENTER - EVENT BASED
+    static let createPostEvent = Notification.Name("createPost") // CREATING A POST
+    static let deletePostEvent = Notification.Name("deletePost") // DELETING A POST
+    static let likePostEvent = Notification.Name("likePost") // LIKING THE POST
+    
 }

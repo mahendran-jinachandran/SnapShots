@@ -50,8 +50,25 @@ class ListCollectionVC: UIViewController {
    
         view.backgroundColor = .systemBackground
         setupListCollections()
+        setupNotificationCenters()
+    }
+    
+    func setupNotificationCenters() {
+     //   NotificationCenter.default.addObserver(self, selector: #selector(setupData), name: Constants.publishPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
+    }
+    
+    @objc private func deletePost(_ notification: NSNotification) {
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setupData), name: Constants.publishPostEvent, object: nil)
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? ListCollectionDetails {
+            
+            for (index,post) in posts.enumerated() where post.userID == data.userID && post.postID == data.postID {
+                
+                posts.remove(at: index)
+                listCollection.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+                listCollection.deleteItems(at: [IndexPath(row: index, section: 0)])
+            }
+        }
     }
     
     private func setupListCollections() {

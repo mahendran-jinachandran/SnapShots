@@ -106,11 +106,48 @@ class FeedsVC: UIViewController {
     }
     
     private func setupNotificationSubscription() {
-        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.publishPostEvent, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.userDetailsEvent, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getEntireFeeds), name: Constants.blockEvent, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(createPost(_:)), name: Constants.createPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
     }
+    
+    @objc private func createPost(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
+            feedPosts.insert(data, at: 0)
+            feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+            
+        }
+    }
+    
+    @objc private func deletePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? ListCollectionDetails {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postID {
+                
+                feedPosts.remove(at: index)
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                feedsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+            }
+        }
+    }
+    
+    @objc private func likePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == Int(data[0])! && feedPost.postDetails.postID == Int(data[1])!  {
+                
+                feedPosts[index].postDetails.likes.insert(Int(data[2])!)
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
+     }
+    
+
     
     @objc private func getEntireFeeds() {
         feedPosts = feedsControls.getAllPosts()
@@ -208,7 +245,6 @@ extension FeedsVC: FeedsCustomCellDelegate {
         
         let confirm = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.deletePost(sender: sender)
-            NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
@@ -266,8 +302,13 @@ extension FeedsVC: FeedsCustomCellDelegate {
     func deletePost(sender: FeedsCustomCell) {
         let indexPath = feedsTable.indexPath(for: sender)!
         let postID = feedPosts[indexPath.row].postDetails.postID
+        let userID = feedPosts[indexPath.row].userID
         
-        _ = feedsControls.deletePost(postID: postID)
+        if feedsControls.deletePost(postID: postID) {
+            NotificationCenter.default.post(name: Constants.deletePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: ListCollectionDetails(userID: userID, postID: postID)])
+        } else {
+            showToast(message: Constants.toastFailureStatus)
+        }
     }
     
     func goToProfile(sender: FeedsCustomCell) {

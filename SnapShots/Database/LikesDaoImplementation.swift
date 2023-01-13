@@ -40,12 +40,8 @@ class LikesDaoImplementation: LikesDao {
         INSERT INTO \(TABLE_NAME)
         VALUES (\(visitingUserID),\(postID),\(loggedUserID),'\(AppUtility.getCurrentTime())');
         """
-    
-        let check = sqliteDatabase.execute(query: insertIntoDB)
-        print(check)
-        
-        
-        return check
+
+        return sqliteDatabase.execute(query: insertIntoDB)
     }
     
     func removeLikeFromThePost(loggedUserID: Int,visitingUserID: Int,postID: Int) -> Bool {
@@ -86,5 +82,16 @@ class LikesDaoImplementation: LikesDao {
         }
         
         return likedUsers
+    }
+    
+    func getPostID(rowID: Int) -> [Int: [String]] {
+        
+        let getPostQuery = """
+        SELECT \(USER_ID),\(POST_ID),\(LIKEDUSER_ID) FROM \(TABLE_NAME)
+        WHERE rowid = \(rowID);
+        """
+        
+        return  sqliteDatabase.retrievingQuery(query: getPostQuery)
+    
     }
 }

@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import SQLite3
+import SQLiteNIO
+import CSQLite
 
 class SQLiteDatabase: DatabaseProtocol {
     private var dbPointer: OpaquePointer?
@@ -19,6 +20,7 @@ class SQLiteDatabase: DatabaseProtocol {
         openDBConnection()
         createEntireTable()
         onPragmaKeys()
+        setupDBPublisher()
     }
     
     private func isDBReferenceExist() -> Bool {
@@ -34,8 +36,8 @@ class SQLiteDatabase: DatabaseProtocol {
         let DBPath = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Snapshots.sqlite").relativePath
         
         print(DBPath)
-
-        if sqlite3_open(DBPath, &dbPointer) == SQLITE_OK {
+        
+        if sqlite_nio_sqlite3_open(DBPath, &dbPointer) == SQLITE_OK {
             print("Database connected")
         } else {
             print("Not connected")
@@ -43,7 +45,7 @@ class SQLiteDatabase: DatabaseProtocol {
     }
     
     func closeConnection() {
-        sqlite3_close(dbPointer)
+        sqlite_nio_sqlite3_close(dbPointer)
         dbPointer = nil
         print("SQLITE Database connection closed")
     }
@@ -56,17 +58,17 @@ class SQLiteDatabase: DatabaseProtocol {
             getDatabaseReady()
         } 
         
-        if sqlite3_prepare_v2(dbPointer, "PRAGMA foreign_keys = ON", -1, &statement, nil) != SQLITE_OK {
-            let err = String(cString: sqlite3_errmsg(dbPointer))
+        if sqlite_nio_sqlite3_prepare_v2(dbPointer, "PRAGMA foreign_keys = ON", -1, &statement, nil) != SQLITE_OK {
+            let err = String(cString: sqlite_nio_sqlite3_errmsg(dbPointer))
             print("error building statement: \(err)")
         }
-        sqlite3_finalize(statement)
+        sqlite_nio_sqlite3_finalize(statement)
     }
     
     private func createTable(createTableString: String) {
         let createTableStatement = prepareStatement(sqlQuery: createTableString)
-        sqlite3_step(createTableStatement)
-        sqlite3_finalize(createTableStatement)
+        sqlite_nio_sqlite3_step(createTableStatement)
+        sqlite_nio_sqlite3_finalize(createTableStatement)
     }
     
     private func createEntireTable() {
@@ -183,7 +185,7 @@ class SQLiteDatabase: DatabaseProtocol {
             getDatabaseReady()
         }
         
-        if sqlite3_prepare_v2(dbPointer, sqlQuery, -1, &statement, nil) == SQLITE_OK {
+        if sqlite_nio_sqlite3_prepare_v2(dbPointer, sqlQuery, -1, &statement, nil) == SQLITE_OK {
             return statement
         }
         return nil
@@ -193,10 +195,10 @@ class SQLiteDatabase: DatabaseProtocol {
         let insertTableStatement = prepareStatement(sqlQuery: query)
         
         defer {
-            sqlite3_finalize(insertTableStatement)
+            sqlite_nio_sqlite3_finalize(insertTableStatement)
         }
 
-        if sqlite3_step(insertTableStatement) == SQLITE_DONE {
+        if sqlite_nio_sqlite3_step(insertTableStatement) == SQLITE_DONE {
             return true
         }
 
@@ -207,10 +209,10 @@ class SQLiteDatabase: DatabaseProtocol {
         let selectTableStatement = prepareStatement(sqlQuery: query)
         
         defer {
-            sqlite3_finalize(selectTableStatement)
+            sqlite_nio_sqlite3_finalize(selectTableStatement)
         }
         
-        if sqlite3_step(selectTableStatement) == SQLITE_ROW {
+        if sqlite_nio_sqlite3_step(selectTableStatement) == SQLITE_ROW {
             return true
         }
         
@@ -223,19 +225,19 @@ class SQLiteDatabase: DatabaseProtocol {
         }
         
         defer {
-            sqlite3_finalize(readTableStatement)
+            sqlite_nio_sqlite3_finalize(readTableStatement)
         }
                   
         var data: [Int: [String]] = [:]
-        let columnCount = Int(sqlite3_column_count(readTableStatement))
+        let columnCount = Int(sqlite_nio_sqlite3_column_count(readTableStatement))
         var rowCount = 1
             
-        while sqlite3_step(readTableStatement) == SQLITE_ROW {
+        while sqlite_nio_sqlite3_step(readTableStatement) == SQLITE_ROW {
             var columnData: [String] = []
             for i in 0 ..< columnCount {
                 columnData.append(
-                    (sqlite3_column_type(readTableStatement, Int32(i)) != Int(exactly: SQLITE_NULL)!) ?
-                        String(cString: sqlite3_column_text(readTableStatement, Int32(i)))
+                    (sqlite_nio_sqlite3_column_type(readTableStatement, Int32(i)) != Int(exactly: SQLITE_NULL)!) ?
+                        String(cString: sqlite_nio_sqlite3_column_text(readTableStatement, Int32(i)))
                         : "-1"
                 )
             }
@@ -245,6 +247,62 @@ class SQLiteDatabase: DatabaseProtocol {
         }
         
         return data
+    }
+    
+    func setupDBPublisher() {
+        
+       var test: UnsafeMutableRawPointer?
+        sqlite_nio_sqlite3_update_hook(
+            dbPointer, // MARK: DATABASE POINTER
+                { pointer1, // MARK: COPY OF THE THIRD ARGUMENT "&test"
+                 operationPerformed, // MARK: DENOTES WHICH OPERATION HAPPENED
+                     char1, // MARK: POINTER TO THE DATABASE
+                tableName, // MARK: TABLE NAME AFFECTING THE ROW
+                   rowID  // MARK: ROW ID AFFECTED
+                    in
+                    
+                    print(pointer1!.self)
+                    print(operationPerformed)
+                    print(char1!.self)
+                    print(tableName!.self)
+                    print(rowID)
+                    
+                    var operation: Operations!
+                    var tableAffected: TableName!
+                    let tableName = String(cString: tableName!)
+                    
+                    if operationPerformed == SQLITE_INSERT {
+                        operation = .insert
+                    } else if operationPerformed == SQLITE_UPDATE {
+                        operation = .update
+                    } else {
+                        return
+                    }
+                    
+                    print(tableName)
+                    
+                    
+                    if tableName == "User" {
+                        tableAffected = .user
+                    } else if tableName == "Post" {
+                        tableAffected = .post
+                    } else if tableName == "Likes" {
+                        tableAffected = .likes
+                    } else if tableName == "Friends" {
+                        tableAffected = .friends
+                    } else if tableName == "FriendRequest" {
+                        tableAffected = .friendRequest
+                    } else if tableName == "Comments" {
+                        tableAffected = .comments
+                    } else if tableName == "SavedPosts" {
+                        tableAffected = .savedPosts
+                    } else if tableName == "BlockedUsers" {
+                        tableAffected = .blockedUsers
+                    }
+        
+          DBPublisher().publish(operation: operation, tableName: tableAffected, rowID: Int(rowID))
+        }, &test)
+        
     }
 }
 
