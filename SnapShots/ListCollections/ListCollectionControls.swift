@@ -10,14 +10,11 @@ import Foundation
 class ListCollectionControls: ListCollectionControlsProtocol {
  
     private lazy var userDaoImp: UserDao = UserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared)
-    
     private lazy var friendsDaoImp: FriendsDao = FriendsDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImplementation: userDaoImp)
-    
-    private lazy var savedDaoImp: SavedPostsDao = SavedPostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
-    
     private lazy var savedPostDaoImp: SavedPostsDao = SavedPostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
-    
-    private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp,userDaoImp: userDaoImp,savedPostDaoImp: savedPostDaoImp)
+    private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
+    private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
+    private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp,userDaoImp: userDaoImp,savedPostDaoImp: savedPostDaoImp,likedUsersDaoImp: likesDaoImp,commentUsersDaoImp: commentsDaoImp)
     
 
     func getAllArchivedPosts() -> [ListCollectionDetails] {
@@ -25,7 +22,7 @@ class ListCollectionControls: ListCollectionControlsProtocol {
     }
     
     func getAllSavedCollections() -> [ListCollectionDetails] {
-        return savedDaoImp.getAllSavedPosts()
+        return savedPostDaoImp.getAllSavedPosts()
     }
     
     func getPostDetails(userID: Int,postID: Int) -> Post {
@@ -33,6 +30,6 @@ class ListCollectionControls: ListCollectionControlsProtocol {
     }
     
     func isSavedPost(userID: Int,postID: Int) -> Bool {
-        return savedDaoImp.isPostSaved(postUserID: userID, postID: postID)
+        return savedPostDaoImp.isPostSaved(postUserID: userID, postID: postID)
     }
 }

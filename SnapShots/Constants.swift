@@ -55,15 +55,8 @@ struct Constants {
     // MARK:  NOTIFICATION CENTER - EVENT BASED
     static let createPostEvent = Notification.Name("createPost") // CREATING A POST
     static let deletePostEvent = Notification.Name("deletePost") // DELETING A POST
-    
-//    static let archivePostEvent = Notification.Name("archivePost") // ARCHIVING A POST
-//    static let unarchivePostEvent = Notification.Name("unarchivePost") // UNARCHIVING A POST
-//
-//    static let savePostEvent = Notification.Name("savePost") // SAVING A POST
-//    static let unsavePostEvent = Notification.Name("unsavePost") // UNSAVING A POST
-    
     static let updatePostEvent = Notification.Name("updatePost") // UPDATING A POST
-    
     static let likePostEvent = Notification.Name("likePost") // LIKING THE POST
+    static let unlikePostEvent = Notification.Name("unlikePost") // UNLIKING THE POST
     
 }

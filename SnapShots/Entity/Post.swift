@@ -13,7 +13,7 @@ class Post {
     var caption: String
     var likes = Set<Int>()
     var postCreatedDate: String = ""
-    var comments: [(Int, String, String)] = []
+    var comments: [CommentDetails] = []
     var isLikesHidden: Bool = false
     var isCommentsHidden: Bool = false
     var isArchived: Bool = false

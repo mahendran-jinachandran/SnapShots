@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileControlsProtocols {
     func getProfileAccessibility(userID: Int) -> ProfileAccess
+    func getPostDetails(userID: Int,postID: Int) -> Post
     func getUserDetails(userID: Int) -> User
     func getProfileDP(userID: Int) -> UIImage
     func getAllPosts(userID: Int) -> [Post]

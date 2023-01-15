@@ -85,45 +85,59 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 //        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
         
         
-       // NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unlikePost(_:)), name: Constants.unlikePostEvent, object: nil)
+    }
+    
+    @objc private func likePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int:[String]] {
+            
+            let likedUserID = Int(data[1]![2])!
+            
+            postDetails.likes.insert(likedUserID)
+            
+            likeFlag = true
+            
+            let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+            setHeaderData(headerView)
+        }
+    }
+    
+    @objc private func unlikePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int] {
+     
+            let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+            postDetails.likes.remove(loggedUserID)
+            likeFlag = false
+            
+            let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+            setHeaderData(headerView)
+        }
     }
     
     @objc private func updatePost(_ notification: NSNotification) {
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             
-            if postDetails.isArchived != data.postDetails.isArchived {
-                if data.postDetails.isArchived {
-                    navigationController?.popViewController(animated: true)
-                }
+            postDetails = data.postDetails
+            isSaved = data.isSaved
+            if postDetails.isArchived {
+                navigationController?.popViewController(animated: true)
             }
             
             let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+            setHeaderData(headerView)
             
-            if data.postDetails.isCommentsHidden {
+            if postDetails.isCommentsHidden {
                 addCommentTextField.isHidden = true
                 postTable.reloadData()
             } else {
                 addCommentTextField.isHidden = false
                 postTable.reloadData()
             }
-            
-            headerView.configure(
-                profilePhoto: postControls.getUserDP(userID: userID),
-                username: postControls.getUsername(userID: userID),
-                postPhoto: postImage,
-                caption: postDetails.caption,
-                postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
-                likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
-                commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
-                isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID),
-                isDeletionAllowed: postControls.isDeletionAllowed(userID: userID),
-                isLikesCountHidden: postControls.getLikesButtonVisibilityState(userID: userID, postID: postDetails.postID),
-                isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID),
-                isArchived: postDetails.isArchived,
-                isSaved: isSaved
-            )
         }
     }
     
@@ -154,6 +168,8 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
 
     private func setupPostTable() {
+        
+        likeFlag = postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID)
 
         postTable.register(PostVCHeader.self, forHeaderFooterViewReuseIdentifier: PostVCHeader.identifier)
 
@@ -163,27 +179,23 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         postTable.dataSource = self
         
         setupPostTableConstraints()
-        getComments()
-    }
-
-    private func getComments() {
         commentDetails = postControls.getAllComments(postUserID: userID, postID: postDetails.postID)
-        postTable.reloadData()
     }
 
     private func setHeaderData(_ headerView: PostVCHeader) {
+        
         headerView.configure(
             profilePhoto: postControls.getUserDP(userID: userID),
             username: postControls.getUsername(userID: userID),
             postPhoto: postImage,
             caption: postDetails.caption,
             postCreatedTime: String(AppUtility.getDate(date: postDetails.postCreatedDate)),
-            likeCount: postControls.getAllLikedUsers(postUserID: userID, postID: postDetails.postID),
-            commentsCount: postControls.getAllComments(postUserID: userID, postID: postDetails.postID),
-            isAlreadyLiked: postControls.isAlreadyLikedThePost(postUserID: userID, postID: postDetails.postID),
+            likeCount: postDetails.likes.count,
+            commentsCount: postDetails.comments.count,
+            isAlreadyLiked: likeFlag,
             isDeletionAllowed: postControls.isDeletionAllowed(userID: userID),
-            isLikesCountHidden: postControls.getLikesButtonVisibilityState(userID: userID, postID: postDetails.postID),
-            isCommentsHidden: postControls.getCommentsButtonVisibilityState(userID: userID, postID: postDetails.postID),
+            isLikesCountHidden: postDetails.isLikesHidden,
+            isCommentsHidden: postDetails.isCommentsHidden,
             isArchived: postDetails.isArchived,
             isSaved: isSaved
         )
@@ -269,9 +281,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
         NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         addCommentTextField.text = nil
-        getComments()
         postTable.scrollToRow(at: IndexPath(item:commentDetails.count-1, section: 0), at: .bottom, animated: true)
-
     }
 
     @objc func scrollToScreenTop() {
@@ -282,12 +292,6 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
            postTable.scrollToRow(at: ip, at: .top, animated: true)
         }
     }
-
-    @objc func refreshPostSection() {
-        getComments()
-        postTable.reloadData()
-    }
-
 }
 
 extension PostVC: PostVCHeaderDelegate {
@@ -323,12 +327,11 @@ extension PostVC: PostVCHeaderDelegate {
 
     func likeThePost() {
         _ = postControls.addLikeToThePost(postUserID: userID, postID: postDetails.postID)
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
 
     func unLikeThePost() {
         _ = postControls.removeLikeFromThePost(postUserID: userID, postID: postDetails.postID)
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        NotificationCenter.default.post(name: Constants.unlikePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: [userID,postDetails.postID]])
     }
 
     func deletePost() -> Bool {

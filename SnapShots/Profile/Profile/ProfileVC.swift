@@ -471,7 +471,6 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         
         let isSaved = profileControls.isPostSaved(postUserID: userID, postID: posts[indexPath.row].postID)
         
-        
         let postControls = PostControls()
         let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: posts[indexPath.row],isSaved: isSaved)
     

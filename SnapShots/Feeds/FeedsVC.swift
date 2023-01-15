@@ -71,7 +71,7 @@ class FeedsVC: UIViewController {
         feedsTable.showsHorizontalScrollIndicator = false
         
         feedsTable.backgroundView = noPostsLabel
-        getEntireFeeds()
+        feedPosts = feedsControls.getAllPosts()
     }
     
     private func setNavigationItems() {
@@ -109,7 +109,35 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(createPost(_:)), name: Constants.createPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
-      
+        NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unlikePost(_:)), name: Constants.unlikePostEvent, object: nil)
+    }
+    
+    @objc private func likePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == Int(data[0])! && feedPost.postDetails.postID == Int(data[1])!  {
+                feedPosts[index].postDetails.likes.insert(Int(data[2])!)
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
+    }
+    
+    @objc private func unlikePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int] {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data[0] && feedPost.postDetails.postID == data[1] {
+                
+                let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+                feedPosts[index].postDetails.likes.remove(loggedUserID)
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
     }
     
     @objc private func createPost(_ notification: NSNotification) {
@@ -128,7 +156,6 @@ class FeedsVC: UIViewController {
                 isPhotoArchivingChanged = feedPost.postDetails.isArchived != data.postDetails.isArchived
             }
         
-            
             if isPhotoArchivingChanged || feedPosts.isEmpty {
                 if data.postDetails.isArchived {
                     for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
@@ -170,33 +197,8 @@ class FeedsVC: UIViewController {
         }
     }
     
-//    @objc private func likePost(_ notification: NSNotification) {
-//
-//        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int: [String]], let data = data[1] {
-//
-//            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == Int(data[0])! && feedPost.postDetails.postID == Int(data[1])!  {
-//
-//                feedPosts[index].postDetails.likes.insert(Int(data[2])!)
-//
-//                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
-//                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
-//            }
-//        }
-//     }
-        
-    @objc private func getEntireFeeds() {
-    
-        shouldBackgroundBeChanged()
-      //  feedsTable.reloadData()
-    }
-    
     private func shouldBackgroundBeChanged() {
-        feedPosts = feedsControls.getAllPosts()
-        if feedPosts.count > 0 {
-            feedsTable.backgroundView?.alpha = 0.0
-        } else {
-            feedsTable.backgroundView?.alpha = 1.0
-        }
+        feedsTable.backgroundView?.alpha = feedPosts.count > 0 ? 0.0 : 1.0
     }
 
     private func setConstraints() {
@@ -260,8 +262,8 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             postPhoto: postPhoto,
             postCaption: feedPosts[indexPath.row].postDetails.caption,
             isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]),
-            likedUsersCount: feedsControls.getAllLikedUsers(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
-           commentedUsersCount: feedsControls.getAllComments(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
+            likedUsersCount: feedPosts[indexPath.row].postDetails.likes.count,
+            commentedUsersCount: feedPosts[indexPath.row].postDetails.comments.count,
             postCreatedTime: feedPosts[indexPath.row].postDetails.postCreatedDate,
             isDeletionAllowed: feedsControls.isDeletionAllowed(userID: feedPosts[indexPath.row].userID),
             isLikesHidden: feedPosts[indexPath.row].postDetails.isLikesHidden,
@@ -303,8 +305,6 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         _ = feedsControls.addLikeToThePost(postUserID: postUserID, postID: postID)
-        
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     func unLikeThePost(sender: FeedsCustomCell) {
@@ -314,7 +314,7 @@ extension FeedsVC: FeedsCustomCellDelegate {
         let postID = feedPosts[indexPath.row].postDetails.postID
         
         _ = feedsControls.removeLikeFromThePost(postUserID: postUserID, postID: postID)
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+        NotificationCenter.default.post(name: Constants.unlikePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: [postUserID,postID]])
     }
     
     func showLikes(sender: FeedsCustomCell) {

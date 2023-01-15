@@ -30,12 +30,16 @@ class PostDaoImplementation: PostDao {
     private let friendsDaoImplementation: FriendsDao
     private let userDaoImp: UserDao
     private let savedPostsDaoImp: SavedPostsDao
+    private let likedUsersDaoImp: LikesDao
+    private let commentUsersDaoImp: CommentDao
     
-    init(sqliteDatabase: DatabaseProtocol,friendsDaoImplementation: FriendsDao,userDaoImp: UserDao,savedPostDaoImp: SavedPostsDao) {
+    init(sqliteDatabase: DatabaseProtocol,friendsDaoImplementation: FriendsDao,userDaoImp: UserDao,savedPostDaoImp: SavedPostsDao,likedUsersDaoImp: LikesDao,commentUsersDaoImp: CommentDao) {
         self.sqliteDatabase = sqliteDatabase
         self.friendsDaoImplementation = friendsDaoImplementation
         self.userDaoImp = userDaoImp
         self.savedPostsDaoImp = savedPostDaoImp
+        self.likedUsersDaoImp = likedUsersDaoImp
+        self.commentUsersDaoImp = commentUsersDaoImp
     }
     
     func uploadPost(postID: Int,photo: String,caption: String,userID: Int) -> Bool {
@@ -88,16 +92,26 @@ class PostDaoImplementation: PostDao {
         
         var allPosts: [Post] = []
         for (_,post) in sqliteDatabase.retrievingQuery(query: getAllPostQuery) {
-            allPosts.append(
-                Post(postID: Int(post[0])!,
-                     photo: post[1],
-                     caption: post[2],
-                     postCreatedDate: post[3],
-                     isLikesHidden: Int(post[4]) == 0 ? false : true ,
-                     isCommentsHidden: Int(post[5]) == 0 ? false : true,
-                     isArchived: Int(post[6]) == 0 ? false : true
-                    )
-             )
+            
+            var postDetails = Post(postID: Int(post[0])!,
+                               photo: post[1],
+                               caption: post[2],
+                               postCreatedDate: post[3],
+                               isLikesHidden: Int(post[4]) == 0 ? false : true ,
+                               isCommentsHidden: Int(post[5]) == 0 ? false : true,
+                               isArchived: Int(post[6]) == 0 ? false : true
+                              )
+            
+            for likedUser in likedUsersDaoImp.getAllLikesOfPost(userID: userID, postID: Int(post[0])!) {
+                postDetails.likes.insert(likedUser.userID)
+            }
+            
+            for commentedUser in commentUsersDaoImp.getAllCommmentsOfPost(postUserID: userID, postID: Int(post[0])!) {
+                postDetails.comments.append(commentedUser)
+            }
+        
+            
+            allPosts.append(postDetails)
         }
         
         return allPosts
@@ -145,19 +159,29 @@ class PostDaoImplementation: PostDao {
                 
                 let isSaved = sqliteDatabase.retrievingQuery(query: isSavedQuery).isEmpty ? false : true
                 
+                let post = Post(
+                    postID: Int(friend[2])!,
+                    photo: friend[3],
+                    caption: friend[4],
+                    postCreatedDate: friend[5],
+                    isLikesHidden: Int(friend[6]) == 0 ? false : true ,
+                    isCommentsHidden: Int(friend[7]) == 0 ? false : true,
+                    isArchived: Int(friend[8]) == 0 ? false : true
+                )
+                
+                for likedUser in likedUsersDaoImp.getAllLikesOfPost(userID: userID, postID: Int(friend[2])!) {
+                    post.likes.insert(likedUser.userID)
+                }
+                
+                for commentedUser in commentUsersDaoImp.getAllCommmentsOfPost(postUserID: userID, postID: Int(friend[2])!) {
+                    post.comments.append(commentedUser)
+                }
+                
                 feedPosts.append(
                     FeedsDetails(
                         userID: Int(friend[0])!,
                         userName: friend[1],
-                        postDetails: Post(
-                            postID: Int(friend[2])!,
-                            photo: friend[3],
-                            caption: friend[4],
-                            postCreatedDate: friend[5],
-                            isLikesHidden: Int(friend[6]) == 0 ? false : true ,
-                            isCommentsHidden: Int(friend[7]) == 0 ? false : true,
-                            isArchived: Int(friend[8]) == 0 ? false : true
-                        ),
+                        postDetails: post,
                         isSaved: isSaved
                     )
                 )
@@ -321,6 +345,14 @@ class PostDaoImplementation: PostDao {
                 isCommentsHidden: Int(post[5]) == 0 ? false : true,
                 isArchived: Int(post[6]) == 0 ? false : true
             )
+            
+            for likedUser in likedUsersDaoImp.getAllLikesOfPost(userID: userID, postID: Int(post[0])!) {
+                postDetail.likes.insert(likedUser.userID)
+            }
+            
+            for commentedUser in commentUsersDaoImp.getAllCommmentsOfPost(postUserID: userID, postID: Int(post[0])!) {
+                postDetail.comments.append(commentedUser)
+            }
         }
         
         return postDetail
@@ -344,6 +376,14 @@ class PostDaoImplementation: PostDao {
                 isCommentsHidden: data[6] == "0" ? false : true,
                 isArchived: data[7] == "0" ? false : true
             )
+            
+            for likedUser in likedUsersDaoImp.getAllLikesOfPost(userID: Int(data[3])!, postID: Int(data[0])!) {
+                post.likes.insert(likedUser.userID)
+            }
+            
+            for commentedUser in commentUsersDaoImp.getAllCommmentsOfPost(postUserID: Int(data[3])!, postID: Int(data[0])!) {
+                post.comments.append(commentedUser)
+            }
             
             feedsDetails = FeedsDetails(
                 userID: Int(data[3])!,
