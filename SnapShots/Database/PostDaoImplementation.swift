@@ -169,7 +169,7 @@ class PostDaoImplementation: PostDao {
                     isArchived: Int(friend[8]) == 0 ? false : true
                 )
                 
-                for likedUser in likedUsersDaoImp.getAllLikesOfPost(userID: userID, postID: Int(friend[2])!) {
+                for likedUser in likedUsersDaoImp.getAllLikesOfPost(userID: friendID, postID: Int(friend[2])!) {
                     post.likes.insert(likedUser.userID)
                 }
                 
@@ -392,6 +392,37 @@ class PostDaoImplementation: PostDao {
                 isSaved: savedPostsDaoImp.isPostSaved(
                     postUserID: Int(data[3])!,
                     postID: Int(data[0])!)
+            )
+        }
+        
+        return feedsDetails
+    }
+    
+    func getFriendPostDetails(userID: Int) -> [FeedsDetails] {
+        
+        let username = userDaoImp.getUsername(userID: userID)
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        var feedsDetails = [FeedsDetails]()
+        
+        for post in getAllPosts(userID: userID) {
+            
+            
+            let isSavedQuery = """
+            SELECT * FROM \(SAVED_POSTS_TABLE_NAME)
+            WHERE \(USER_ID) = \(loggedUserID) AND
+            \(POST_USER_ID) = \(userID) AND
+            \(POST_ID) = \(post.postID)
+            """
+            
+            let isSaved = sqliteDatabase.retrievingQuery(query: isSavedQuery).isEmpty ? false : true
+            
+            
+            feedsDetails.append(
+                FeedsDetails(
+                    userID: userID,
+                    userName: username,
+                    postDetails: post,
+                    isSaved: isSaved)
             )
         }
         

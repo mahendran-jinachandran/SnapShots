@@ -128,10 +128,7 @@ class CommentDaoImplementation: CommentDao {
         WHERE rowid = \(rowID)
         """
         
-        let comments =  sqliteDatabase.retrievingQuery(query: getCommentQuery)
-        print(comments)
-        
-        return comments
+        return sqliteDatabase.retrievingQuery(query: getCommentQuery)
     }
 }
 

@@ -13,4 +13,5 @@ protocol FriendsDao {
     func getIDsOfFriends(userID: Int) -> [Int]
     func getUserFriends(userID: Int) -> [(userDP: UIImage,username: String)]
     func removeFriend(loggedUserID: Int, removingUserID: Int) -> Bool
+    func getFriendID(rowID: Int) -> Int
 }

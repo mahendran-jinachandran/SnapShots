@@ -26,7 +26,7 @@ class FeedsControls {
         let feeds = posts.sorted(by: {
             $0.postDetails.postCreatedDate.compare($1.postDetails.postCreatedDate) == .orderedDescending
         })
-        
+                
         return feeds
     }
     

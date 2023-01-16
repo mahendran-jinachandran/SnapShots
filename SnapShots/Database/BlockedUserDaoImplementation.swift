@@ -70,8 +70,6 @@ class BlockedUserDaoImplementation: BlockedUserDao {
         """
         
         for user in sqliteDatabase.retrievingQuery(query: isBlockedQuery) {
-            
-            print(user)
             if Int(user.value[0])! == userID {
                 return true
             }
@@ -84,8 +82,6 @@ class BlockedUserDaoImplementation: BlockedUserDao {
         """
         
         for user in sqliteDatabase.retrievingQuery(query: isBlockedQuery) {
-            
-            print(user)
             if Int(user.value[0])! == loggedUserID {
                 return true
             }

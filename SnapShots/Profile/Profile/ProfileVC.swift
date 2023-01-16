@@ -264,6 +264,30 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addFriendPost(_:)), name: Constants.addFriendPostEvent, object: nil)
+    }
+    
+    @objc private func addFriendPost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [FeedsDetails] {
+            if data.isEmpty {
+                return
+            }
+            
+            profileUser.profile.friendsList.insert(data[0].userID)
+            
+            let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+            
+            headerView.setData(
+                username: profileUser.userName,
+                friendsCount: profileUser.profile.friendsList.count,
+                postsCount: posts.count,
+                bio: profileUser.profile.bio,
+                profileDP: profileUser.profile.photo,
+                profileAccessibility: profileAccessibility
+            )
+            
+        }
     }
     
     @objc private func updateUser(_ notification: NSNotification) {
@@ -430,6 +454,8 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
             profileAccessibility = .unknown
+            profileView.reloadData()
+            NotificationCenter.default.post(name: Constants.removeFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userID])
 
         } else {
             showToast(message: Constants.toastFailureStatus)

@@ -87,5 +87,15 @@ class FriendsDaoImplementation: FriendsDao {
         return sqliteDatabase.execute(query: removingFriendRequestRemovingUserQuery) && sqliteDatabase.execute(query: removingFriendRequestRequestedUserQuery)
         
     }
+    
+    func getFriendID(rowID: Int) -> Int {
+        let getFriendIDQuery = """
+        SELECT \(FRIENDS_ID) FROM \(TABLE_NAME)
+        WHERE rowid = \(rowID);
+        """
+        
+        let friendDetail = sqliteDatabase.retrievingQuery(query: getFriendIDQuery)
+        return Int(friendDetail[1]![0])!
+    }
 }
 

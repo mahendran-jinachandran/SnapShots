@@ -48,13 +48,29 @@ class DBPublisher {
             }
         } else if tableName == .user {
             
-            let userData = userDaoImp.getUserDetails(rowID: rowID)
+            guard let userData = userDaoImp.getUserDetails(rowID: rowID) else {
+                return
+            }
+            
             if operation == .update {
                 NotificationCenter.default.post(name: Constants.updateUserEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userData])
             }
             
+        } else if tableName == .friends {
+            
+            let friendID = friendsDaoImp.getFriendID(rowID: rowID)
+            if friendID == UserDefaults.standard.integer(forKey: Constants.loggedUserFormat) {
+                return
+            }
+            
+            let friendFeedPosts = postDaoImp.getFriendPostDetails(userID: friendID)
+            if operation == .insert {
+                NotificationCenter.default.post(name: Constants.addFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: friendFeedPosts])
+            }
+            
+            
         } else {
-            print("NOt yet implemented")
+            print("Not yet implemented")
         }
     }
 }

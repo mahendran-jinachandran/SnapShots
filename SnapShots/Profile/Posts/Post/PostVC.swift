@@ -379,6 +379,9 @@ extension PostVC: PostVCHeaderDelegate {
         if !postControls.removeFriend(profileRequestedUser: userID) {
             showToast(message: Constants.toastFailureStatus)
         }
+        
+        NotificationCenter.default.post(name: Constants.removeFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userID])
+        navigationController?.popViewController(animated: true)
     }
     
     func hideLikesCount() {

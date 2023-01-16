@@ -61,4 +61,6 @@ struct Constants {
     static let insertCommentPostEvent = Notification.Name("insertComment") // INSERTING A COMMENT
     static let deleteCommentPostEvent = Notification.Name("deleteComment") // DELETING A COMMENT
     static let updateUserEvent = Notification.Name("updateUser") // UPDATE USER
+    static let addFriendPostEvent = Notification.Name("addFriendPost") // ADDING FRIEND'S POST TO THE FEEDS AFTER ACCEPTING REQUEST
+    static let removeFriendPostEvent = Notification.Name("removeFriendPost") // REMOVING FRIEND'S POST FROM THE FEEDS AFTER UNFOLLOWING
 }

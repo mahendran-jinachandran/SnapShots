@@ -72,6 +72,7 @@ class FeedsVC: UIViewController {
         
         feedsTable.backgroundView = noPostsLabel
         feedPosts = feedsControls.getAllPosts()
+        
     }
     
     private func setNavigationItems() {
@@ -114,6 +115,41 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addFriendPost(_:)), name: Constants.addFriendPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeFriendsPost), name: Constants.removeFriendPostEvent, object: nil)
+    }
+    
+    @objc private func addFriendPost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [FeedsDetails] {
+            for post in data {
+                feedPosts.insert(post, at: 0)
+                feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+            }
+        }
+        
+        
+    }
+    
+    @objc private func removeFriendsPost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+    
+            var index = 0
+            for post in feedPosts {
+                
+                if !(post.userID == data) {
+                   index = index + 1
+                   continue
+                }
+                
+                feedPosts.remove(at: index)
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                feedsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+                shouldBackgroundBeChanged()
+            }
+        }
     }
     
     @objc private func updateUser(_ notification: NSNotification) {
@@ -418,6 +454,8 @@ extension FeedsVC: FeedsCustomCellDelegate {
         if !feedsControls.removeFriend(profileRequestedUser: userID) {
             showToast(message: Constants.toastFailureStatus)
         }
+        
+        NotificationCenter.default.post(name: Constants.removeFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userID])
         
     }
     

@@ -22,4 +22,5 @@ protocol PostDao{
     func unarchiveThePost(userID: Int,postID: Int) -> Bool
     func getAllArchivedPosts() -> [ListCollectionDetails]
     func getPostDetails(rowID: Int) -> FeedsDetails?
+    func getFriendPostDetails(userID: Int) -> [FeedsDetails]
 }
