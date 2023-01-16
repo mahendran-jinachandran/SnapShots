@@ -30,4 +30,8 @@ class CommentsControls: CommentsControlsProtocol {
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
         return loggedUserID == postUserID
     }
+    
+    func getUsername(userID: Int) -> String {
+        return userDaoImp.getUsername(userID: userID)
+    }
 }

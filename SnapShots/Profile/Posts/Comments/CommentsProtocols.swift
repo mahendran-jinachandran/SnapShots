@@ -12,4 +12,5 @@ protocol CommentsControlsProtocol {
     func getAllComments(postUserID: Int,postID: Int) -> [CommentDetails]
     func deleteComment(userID: Int,postID: Int,commentID: Int) 
     func hasSpecialPermissions(postUserID: Int) -> Bool
+    func getUsername(userID: Int) -> String 
 }

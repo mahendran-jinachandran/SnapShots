@@ -34,11 +34,11 @@ struct Constants {
     // MARK: PASSWORD CONSTANTS
     static let minimumPasswordLength = 3
     
-    // MARK: NOTIFICATION CENTER
-    static let publishPostEvent = Notification.Name("Publish_Post") // Changes in the Post
-    static let userDetailsEvent = Notification.Name("UserDetails_Modify") // Changes in the user details
-    static let profileDetailsEvent = Notification.Name("ProfileDetails_Modify") // Regarding Profile details
-    static let blockEvent = Notification.Name("blockPeople") // Blocking People
+//    // MARK: NOTIFICATION CENTER
+//    static let publishPostEvent = Notification.Name("Publish_Post") // Changes in the Post
+//    static let userDetailsEvent = Notification.Name("UserDetails_Modify") // Changes in the user details
+//    static let profileDetailsEvent = Notification.Name("ProfileDetails_Modify") // Regarding Profile details
+//    static let blockEvent = Notification.Name("blockPeople") // Blocking People
     
     // MARK: NO BIO CONSTANT
     static let noUserBioDefault = "Nothing to share!"
@@ -58,5 +58,6 @@ struct Constants {
     static let updatePostEvent = Notification.Name("updatePost") // UPDATING A POST
     static let likePostEvent = Notification.Name("likePost") // LIKING THE POST
     static let unlikePostEvent = Notification.Name("unlikePost") // UNLIKING THE POST
-    
+    static let insertCommentPostEvent = Notification.Name("insertComment") // INSERTING A COMMENT
+    static let deleteCommentPostEvent = Notification.Name("deleteComment") // DELETING A COMMENT
 }

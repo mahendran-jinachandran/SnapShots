@@ -114,8 +114,7 @@ extension BottomSheetVC: UITableViewDelegate,UITableViewDataSource {
             case .blockedUsers:
                 bottomSheetsDelegate?.presentANewViewController(VCName: .blockedUsers)
             case .saved:
-            bottomSheetsDelegate?.presentANewViewController(VCName: .saved)
-                print("Saved")
+                bottomSheetsDelegate?.presentANewViewController(VCName: .saved)
         }
     }
     

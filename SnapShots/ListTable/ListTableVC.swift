@@ -105,7 +105,7 @@ extension ListTableVC: UITableViewDelegate,UITableViewDataSource {
         
             blockedUsers.remove(at: indexPath.row)
             listTable.deleteRows(at: [indexPath], with: .left)
-            NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
+         //   NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
         }
     }
 

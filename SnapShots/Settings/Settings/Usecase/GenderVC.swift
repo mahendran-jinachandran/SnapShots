@@ -166,7 +166,7 @@ class GenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
             }
         }
         
-        NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
+     //   NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     

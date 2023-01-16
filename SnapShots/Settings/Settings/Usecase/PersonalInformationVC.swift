@@ -149,7 +149,7 @@ class PersonalInformationVC: UIViewController {
     }
     
     private func setupNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePersonalInformation), name: Constants.profileDetailsEvent, object: nil)
+    //    NotificationCenter.default.addObserver(self, selector: #selector(updatePersonalInformation), name: Constants.profileDetailsEvent, object: nil)
     }
     
    @objc func updatePersonalInformation() {

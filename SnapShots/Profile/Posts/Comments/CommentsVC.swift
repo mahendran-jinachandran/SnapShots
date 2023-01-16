@@ -78,7 +78,42 @@ class CommentsVC: UIViewController {
         getComments()
         addCommentTextField.delegate = self
         postComment.addTarget(self, action: #selector(addComment), for: .touchUpInside)
+        
+        setupNotificationCenter()
     }
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
+    }
+    
+    @objc private func insertComment(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int:[String]] {
+            commentDetails.append(CommentDetails(
+                commentID: Int(data[1]![0])!,
+                username: commentsControls.getUsername(userID: Int(data[1]![4])!),
+                comment: data[1]![3],
+                commentUserID: Int(data[1]![4])!)
+            )
+            
+            commentsTable.insertRows(at: [IndexPath(row: commentDetails.count - 1, section: 0)], with: .none)
+        }
+    }
+    
+    @objc private func deleteComment(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            
+            for (index,commentDetail) in commentDetails.enumerated() where commentDetail.commentID == data {
+                
+                commentDetails.remove(at: index)
+                
+                commentsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                commentsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+            }
+        }
+    }
+    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -191,7 +226,6 @@ extension CommentsVC: UITableViewDelegate,UITableViewDataSource {
             return
         }
         
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         addCommentTextField.text = nil
         getComments()
     }
@@ -218,10 +252,7 @@ extension CommentsVC: CommentsCustomCellDelegate {
         let commentID = commentDetails[indexPath.row].commentID
         
         commentsControls.deleteComment(userID: postUserID, postID: postID, commentID: commentID)
-        commentDetails.remove(at: indexPath.row)
-        commentsTable.reloadData()
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-    
+        NotificationCenter.default.post(name: Constants.deleteCommentPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: commentID])
     }
     
     func showCommentDeletionAlert(sender: CommentsCustomCell) {

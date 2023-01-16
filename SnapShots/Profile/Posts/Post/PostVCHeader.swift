@@ -279,7 +279,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
             delegate?.unLikeThePost()
         }
         
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                //NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     private func setLikeHeartImage(isLiked: Bool) {
@@ -311,8 +311,8 @@ class PostVCHeader: UITableViewHeaderFooterView {
           image: UIImage(systemName: "person.badge.minus")) { _ in
               
               self.delegate?.unfollowUser()
-              NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-              NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
+           //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+           //   NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
               // MARK: CHECK
               self.delegate?.popAViewController()
         }
@@ -325,7 +325,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
             archivedAction = UIAction(title: "Archive", image: UIImage(systemName: "archivebox.fill")) { _ in
                 
                 self.delegate?.archiveThePost()
-                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+             //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
                 // MARK: CHECK
                 self.delegate?.popAViewController()
             }
@@ -333,7 +333,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
             archivedAction = UIAction(title: "Unarchive", image: UIImage(systemName: "archivebox.fill")) { _ in
                 
                 self.delegate?.unarchiveThePost()
-                NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+            //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
                 
                 // MARK: CHECK
                 self.delegate?.popAViewController()
@@ -346,7 +346,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 image: UIImage(systemName: "heart")) { _ in
                   
                     self.delegate?.unhideLikesCount()
-                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+               //     NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         } else {
             likesCountVisibility =  UIAction(
@@ -354,7 +354,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 image: UIImage(systemName: "heart.slash")) { _ in
                 
                     self.delegate?.hideLikesCount()
-                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                 //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         }
         
@@ -365,7 +365,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 
                     self.delegate?.unhideComments()
      
-                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+                //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         } else {
             commentsVisibility = UIAction(
@@ -373,7 +373,7 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 image: UIImage(systemName: "pencil.slash")) { _ in
                 
                     self.delegate?.hideComments()
-                    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+              //      NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         }
         

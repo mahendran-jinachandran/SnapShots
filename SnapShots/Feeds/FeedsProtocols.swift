@@ -19,4 +19,5 @@ protocol FeedsControlsProtocol {
     func removeFriend(profileRequestedUser: Int) -> Bool
     func addPostToSaved(postUserID: Int,postID: Int) -> Bool
     func removePostFromSaved(postUserID: Int,postID: Int) -> Bool
+    func getUsername(userID: Int) -> String
 }

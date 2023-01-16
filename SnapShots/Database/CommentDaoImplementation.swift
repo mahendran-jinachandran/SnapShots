@@ -120,5 +120,18 @@ class CommentDaoImplementation: CommentDao {
         
         return sqliteDatabase.execute(query: deleteCommentsQuery)
     }
+    
+    func getComment(rowID: Int) -> [Int:[String]] {
+        
+        let getCommentQuery = """
+        SELECT * FROM \(COMMENT_TABLE_NAME)
+        WHERE rowid = \(rowID)
+        """
+        
+        let comments =  sqliteDatabase.retrievingQuery(query: getCommentQuery)
+        print(comments)
+        
+        return comments
+    }
 }
 

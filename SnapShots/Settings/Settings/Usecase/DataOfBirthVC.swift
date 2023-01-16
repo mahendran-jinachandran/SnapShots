@@ -143,7 +143,7 @@ class DataOfBirthVC: UIViewController {
             }
         }
         
-        NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
+   //     NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     

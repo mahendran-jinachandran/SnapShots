@@ -111,6 +111,41 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unlikePost(_:)), name: Constants.unlikePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
+    }
+    
+    @objc private func insertComment(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int:[String]] {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == Int(data[1]![1])! && feedPost.postDetails.postID == Int(data[1]![2])! {
+                
+                feedPost.postDetails.comments.append(CommentDetails(
+                    commentID: Int(data[1]![0])!,
+                    username: feedsControls.getUsername(userID: Int(data[1]![4])!),
+                    comment: data[1]![3],
+                    commentUserID: Int(data[1]![4])!)
+                )
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
+    }
+    
+    @objc private func deleteComment(_ notification: NSNotification) {
+    
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            for (mainIndex,feedPost) in feedPosts.enumerated() {
+                for (index,comment) in feedPost.postDetails.comments.enumerated() where comment.commentID == data {
+                    feedPosts[index].postDetails.comments.remove(at: index)
+                    
+                    feedsTable.scrollToRow(at: IndexPath(row: mainIndex, section: 0), at: .none, animated: true)
+                    feedsTable.reloadRows(at: [IndexPath(row: mainIndex, section: 0)], with: .none)
+                }
+            }
+        }
     }
     
     @objc private func likePost(_ notification: NSNotification) {
@@ -144,7 +179,6 @@ class FeedsVC: UIViewController {
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             feedPosts.insert(data, at: 0)
             feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-            
         }
     }
     
@@ -380,9 +414,6 @@ extension FeedsVC: FeedsCustomCellDelegate {
         if feedsControls.addPostToSaved(
             postUserID: feedPosts[indexPath.row].userID,
             postID: feedPosts[indexPath.row].postDetails.postID) {
-            print("Saved")
-        } else {
-            print("Couldnt save")
         }
     }
     
@@ -392,10 +423,6 @@ extension FeedsVC: FeedsCustomCellDelegate {
         if feedsControls.removePostFromSaved(
             postUserID: feedPosts[indexPath.row].userID,
             postID: feedPosts[indexPath.row].postDetails.postID) {
-            
-            print("Removed")
-        } else {
-            print("Couldnt Remove")
         }
     }
 }

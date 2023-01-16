@@ -85,4 +85,8 @@ class FeedsControls {
     func isPostSaved(postUserID: Int,postID: Int) -> Bool {
         return savedPostDaoImp.isPostSaved(postUserID: postUserID, postID: postID)
     }
+    
+    func getUsername(userID: Int) -> String {
+        return userDaoImp.getUsername(userID: userID)
+    }
 }

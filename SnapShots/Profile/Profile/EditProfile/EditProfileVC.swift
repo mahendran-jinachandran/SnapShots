@@ -142,7 +142,7 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             return
         }
         
-        NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
+    //    NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     

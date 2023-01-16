@@ -113,7 +113,7 @@ class ProfileVC: UIViewController{
         
         let blockUser = UIAction(title: "Block User",image: UIImage(systemName: "nosign")) { _ in
             self.profileControls.blockTheUser(userID: self.userID)
-            NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
+         //   NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -194,7 +194,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             return footerView
         }
       
-        print("Kind: \(kind)")
         let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
@@ -421,7 +420,7 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     func unFriendAnUser() {
         if profileControls.removeFrined(profileRequestedUser: userID) {
             
-            NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
+       //     NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
             profileAccessibility = .unknown

@@ -82,13 +82,41 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     private func setupNotificationCenter() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(refreshPostSection), name: Constants.publishPostEvent, object: nil)
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(likePost(_:)), name: Constants.likePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unlikePost(_:)), name: Constants.unlikePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
+    }
+    
+    @objc private func insertComment(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int:[String]] {
+            
+            commentDetails.append(CommentDetails(
+                commentID: Int(data[1]![0])!,
+                username: postControls.getUsername(userID: Int(data[1]![4])!),
+                comment: data[1]![3],
+                commentUserID: Int(data[1]![4])!)
+            )
+            
+            postTable.insertRows(at: [IndexPath(row: commentDetails.count - 1, section: 0)], with: .none)
+        }
+    }
+    
+    @objc private func deleteComment(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            
+            for (index,commentDetail) in commentDetails.enumerated() where commentDetail.commentID == data {
+                
+                commentDetails.remove(at: index)
+                
+                postTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
+                postTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+            }
+        }
     }
     
     @objc private func likePost(_ notification: NSNotification) {
@@ -108,15 +136,12 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @objc private func unlikePost(_ notification: NSNotification) {
         
-        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int] {
-     
-            let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-            postDetails.likes.remove(loggedUserID)
-            likeFlag = false
-            
-            let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
-            setHeaderData(headerView)
-        }
+        let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+        postDetails.likes.remove(loggedUserID)
+        likeFlag = false
+        
+        let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+        setHeaderData(headerView)
     }
     
     @objc private func updatePost(_ notification: NSNotification) {
@@ -279,7 +304,6 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             return
         }
 
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         addCommentTextField.text = nil
         postTable.scrollToRow(at: IndexPath(item:commentDetails.count-1, section: 0), at: .bottom, animated: true)
     }
@@ -386,13 +410,11 @@ extension PostVC: PostVCHeaderDelegate {
     func addPostToSaved() {
         _ = postControls.addPostToSaved(postUserID: userID, postID: postDetails.postID)
         self.isSaved = true
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     func removePostFromSaved() {
         _ = postControls.removePostFromSaved(postUserID: userID, postID: postDetails.postID)
         self.isSaved = false
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
 }
@@ -420,10 +442,7 @@ extension PostVC: CommentsCustomCellDelegate {
         let commentID = commentDetails[indexPath.row].commentID
         
         postControls.deleteComment(userID: userID, postID: postDetails.postID, commentID: commentID)
-        commentDetails.remove(at: indexPath.row)
-        postTable.reloadData()
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-    
+        NotificationCenter.default.post(name: Constants.deleteCommentPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: commentID])
     }
     
     func showCommentDeletionAlert(sender: CommentsCustomCell) {

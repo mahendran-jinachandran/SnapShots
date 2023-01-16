@@ -200,7 +200,7 @@ class NewPostVC: UIViewController,UITextViewDelegate {
             return
         }
         
-        NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
+    //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
         sendLocalNotifications()
         self.dismiss(animated: true)
     }
