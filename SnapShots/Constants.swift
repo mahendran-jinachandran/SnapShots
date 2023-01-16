@@ -60,4 +60,5 @@ struct Constants {
     static let unlikePostEvent = Notification.Name("unlikePost") // UNLIKING THE POST
     static let insertCommentPostEvent = Notification.Name("insertComment") // INSERTING A COMMENT
     static let deleteCommentPostEvent = Notification.Name("deleteComment") // DELETING A COMMENT
+    static let updateUserEvent = Notification.Name("updateUser") // UPDATE USER
 }

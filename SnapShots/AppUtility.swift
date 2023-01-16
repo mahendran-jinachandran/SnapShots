@@ -68,7 +68,12 @@ class AppUtility {
     }
     
     static func getDisplayPicture(fileName: String) -> UIImage {
-        UIImage().loadImageFromDiskWith(fileName: fileName)!
+        
+        guard let image = UIImage().loadImageFromDiskWith(fileName: fileName) else {
+            return UIImage().loadImageFromDiskWith(fileName: "Default")!
+        }
+        
+       return image
     }
     
     static func getPostPicture(userID: Int,postID: Int) -> UIImage {

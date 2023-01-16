@@ -74,6 +74,15 @@ class UserDaoImplementation: UserDao {
         return UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
     }
     
+    func getUserDetails(rowID: Int) -> User? {
+        let getParticularUserQuery = """
+        SELECT * FROM \(USER_TABLE_NAME)
+        WHERE rowid = \(rowID)
+        """
+        
+        return UserInstance.getUserInstance(dbQuery: getParticularUserQuery)
+    }
+    
     func getAllUsers() -> [User] {
         
         let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)

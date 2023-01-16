@@ -41,7 +41,6 @@ class SearchPeopleVC: UIViewController {
         setupSearchTable()
         setSearchTableConstraints()
         
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,13 +77,28 @@ class SearchPeopleVC: UIViewController {
     @objc func setupData() {
         people = searchControls.getAllUsers()
         dupPeople = people
-        searchTable.reloadData()
     }
     
     private func setupNotificationSubscription() {
-    //    NotificationCenter.default.addObserver(self, selector: #selector(refreshSearch), name: Constants.userDetailsEvent, object: nil)
-        
-    //    NotificationCenter.default.addObserver(self, selector: #selector(setupData), name: Constants.blockEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
+    }
+    
+    @objc private func updateUser(_ notification: NSNotification) {
+     
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? User {
+            
+            for (index,user) in people.enumerated() where user.userID == data.userID {
+                
+                people[index].userName = data.userName
+                dupPeople[index].userName = data.userName
+                
+                people[index].profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: data.userID)
+                dupPeople[index].profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: data.userID)
+
+                searchTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                searchTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
     }
     
     @objc private func refreshSearch() {

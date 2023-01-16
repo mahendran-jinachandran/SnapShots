@@ -113,7 +113,6 @@ class ProfileVC: UIViewController{
         
         let blockUser = UIAction(title: "Block User",image: UIImage(systemName: "nosign")) { _ in
             self.profileControls.blockTheUser(userID: self.userID)
-         //   NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -264,6 +263,30 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self, selector: #selector(createPost(_:)), name: Constants.createPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
+    }
+    
+    @objc private func updateUser(_ notification: NSNotification) {
+     
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? User {
+            
+            profileUser.userName = data.userName
+            profileUser.profile.bio = data.profile.bio
+            profileUser.profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: data.userID)
+                
+            let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+            
+            headerView.setData(
+                username: profileUser.userName,
+                friendsCount: profileUser.profile.friendsList.count,
+                postsCount: posts.count,
+                bio: profileUser.profile.bio,
+                profileDP: profileUser.profile.photo,
+                profileAccessibility: profileAccessibility
+            )
+            
+            setupOwnerNavigationItems()
+        }
     }
     
     
@@ -284,10 +307,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                         profileView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
                         profileView.deleteItems(at: [IndexPath(row: index, section: 0)])
                         
-                        let headerView =  profileView.dequeueReusableSupplementaryView(
-                            ofKind: "UICollectionElementKindSectionHeader",
-                            withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-                            for: IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+                        let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
                         
                         headerView.setData(
                             username: profileUser.userName,
@@ -304,10 +324,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                     posts.insert(data.postDetails, at: 0)
                     profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
                     
-                    let headerView =  profileView.dequeueReusableSupplementaryView(
-                        ofKind: "UICollectionElementKindSectionHeader",
-                        withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-                        for: IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+                    let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
                     
                     headerView.setData(
                         username: profileUser.userName,
@@ -318,7 +335,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                         profileAccessibility: profileAccessibility
                     )
                 }
-                
             }
         }
     }
@@ -329,10 +345,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             posts.insert(data.postDetails, at: 0)
             profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
             
-            let headerView =  profileView.dequeueReusableSupplementaryView(
-                ofKind: "UICollectionElementKindSectionHeader",
-                withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-                for: IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+            let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
             
             headerView.setData(
                 username: profileUser.userName,
@@ -355,10 +368,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                 profileView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
                 profileView.deleteItems(at: [IndexPath(row: index, section: 0)])
                 
-                let headerView =  profileView.dequeueReusableSupplementaryView(
-                    ofKind: "UICollectionElementKindSectionHeader",
-                    withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier,
-                    for: IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+                let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
                 
                 headerView.setData(
                     username: profileUser.userName,
@@ -374,7 +384,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     
     @objc func refreshPostSection() {
         posts = profileControls.getAllPosts(userID: userID)
-        profileView.reloadData()
     }
     
     @objc func refreshUserDetails() {
@@ -382,7 +391,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         profileHeader.attributedText = NSAttributedString(string: profileUser.userName,attributes: [
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
         ])
-        profileView.reloadData()
     }
 }
 
@@ -419,12 +427,9 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     
     func unFriendAnUser() {
         if profileControls.removeFrined(profileRequestedUser: userID) {
-            
-       //     NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
             profileAccessibility = .unknown
-            profileView.reloadData()
 
         } else {
             showToast(message: Constants.toastFailureStatus)

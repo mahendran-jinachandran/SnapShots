@@ -843,7 +843,7 @@
 			);
 			mainGroup = BF45424E2918C03100BAC4B2;
 			packageReferences = (
-				BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
 				BFDD55D029372CF600DC8D68 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BFCFC518296FC9C9007AE492 /* XCRemoteSwiftPackageReference "sqlite-nio" */,
 			);
@@ -1231,7 +1231,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -1260,7 +1260,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		BF45429E2918EC5600BAC4B2 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
 			productName = Lottie;
 		};
 		BFCFC519296FC9C9007AE492 /* SQLiteNIO */ = {

@@ -93,7 +93,7 @@ class PostDaoImplementation: PostDao {
         var allPosts: [Post] = []
         for (_,post) in sqliteDatabase.retrievingQuery(query: getAllPostQuery) {
             
-            var postDetails = Post(postID: Int(post[0])!,
+            let postDetails = Post(postID: Int(post[0])!,
                                photo: post[1],
                                caption: post[2],
                                postCreatedDate: post[3],
@@ -360,7 +360,7 @@ class PostDaoImplementation: PostDao {
     
     func getPostDetails(rowID: Int) -> FeedsDetails? {
         
-        var getRowQuery = """
+        let getRowQuery = """
         SELECT * FROM \(POST_TABLE_NAME)
         WHERE rowid = \(rowID);
         """

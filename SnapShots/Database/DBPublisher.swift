@@ -39,12 +39,18 @@ class DBPublisher {
             } else if operation == .update {
                 NotificationCenter.default.post(name: Constants.updatePostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName : postData])
             }
+            
         } else if tableName == .comments{
           
             let commentData = commentsDaoImp.getComment(rowID: rowID)
-            
             if operation == .insert {
                 NotificationCenter.default.post(name: Constants.insertCommentPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: commentData])
+            }
+        } else if tableName == .user {
+            
+            let userData = userDaoImp.getUserDetails(rowID: rowID)
+            if operation == .update {
+                NotificationCenter.default.post(name: Constants.updateUserEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userData])
             }
             
         } else {

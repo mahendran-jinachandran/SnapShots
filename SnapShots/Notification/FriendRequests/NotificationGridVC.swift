@@ -148,7 +148,7 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
          //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
          //   NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             friendRequests.remove(at: indexPath.row)
-            friendRequestsCV.reloadData()
+         //   friendRequestsCV.reloadData()
         }
     }
     
@@ -159,7 +159,7 @@ extension NotificationGridVC: NotificiationGridCVCellDelegate {
             
             tabBarController?.tabBar.changeBadgeValue(value: friendRequests.count - 1)
             friendRequests.remove(at: indexPath.row)
-            friendRequestsCV.reloadData()
+        //    friendRequestsCV.reloadData()
         }
     }
 }

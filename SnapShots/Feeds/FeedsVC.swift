@@ -113,6 +113,19 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(unlikePost(_:)), name: Constants.unlikePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
+    }
+    
+    @objc private func updateUser(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? User {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID {
+            
+                feedPosts[index].userName = data.userName
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
     }
     
     @objc private func insertComment(_ notification: NSNotification) {

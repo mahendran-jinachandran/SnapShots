@@ -153,7 +153,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     private lazy var userNameLabel: UILabel = {
        var userNameLabel = UILabel()
        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-       userNameLabel.font =  UIFont.boldSystemFont(ofSize: 25)
+       userNameLabel.font = UIFont.boldSystemFont(ofSize: 25)
        return userNameLabel
     }()
     
@@ -212,6 +212,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     func setData(username: String,friendsCount: Int,postsCount: Int,bio: String,profileDP: String,profileAccessibility: ProfileAccess) {
         
+        userNameLabel.text = ""
         userNameLabel.text = username
         friendsCountLabel.text = String(friendsCount)
         postsCountLabel.text = String(postsCount)

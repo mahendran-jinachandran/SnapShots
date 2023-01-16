@@ -16,6 +16,7 @@ protocol UserDao {
     func getUserDetails(phoneNumber: String,password: String) -> User?
     func getUserDetails(phoneNumber: String) -> User?
     func getUserDetails(userID: Int) -> User?
+    func getUserDetails(rowID: Int) -> User?
     func getUserID(phoneNumber: String,password: String) -> Int?
     
     func createNewUser(userName: String, password: String, phoneNumber: String) -> Bool

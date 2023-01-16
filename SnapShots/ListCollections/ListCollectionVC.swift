@@ -106,7 +106,7 @@ class ListCollectionVC: UIViewController {
             posts = listCollectionControls.getAllSavedCollections()
         }
         
-        listCollection.reloadData()
+      //  listCollection.reloadData()
     }
 }
 
