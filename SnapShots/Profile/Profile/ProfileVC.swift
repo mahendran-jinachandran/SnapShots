@@ -381,12 +381,19 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                 }
             } else {
                 
-                let index = posts.insertionIndexOf(data.postDetails) {
-                    $0.postCreatedDate < $1.postCreatedDate
+                var shouldInsert: Bool = true
+                for post in posts where post.postID == data.postDetails.postID {
+                    shouldInsert = false
                 }
                 
-                posts.insert(data.postDetails, at: index)
-                profileView.insertItems(at: [IndexPath(row: index, section: 0)])
+                if shouldInsert {
+                    let index = posts.insertionIndexOf(data.postDetails) {
+                        $0.postCreatedDate < $1.postCreatedDate
+                    }
+                    
+                    posts.insert(data.postDetails, at: index)
+                    profileView.insertItems(at: [IndexPath(row: index, section: 0)])
+                }
             }
             
             let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
@@ -531,6 +538,7 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         
         let isSaved = profileControls.isPostSaved(postUserID: userID, postID: posts[indexPath.row].postID)
         
+        // ISSUE HERE - FOR HIDING AND UNHIDING
         let postControls = PostControls()
         let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: posts[indexPath.row],isSaved: isSaved)
     

@@ -183,17 +183,17 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @objc private func updatePost(_ notification: NSNotification) {
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
-            
+
             postDetails = data.postDetails
             isSaved = data.isSaved
-            
+
             if postDetails.isArchived {
                 navigationController?.popViewController(animated: true)
             }
-            
+
             let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
             setHeaderData(headerView)
-            
+
             if postDetails.isCommentsHidden {
                 addCommentTextField.isHidden = true
                 postTable.reloadData()

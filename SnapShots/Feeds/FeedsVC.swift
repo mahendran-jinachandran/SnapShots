@@ -286,13 +286,13 @@ class FeedsVC: UIViewController {
     @objc private func updatePost(_ notification: NSNotification) {
         
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
-            
-           
+
+
             for (_,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
-                
+
                 if feedPost.postDetails.isArchived != data.postDetails.isArchived {
                     for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
-                        
+
                         feedPosts.remove(at: index)
                         feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
                         feedsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
@@ -301,16 +301,16 @@ class FeedsVC: UIViewController {
                     return
                 }
             }
-            
+
             for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
-                
+
                 feedPosts[index] = data
                 feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
                 feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
                 shouldBackgroundBeChanged()
                 return
             }
-            
+
             feedPosts.insert(data, at: 0)
             feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
         }
