@@ -119,6 +119,22 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(removeFriendsPost), name: Constants.removeFriendPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(removeFriendsPost(_:)), name: Constants.blockUserEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addPosts(_:)), name: Constants.unblockingUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(savePost(_:)), name: Constants.savingPostEvent, object: nil)
+    }
+    
+    @objc private func savePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? ListCollectionDetails {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postID {
+                
+                feedPosts[index].isSaved = true
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+                
+            }
+        }
     }
     
     @objc private func addFriendPost(_ notification: NSNotification) {
@@ -252,34 +268,32 @@ class FeedsVC: UIViewController {
     @objc private func updatePost(_ notification: NSNotification) {
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             
-            var isPhotoArchivingChanged: Bool = false
+           
             for (_,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
-                isPhotoArchivingChanged = feedPost.postDetails.isArchived != data.postDetails.isArchived
-            }
-        
-            if isPhotoArchivingChanged || feedPosts.isEmpty {
-                if data.postDetails.isArchived {
+                
+                if feedPost.postDetails.isArchived != data.postDetails.isArchived {
                     for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
                         
                         feedPosts.remove(at: index)
-                        
                         feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
                         feedsTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
                         shouldBackgroundBeChanged()
                     }
-                } else if !data.postDetails.isArchived {
-                    feedPosts.insert(data, at: 0)
-                    feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+                    return
                 }
             }
-    
+            
             for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
                 
                 feedPosts[index] = data
                 feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
                 feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
                 shouldBackgroundBeChanged()
+                return
             }
+            
+            feedPosts.insert(data, at: 0)
+            feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
         }
     }
     

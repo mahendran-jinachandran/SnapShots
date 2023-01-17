@@ -85,4 +85,21 @@ class SavedPostDaoImplementation: SavedPostsDao {
         let isSaved = sqliteDatabase.booleanQuery(query: getAllSavedPosts)
         return isSaved
     }
+    
+    func getSavedPost(rowID: Int) -> ListCollectionDetails {
+        
+        let getSavedPost = """
+        SELECT \(POST_USER_ID),\(POST_ID) FROM
+        \(SAVED_POSTS_TABLE_NAME) WHERE
+        rowid = \(rowID)
+        """
+        
+        let data = sqliteDatabase.retrievingQuery(query: getSavedPost)
+        
+        return ListCollectionDetails(
+            userID: Int(data[1]![0])!,
+            postID: Int(data[1]![1])!
+        )
+        
+    }
 }

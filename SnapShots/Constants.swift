@@ -59,4 +59,5 @@ struct Constants {
     static let removeFriendPostEvent = Notification.Name("removeFriendPost") // REMOVING FRIEND'S POST FROM THE FEEDS AFTER UNFOLLOWING
     static let blockUserEvent = Notification.Name("blockUser") // BLOCKING AN USER
     static let unblockingUserEvent = Notification.Name("unblockUser") // UNBLOCKING AN USER
+    static let savingPostEvent = Notification.Name("savingPost") // SAVING A POST
 }

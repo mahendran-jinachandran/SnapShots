@@ -222,6 +222,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             postID: posts[indexPath.row].postID)
         
         cell.delegate = self
+        
         cell.configure(
             postImage: postPicture)
 
@@ -371,49 +372,33 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
     @objc private func updatePost(_ notification: NSNotification) {
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             
-            var isPostArchivingChanged: Bool = false
-            
-            for post in posts where post.postID == data.postDetails.postID {
-                isPostArchivingChanged = post.isArchived != data.postDetails.isArchived
-            }
-            
-            if isPostArchivingChanged || posts.isEmpty {
-                if data.postDetails.isArchived {
-                    for (index,post) in posts.enumerated() where post.postID == data.postDetails.postID {
-                                        
-                        posts.remove(at: index)
-                        profileView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
-                        profileView.deleteItems(at: [IndexPath(row: index, section: 0)])
-                        
-                        let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
-                        
-                        headerView.setData(
-                            username: profileUser.userName,
-                            friendsCount: profileUser.profile.friendsList.count,
-                            postsCount: posts.count,
-                            bio: profileUser.profile.bio,
-                            profileDP: profileUser.profile.photo,
-                            profileAccessibility: profileAccessibility
-                        )
-                    }
-                    
-                } else {
-                    
-                    posts.insert(data.postDetails, at: 0)
-                    profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
-                    
-                    let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
-                    
-                    headerView.setData(
-                        username: profileUser.userName,
-                        friendsCount: profileUser.profile.friendsList.count,
-                        postsCount: posts.count,
-                        bio: profileUser.profile.bio,
-                        profileDP: profileUser.profile.photo,
-                        profileAccessibility: profileAccessibility
-                    )
+            if data.postDetails.isArchived {
+                for (index,post) in posts.enumerated() where post.postID == data.postDetails.postID {
+                    posts.remove(at: index)
+                    profileView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+                    profileView.deleteItems(at: [IndexPath(row: index, section: 0)])
+                    break
                 }
+            } else {
+                
+                let index = posts.insertionIndexOf(data.postDetails) {
+                    $0.postCreatedDate < $1.postCreatedDate
+                }
+                
+                posts.insert(data.postDetails, at: index)
+                profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
             }
+            
+            let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+            
+            headerView.setData(
+                username: profileUser.userName,
+                friendsCount: profileUser.profile.friendsList.count,
+                postsCount: posts.count,
+                bio: profileUser.profile.bio,
+                profileDP: profileUser.profile.photo,
+                profileAccessibility: profileAccessibility
+            )
         }
     }
     

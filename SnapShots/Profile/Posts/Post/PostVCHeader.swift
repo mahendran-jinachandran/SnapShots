@@ -325,17 +325,12 @@ class PostVCHeader: UITableViewHeaderFooterView {
             archivedAction = UIAction(title: "Archive", image: UIImage(systemName: "archivebox.fill")) { _ in
                 
                 self.delegate?.archiveThePost()
-             //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-                // MARK: CHECK
                 self.delegate?.popAViewController()
             }
         } else {
             archivedAction = UIAction(title: "Unarchive", image: UIImage(systemName: "archivebox.fill")) { _ in
                 
                 self.delegate?.unarchiveThePost()
-            //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-                
-                // MARK: CHECK
                 self.delegate?.popAViewController()
             }
         }
@@ -346,7 +341,6 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 image: UIImage(systemName: "heart")) { _ in
                   
                     self.delegate?.unhideLikesCount()
-               //     NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         } else {
             likesCountVisibility =  UIAction(
@@ -354,7 +348,6 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 image: UIImage(systemName: "heart.slash")) { _ in
                 
                     self.delegate?.hideLikesCount()
-                 //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         }
         
@@ -364,16 +357,13 @@ class PostVCHeader: UITableViewHeaderFooterView {
                 image: UIImage(systemName: "pencil")) { _ in
                 
                     self.delegate?.unhideComments()
-     
-                //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-            }
+                 }
         } else {
             commentsVisibility = UIAction(
                 title: "Hide comments",
                 image: UIImage(systemName: "pencil.slash")) { _ in
                 
                     self.delegate?.hideComments()
-              //      NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
             }
         }
         

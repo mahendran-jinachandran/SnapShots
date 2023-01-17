@@ -12,4 +12,5 @@ protocol SavedPostsDao {
     func removePostFromSaved(postUserID: Int,postID: Int) -> Bool
     func getAllSavedPosts() -> [ListCollectionDetails]
     func isPostSaved(postUserID: Int,postID: Int) -> Bool
+    func getSavedPost(rowID: Int) -> ListCollectionDetails
 }

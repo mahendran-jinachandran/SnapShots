@@ -88,11 +88,30 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         NotificationCenter.default.addObserver(self, selector: #selector(unlikePost(_:)), name: Constants.unlikePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(savePost(_:)), name: Constants.savingPostEvent, object: nil)
+    }
+    
+    @objc private func savePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? ListCollectionDetails {
+            
+            if !(userID == data.userID && postDetails.postID == data.postID) {
+                return
+            }
+            
+            isSaved = true
+            let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+            setHeaderData(headerView)
+        }
     }
     
     @objc private func insertComment(_ notification: NSNotification) {
         
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int:[String]] {
+            
+            if !(Int(data[1]![1])! == userID && Int(data[1]![2])! == postDetails.postID) {
+                    return
+            }
             
             commentDetails.append(CommentDetails(
                 commentID: Int(data[1]![0])!,
@@ -123,10 +142,13 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [Int:[String]] {
             
+            if !(Int(data[1]![0])! == userID && Int(data[1]![1])! == postDetails.postID) {
+                    return
+            }
+            
             let likedUserID = Int(data[1]![2])!
             
             postDetails.likes.insert(likedUserID)
-            
             likeFlag = true
             
             let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
@@ -149,6 +171,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             
             postDetails = data.postDetails
             isSaved = data.isSaved
+            
             if postDetails.isArchived {
                 navigationController?.popViewController(animated: true)
             }

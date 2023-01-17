@@ -110,12 +110,10 @@ class SearchPeopleVC: UIViewController {
             let user = searchControls.getUser(userID: data)
             print(user.userName)
             
-            var position = people.insertionIndexOf(user) {
+            let position = people.insertionIndexOf(user) {
                 $0.userName < $1.userName
             }
-            
-            print(position)
-            
+      
             people.insert(user, at: position)
             dupPeople.insert(user, at: position)
             people[position].profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: user.userID)
