@@ -336,8 +336,6 @@ extension ProfileHeaderCollectionReusableView {
             imagePicker.addAction(UIAlertAction(title: "Remove", style: .default) { _ in
                 self.profilePhoto.image = UIImage(named: "blankPhoto")
                 self.delegate?.removeProfilePhoto()
-          //      NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-          //      NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
             })
         }
         
@@ -407,8 +405,6 @@ extension ProfileHeaderCollectionReusableView: UIImagePickerControllerDelegate,U
                 image: selectedImage)
             
             delegate?.uploadPhoto(image: selectedImage)
-         //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-         //   NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
         }
 
         picker.dismiss(animated: true)

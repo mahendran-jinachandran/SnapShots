@@ -117,6 +117,8 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addFriendPost(_:)), name: Constants.addFriendPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(removeFriendsPost), name: Constants.removeFriendPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeFriendsPost(_:)), name: Constants.blockUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addPosts(_:)), name: Constants.unblockingUserEvent, object: nil)
     }
     
     @objc private func addFriendPost(_ notification: NSNotification) {
@@ -127,8 +129,24 @@ class FeedsVC: UIViewController {
                 feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
             }
         }
+    }
+    
+    @objc private func addPosts(_ notification: NSNotification) {
         
-        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            
+            let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+            
+            if !(feedsControls.isUserFriends(userID: data, loggedUserID: loggedUserID)){
+                return
+            }
+            
+            for feedPost in feedsControls.getAllUserPosts(userID: data) {
+                
+                feedPosts.insert(feedPost, at: 0)
+                feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+            }
+        }
     }
     
     @objc private func removeFriendsPost(_ notification: NSNotification) {

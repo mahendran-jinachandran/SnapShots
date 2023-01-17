@@ -21,4 +21,8 @@ class SearchControls: SearchControlsProtocol {
         
         return users
     }
+    
+    func getUser(userID: Int) -> User {
+        return userDaoImp.getUserDetails(userID: userID)!
+    }
 }

@@ -102,10 +102,13 @@ extension ListTableVC: UITableViewDelegate,UITableViewDataSource {
             if !listTableControls.unblockTheUser(unblockingUserID: blockedUsers[indexPath.row].userID) {
                 showToast(message: Constants.toastFailureStatus)
             }
+            
+            NotificationCenter.default.post(name: Constants.unblockingUserEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: blockedUsers[indexPath.row].userID])
         
             blockedUsers.remove(at: indexPath.row)
             listTable.deleteRows(at: [indexPath], with: .left)
-         //   NotificationCenter.default.post(name: Constants.blockEvent, object: nil)
+            
+         
         }
     }
 
@@ -114,6 +117,6 @@ extension ListTableVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "Remove"
+        return "Unblock"
     }
 }

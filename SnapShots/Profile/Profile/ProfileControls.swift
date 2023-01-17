@@ -110,4 +110,8 @@ class ProfileControls: ProfileControlsProtocols {
     func isPostSaved(postUserID: Int,postID: Int) -> Bool {
         return savedPostDaoImp.isPostSaved(postUserID: postUserID, postID: postID)
     }
+    
+    func isUserFriends(userID: Int,loggedUserID: Int) -> Bool {
+        return friendsDaoImp.isUserFriends(loggedUserID: loggedUserID, visitingUserID: userID)
+    }
 }

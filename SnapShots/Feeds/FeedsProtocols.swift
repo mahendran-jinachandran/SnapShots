@@ -20,4 +20,6 @@ protocol FeedsControlsProtocol {
     func addPostToSaved(postUserID: Int,postID: Int) -> Bool
     func removePostFromSaved(postUserID: Int,postID: Int) -> Bool
     func getUsername(userID: Int) -> String
+    func getAllUserPosts(userID: Int) -> [FeedsDetails]
+    func isUserFriends(userID: Int,loggedUserID: Int) -> Bool
 }

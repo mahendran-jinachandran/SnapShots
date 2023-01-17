@@ -19,7 +19,6 @@ class ListTableControls: ListTableProtocol {
     }
     
     func unblockTheUser(unblockingUserID: Int) -> Bool {
-        
         return blockedUserDaoImp.unblockTheUser(unblockingUserID: unblockingUserID)
     }
 }

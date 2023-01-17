@@ -52,7 +52,6 @@ class ProfileVC: UIViewController{
     
     private func setupProfileView() {
     
-        
         profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
         self.profileUser = profileControls.getUserDetails(userID: userID)
         
@@ -119,7 +118,6 @@ class ProfileVC: UIViewController{
         moreInfo.showsMenuAsPrimaryAction = true
         let moreInfoMenu = UIMenu(title: "",children: [blockUser])
         moreInfo.menu = moreInfoMenu
-        
     }
     
     private func setupOwnerNavigationItems() {
@@ -265,12 +263,68 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self, selector: #selector(updatePost(_:)), name: Constants.updatePostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addFriendPost(_:)), name: Constants.addFriendPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeFriend(_:)), name: Constants.blockUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addFriend(_:)), name: Constants.unblockingUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeFriend), name: Constants.removeFriendPostEvent, object: nil)
     }
     
+    
+    @objc private func removeFriend(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            
+            profileUser.profile.friendsList.remove(data)
+            
+            let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+            
+            headerView.setData(
+                username: profileUser.userName,
+                friendsCount: profileUser.profile.friendsList.count,
+                postsCount: posts.count,
+                bio: profileUser.profile.bio,
+                profileDP: profileUser.profile.photo,
+                profileAccessibility: profileAccessibility
+            )
+            
+        }
+    }
+    
+    @objc private func addFriend(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+        
+            let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+            
+            if !(profileControls.isUserFriends(userID: data, loggedUserID: loggedUserID)){
+                return
+            }
+            
+            profileUser.profile.friendsList.insert(data)
+            
+            let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView
+            
+            headerView.setData(
+                username: profileUser.userName,
+                friendsCount: profileUser.profile.friendsList.count,
+                postsCount: posts.count,
+                bio: profileUser.profile.bio,
+                profileDP: profileUser.profile.photo,
+                profileAccessibility: profileAccessibility
+            )
+            
+        }
+    }
+
     @objc private func addFriendPost(_ notification: NSNotification) {
         
+        
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [FeedsDetails] {
-            if data.isEmpty {
+        
+            let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
+            print(profileControls.isUserFriends(userID: data[0].userID, loggedUserID: loggedUserID))
+            
+            if data.isEmpty || !(profileControls.isUserFriends(userID: data[0].userID, loggedUserID: loggedUserID)){
+                
                 return
             }
             
@@ -405,17 +459,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
             }
         }
     }
-    
-    @objc func refreshPostSection() {
-        posts = profileControls.getAllPosts(userID: userID)
-    }
-    
-    @objc func refreshUserDetails() {
-        self.profileUser = profileControls.getUserDetails(userID: userID)
-        profileHeader.attributedText = NSAttributedString(string: profileUser.userName,attributes: [
-            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
-        ])
-    }
 }
 
 extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
@@ -451,11 +494,13 @@ extension ProfileVC: ProfileHeaderCollectionReusableViewDelegate {
     
     func unFriendAnUser() {
         if profileControls.removeFrined(profileRequestedUser: userID) {
+  
+            NotificationCenter.default.post(name: Constants.removeFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userID])
+            
             posts = []
             profileAccessibility = profileControls.getProfileAccessibility(userID: userID)
             profileAccessibility = .unknown
             profileView.reloadData()
-            NotificationCenter.default.post(name: Constants.removeFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: userID])
 
         } else {
             showToast(message: Constants.toastFailureStatus)

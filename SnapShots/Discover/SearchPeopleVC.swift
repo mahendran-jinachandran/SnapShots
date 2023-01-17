@@ -81,6 +81,8 @@ class SearchPeopleVC: UIViewController {
     
     private func setupNotificationSubscription() {
         NotificationCenter.default.addObserver(self, selector: #selector(updateUser(_:)), name: Constants.updateUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeUser(_:)), name: Constants.blockUserEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addUser(_:)), name: Constants.unblockingUserEvent, object: nil)
     }
     
     @objc private func updateUser(_ notification: NSNotification) {
@@ -97,6 +99,45 @@ class SearchPeopleVC: UIViewController {
 
                 searchTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
                 searchTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            }
+        }
+    }
+    
+    @objc private func addUser(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            
+            let user = searchControls.getUser(userID: data)
+            print(user.userName)
+            
+            var position = people.insertionIndexOf(user) {
+                $0.userName < $1.userName
+            }
+            
+            print(position)
+            
+            people.insert(user, at: position)
+            dupPeople.insert(user, at: position)
+            people[position].profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: user.userID)
+            dupPeople[position].profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: user.userID)
+            searchTable.insertRows(at: [IndexPath(row: position, section: 0)], with: .top)
+            
+        } else {
+            print("Null")
+        }
+    }
+    
+    @objc private func removeUser(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
+            
+            for (index,user) in people.enumerated() where user.userID == data {
+                    
+                people.remove(at: index)
+                dupPeople.remove(at: index)
+                
+                searchTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                searchTable.deleteRows(at: [IndexPath(row: index, section: 0)], with: .none)
             }
         }
     }
@@ -183,6 +224,24 @@ extension SearchPeopleVC: UISearchTextFieldDelegate, UISearchBarDelegate {
         dupPeople = people
         searchTable.backgroundView?.alpha = 0.0
         searchTable.reloadData()
+    }
+}
+
+extension Array {
+    func insertionIndexOf(_ elem: Element, isOrderedBefore: (Element, Element) -> Bool) -> Int {
+        var lo = 0
+        var hi = self.count - 1
+        while lo <= hi {
+            let mid = (lo + hi)/2
+            if isOrderedBefore(self[mid], elem) {
+                lo = mid + 1
+            } else if isOrderedBefore(elem, self[mid]) {
+                hi = mid - 1
+            } else {
+                return mid // found at position mid
+            }
+        }
+        return lo // not found, would be inserted at position lo
     }
 }
 

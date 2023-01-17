@@ -9,4 +9,5 @@ import UIKit
 
 protocol SearchControlsProtocol {
     func getAllUsers() -> [User]
+    func getUser(userID: Int) -> User
 }

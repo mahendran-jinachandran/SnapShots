@@ -15,6 +15,7 @@ class DBPublisher {
     private lazy var likesDaoImp: LikesDao = LikesDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     private lazy var commentsDaoImp: CommentDao = CommentDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     private lazy var postDaoImp: PostDao = PostDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, friendsDaoImplementation: friendsDaoImp,userDaoImp: userDaoImp,savedPostDaoImp: savedPostDaoImp,likedUsersDaoImp: likesDaoImp,commentUsersDaoImp: commentsDaoImp)
+    private lazy var blockedUsersDaoImp: BlockedUserDao = BlockedUserDaoImplementation(sqliteDatabase: SQLiteDatabase.shared, userDaoImp: userDaoImp)
     
 
     func publish(operation: Operations,tableName: TableName,rowID: Int) {
@@ -67,7 +68,13 @@ class DBPublisher {
             if operation == .insert {
                 NotificationCenter.default.post(name: Constants.addFriendPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: friendFeedPosts])
             }
+        } else if tableName == .blockedUsers {
             
+            let blockedUserID = blockedUsersDaoImp.getBlockedUser(rowID: rowID)
+            if operation == .insert {
+                NotificationCenter.default.post(name: Constants.blockUserEvent, object: nil,userInfo: [
+                    Constants.notificationCenterKeyName: blockedUserID])
+            }
             
         } else {
             print("Not yet implemented")

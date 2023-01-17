@@ -20,4 +20,5 @@ protocol ProfileControlsProtocols {
     func removeProfilePhoto() -> Bool
     func blockTheUser(userID: Int)
     func isPostSaved(postUserID: Int,postID: Int) -> Bool
+    func isUserFriends(userID: Int,loggedUserID: Int) -> Bool 
 }

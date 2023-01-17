@@ -89,4 +89,15 @@ class BlockedUserDaoImplementation: BlockedUserDao {
         
         return false
     }
+    
+    func getBlockedUser(rowID: Int) -> Int {
+        let getBlockedUserQuery = """
+        SELECT \(BLOCKED_USER_ID) FROM
+        \(BLOCKED_USERS_TABLE_NAME)
+        WHERE rowid = \(rowID);
+        """
+        
+        let data = sqliteDatabase.retrievingQuery(query: getBlockedUserQuery)
+        return Int(data[1]![0])!
+    }
 }

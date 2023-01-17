@@ -89,4 +89,12 @@ class FeedsControls {
     func getUsername(userID: Int) -> String {
         return userDaoImp.getUsername(userID: userID)
     }
+    
+    func getAllUserPosts(userID: Int) -> [FeedsDetails] {
+        return postDaoImp.getFriendPostDetails(userID: userID)
+    }
+    
+    func isUserFriends(userID: Int,loggedUserID: Int) -> Bool {
+        return friendsDaoImp.isUserFriends(loggedUserID: loggedUserID, visitingUserID: userID)
+    }
 }

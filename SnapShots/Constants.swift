@@ -33,13 +33,7 @@ struct Constants {
     
     // MARK: PASSWORD CONSTANTS
     static let minimumPasswordLength = 3
-    
-//    // MARK: NOTIFICATION CENTER
-//    static let publishPostEvent = Notification.Name("Publish_Post") // Changes in the Post
-//    static let userDetailsEvent = Notification.Name("UserDetails_Modify") // Changes in the user details
-//    static let profileDetailsEvent = Notification.Name("ProfileDetails_Modify") // Regarding Profile details
-//    static let blockEvent = Notification.Name("blockPeople") // Blocking People
-    
+        
     // MARK: NO BIO CONSTANT
     static let noUserBioDefault = "Nothing to share!"
     
@@ -63,4 +57,6 @@ struct Constants {
     static let updateUserEvent = Notification.Name("updateUser") // UPDATE USER
     static let addFriendPostEvent = Notification.Name("addFriendPost") // ADDING FRIEND'S POST TO THE FEEDS AFTER ACCEPTING REQUEST
     static let removeFriendPostEvent = Notification.Name("removeFriendPost") // REMOVING FRIEND'S POST FROM THE FEEDS AFTER UNFOLLOWING
+    static let blockUserEvent = Notification.Name("blockUser") // BLOCKING AN USER
+    static let unblockingUserEvent = Notification.Name("unblockUser") // UNBLOCKING AN USER
 }
