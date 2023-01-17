@@ -77,7 +77,7 @@ class AppUtility {
     }
     
     static func getPostPicture(userID: Int,postID: Int) -> UIImage {
-       return AppUtility.getPostPicture(userID: userID, postID: postID)
+        return UIImage().loadImageFromDiskWith(fileName: "\(userID)_POST_\(postID)")!
     }
     
     static func updateEmail(email: String) -> Bool {

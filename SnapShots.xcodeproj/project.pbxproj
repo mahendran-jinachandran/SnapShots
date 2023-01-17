@@ -57,7 +57,6 @@
 		BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542E8291B579E00BAC4B2 /* UserInstance.swift */; };
 		BF4542EE291B8A6000BAC4B2 /* LaunchScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4542ED291B8A6000BAC4B2 /* LaunchScreenVC.swift */; };
 		BF45431D291BBADA00BAC4B2 /* LoginProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */; };
-		BF45C7E429769E48004260DC /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BF45C7E329769E48004260DC /* libsqlite3.0.tbd */; };
 		BF5A13C72935CC290051FC8D /* OnboardingProfilePhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13C62935CC290051FC8D /* OnboardingProfilePhotoVC.swift */; };
 		BF5A13F12935FA080051FC8D /* OnboardingMailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F02935FA080051FC8D /* OnboardingMailVC.swift */; };
 		BF5A13F32935FA2C0051FC8D /* OnboardingGenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5A13F22935FA2C0051FC8D /* OnboardingGenderVC.swift */; };
@@ -127,7 +126,6 @@
 		BFCA6983296ACBF200CE32DD /* BottomSheetsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA6982296ACBF200CE32DD /* BottomSheetsVC.swift */; };
 		BFCA6985296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA6984296ACC0A00CE32DD /* BottomSheetsTableViewCell.swift */; };
 		BFCA6987296ACC2300CE32DD /* BottomSheetsDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCA6986296ACC2300CE32DD /* BottomSheetsDetails.swift */; };
-		BFCFC51A296FC9C9007AE492 /* SQLiteNIO in Frameworks */ = {isa = PBXBuildFile; productRef = BFCFC519296FC9C9007AE492 /* SQLiteNIO */; };
 		BFCFC51C29702681007AE492 /* DBPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCFC51B29702681007AE492 /* DBPublisher.swift */; };
 		BFCFC51E2970269F007AE492 /* DBEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCFC51D2970269F007AE492 /* DBEnums.swift */; };
 		BFDD55CF2937295E00DC8D68 /* OTPPhoneNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDD55CE2937295E00DC8D68 /* OTPPhoneNumberVC.swift */; };
@@ -204,7 +202,6 @@
 		BF4542E8291B579E00BAC4B2 /* UserInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInstance.swift; sourceTree = "<group>"; };
 		BF4542ED291B8A6000BAC4B2 /* LaunchScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenVC.swift; sourceTree = "<group>"; };
 		BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProtocols.swift; sourceTree = "<group>"; };
-		BF45C7E329769E48004260DC /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		BF5A13C62935CC290051FC8D /* OnboardingProfilePhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProfilePhotoVC.swift; sourceTree = "<group>"; };
 		BF5A13F02935FA080051FC8D /* OnboardingMailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMailVC.swift; sourceTree = "<group>"; };
 		BF5A13F22935FA2C0051FC8D /* OnboardingGenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingGenderVC.swift; sourceTree = "<group>"; };
@@ -302,8 +299,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF45C7E429769E48004260DC /* libsqlite3.0.tbd in Frameworks */,
-				BFCFC51A296FC9C9007AE492 /* SQLiteNIO in Frameworks */,
 				BF45429F2918EC5600BAC4B2 /* Lottie in Frameworks */,
 				BFDD55D229372CF600DC8D68 /* FirebaseAuth in Frameworks */,
 			);
@@ -578,7 +573,6 @@
 		BF45C7E229769E48004260DC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BF45C7E329769E48004260DC /* libsqlite3.0.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -824,7 +818,6 @@
 			packageProductDependencies = (
 				BF45429E2918EC5600BAC4B2 /* Lottie */,
 				BFDD55D129372CF600DC8D68 /* FirebaseAuth */,
-				BFCFC519296FC9C9007AE492 /* SQLiteNIO */,
 			);
 			productName = SnapShots;
 			productReference = BF4542572918C03100BAC4B2 /* SnapShots.app */;
@@ -857,7 +850,6 @@
 			packageReferences = (
 				BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				BFDD55D029372CF600DC8D68 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				BFCFC518296FC9C9007AE492 /* XCRemoteSwiftPackageReference "sqlite-nio" */,
 			);
 			productRefGroup = BF4542582918C03100BAC4B2 /* Products */;
 			projectDirPath = "";
@@ -1251,14 +1243,6 @@
 				kind = branch;
 			};
 		};
-		BFCFC518296FC9C9007AE492 /* XCRemoteSwiftPackageReference "sqlite-nio" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/vapor/sqlite-nio";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		BFDD55D029372CF600DC8D68 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1274,11 +1258,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF45429D2918EC5600BAC4B2 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		BFCFC519296FC9C9007AE492 /* SQLiteNIO */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFCFC518296FC9C9007AE492 /* XCRemoteSwiftPackageReference "sqlite-nio" */;
-			productName = SQLiteNIO;
 		};
 		BFDD55D129372CF600DC8D68 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
