@@ -120,6 +120,7 @@ class FeedsVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(removeFriendsPost(_:)), name: Constants.blockUserEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addPosts(_:)), name: Constants.unblockingUserEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(savePost(_:)), name: Constants.savingPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unSavePost(_:)), name: Constants.unsavingPostEvent, object: nil)
     }
     
     @objc private func savePost(_ notification: NSNotification) {
@@ -129,6 +130,21 @@ class FeedsVC: UIViewController {
             for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postID {
                 
                 feedPosts[index].isSaved = true
+                
+                feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+                
+            }
+        }
+    }
+    
+    @objc private func unSavePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? ListCollectionDetails {
+            
+            for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postID {
+                
+                feedPosts[index].isSaved = false
                 
                 feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: true)
                 feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
@@ -187,6 +203,7 @@ class FeedsVC: UIViewController {
     }
     
     @objc private func updateUser(_ notification: NSNotification) {
+        
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? User {
             
             for (index,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID {
@@ -259,6 +276,7 @@ class FeedsVC: UIViewController {
     }
     
     @objc private func createPost(_ notification: NSNotification) {
+        
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             feedPosts.insert(data, at: 0)
             feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
@@ -266,6 +284,7 @@ class FeedsVC: UIViewController {
     }
     
     @objc private func updatePost(_ notification: NSNotification) {
+        
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             
            
@@ -497,6 +516,8 @@ extension FeedsVC: FeedsCustomCellDelegate {
         if feedsControls.addPostToSaved(
             postUserID: feedPosts[indexPath.row].userID,
             postID: feedPosts[indexPath.row].postDetails.postID) {
+            
+            
         }
     }
     
@@ -506,6 +527,8 @@ extension FeedsVC: FeedsCustomCellDelegate {
         if feedsControls.removePostFromSaved(
             postUserID: feedPosts[indexPath.row].userID,
             postID: feedPosts[indexPath.row].postDetails.postID) {
+            
+            NotificationCenter.default.post(name: Constants.unsavingPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: ListCollectionDetails(userID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID)])
         }
     }
 }

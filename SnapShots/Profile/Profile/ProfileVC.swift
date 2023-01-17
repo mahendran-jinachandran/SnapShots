@@ -386,7 +386,7 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
                 }
                 
                 posts.insert(data.postDetails, at: index)
-                profileView.insertItems(at: [IndexPath(row: 0, section: 0)])
+                profileView.insertItems(at: [IndexPath(row: index, section: 0)])
             }
             
             let headerView = profileView.supplementaryView(forElementKind: "UICollectionElementKindSectionHeader", at:  IndexPath(item: 0, section: 0)) as! ProfileHeaderCollectionReusableView

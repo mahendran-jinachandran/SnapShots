@@ -60,4 +60,5 @@ struct Constants {
     static let blockUserEvent = Notification.Name("blockUser") // BLOCKING AN USER
     static let unblockingUserEvent = Notification.Name("unblockUser") // UNBLOCKING AN USER
     static let savingPostEvent = Notification.Name("savingPost") // SAVING A POST
+    static let unsavingPostEvent = Notification.Name("unSavingPost") // UNSAVING A POST
 }

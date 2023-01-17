@@ -89,6 +89,7 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         NotificationCenter.default.addObserver(self, selector: #selector(insertComment(_:)), name: Constants.insertCommentPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteComment(_:)), name: Constants.deleteCommentPostEvent, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(savePost(_:)), name: Constants.savingPostEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unSavePost(_:)), name: Constants.unsavingPostEvent, object: nil)
     }
     
     @objc private func savePost(_ notification: NSNotification) {
@@ -100,6 +101,20 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             }
             
             isSaved = true
+            let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
+            setHeaderData(headerView)
+        }
+    }
+    
+    @objc private func unSavePost(_ notification: NSNotification) {
+        
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? ListCollectionDetails {
+            
+            if !(userID == data.userID && postDetails.postID == data.postID) {
+                return
+            }
+            
+            isSaved = false
             let headerView = postTable.headerView(forSection: 0) as! PostVCHeader
             setHeaderData(headerView)
         }
@@ -435,12 +450,13 @@ extension PostVC: PostVCHeaderDelegate {
     
     func addPostToSaved() {
         _ = postControls.addPostToSaved(postUserID: userID, postID: postDetails.postID)
-        self.isSaved = true
+       
     }
     
     func removePostFromSaved() {
         _ = postControls.removePostFromSaved(postUserID: userID, postID: postDetails.postID)
-        self.isSaved = false
+        
+        NotificationCenter.default.post(name: Constants.unsavingPostEvent, object: nil,userInfo: [Constants.notificationCenterKeyName: ListCollectionDetails(userID: userID, postID: postDetails.postID)])
     }
     
 }

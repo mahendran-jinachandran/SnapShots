@@ -212,8 +212,6 @@ class FeedsCustomCell: UITableViewCell {
         } else {
             delegate?.removePostFromSaved(sender: self)
         }
-        
-    //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     private func setSavedCollectionImage(isSaved: Bool) {
@@ -283,11 +281,7 @@ class FeedsCustomCell: UITableViewCell {
           title: "Unfollow User",
           image: UIImage(systemName: "person.badge.minus")) { _ in
               
-              self.delegate?.unfollowUser(sender: self)
-           //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-          //    NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
-              
-              // MARK: CHECK THIS              
+              self.delegate?.unfollowUser(sender: self)            
               self.delegate?.popAViewController()
         }
         
@@ -305,8 +299,6 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     private func confirmDeletion() {
-        
-        // MARK: CHECK THIS
         self.delegate?.confirmDeletion(sender: self)
     }
     
