@@ -10,6 +10,7 @@ import UIKit
 class PersonalInformationVC: UIViewController {
     
     private var accountControls: AccountControlsProtocol
+    private var user: User?
     init(accountControls: AccountControlsProtocol) {
         self.accountControls = accountControls
         super.init(nibName: nil, bundle: nil)
@@ -145,15 +146,29 @@ class PersonalInformationVC: UIViewController {
         setConstraints()
         setupTapGestures()
         setupNotificationCenter()
-        updatePersonalInformation()
+ 
+        user = accountControls.getUserDetails()
+        setPersonalInformation()
     }
     
     private func setupNotificationCenter() {
-    //    NotificationCenter.default.addObserver(self, selector: #selector(updatePersonalInformation), name: Constants.profileDetailsEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePersonalInformation), name: Constants.updateUserEvent, object: nil)
     }
     
-   @objc func updatePersonalInformation() {
-       let user = accountControls.getUserDetails()
+    @objc private func updatePersonalInformation(_ notification: NSNotification) {
+        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? User {
+            user = data
+        }
+        
+        setPersonalInformation()
+    }
+    
+    @objc func setPersonalInformation() {
+        
+        guard let user = user else {
+            return
+        }
+    
        email.text = user.mail == "-1" ? Constants.EMPTY : user.mail
        phone.text = user.phoneNumber
        gender.text = user.gender == .preferNotSay ? Gender.preferNotSay.description : user.gender == .male ? Gender.male.description : Gender.female.description
