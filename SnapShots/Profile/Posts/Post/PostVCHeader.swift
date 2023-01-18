@@ -283,13 +283,20 @@ class PostVCHeader: UITableViewHeaderFooterView {
     }
     
     private func setLikeHeartImage(isLiked: Bool) {
-        if isLiked {
-            likesButton.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
-            likesButton.tintColor = .red
-        } else {
-            likesButton.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-            likesButton.tintColor = UIColor(named: "appTheme")!
-        }
+       
+        UIView.animate(withDuration: 0.2, animations: {
+            
+            let image = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
+            let imageColour = isLiked ? UIColor.red : UIColor(named: "appTheme")
+            let newscale = isLiked ? 1.3 : 0.7
+            self.likesButton.transform = self.likesButton.transform.scaledBy(x: newscale, y: newscale)
+            self.likesButton.setImage(image, for: .normal)
+            self.likesButton.tintColor = imageColour
+        },completion: { _ in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.likesButton.transform = CGAffineTransform.identity
+            })
+        })
     }
     
     @objc private func goToComments() {

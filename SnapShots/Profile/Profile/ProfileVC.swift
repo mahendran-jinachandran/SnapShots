@@ -537,10 +537,10 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
             postID: posts[indexPath.row].postID)
         
         let isSaved = profileControls.isPostSaved(postUserID: userID, postID: posts[indexPath.row].postID)
-        
+        let postDetails = profileControls.getPostDetails(userID: userID, postID: posts[indexPath.row].postID)
         // ISSUE HERE - FOR HIDING AND UNHIDING
         let postControls = PostControls()
-        let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: posts[indexPath.row],isSaved: isSaved)
+        let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: postDetails,isSaved: isSaved)
     
         navigationController?.pushViewController(postVC,animated: true)
     }

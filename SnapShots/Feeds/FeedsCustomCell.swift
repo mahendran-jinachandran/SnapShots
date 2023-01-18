@@ -19,6 +19,7 @@ protocol FeedsCustomCellDelegate: AnyObject {
     func removePostFromSaved(sender: FeedsCustomCell)
     func popAViewController()
     func confirmDeletion(sender: FeedsCustomCell)
+    func openPost(sender: FeedsCustomCell)
 }
 
 class FeedsCustomCell: UITableViewCell {
@@ -201,6 +202,20 @@ class FeedsCustomCell: UITableViewCell {
         userNameLabel.addGestureRecognizer(
             UITapGestureRecognizer(target: self, action: #selector(goToProfile))
         )
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(openPost))
+        singleTap.numberOfTapsRequired = 1
+        postContainer.addGestureRecognizer(singleTap)
+        
+        let doubeTap = UITapGestureRecognizer(target: self, action: #selector(setLikedPost))
+        doubeTap.numberOfTapsRequired = 2
+        post.addGestureRecognizer(doubeTap)
+        
+        singleTap.require(toFail: doubeTap)
+    }
+    
+    @objc private func openPost() {
+        delegate?.openPost(sender: self)
     }
     
     @objc private func savePost() {
@@ -246,13 +261,52 @@ class FeedsCustomCell: UITableViewCell {
         }
     }
         
-    private func setLikeHeartImage(isLiked: Bool) {
+   @objc private func setLikeHeartImage(isLiked: Bool = true) {
         
-        let image = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
-        let imageColour = isLiked ? UIColor.red : UIColor(named: "appTheme")
+        UIView.animate(withDuration: 0.2, animations: {
+            
+            let image = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
+            let imageColour = isLiked ? UIColor.red : UIColor(named: "appTheme")
+            let newscale = isLiked ? 1.3 : 0.7
+            self.likesButton.transform = self.likesButton.transform.scaledBy(x: newscale, y: newscale)
+            self.likesButton.setImage(image, for: .normal)
+            self.likesButton.tintColor = imageColour
+        },completion: { _ in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.likesButton.transform = CGAffineTransform.identity
+            })
+        })
+    }
+    
+    @objc private func setLikedPost() {
+
+ 
+        UIView.animate(withDuration: 0.2, animations: {
+            
+            let image = UIImage(systemName: "suit.heart.fill")
+            let imageColour = UIColor.red
+            let newscale = 1.3
+            
+            self.likesButton.transform = self.likesButton.transform.scaledBy(x: newscale, y: newscale)
+            self.likesButton.setImage(image, for: .normal)
+            self.likesButton.tintColor = imageColour
+        },completion: { _ in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.likesButton.transform = CGAffineTransform.identity
+            })
+        })
         
-        likesButton.setImage(image, for: .normal)
-        likesButton.tintColor = imageColour
+        
+        if likeFlag {
+            return
+        }
+        
+        likeFlag = true
+        self.likesButton.setTitle(
+            String(Int((self.likesButton.titleLabel?.text!)!)! + 1),
+            for: .normal)
+        
+        delegate?.likeThePost(sender: self)
     }
     
     @objc private func goToLikes() {
@@ -339,7 +393,7 @@ class FeedsCustomCell: UITableViewCell {
             post.trailingAnchor.constraint(equalTo: postContainer.trailingAnchor,constant: -12),
             post.heightAnchor.constraint(equalToConstant: 350),
             
-            likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant:12),
+            likesButton.topAnchor.constraint(equalTo: post.bottomAnchor,constant: 10),
             likesButton.leadingAnchor.constraint(equalTo: postContainer.leadingAnchor),
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             
