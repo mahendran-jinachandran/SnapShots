@@ -191,7 +191,7 @@ class FeedsCustomCell: UITableViewCell {
     }
     
     private func setupButtonTargets() {
-        likesButton.addTarget(self, action: #selector(reactToThePost(_:)), for: .touchUpInside)
+        likesButton.addTarget(self, action: #selector(likeWithAnimation), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(gotToComments), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(savePost), for: .touchUpInside)
         
@@ -262,7 +262,55 @@ class FeedsCustomCell: UITableViewCell {
     }
         
    @objc private func setLikeHeartImage(isLiked: Bool = true) {
+       
+        let image = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
+        let imageColour = isLiked ? UIColor.red : UIColor(named: "appTheme")
+   
+        self.likesButton.setImage(image, for: .normal)
+        self.likesButton.tintColor = imageColour
+    }
+    
+    @objc private func setLikedPost() {
+
+        likeAnimation(isLiked: true)
         
+        if likeFlag {
+            return
+        }
+        
+        likeFlag = true
+        self.likesButton.setTitle(
+            String(Int((self.likesButton.titleLabel?.text!)!)! + 1),
+            for: .normal)
+        
+        delegate?.likeThePost(sender: self)
+    }
+    
+    @objc private func likeWithAnimation() {
+        
+        likeFlag = !likeFlag
+        likeAnimation(isLiked: likeFlag)
+
+        if likeFlag {
+            if !isLikesHidden {
+                self.likesButton.setTitle(
+                    String(Int((self.likesButton.titleLabel?.text!)!)! + 1),
+                    for: .normal)
+            }
+    
+            delegate?.likeThePost(sender: self)
+            
+        } else {
+            if !isLikesHidden {
+                self.likesButton.setTitle(
+                    String( Int((self.likesButton.titleLabel?.text!)!)! - 1),
+                    for: .normal)
+            }
+            delegate?.unLikeThePost(sender: self)
+        }
+    }
+    
+    private func likeAnimation(isLiked: Bool) {
         UIView.animate(withDuration: 0.2, animations: {
             
             let image = isLiked ? UIImage(systemName: "suit.heart.fill") : UIImage(systemName: "suit.heart")
@@ -276,37 +324,6 @@ class FeedsCustomCell: UITableViewCell {
                 self.likesButton.transform = CGAffineTransform.identity
             })
         })
-    }
-    
-    @objc private func setLikedPost() {
-
- 
-        UIView.animate(withDuration: 0.2, animations: {
-            
-            let image = UIImage(systemName: "suit.heart.fill")
-            let imageColour = UIColor.red
-            let newscale = 1.3
-            
-            self.likesButton.transform = self.likesButton.transform.scaledBy(x: newscale, y: newscale)
-            self.likesButton.setImage(image, for: .normal)
-            self.likesButton.tintColor = imageColour
-        },completion: { _ in
-            UIView.animate(withDuration: 0.2, animations: {
-                self.likesButton.transform = CGAffineTransform.identity
-            })
-        })
-        
-        
-        if likeFlag {
-            return
-        }
-        
-        likeFlag = true
-        self.likesButton.setTitle(
-            String(Int((self.likesButton.titleLabel?.text!)!)! + 1),
-            for: .normal)
-        
-        delegate?.likeThePost(sender: self)
     }
     
     @objc private func goToLikes() {
