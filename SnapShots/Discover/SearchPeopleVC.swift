@@ -108,7 +108,6 @@ class SearchPeopleVC: UIViewController {
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? Int {
             
             let user = searchControls.getUser(userID: data)
-            print(user.userName)
             
             let position = people.insertionIndexOf(user) {
                 $0.userName < $1.userName
@@ -120,8 +119,6 @@ class SearchPeopleVC: UIViewController {
             dupPeople[position].profile.photo = AppUtility.getProfilePhotoSavingFormat(userID: user.userID)
             searchTable.insertRows(at: [IndexPath(row: position, section: 0)], with: .top)
             
-        } else {
-            print("Null")
         }
     }
     

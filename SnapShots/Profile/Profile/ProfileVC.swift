@@ -322,7 +322,6 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? [FeedsDetails] {
         
             let loggedUserID = UserDefaults.standard.integer(forKey: Constants.loggedUserFormat)
-            print(profileControls.isUserFriends(userID: data[0].userID, loggedUserID: loggedUserID))
             
             if data.isEmpty || !(profileControls.isUserFriends(userID: data[0].userID, loggedUserID: loggedUserID)){
                 

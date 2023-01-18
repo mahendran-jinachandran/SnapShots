@@ -363,40 +363,6 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
         return feedPosts.count
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-////        tapCount++;
-////        switch (tapCount)
-////        {
-////            case 1: //single tap
-////            [self, performSelector:@selector(singleTap:) withObject: indexPath afterDelay: 0.2];
-////                break;
-////            case 2: //double tap
-////                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(singleTap:) object:indexPath];
-////                [self performSelector:@selector(doubleTap:) withObject: indexPath];
-////                break;
-////            default:
-////                break;
-////        }
-////        if (tapCount>2) tapCount=0;
-//
-//    //    perform(<#T##aSelector: Selector##Selector#>, with: indexPath, afterDelay: <#T##TimeInterval#>)
-//
-////        let postPhoto = AppUtility.getPostPicture(
-////            userID: feedPosts[indexPath.row].userID,
-////            postID: feedPosts[indexPath.row].postDetails.postID)
-////
-////        let postControls = PostControls()
-////        let postVC = PostVC(
-////            postControls: postControls,
-////            userID: feedPosts[indexPath.row].userID,
-////            postImage: postPhoto,
-////            postDetails: feedPosts[indexPath.row].postDetails,
-////            isSaved: feedPosts[indexPath.row].isSaved)
-////
-////        navigationController?.pushViewController(postVC, animated: true)
-//    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let particularCell = tableView.dequeueReusableCell(withIdentifier: FeedsCustomCell.identifier, for: indexPath) as! FeedsCustomCell
