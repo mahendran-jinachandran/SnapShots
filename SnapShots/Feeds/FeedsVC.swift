@@ -232,6 +232,8 @@ class FeedsVC: UIViewController {
                 feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             }
         }
+        
+        
     }
     
     @objc private func deleteComment(_ notification: NSNotification) {
@@ -278,9 +280,13 @@ class FeedsVC: UIViewController {
     @objc private func createPost(_ notification: NSNotification) {
         
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
+            
+            
             feedPosts.insert(data, at: 0)
             feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
         }
+        
+        print("Going out")
     }
     
     @objc private func updatePost(_ notification: NSNotification) {
@@ -381,7 +387,7 @@ extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
             postCaption: feedPosts[indexPath.row].postDetails.caption,
             isAlreadyLiked: feedsControls.isAlreadyLikedThePost(postDetails: feedPosts[indexPath.row]),
             likedUsersCount: feedPosts[indexPath.row].postDetails.likes.count,
-            commentedUsersCount: feedPosts[indexPath.row].postDetails.comments.count,
+            commentedUsersCount: feedsControls.getAllComments(postUserID: feedPosts[indexPath.row].userID, postID: feedPosts[indexPath.row].postDetails.postID),
             postCreatedTime: feedPosts[indexPath.row].postDetails.postCreatedDate,
             isDeletionAllowed: feedsControls.isDeletionAllowed(userID: feedPosts[indexPath.row].userID),
             isLikesHidden: feedPosts[indexPath.row].postDetails.isLikesHidden,
