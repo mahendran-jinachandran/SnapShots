@@ -287,7 +287,6 @@ class FeedsVC: UIViewController {
         
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
 
-
             for (_,feedPost) in feedPosts.enumerated() where feedPost.userID == data.userID && feedPost.postDetails.postID == data.postDetails.postID {
 
                 if feedPost.postDetails.isArchived != data.postDetails.isArchived {
@@ -306,7 +305,7 @@ class FeedsVC: UIViewController {
 
                 feedPosts[index] = data
                 feedsTable.scrollToRow(at: IndexPath(row: index, section: 0), at: .none, animated: false)
-                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+                feedsTable.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
                 shouldBackgroundBeChanged()
                 return
             }
