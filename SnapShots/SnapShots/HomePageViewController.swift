@@ -42,13 +42,18 @@ class HomePageViewController: UITabBarController {
         let feedsControls = FeedsControls()
         feedsVC.setController(feedsControls)
         
+        let listCollectionVC = ListCollectionVC(listCollectionControls: ListCollectionControls(),listCollectionEntity: .archive)
+        let listCollectionVC1 = ListCollectionVC(listCollectionControls: ListCollectionControls(),listCollectionEntity: .savedCollection)
+        
         viewControllers = [
             createNavigationController(rootViewController: feedsVC, title: "Feeds", icon: UIImage(systemName: "newspaper")!,selectedIcon: UIImage(systemName: "newspaper.fill")!),
             createNavigationController(rootViewController: searchVC, title: "Search", icon: UIImage(systemName: "magnifyingglass")!,selectedIcon: UIImage(systemName: "magnifyingglass")!),
             
             createNavigationController(rootViewController: notificationVC, title: "Friends", icon: UIImage(systemName: "globe")!,selectedIcon: UIImage(systemName: "globe")!),
             createNavigationController(rootViewController: profileVC, title: "Profile", icon: UIImage(systemName: "person")!,selectedIcon: UIImage(systemName: "person.fill")!),
-        
+            createNavigationController(rootViewController: listCollectionVC, title: "Archives", icon: UIImage(systemName: "archivebox.fill")!, selectedIcon: UIImage(systemName: "archivebox.fill")!),
+            
+            createNavigationController(rootViewController: listCollectionVC1, title: "Saved Collections", icon:  UIImage(systemName: "bookmark")!, selectedIcon:  UIImage(systemName: "bookmark")!)
         ]
         
 

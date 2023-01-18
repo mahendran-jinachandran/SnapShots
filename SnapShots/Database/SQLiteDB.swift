@@ -272,22 +272,25 @@ class SQLiteDatabase: DatabaseProtocol {
                         return
                     }
                     
-                    if tableName == "User" {
-                        tableAffected = .user
-                    } else if tableName == "Post" {
-                        tableAffected = .post
-                    } else if tableName == "Likes" {
-                        tableAffected = .likes
-                    } else if tableName == "Friends" {
-                        tableAffected = .friends
-                    } else if tableName == "FriendRequest" {
-                        tableAffected = .friendRequest
-                    } else if tableName == "Comments" {
-                        tableAffected = .comments
-                    } else if tableName == "SavedPosts" {
-                        tableAffected = .savedPosts
-                    } else if tableName == "BlockedUsers" {
-                        tableAffected = .blockedUsers
+                    switch tableName {
+                        case "User":
+                            tableAffected = .user
+                        case "Post":
+                            tableAffected = .post
+                        case "Likes":
+                            tableAffected = .likes
+                        case "Friends":
+                            tableAffected = .friends
+                        case "FriendRequest":
+                            tableAffected = .friendRequest
+                        case "Comments":
+                            tableAffected = .comments
+                        case "SavedPosts":
+                            tableAffected = .savedPosts
+                        case "BlockedUsers":
+                            tableAffected = .blockedUsers
+                        default:
+                            fatalError("Error")
                     }
         
           DBPublisher().publish(operation: operation, tableName: tableAffected, rowID: Int(rowID))
