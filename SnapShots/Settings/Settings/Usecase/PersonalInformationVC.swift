@@ -156,6 +156,8 @@ class PersonalInformationVC: UIViewController {
     }
     
     @objc private func updatePersonalInformation(_ notification: NSNotification) {
+        
+        
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? User {
             user = data
         }

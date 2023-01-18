@@ -278,8 +278,6 @@ class PostVCHeader: UITableViewHeaderFooterView {
             
             delegate?.unLikeThePost()
         }
-        
-                //NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
     }
     
     private func setLikeHeartImage(isLiked: Bool) {
@@ -318,9 +316,6 @@ class PostVCHeader: UITableViewHeaderFooterView {
           image: UIImage(systemName: "person.badge.minus")) { _ in
               
               self.delegate?.unfollowUser()
-           //   NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-           //   NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
-              // MARK: CHECK
               self.delegate?.popAViewController()
         }
         

@@ -21,7 +21,7 @@ class DBPublisher {
         
         switch tableName {
             case .user:
-                likeTableOperations(operation: operation, rowID: rowID)
+                userTableOperations(operation: operation, rowID: rowID)
             case .post:
                 postTableOperations(operation: operation, rowID: rowID)
             case .likes:

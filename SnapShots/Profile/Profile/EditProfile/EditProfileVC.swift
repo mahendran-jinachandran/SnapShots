@@ -141,8 +141,6 @@ class EditProfileVC: UIViewController,UITextFieldDelegate,UITextViewDelegate {
             showToast(message: Constants.toastFailureStatus)
             return
         }
-        
-    //    NotificationCenter.default.post(name: Constants.userDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     

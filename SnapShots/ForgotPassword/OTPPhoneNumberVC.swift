@@ -212,7 +212,7 @@ class OTPPhoneNumberVC: UIViewController,UITextFieldDelegate {
         
     
         activityIndicatorView.frame = CGRect(
-            x: view.frame.size.width / 2 ,
+            x: view.frame.size.width / 2 - 100,
             y: view.frame.size.height / 2 ,
             width: 50,
             height: 50)

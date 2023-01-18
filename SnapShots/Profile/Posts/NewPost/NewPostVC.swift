@@ -75,6 +75,14 @@ class NewPostVC: UIViewController,UITextViewDelegate {
         uploadLabel.alpha = 0.5
         return uploadLabel
     }()
+    
+    private lazy var blurEffect: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return blurEffectView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,23 +201,61 @@ class NewPostVC: UIViewController,UITextViewDelegate {
     
     @objc private func uploadPost(_ sender : UITapGestureRecognizer) {
         
+        blurTheScreen()
         if !newPostControls.addPost(caption: caption.text!.trimmingCharacters(in: .whitespacesAndNewlines), image: postImage.image!) {
-            
-            
             showToast(message: Constants.toastFailureStatus)
             return
         }
         
-    //    NotificationCenter.default.post(name: Constants.publishPostEvent, object: nil)
-        sendLocalNotifications()
-        self.dismiss(animated: true)
+        let seconds = 3.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.unblurTheScreen()
+            self.sendLocalNotifications()
+            self.dismiss(animated: true)
+        }
+        
+
+    }
+    
+    private func blurTheScreen() {
+        self.startLoadingActivityIndicator()
+        view.addSubview(blurEffect)
+        view.isUserInteractionEnabled = false
+        navigationController?.navigationBar.isUserInteractionEnabled = false
+    }
+    
+    private func unblurTheScreen() {
+        self.stopAnimating()
+        self.blurEffect.removeFromSuperview()
+        self.view.isUserInteractionEnabled = true
+        navigationController?.navigationBar.isUserInteractionEnabled = true
+    }
+    
+    var activityIndicatorView: UIActivityIndicatorView!
+    private func startLoadingActivityIndicator() {
+        activityIndicatorView = UIActivityIndicatorView(style: .medium)
+        self.blurEffect.contentView.addSubview(activityIndicatorView)
+        
+        
+        
+        activityIndicatorView.frame = CGRect(
+            x: view.frame.size.width / 2 - 50,
+            y: view.frame.size.height / 2 ,
+            width: 100,
+            height: 100)
+        
+        activityIndicatorView.startAnimating()
+    }
+    
+    private func stopAnimating() {
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.removeFromSuperview()
     }
     
     func sendLocalNotifications() {
         
         let center = UNUserNotificationCenter.current()
         
-       
         center.requestAuthorization(options: [.alert,.badge,.sound]) { (granted,error) in
             if error == nil {
                 print("User permission is granted: \(granted)")
@@ -222,7 +268,7 @@ class NewPostVC: UIViewController,UITextViewDelegate {
         content.title = "Snapshots"
         content.body = "Uploaded a new post"
         
-        let date = Date().addingTimeInterval(10)
+        let date = Date().addingTimeInterval(4)
         let dateComponent = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)

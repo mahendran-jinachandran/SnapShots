@@ -55,7 +55,6 @@ class ListCollectionVC: UIViewController {
     
     func setupNotificationCenters() {
         NotificationCenter.default.addObserver(self, selector: #selector(deletePost(_:)), name: Constants.deletePostEvent, object: nil)
-     //   NotificationCenter.default.addObserver(self, selector: #selector(updatePosts(_:)), name: Constants.updatePostEvent, object: nil)
     }
     
     @objc private func deletePost(_ notification: NSNotification) {
@@ -70,24 +69,6 @@ class ListCollectionVC: UIViewController {
             }
         }
     }
-//
-//    @objc private func updatePosts(_ notification: NSNotification) {
-//
-//        if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
-//
-//            if data.postDetails.isArchived {
-//                for (index,post) in posts.enumerated() where post.userID == data.userID && post.postID == data.postDetails.postID {
-//
-//                    posts.remove(at: index)
-//                    listCollection.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
-//                    listCollection.deleteItems(at: [IndexPath(row: index, section: 0)])
-//                }
-//            } else {
-//                posts.append(ListCollectionDetails(userID: data.userID, postID: data.postDetails.postID))
-//                listCollection.insertItems(at: [IndexPath(row: 0, section: 0)])
-//            }
-//        }
-//    }
     
     private func setupListCollections() {
         

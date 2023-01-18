@@ -146,7 +146,6 @@ class PhoneNumberVC: UIViewController {
         }
         
         _ = accountControls.updatePhoneNumber(phoneNumber: phoneNumberTextField.text!)
-    //    NotificationCenter.default.post(name: Constants.profileDetailsEvent, object: nil)
         navigationController?.popViewController(animated: true)
     }
     

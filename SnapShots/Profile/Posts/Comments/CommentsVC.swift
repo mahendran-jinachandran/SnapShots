@@ -147,8 +147,6 @@ class CommentsVC: UIViewController {
         } else {
             commentsTable.backgroundView?.alpha = 0.0
         }
-        
-      //  commentsTable.reloadData()
     }
     
     func setupConstraints() {
