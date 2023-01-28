@@ -342,7 +342,7 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
             let allowedCharacters = CharacterSet.decimalDigits
              let characterSet = CharacterSet(charactersIn: string)
              let isSuperSet = allowedCharacters.isSuperset(of: characterSet)
-            
+            print(isSuperSet)
             return isSuperSet && phoneNumnerLimit
         } else if textField == password {
             return AppUtility.textLimit(existingText: textField.text, newText: string, limit: 30)

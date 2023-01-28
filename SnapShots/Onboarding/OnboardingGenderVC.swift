@@ -96,7 +96,7 @@ class OnboardingGenderVC: UIViewController,UIPickerViewDelegate,UIPickerViewData
     
     private func setupNavigationItems() {
         view.backgroundColor = .systemBackground
-        navigationItem.hidesBackButton = true
+     //   navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipProcess))
     }
