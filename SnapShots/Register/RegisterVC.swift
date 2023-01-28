@@ -337,7 +337,13 @@ class RegisterVC: UIViewController,RegisterViewProtocol,UITextFieldDelegate {
     
     func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
         if textField == phoneNumber {
-            return AppUtility.textLimit(existingText: textField.text,newText: string,limit: 15)
+            let phoneNumnerLimit =  AppUtility.textLimit(existingText: textField.text,newText: string,limit: 15)
+            
+            let allowedCharacters = CharacterSet.decimalDigits
+             let characterSet = CharacterSet(charactersIn: string)
+             let isSuperSet = allowedCharacters.isSuperset(of: characterSet)
+            
+            return isSuperSet && phoneNumnerLimit
         } else if textField == password {
             return AppUtility.textLimit(existingText: textField.text, newText: string, limit: 30)
         } else if textField == rePassword {

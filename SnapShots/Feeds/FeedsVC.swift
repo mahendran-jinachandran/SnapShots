@@ -72,7 +72,6 @@ class FeedsVC: UIViewController {
         
         feedsTable.backgroundView = noPostsLabel
         feedPosts = feedsControls.getAllPosts()
-        
     }
     
     private func setNavigationItems() {
@@ -281,12 +280,9 @@ class FeedsVC: UIViewController {
         
         if let data = notification.userInfo?[Constants.notificationCenterKeyName] as? FeedsDetails {
             
-            
             feedPosts.insert(data, at: 0)
             feedsTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
         }
-        
-        print("Going out")
     }
     
     @objc private func updatePost(_ notification: NSNotification) {
@@ -359,12 +355,10 @@ class FeedsVC: UIViewController {
 
         present(postNavigation, animated: true)
     }
-    
-    var tapCount = 0
 }
 
 extension FeedsVC: UITableViewDelegate,UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedPosts.count
     }

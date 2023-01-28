@@ -16,7 +16,6 @@ class PostVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     private var likeFlag: Bool!
     private var isSaved: Bool
     private var commentDetails: [CommentDetails] = []
-    private var refreshControl = UIRefreshControl()
 
     init(postControls: PostControlsProtocol,userID: Int,postImage: UIImage,postDetails: Post,isSaved: Bool) {
         self.postControls = postControls

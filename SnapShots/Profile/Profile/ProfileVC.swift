@@ -166,7 +166,6 @@ class ProfileVC: UIViewController{
         postNavigation.modalPresentationStyle = .fullScreen
 
         present(postNavigation, animated: true)
-
     }
 }
 
@@ -178,6 +177,12 @@ extension ProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDataSour
         if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
             layout.invalidateLayout()
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        print("Checking")
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -537,6 +542,7 @@ extension ProfileVC: CustomCollectionViewCellDelegate {
         
         let isSaved = profileControls.isPostSaved(postUserID: userID, postID: posts[indexPath.row].postID)
         let postDetails = profileControls.getPostDetails(userID: userID, postID: posts[indexPath.row].postID)
+        
         // ISSUE HERE - FOR HIDING AND UNHIDING
         let postControls = PostControls()
         let postVC = PostVC(postControls: postControls,userID: userID,postImage: postPicture, postDetails: postDetails,isSaved: isSaved)
