@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhoneNumberVC: UIViewController {
+class PhoneNumberVC: UIViewController,UITextFieldDelegate {
     
     private var phoneNumber: String!
     private var accountControls: AccountControlsProtocol
@@ -75,6 +75,7 @@ class PhoneNumberVC: UIViewController {
         
         title = "Phone number"
         view.backgroundColor = .systemBackground
+        phoneNumberTextField.delegate = self
         
         setupNotificationCenter()
         setupConstraints()
@@ -165,6 +166,18 @@ class PhoneNumberVC: UIViewController {
         }
         
         return false
+    }
+    
+    func textField(_ textField: UITextField,shouldChangeCharactersIn range: NSRange,replacementString string: String) -> Bool {
+        
+        let phoneNumnerLimit =  AppUtility.textLimit(existingText: textField.text,newText: string,limit: 15)
+        
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        let isSuperSet = allowedCharacters.isSuperset(of: characterSet)
+        
+        return isSuperSet && phoneNumnerLimit
+
     }
     
     private func validPhoneNumber() {
