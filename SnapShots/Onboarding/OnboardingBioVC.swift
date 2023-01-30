@@ -103,7 +103,6 @@ class OnboardingBioVC: UIViewController,UITextViewDelegate {
     private func setupNavigationItems() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "appTheme")
-    //    navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipProcess))
     }
     
