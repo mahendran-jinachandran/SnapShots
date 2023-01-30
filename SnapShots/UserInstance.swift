@@ -27,7 +27,7 @@ struct UserInstance {
                 age: data[5],
                 mail: data[6],
                 photo: data[7],
-                bio: data[8] == "-1" ? "Nothing to Share!" : data[8],
+                bio: data[8] == "-1" ? Constants.noUserBioDefault : data[8],
                 accountCreatedDate: data[9]
             )
         }
