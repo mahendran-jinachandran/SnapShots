@@ -179,13 +179,14 @@ class SettingsViewController: UIViewController {
         UserDefaults.standard.removeObject(forKey: Constants.loggedUserFormat)
         UserDefaults.standard.synchronize()
         
-        let loginViewController = LoginVC()
-        let loginController = LoginControls()
+//        let loginViewController = LoginVC()
+//        let loginController = LoginControls()
+//
+//        loginController.setView(loginViewController)
+//        loginViewController.setController(loginController)
         
-        loginController.setView(loginViewController)
-        loginViewController.setController(loginController)
-       
-        self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
+        let loginVC = LoginAssembler.shared.configure()
+        self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginVC)
     }
 }
 

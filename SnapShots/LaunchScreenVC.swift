@@ -39,13 +39,15 @@ class LaunchScreenVC: UIViewController {
                     self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
                 } else {
 
-                    let loginViewController = LoginVC()
-                    let loginController = LoginControls()
-
-                    loginController.setView(loginViewController)
-                    loginViewController.setController(loginController)
+//                    let loginViewController = LoginVC()
+//                    let loginController = LoginControls()
+//
+//                    loginController.setView(loginViewController)
+//                    loginViewController.setController(loginController)
                     
-                    self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
+                    let loginVC = LoginAssembler.shared.configure()
+                    
+                    self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginVC)
                     
                 }
             }

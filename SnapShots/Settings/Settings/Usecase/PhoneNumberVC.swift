@@ -175,7 +175,6 @@ class PhoneNumberVC: UIViewController,UITextFieldDelegate {
         let allowedCharacters = CharacterSet.decimalDigits
         let characterSet = CharacterSet(charactersIn: string)
         let isSuperSet = allowedCharacters.isSuperset(of: characterSet)
-        print(isSuperSet)
         return isSuperSet && phoneNumnerLimit
 
     }

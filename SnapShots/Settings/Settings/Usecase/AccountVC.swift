@@ -116,13 +116,15 @@ class AccountVC: UIViewController {
         UserDefaults.standard.removeObject(forKey: Constants.loggedUserFormat)
         UserDefaults.standard.synchronize()
         
-        let loginViewController = LoginVC()
-        let loginController = LoginControls()
+//        let loginViewController = LoginAssembler().
+//        let loginController = LoginControls()
+//
+//        loginController.setView(loginViewController)
+//        loginViewController.setController(loginController)
         
-        loginController.setView(loginViewController)
-        loginViewController.setController(loginController)
+        let loginVC = LoginAssembler.shared.configure()
        
-        self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginViewController)
+        self.view.window?.windowScene?.keyWindow?.rootViewController = UINavigationController(rootViewController: loginVC)
     }
     
     @objc func showPersonalInformation() {

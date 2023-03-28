@@ -8,17 +8,23 @@
 import UIKit
 import Lottie
 
-class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
+
+class LoginVC: UIViewController,UITextFieldDelegate {
     
-    private var loginController: LoginControllerProtocol!
     private var isPhoneNumberEntered: Bool = false
     private var isPasswordEntered: Bool = false
     private var loginStackView: UIStackView!
+    private let presenter: LoginPresenter
     
-    public func setController(_ controller: LoginControllerProtocol) {
-        loginController = controller
+    init(presenter: LoginPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var loginScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,15 +92,17 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
         password.rightView = passwordVisibilityToggleButton
         return password
     }()
-    
-    private lazy var passwordVisibilityToggleButton: UIButton = {
         
+    private lazy var passwordVisibilityToggleButton: UIButton = {
         var configButton = UIButton.Configuration.borderless()
         configButton.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
-        let toggleButton = UIButton(configuration: configButton)
+
+        let toggleButton = UIButton(configuration: configButton )
         toggleButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        toggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
+        
+        toggleButton.setImage(UIImage(systemName: "eye.circle.fill"), for: .normal)
+        toggleButton.tintColor = UIColor(named: "appTheme")
+        
         toggleButton.addTarget(self, action: #selector(passwordVisibility), for: .touchUpInside)
         return toggleButton
     }()
@@ -148,12 +156,29 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindToViewModel()
         
         navigationController?.isNavigationBarHidden = true
         setupNavigationItems()
         setupNotficationCenter()
         setupTapGestures()
         setupLoginPage()
+    }
+    
+    private func bindToViewModel() {
+        
+        presenter.$errorUser.bind(fire: true) { [weak self] error in
+            
+            guard let self else { return }
+                switch error {
+                    case let .doesNotExist(reason):
+                        self.displayInvalidPhoneNumber(warningText: reason)
+                    case .notAValidUser(_):
+                        self.displayWrongCredentials()
+                    default:
+                        print("Handle remaining")
+            }
+        }
     }
     
     private func setupNavigationItems() {
@@ -229,7 +254,7 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
     }
     
     @objc private func validateUserCredentials(_ sender: UIButton) {
-        loginController.validateUserCredentials(phoneNumber: phoneNumber.text!, password: password.text!)
+        presenter.validateLogin(phoneNumber: phoneNumber.text!, password: password.text!)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -264,13 +289,10 @@ class LoginVC: UIViewController,UITextFieldDelegate,LoginViewProtocol {
 
 extension LoginVC {
     @objc private func passwordVisibility(_ sender : UIButton) {
-        if(password.isSecureTextEntry){
-            password.isSecureTextEntry = false
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_invisible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
-        }else{
-            password.isSecureTextEntry = true
-            passwordVisibilityToggleButton.setImage(UIImage(named: "password_visible")?.withTintColor(UIColor(named: "appTheme")!), for: .normal)
-        }
+        
+        let imageName = password.isSecureTextEntry ? "eye.slash.circle.fill" : "eye.circle.fill"
+        passwordVisibilityToggleButton.setImage(UIImage(systemName: imageName), for: .normal)
+        password.isSecureTextEntry = password.isSecureTextEntry ? false : true
     }
 
     internal func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -295,7 +317,7 @@ extension LoginVC {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == phoneNumber {
             if phoneNumber.text!.count >= 8 {
-                loginController.validatePhoneNumber(phoneNumber: phoneNumber.text!)
+                presenter.validateLogin(phoneNumber: phoneNumber.text!, password: "")
             } else {
                 displayInvalidPhoneNumber(warningText: "Enter valid phone number of \(Constants.phoneNumberLength)")
             }
@@ -311,10 +333,6 @@ extension LoginVC {
         }
         
         return true
-    }
-    
-    internal func goToHomePage() {
-        self.view.window?.windowScene?.keyWindow?.rootViewController = HomePageViewController()
     }
     
     @objc private func executeRegistrationProcess(gesture: UITapGestureRecognizer) {
@@ -344,18 +362,9 @@ extension LoginVC {
             displayInvalidPhoneNumber(warningText: Constants.unregisteredPhoneNumberWarning)
         }
     }
-    
-    internal func displayWrongCredentials() {
-        
-        loginController.validatePhoneNumber(phoneNumber: phoneNumber.text!)
-        let invalidUserCredentials = UIAlertController(title: "Invalid credentials", message: nil, preferredStyle: .alert)
-        
-        let reTryOption = UIAlertAction(title: "Okay", style: .cancel)
-        invalidUserCredentials.addAction(reTryOption)
-        
-        self.present(invalidUserCredentials, animated: true)
-    }
-    
+}
+
+extension LoginVC {
     private func displayValidPhoneNumber() {
         phoneNumber.layer.borderColor = UIColor.lightGray.cgColor
         phoneNumberWarningLabel.isHidden = true
@@ -377,5 +386,14 @@ extension LoginVC {
     private func disableLoginButton() {
         loginButton.isEnabled = false
         loginButton.alpha = 0.5
+    }
+    
+    internal func displayWrongCredentials() {
+        let invalidUserCredentials = UIAlertController(title: "Invalid credentials", message: nil, preferredStyle: .alert)
+
+        let reTryOption = UIAlertAction(title: "Okay", style: .cancel)
+        invalidUserCredentials.addAction(reTryOption)
+        
+        self.present(invalidUserCredentials, animated: true)
     }
 }

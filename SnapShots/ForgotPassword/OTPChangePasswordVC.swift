@@ -123,12 +123,15 @@ class OTPChangePasswordVC: UIViewController,UITextFieldDelegate {
     @objc func saveDetails() {
         ForgotPasswordControls().updatePassword(phoneNumber: phoneNumber, password: newPassword.text!)
         
-        let loginViewController = LoginVC()
-        let loginController = LoginControls()
+//        let loginViewController = LoginVC()
+//        let loginController = LoginControls()
+//
+//        loginController.setView(loginViewController)
+//        loginViewController.setController(loginController)
+        
+        let loginVC = LoginAssembler.shared.configure()
 
-        loginController.setView(loginViewController)
-        loginViewController.setController(loginController)
-        navigationController?.pushViewController(loginViewController, animated: true)
+        navigationController?.pushViewController(loginVC, animated: true)
     }
     
     func setConstraints() {

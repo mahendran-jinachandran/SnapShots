@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		BF0F0FBE2969343000C9B58A /* FaceRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0F0FBD2969343000C9B58A /* FaceRecognitionViewController.swift */; };
 		BF15D4B0295047F50039853C /* UITabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15D4AF295047F50039853C /* UITabBarExtension.swift */; };
+		BF1779ED29D1C13500308188 /* LoginAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1779EC29D1C13500308188 /* LoginAssembler.swift */; };
+		BF1779F329D1C1DF00308188 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1779F229D1C1DF00308188 /* LoginPresenter.swift */; };
+		BF1779F529D1C1FD00308188 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1779F429D1C1FD00308188 /* LoginRouter.swift */; };
+		BF1779FB29D1C50500308188 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1779FA29D1C50500308188 /* LoginUseCase.swift */; };
+		BF1779FE29D1C75900308188 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1779FD29D1C75900308188 /* DataManager.swift */; };
+		BF177A0129D1C7A800308188 /* LoginDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF177A0029D1C7A800308188 /* LoginDatabaseService.swift */; };
+		BF177A0329D2A00000308188 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF177A0229D2A00000308188 /* Observable.swift */; };
 		BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2560132954159500187E18 /* ResetPasswordProtocol.swift */; };
 		BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311691292F8CDF008BAA08 /* LikesVC.swift */; };
 		BF311694292F8EC9008BAA08 /* LikesCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */; };
@@ -153,6 +160,13 @@
 /* Begin PBXFileReference section */
 		BF0F0FBD2969343000C9B58A /* FaceRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionViewController.swift; sourceTree = "<group>"; };
 		BF15D4AF295047F50039853C /* UITabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarExtension.swift; sourceTree = "<group>"; };
+		BF1779EC29D1C13500308188 /* LoginAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembler.swift; sourceTree = "<group>"; };
+		BF1779F229D1C1DF00308188 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		BF1779F429D1C1FD00308188 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		BF1779FA29D1C50500308188 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
+		BF1779FD29D1C75900308188 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		BF177A0029D1C7A800308188 /* LoginDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDatabaseService.swift; sourceTree = "<group>"; };
+		BF177A0229D2A00000308188 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		BF2560132954159500187E18 /* ResetPasswordProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordProtocol.swift; sourceTree = "<group>"; };
 		BF311691292F8CDF008BAA08 /* LikesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesVC.swift; sourceTree = "<group>"; };
 		BF311693292F8EC9008BAA08 /* LikesCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesCustomCell.swift; sourceTree = "<group>"; };
@@ -307,6 +321,88 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF1779EB29D1C12300308188 /* Assembler */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779EC29D1C13500308188 /* LoginAssembler.swift */,
+			);
+			path = Assembler;
+			sourceTree = "<group>";
+		};
+		BF1779EE29D1C1BD00308188 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779F229D1C1DF00308188 /* LoginPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		BF1779EF29D1C1C500308188 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BF45425E2918C03100BAC4B2 /* LoginVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BF1779F029D1C1CB00308188 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779F429D1C1FD00308188 /* LoginRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		BF1779F629D1C45D00308188 /* SnapShotsUI */ = {
+			isa = PBXGroup;
+			children = (
+				BF4542952918D72300BAC4B2 /* Login */,
+			);
+			path = SnapShotsUI;
+			sourceTree = "<group>";
+		};
+		BF1779F729D1C46400308188 /* SnapShotsBase */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779F829D1C4ED00308188 /* Login */,
+			);
+			path = SnapShotsBase;
+			sourceTree = "<group>";
+		};
+		BF1779F829D1C4ED00308188 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779FC29D1C73F00308188 /* Data */,
+				BF1779F929D1C4F400308188 /* Domain */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		BF1779F929D1C4F400308188 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779FA29D1C50500308188 /* LoginUseCase.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		BF1779FC29D1C73F00308188 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BF1779FF29D1C79800308188 /* Database */,
+				BF1779FD29D1C75900308188 /* DataManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		BF1779FF29D1C79800308188 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				BF177A0029D1C7A800308188 /* LoginDatabaseService.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		BF256015295415BD00187E18 /* ResetPassword */ = {
 			isa = PBXGroup;
 			children = (
@@ -393,9 +489,10 @@
 		BF4542592918C03100BAC4B2 /* SnapShots */ = {
 			isa = PBXGroup;
 			children = (
+				BF1779F729D1C46400308188 /* SnapShotsBase */,
+				BF1779F629D1C45D00308188 /* SnapShotsUI */,
 				BF0F0FBD2969343000C9B58A /* FaceRecognitionViewController.swift */,
 				BF4542EC291B8A4A00BAC4B2 /* LaunchScreen */,
-				BF4542952918D72300BAC4B2 /* Login */,
 				BF4542A9291A0F1700BAC4B2 /* Register */,
 				BFDD55942937205C00DC8D68 /* ForgotPassword */,
 				BF4542B7291A329C00BAC4B2 /* Onboarding */,
@@ -448,7 +545,10 @@
 		BF4542952918D72300BAC4B2 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				BF45425E2918C03100BAC4B2 /* LoginVC.swift */,
+				BF1779F029D1C1CB00308188 /* Router */,
+				BF1779EF29D1C1C500308188 /* View */,
+				BF1779EE29D1C1BD00308188 /* Presenter */,
+				BF1779EB29D1C12300308188 /* Assembler */,
 				BFA5601429262FEF00A948B4 /* LoginControls.swift */,
 				BF45431C291BBADA00BAC4B2 /* LoginProtocols.swift */,
 			);
@@ -683,6 +783,7 @@
 				BF4542702918CE4F00BAC4B2 /* Extensions */,
 				BF4542A6291A0C8700BAC4B2 /* Utils */,
 				BF45429A2918E9D900BAC4B2 /* Animation */,
+				BF177A0229D2A00000308188 /* Observable.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -892,9 +993,11 @@
 				BFC9BABD293DFD0D00EE1D42 /* ProfileFooterCollectionResuableView.swift in Sources */,
 				BF4542E9291B579E00BAC4B2 /* UserInstance.swift in Sources */,
 				BF4542C5291A971100BAC4B2 /* AppUtility.swift in Sources */,
+				BF1779FE29D1C75900308188 /* DataManager.swift in Sources */,
 				BF4542D8291B4B3300BAC4B2 /* PostDao.swift in Sources */,
 				BF75F8E1296BD8C600E108D1 /* ListTableVC.swift in Sources */,
 				BF31169B292FA306008BAA08 /* CommentsVC.swift in Sources */,
+				BF177A0129D1C7A800308188 /* LoginDatabaseService.swift in Sources */,
 				BF4542DE291B4B5300BAC4B2 /* FriendsDao.swift in Sources */,
 				BF5A13F52935FA4C0051FC8D /* OnboardingBirthdayVC.swift in Sources */,
 				BFA55FD82922430800A948B4 /* SearchPeopleVC.swift in Sources */,
@@ -903,9 +1006,11 @@
 				BFB3E4CB293EFCC900A266D9 /* LikesControls.swift in Sources */,
 				BF5A13F32935FA2C0051FC8D /* OnboardingGenderVC.swift in Sources */,
 				BFAE19CF2941824A00D7A012 /* EditProfileProtocols.swift in Sources */,
+				BF177A0329D2A00000308188 /* Observable.swift in Sources */,
 				BFB3E4CD293FA27700A266D9 /* ProfileProtocols.swift in Sources */,
 				BFA55FD6292242EB00A948B4 /* FeedsVC.swift in Sources */,
 				BFAE19D92947697100D7A012 /* AccountControlProtocols.swift in Sources */,
+				BF1779F329D1C1DF00308188 /* LoginPresenter.swift in Sources */,
 				BFDF7074292F28B6001A736F /* FeedsControls.swift in Sources */,
 				BF2560142954159500187E18 /* ResetPasswordProtocol.swift in Sources */,
 				BF4542D4291B4AD000BAC4B2 /* CommentDaoImplementation.swift in Sources */,
@@ -993,6 +1098,7 @@
 				BF4542AB291A0F3C00BAC4B2 /* RegisterVC.swift in Sources */,
 				BFA3867229311AFE00815E31 /* NotificationGridVC.swift in Sources */,
 				BF75F8E9296BEEA200E108D1 /* BlockedUserDaoImplementation.swift in Sources */,
+				BF1779ED29D1C13500308188 /* LoginAssembler.swift in Sources */,
 				BF45425D2918C03100BAC4B2 /* SceneDelegate.swift in Sources */,
 				BFCFC51C29702681007AE492 /* DBPublisher.swift in Sources */,
 				BF4542D0291B4AA600BAC4B2 /* FriendRequestDaoImplementation.swift in Sources */,
@@ -1003,6 +1109,7 @@
 				BFA55FDC2922433200A948B4 /* ProfileVC.swift in Sources */,
 				BF5A13F72935FA7C0051FC8D /* OnboardingBioVC.swift in Sources */,
 				BFC9BAB72938603B00EE1D42 /* SnapShotsError.swift in Sources */,
+				BF1779F529D1C1FD00308188 /* LoginRouter.swift in Sources */,
 				BFAE19D329430BD000D7A012 /* FriendsProtocols.swift in Sources */,
 				BF4542DC291B4B4900BAC4B2 /* FriendRequestDao.swift in Sources */,
 				BF3466352934D29D006FF9FE /* FriendsControls.swift in Sources */,
@@ -1014,6 +1121,7 @@
 				BF311692292F8CDF008BAA08 /* LikesVC.swift in Sources */,
 				BFDF7058292A3E13001A736F /* ResetPasswordVC.swift in Sources */,
 				BFB0814A296D1EF300D75D28 /* ListCollectionControls.swift in Sources */,
+				BF1779FB29D1C50500308188 /* LoginUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
